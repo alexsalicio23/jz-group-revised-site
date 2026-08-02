@@ -1,0 +1,21 @@
+# Dependencies and Next.js output
+node_modules/
+.next/
+out/
+
+# Local deployment and environment state
+.vercel/
+.env*
+!.env.example
+
+# Tests and local audit output
+test-results/
+playwright-report/
+coverage/
+/*.png
+/*.log
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
