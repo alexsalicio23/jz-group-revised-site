@@ -1,30 +1,31 @@
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
-import { CinematicHero } from "@/components/CinematicHero";
-import { DivisionSequence } from "@/components/DivisionSequence";
-import { activeProcess, clientLogos, contact } from "./data";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ActiveMethod } from "@/components/ActiveMethod";
+import { BidForm } from "@/components/BidForm";
+import { GroupHero } from "@/components/GroupHero";
+import { MediaPlaceholder } from "@/components/MediaPlaceholder";
+import { ProjectGallery } from "@/components/ProjectGallery";
+import { clientLogos } from "./data";
+import { groupContact } from "./presentation-data";
 
-function SiteHeader() {
+function PresentationHeader() {
   return (
-    <header className="site-header">
-      <a className="brand" href="#top" aria-label="JZ Group home">
-        <Image src="/media/brand-logo.webp" alt="JZ Group" width={164} height={82} priority />
-      </a>
-      <nav className="desktop-nav" aria-label="Primary navigation">
-        <a href="#expertise">Expertise</a>
-        <a href="#group">The group</a>
-        <a href="#projects">Proof</a>
-        <a href="#qualifications">Safety</a>
+    <header className="v3-header">
+      <Link className="v3-brand" href="#top" aria-label="JZ Group home">
+        <Image src="/media/brand-logo.webp" alt="JZ Group" width={164} height={82} priority sizes="132px" />
+      </Link>
+      <nav aria-label="Primary navigation">
+        <Link href="/divisions">Group</Link>
+        <a href="#specialty">Specialty demolition</a>
+        <a href="#active-facilities">Active facilities</a>
+        <a href="#projects">Projects</a>
       </nav>
-      <a className="header-contact" href="#contact">Start a bid conversation</a>
-      <details className="mobile-menu">
+      <a className="v3-header-cta" href="#contact">Send a scope <ArrowUpRight aria-hidden="true" size={16} /></a>
+      <details className="v3-mobile-menu">
         <summary>Menu</summary>
         <nav aria-label="Mobile navigation">
-          <a href="#expertise">Expertise</a>
-          <a href="#group">The group</a>
-          <a href="#projects">Proof</a>
-          <a href="#qualifications">Safety</a>
-          <a href="#contact">Contact estimating</a>
+          <a href="#group">Group</a><a href="#specialty">Specialty demolition</a><a href="#active-facilities">Active facilities</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
         </nav>
       </details>
     </header>
@@ -33,156 +34,66 @@ function SiteHeader() {
 
 export default function Home() {
   return (
-    <main>
-      <SiteHeader />
-      <CinematicHero />
+    <main className="v3-site">
+      <PresentationHeader />
+      <GroupHero />
 
-      <section className="proof-rail" aria-label="Featured project facts">
-        <div className="proof-rail-title">
-          <span>Featured record</span>
-          <strong>Baptist Medical Arts Building / Fourth Floor</strong>
+      <section className="v3-specialty" id="specialty" aria-labelledby="specialty-title">
+        <div className="v3-section-heading">
+          <p className="v3-label">Specialty demolition / Active environments</p>
+          <h2 id="specialty-title">Built for the work others avoid.</h2>
+          <p>Selective demolition inside hospitals, occupied facilities, and complex commercial sites where the surrounding operation cannot simply stop.</p>
+          <Link className="v3-text-link" href="/divisions/demolition">Explore JZ Demolition <ArrowUpRight aria-hidden="true" size={18} /></Link>
         </div>
-        <dl>
-          <div><dt>Scope</dt><dd>16,300 SF</dd></div>
-          <div><dt>Condition</dt><dd>Active hospital</dd></div>
-          <div><dt>Execution</dt><dd>Overnight</dd></div>
-        </dl>
-      </section>
-
-      <section className="active-environments section-light" id="expertise">
-        <div className="section-intro active-intro">
-          <p className="eyebrow">Active environments</p>
-          <h2>The building keeps moving.<br />So does the work.</h2>
-          <p>
-            Specialty demolition is less about force than control. JZ plans the scope around the
-            people, systems, and schedules that remain active around the work.
-          </p>
-        </div>
-
-        <div className="active-grid">
-          <figure className="active-visual">
-            <Image
-              src="/media/field-story/demolition-floor.webp"
-              alt="JZ demolition work inside a commercial interior"
-              fill
-              sizes="(max-width: 800px) 100vw, 48vw"
-            />
-            <figcaption>Representative field work across JZ projects.</figcaption>
-          </figure>
-          <ol className="process-list">
-            {activeProcess.map((step) => (
-              <li key={step.title}>
-                <span>{step.number}</span>
-                <div><h3>{step.title}</h3><p>{step.description}</p></div>
-              </li>
-            ))}
-          </ol>
+        <div className="v3-exploded-slot">
+          <MediaPlaceholder label="EXPLODED-VIEW STUDY" />
+          <div className="v3-exploded-note"><span>Reserved signature experience</span><p>Creative direction and final asset sequence intentionally pending.</p></div>
         </div>
       </section>
 
-      <DivisionSequence />
+      <ActiveMethod />
 
-      <section className="project-proof section-light" id="projects">
-        <div className="section-intro proof-intro">
-          <p className="eyebrow">Comparable work</p>
-          <h2>Proof, not promises.</h2>
-          <p>
-            A bid reviewer should be able to understand the setting, scope, constraint, and result
-            without digging through marketing language.
-          </p>
+      <section className="v3-projects" id="projects" aria-labelledby="projects-title">
+        <div className="v3-section-heading v3-section-heading-light">
+          <p className="v3-label v3-label-light">Selected work / Three records</p>
+          <h2 id="projects-title">Comparable work.<br />Immediately accessible.</h2>
+          <p>Open a record for the setting, scope, and result. Continue to the full case study when deeper review is needed.</p>
         </div>
-
-        <article className="project-record project-record-featured">
-          <div className="project-record-heading">
-            <p className="record-index">01 / Active healthcare</p>
-            <h3>Baptist Medical Arts Building</h3>
-            <p>Fourth-floor selective interior demolition</p>
-          </div>
-          <div className="project-stat"><strong>16,300</strong><span>square feet</span></div>
-          <dl className="project-ledger">
-            <div><dt>Operating condition</dt><dd>Active hospital</dd></div>
-            <div><dt>Execution window</dt><dd>Overnight</dd></div>
-            <div><dt>Result</dt><dd>Floor cleared and ready for the next phase while hospital operations continued.</dd></div>
-          </dl>
-        </article>
-
-        <article className="project-record project-record-secondary">
-          <div className="project-record-heading">
-            <p className="record-index">02 / Medical office</p>
-            <h3>Broward MOB</h3>
-            <p>Pompano Beach, Florida</p>
-          </div>
-          <div className="project-stat"><strong>3</strong><span>stories</span></div>
-          <dl className="project-ledger">
-            <div><dt>Scope</dt><dd>Interior demolition</dd></div>
-            <div><dt>Concrete work</dt><dd>Scanning and cutting</dd></div>
-            <div><dt>Delivery</dt><dd>Multi-floor demolition with concrete work handled within the same scope.</dd></div>
-          </dl>
-        </article>
+        <ProjectGallery compact />
+        <Link className="v3-projects-all" href="/projects">View the project gallery <ArrowRight aria-hidden="true" size={19} /></Link>
       </section>
 
-      <section className="safety" id="qualifications">
-        <div className="safety-image">
-          <Image
-            src="/media/field-story/safety-detail.webp"
-            alt="Hard hat used during JZ field operations"
-            fill
-            sizes="(max-width: 800px) 100vw, 42vw"
-          />
+      <section className="v3-credibility" id="group" aria-labelledby="credibility-title">
+        <div className="v3-section-heading">
+          <p className="v3-label">Selected relationships</p>
+          <h2 id="credibility-title">Known by the teams reviewing the bid.</h2>
+          <p>Marks remain subject to final public-use approval. Hover or focus reveals each approved original.</p>
         </div>
-        <div className="safety-copy">
-          <p className="eyebrow light">Safety and qualifications</p>
-          <h2>Safety is the operating system.</h2>
-          <p className="safety-lede">
-            In active and occupied environments, safety, planning, and communication are part of
-            the deliverable. They are not a paragraph added after the scope.
-          </p>
-          <div className="qualification-list">
-            <p>Active-facility experience</p>
-            <p>Site-specific planning</p>
-            <p>Experienced field supervision</p>
-            <p>Clean turnover to the next trade</p>
-          </div>
-          <a className="text-link light-link" href={`mailto:${contact.email}?subject=JZ%20Group%20Qualification%20Package`}>
-            Request the qualification package <ArrowUpRight aria-hidden="true" size={18} />
-          </a>
-        </div>
-      </section>
-
-      <section className="clients section-light" aria-labelledby="clients-title">
-        <div className="clients-heading">
-          <p className="eyebrow">Selected relationships</p>
-          <h2 id="clients-title">The company behind the bid.</h2>
-          <p>Client and contractor marks shown for draft review; final public use remains subject to approval.</p>
-        </div>
-        <div className="logo-grid">
+        <div className="v3-logo-strip">
           {clientLogos.map((client) => (
-            <div className="client-logo" key={client.name}>
-              <Image src={client.src} alt={client.name} width={180} height={90} sizes="180px" />
+            <div className="v3-client-logo" key={client.name} tabIndex={0}>
+              <Image src={client.src} alt={client.name} width={180} height={90} sizes="(max-width: 760px) 34vw, 150px" />
             </div>
           ))}
         </div>
+        <div className="v3-company-band">
+          <MediaPlaceholder label="JZ TEAM / GROUP PHOTO" ratio="wide" />
+          <div><p className="v3-label">The company behind the bid</p><h3>One field standard across four specialist companies.</h3><p>Estimating, supervision, logistics, and execution are coordinated around the work, not separated into competing promises.</p></div>
+        </div>
       </section>
 
-      <section className="contact" id="contact">
-        <div className="contact-heading">
-          <p className="eyebrow light">Estimating / South Florida</p>
-          <h2>Send the scope.<br />We will route the work.</h2>
+      <section className="v3-contact" id="contact" aria-labelledby="contact-title">
+        <div className="v3-contact-copy">
+          <p className="v3-label v3-label-light">Estimating / South Florida</p>
+          <h2 id="contact-title">Send the scope.<br />We will route the work.</h2>
+          <p>Share the service lane, project setting, location, timeline, and supporting files once.</p>
+          <div className="v3-direct-contact">
+            <a href={groupContact.phoneHref}>{groupContact.phoneDisplay}</a>
+            <a href="mailto:estimating@jzdemo.com">estimating@jzdemo.com</a>
+            <span>{groupContact.address}</span>
+          </div>
         </div>
-        <div className="contact-action">
-          <p>
-            Tell us the service lane, location, project type, active or occupied status, and expected timeline.
-          </p>
-          <a className="button button-accent" href={`mailto:${contact.email}?subject=Bid%20Request%20for%20JZ%20Group`}>
-            Email estimating
-          </a>
-        </div>
-        <footer>
-          <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>
-          <span>{contact.address}</span>
-          <span>Miami-Dade / Broward / Palm Beach</span>
-        </footer>
+        <BidForm />
       </section>
     </main>
   );
