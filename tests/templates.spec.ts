@@ -22,6 +22,14 @@ test("client review hub presents all four company directions", async ({ page }) 
   expect(hasHorizontalOverflow).toBe(false);
 });
 
+test("public division URLs avoid client-review route names", async ({ page }) => {
+  for (const item of templates) {
+    await page.goto(`/${item.slug}`);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(item.heading);
+    await expect(page.getByRole("link", { name: "Return to JZ Group" }).last()).toHaveAttribute("href", "/");
+  }
+});
+
 for (const item of templates) {
   test(`${item.slug} template is complete and accessible`, async ({ page }, testInfo) => {
     await page.goto(`/templates/${item.slug}`);

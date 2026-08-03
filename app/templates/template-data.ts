@@ -39,8 +39,8 @@ export type DivisionTemplateData = {
 
 export const templateOrder: TemplateSlug[] = [
   "demolition",
-  "waste-management",
   "construction",
+  "waste-management",
   "development",
 ];
 
@@ -108,7 +108,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     headline: "Keep the site moving.",
     introduction:
       "Dumpsters, debris hauling, temporary fencing, and cleanup support for contractors who need material to keep moving without slowing the work.",
-    email: "estimating@jzwastemanagement.com",
+    email: "estimating@jzdemo.com",
     hero: {
       type: "video",
       media: "/media/video/workflow-waste.mp4",
@@ -160,7 +160,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     headline: "Field execution, made visible.",
     introduction:
       "Field-ready construction for framing, drywall, finishes, concrete support, remodeling, and site preparation across South Florida.",
-    email: "estimating@jzconstruction.com",
+    email: "estimating@jzdemo.com",
     hero: {
       type: "video",
       media: "/media/video/workflow-build.mp4",
@@ -212,7 +212,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     headline: "Think beyond completion.",
     introduction:
       "Land acquisition, project planning, construction oversight, and property management under one accountable team.",
-    email: "estimating@jzdevelopment.com",
+    email: "estimating@jzdemo.com",
     hero: {
       type: "triptych",
       triptych: [

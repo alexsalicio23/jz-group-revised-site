@@ -1,15 +1,20 @@
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-test("presents JZ specialty, proof, and contact without overflow", async ({ page }, testInfo) => {
+test("opens cinematically, then moves quickly into the JZ Group system", async ({ page }, testInfo) => {
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Specialty demolition in active environments",
   );
-  await expect(page.getByText("16,300 SF", { exact: true })).toBeVisible();
-  await expect(page.getByText("Active hospital", { exact: true }).first()).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Proof, not promises." })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Email estimating" })).toBeVisible();
+
+  const sectionOrder = await page.locator("main > section").evaluateAll((sections) =>
+    sections.map((section) => section.id || section.className),
+  );
+  expect(sectionOrder.slice(0, 4)).toEqual(["top", "group", "expertise", "projects"]);
+  await expect(page.locator("video")).toHaveCount(4);
+  await expect(page.getByRole("heading", { name: /Specialists by trade/ })).toBeAttached();
+  await expect(page.getByRole("heading", { name: /Comparable work/ })).toBeAttached();
 
   await expect(page.getByText("Access granted", { exact: false })).toHaveCount(0);
   await expect(page.getByText("Control the cut", { exact: false })).toHaveCount(0);
@@ -19,10 +24,45 @@ test("presents JZ specialty, proof, and contact without overflow", async ({ page
   );
   expect(hasHorizontalOverflow).toBe(false);
 
-  await page.locator("#group").scrollIntoViewIfNeeded();
-  await page.waitForTimeout(300);
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
+
   await page.screenshot({
-    path: testInfo.outputPath(`${testInfo.project.name}-group.png`),
+    path: testInfo.outputPath(`${testInfo.project.name}-hero.png`),
     fullPage: false,
   });
+});
+
+test("project proof and safety details expand in place", async ({ page }) => {
+  await page.goto("/#projects");
+
+  const project = page.getByRole("button", { name: /Baptist Medical Arts Building/ });
+  await project.click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByText("16,300 SF", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Close project preview" }).click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+
+  const safetyRecord = page.locator(".qualification-list details").first();
+  await safetyRecord.locator("summary").click();
+  await expect(safetyRecord).toHaveAttribute("open", "");
+  await expect(safetyRecord.getByText(/facilities, people, and systems/)).toBeVisible();
+});
+
+test("bid endpoint fails honestly until delivery credentials are configured", async ({ request }) => {
+  const response = await request.post("/api/contact", {
+    multipart: {
+      name: "Estimator Test",
+      email: "estimator@example.com",
+      division: "demolition",
+      projectType: "Selective demolition",
+      projectLocation: "Miami, Florida",
+      facilityStatus: "Occupied commercial facility",
+      message: "Test request for the website delivery path.",
+      consent: "yes",
+    },
+  });
+
+  expect(response.status()).toBe(503);
+  await expect(response.json()).resolves.toMatchObject({ ok: false });
 });

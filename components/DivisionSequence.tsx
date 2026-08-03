@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -16,39 +18,33 @@ export function DivisionSequence() {
     () => {
       const media = gsap.matchMedia();
 
-      media.add(
-        "(min-width: 901px) and (prefers-reduced-motion: no-preference)",
-        () => {
-          const layers = gsap.utils.toArray<HTMLElement>(".chain-layer");
-          const chapters = gsap.utils.toArray<HTMLElement>(".chain-chapter");
-          const railItems = gsap.utils.toArray<HTMLElement>(".chain-rail-item");
-          const timeline = gsap.timeline({
-            scrollTrigger: {
-              trigger: root.current,
-              start: "top top",
-              end: "bottom bottom",
-              scrub: 0.35,
-            },
-          });
+      media.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
+        const stages = gsap.utils.toArray<HTMLElement>(".chain-stage");
+        const railItems = gsap.utils.toArray<HTMLElement>(".chain-rail-item");
+        const timeline = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.32,
+          },
+        });
 
-          layers.slice(1).forEach((layer) => gsap.set(layer, { autoAlpha: 0 }));
-          chapters.slice(1).forEach((chapter) => gsap.set(chapter, { autoAlpha: 0, y: 30 }));
-          railItems.slice(1).forEach((item) => gsap.set(item, { opacity: 0.38 }));
+        stages.slice(1).forEach((stage) => gsap.set(stage, { autoAlpha: 0 }));
+        railItems.slice(1).forEach((item) => gsap.set(item, { opacity: 0.38 }));
 
-          for (let index = 1; index < divisions.length; index += 1) {
-            const position = index;
-            timeline
-              .to(layers[index - 1], { autoAlpha: 0, duration: 0.22 }, position - 0.12)
-              .to(layers[index], { autoAlpha: 1, duration: 0.22 }, position - 0.12)
-              .to(chapters[index - 1], { autoAlpha: 0, y: -24, duration: 0.18 }, position - 0.12)
-              .to(chapters[index], { autoAlpha: 1, y: 0, duration: 0.2 }, position)
-              .to(railItems[index - 1], { opacity: 0.38, duration: 0.15 }, position - 0.1)
-              .to(railItems[index], { opacity: 1, duration: 0.15 }, position - 0.1);
-          }
+        stages.slice(1).forEach((stage, index) => {
+          const position = index + 1;
+          timeline
+            .to(stages[index], { autoAlpha: 0, duration: 0.24 }, position - 0.16)
+            .to(stage, { autoAlpha: 1, duration: 0.24 }, position - 0.04)
+            .to(railItems[index], { opacity: 0.38, duration: 0.12 }, position - 0.1)
+            .to(railItems[position], { opacity: 1, duration: 0.12 }, position - 0.1);
+        });
 
-          timeline.to({}, { duration: 0.8 });
-        },
-      );
+        timeline.to({}, { duration: 0.45 });
+      });
 
       return () => media.revert();
     },
@@ -57,34 +53,34 @@ export function DivisionSequence() {
 
   return (
     <section ref={root} className="chain" id="group" aria-labelledby="chain-title">
-      <div className="chain-desktop">
-        <div className="chain-layers" aria-hidden="true">
-          {divisions.map((division) => (
-            <div className="chain-layer" key={division.name}>
-              {division.type === "video" ? (
-                <video autoPlay muted loop playsInline preload="metadata" poster={division.poster}>
-                  <source src={division.media} type="video/mp4" />
-                </video>
-              ) : (
-                <Image src={division.media} alt="" fill sizes="100vw" />
-              )}
-            </div>
-          ))}
-          <div className="chain-shade" />
-        </div>
+      <div className="chain-pin">
+        <header className="chain-heading">
+          <p className="eyebrow light">JZ Group / Four coordinated companies</p>
+          <h2 id="chain-title">Specialists by trade.<br />Accountable as one group.</h2>
+        </header>
 
-        <div className="chain-heading">
-          <p className="eyebrow light">One accountable chain</p>
-          <h2 id="chain-title">Specialists by trade.<br />Aligned by one standard.</h2>
-        </div>
-
-        <div className="chain-chapters">
+        <div className="chain-stages">
           {divisions.map((division) => (
-            <article className="chain-chapter" key={division.name}>
-              <p className="chain-number">{division.number}</p>
-              <p className="chain-kicker">{division.kicker}</p>
-              <h3>{division.name}</h3>
-              <p>{division.description}</p>
+            <article className="chain-stage" key={division.name}>
+              <div className="chain-stage-media" aria-hidden="true">
+                {division.type === "video" ? (
+                  <video autoPlay muted loop playsInline preload="metadata" poster={division.poster}>
+                    <source src={division.media} type="video/mp4" />
+                  </video>
+                ) : (
+                  <Image src={division.media} alt="" fill sizes="100vw" />
+                )}
+                <div className="chain-shade" />
+              </div>
+              <div className="chain-stage-copy">
+                <p className="chain-number">{division.number}</p>
+                <p className="chain-kicker">{division.kicker}</p>
+                <h3>{division.name}</h3>
+                <p>{division.description}</p>
+                <Link className="chain-stage-link" href={`/${division.slug}`}>
+                  Explore {division.short} <ArrowUpRight aria-hidden="true" size={17} />
+                </Link>
+              </div>
             </article>
           ))}
         </div>
@@ -98,36 +94,7 @@ export function DivisionSequence() {
         </ol>
 
         <p className="chain-note">
-          When scopes overlap, JZ companies coordinate under one group. Development extends the
-          lifecycle but is not represented as part of every demolition project.
-        </p>
-      </div>
-
-      <div className="chain-mobile">
-        <div className="chain-mobile-intro">
-          <p className="eyebrow light">One accountable chain</p>
-          <h2>Specialists by trade. Aligned by one standard.</h2>
-        </div>
-        {divisions.map((division) => (
-          <article className="chain-mobile-stage" key={division.name}>
-            <div className="chain-mobile-media">
-              {division.type === "video" ? (
-                <video aria-hidden="true" muted loop playsInline preload="none" poster={division.poster}>
-                  <source src={division.media} type="video/mp4" />
-                </video>
-              ) : (
-                <Image src={division.media} alt="" fill sizes="100vw" />
-              )}
-            </div>
-            <p className="chain-number">{division.number}</p>
-            <p className="chain-kicker">{division.kicker}</p>
-            <h3>{division.name}</h3>
-            <p>{division.description}</p>
-          </article>
-        ))}
-        <p className="chain-note">
-          When scopes overlap, JZ companies coordinate under one group. Development extends the
-          lifecycle but is not represented as part of every demolition project.
+          Four specialist companies coordinate around the scope, schedule, and final handoff.
         </p>
       </div>
     </section>

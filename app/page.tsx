@@ -1,28 +1,32 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { BidForm } from "@/components/BidForm";
 import { CinematicHero } from "@/components/CinematicHero";
 import { DivisionSequence } from "@/components/DivisionSequence";
-import { activeProcess, clientLogos, contact } from "./data";
+import { MediaPlaceholder } from "@/components/MediaPlaceholder";
+import { ProjectGallery } from "@/components/ProjectGallery";
+import { activeProcess, clientLogos, contact, qualificationRecords } from "./data";
 
 function SiteHeader() {
   return (
     <header className="site-header">
       <a className="brand" href="#top" aria-label="JZ Group home">
-        <Image src="/media/brand-logo.webp" alt="JZ Group" width={164} height={82} priority />
+        <Image src="/media/brand-logo.webp" alt="JZ Group" width={164} height={82} priority sizes="132px" />
       </a>
       <nav className="desktop-nav" aria-label="Primary navigation">
-        <a href="#expertise">Expertise</a>
         <a href="#group">The group</a>
-        <a href="#projects">Proof</a>
+        <a href="#expertise">Specialty</a>
+        <a href="#projects">Projects</a>
         <a href="#qualifications">Safety</a>
       </nav>
       <a className="header-contact" href="#contact">Start a bid conversation</a>
       <details className="mobile-menu">
         <summary>Menu</summary>
         <nav aria-label="Mobile navigation">
-          <a href="#expertise">Expertise</a>
           <a href="#group">The group</a>
-          <a href="#projects">Proof</a>
+          <a href="#expertise">Specialty</a>
+          <a href="#projects">Projects</a>
           <a href="#qualifications">Safety</a>
           <a href="#contact">Contact estimating</a>
         </nav>
@@ -37,25 +41,15 @@ export default function Home() {
       <SiteHeader />
       <CinematicHero />
 
-      <section className="proof-rail" aria-label="Featured project facts">
-        <div className="proof-rail-title">
-          <span>Featured record</span>
-          <strong>Baptist Medical Arts Building / Fourth Floor</strong>
-        </div>
-        <dl>
-          <div><dt>Scope</dt><dd>16,300 SF</dd></div>
-          <div><dt>Condition</dt><dd>Active hospital</dd></div>
-          <div><dt>Execution</dt><dd>Overnight</dd></div>
-        </dl>
-      </section>
+      <DivisionSequence />
 
       <section className="active-environments section-light" id="expertise">
         <div className="section-intro active-intro">
-          <p className="eyebrow">Active environments</p>
+          <p className="eyebrow">Specialty demolition / Active environments</p>
           <h2>The building keeps moving.<br />So does the work.</h2>
           <p>
-            Specialty demolition is less about force than control. JZ plans the scope around the
-            people, systems, and schedules that remain active around the work.
+            JZ plans difficult demolition around the people, systems, and schedules that remain
+            active beside the work.
           </p>
         </div>
 
@@ -72,53 +66,27 @@ export default function Home() {
           <ol className="process-list">
             {activeProcess.map((step) => (
               <li key={step.title}>
-                <span>{step.number}</span>
-                <div><h3>{step.title}</h3><p>{step.description}</p></div>
+                <Link href={step.href}>
+                  <span>{step.number}</span>
+                  <div><h3>{step.title}</h3><p>{step.description}</p></div>
+                  <ArrowUpRight aria-hidden="true" size={18} />
+                </Link>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <DivisionSequence />
-
-      <section className="project-proof section-light" id="projects">
+      <section className="project-proof section-light" id="projects" aria-labelledby="projects-title">
         <div className="section-intro proof-intro">
-          <p className="eyebrow">Comparable work</p>
-          <h2>Proof, not promises.</h2>
+          <p className="eyebrow">Selected work / Three records</p>
+          <h2 id="projects-title">Comparable work.<br />Immediately accessible.</h2>
           <p>
-            A bid reviewer should be able to understand the setting, scope, constraint, and result
-            without digging through marketing language.
+            Open a record for the setting, scope, and result. The deeper project gallery can grow
+            as photography and case-study content are approved.
           </p>
         </div>
-
-        <article className="project-record project-record-featured">
-          <div className="project-record-heading">
-            <p className="record-index">01 / Active healthcare</p>
-            <h3>Baptist Medical Arts Building</h3>
-            <p>Fourth-floor selective interior demolition</p>
-          </div>
-          <div className="project-stat"><strong>16,300</strong><span>square feet</span></div>
-          <dl className="project-ledger">
-            <div><dt>Operating condition</dt><dd>Active hospital</dd></div>
-            <div><dt>Execution window</dt><dd>Overnight</dd></div>
-            <div><dt>Result</dt><dd>Floor cleared and ready for the next phase while hospital operations continued.</dd></div>
-          </dl>
-        </article>
-
-        <article className="project-record project-record-secondary">
-          <div className="project-record-heading">
-            <p className="record-index">02 / Medical office</p>
-            <h3>Broward MOB</h3>
-            <p>Pompano Beach, Florida</p>
-          </div>
-          <div className="project-stat"><strong>3</strong><span>stories</span></div>
-          <dl className="project-ledger">
-            <div><dt>Scope</dt><dd>Interior demolition</dd></div>
-            <div><dt>Concrete work</dt><dd>Scanning and cutting</dd></div>
-            <div><dt>Delivery</dt><dd>Multi-floor demolition with concrete work handled within the same scope.</dd></div>
-          </dl>
-        </article>
+        <ProjectGallery />
       </section>
 
       <section className="safety" id="qualifications">
@@ -135,13 +103,15 @@ export default function Home() {
           <h2>Safety is the operating system.</h2>
           <p className="safety-lede">
             In active and occupied environments, safety, planning, and communication are part of
-            the deliverable. They are not a paragraph added after the scope.
+            the deliverable.
           </p>
           <div className="qualification-list">
-            <p>Active-facility experience</p>
-            <p>Site-specific planning</p>
-            <p>Experienced field supervision</p>
-            <p>Clean turnover to the next trade</p>
+            {qualificationRecords.map((record, index) => (
+              <details key={record.title}>
+                <summary><span>{String(index + 1).padStart(2, "0")}</span>{record.title}<span aria-hidden="true">+</span></summary>
+                <p>{record.description}</p>
+              </details>
+            ))}
           </div>
           <a className="text-link light-link" href={`mailto:${contact.email}?subject=JZ%20Group%20Qualification%20Package`}>
             Request the qualification package <ArrowUpRight aria-hidden="true" size={18} />
@@ -153,14 +123,18 @@ export default function Home() {
         <div className="clients-heading">
           <p className="eyebrow">Selected relationships</p>
           <h2 id="clients-title">The company behind the bid.</h2>
-          <p>Client and contractor marks shown for draft review; final public use remains subject to approval.</p>
+          <p>Relationships across healthcare, commercial construction, and development.</p>
         </div>
         <div className="logo-grid">
           {clientLogos.map((client) => (
-            <div className="client-logo" key={client.name}>
-              <Image src={client.src} alt={client.name} width={180} height={90} sizes="180px" />
+            <div className="client-logo" key={client.name} tabIndex={0}>
+              <Image src={client.src} alt={client.name} width={180} height={90} sizes="(max-width: 760px) 138px, 170px" />
             </div>
           ))}
+        </div>
+        <div className="company-media-grid">
+          <MediaPlaceholder label="JZ TEAM PHOTO" ratio="wide" />
+          <MediaPlaceholder label="FOUR COMPANIES / ONE GROUP PHOTO" ratio="wide" />
         </div>
       </section>
 
@@ -168,20 +142,18 @@ export default function Home() {
         <div className="contact-heading">
           <p className="eyebrow light">Estimating / South Florida</p>
           <h2>Send the scope.<br />We will route the work.</h2>
+          <p>Share the service lane, project setting, timeline, and supporting files once.</p>
+          <div className="contact-direct">
+            <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            <span>{contact.address}</span>
+          </div>
         </div>
-        <div className="contact-action">
-          <p>
-            Tell us the service lane, location, project type, active or occupied status, and expected timeline.
-          </p>
-          <a className="button button-accent" href={`mailto:${contact.email}?subject=Bid%20Request%20for%20JZ%20Group`}>
-            Email estimating
-          </a>
-        </div>
+        <BidForm />
         <footer>
-          <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>
-          <span>{contact.address}</span>
+          <span>JZ Group</span>
           <span>Miami-Dade / Broward / Palm Beach</span>
+          <span>Four companies / One accountable group</span>
         </footer>
       </section>
     </main>

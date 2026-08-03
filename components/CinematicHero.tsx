@@ -93,12 +93,12 @@ export function CinematicHero() {
         </div>
 
         <div className="hero-intro hero-copy">
-          <p className="eyebrow light">South Florida / Specialty contractor</p>
+          <p className="eyebrow light">JZ Group / Four coordinated companies</p>
           <p className="hero-manifesto">Built around what cannot stop.</p>
           <h1>Specialty demolition in active environments.</h1>
           <p className="hero-support">
-            Hospitals, occupied facilities, and complex commercial sites where safety, precision,
-            and continuity matter.
+            Led by specialty demolition for hospitals, occupied facilities, and complex commercial
+            sites where safety, precision, and continuity matter.
           </p>
           <div className="hero-actions">
             <a className="button button-light" href="#projects">View active-facility work</a>

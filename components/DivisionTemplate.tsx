@@ -8,7 +8,7 @@ const phoneHref = "tel:+13057932984";
 
 function DivisionMark({ data }: { data: DivisionTemplateData }) {
   return (
-    <Link className="template-brand" href="/templates" aria-label="Return to all JZ site templates">
+    <Link className="template-brand" href="/" aria-label="Return to JZ Group">
       <Image src="/media/brand-logo.webp" alt="JZ Group" width={72} height={72} priority />
       <span><strong>{data.shortName}</strong><small>{data.legalName}</small></span>
     </Link>
@@ -69,7 +69,7 @@ function TemplateContact({ data }: { data: DivisionTemplateData }) {
       <footer>
         <span>Miami-Dade / Broward / Palm Beach</span>
         <span>15219 NW 60th Ave, Miami Lakes, Florida 33014</span>
-        <Link href="/templates">View all JZ site templates</Link>
+        <Link href="/">Return to JZ Group</Link>
       </footer>
     </section>
   );
