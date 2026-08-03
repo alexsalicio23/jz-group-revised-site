@@ -10,6 +10,7 @@ export const divisions = [
     number: "01",
     name: "JZ Demolition",
     short: "Demolition",
+    href: "/templates/demolition",
     kicker: "Define the cut.",
     description:
       "Selective interior, structural, and concrete demolition planned around active and occupied environments.",
@@ -20,6 +21,7 @@ export const divisions = [
     number: "02",
     name: "JZ Waste Management",
     short: "Waste",
+    href: "/templates/waste-management",
     kicker: "Keep material moving.",
     description:
       "Dumpsters, hauling, temporary fencing, and site cleanup coordinated around the pace of the work.",
@@ -31,6 +33,7 @@ export const divisions = [
     number: "03",
     name: "JZ Construction",
     short: "Construction",
+    href: "/templates/construction",
     kicker: "Move the site forward.",
     description:
       "Framing, drywall, finishing, concrete support, and commercial construction delivered by the same group.",
@@ -42,6 +45,7 @@ export const divisions = [
     number: "04",
     name: "JZ Development",
     short: "Development",
+    href: "/templates/development",
     kicker: "Extend the lifecycle.",
     description:
       "Development capability spanning acquisition, planning, construction oversight, and property management.",

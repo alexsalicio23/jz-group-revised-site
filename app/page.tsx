@@ -2,6 +2,8 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { CinematicHero } from "@/components/CinematicHero";
 import { DivisionSequence } from "@/components/DivisionSequence";
+import { BidRequestForm } from "@/components/BidRequestForm";
+import { MobileMenu } from "@/components/MobileMenu";
 import { activeProcess, clientLogos, contact } from "./data";
 
 function SiteHeader() {
@@ -17,23 +19,36 @@ function SiteHeader() {
         <a href="#qualifications">Safety</a>
       </nav>
       <a className="header-contact" href="#contact">Start a bid conversation</a>
-      <details className="mobile-menu">
-        <summary>Menu</summary>
-        <nav aria-label="Mobile navigation">
-          <a href="#expertise">Expertise</a>
-          <a href="#group">The group</a>
-          <a href="#projects">Proof</a>
-          <a href="#qualifications">Safety</a>
-          <a href="#contact">Contact estimating</a>
-        </nav>
-      </details>
+      <MobileMenu />
     </header>
   );
 }
 
 export default function Home() {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "JZ Group",
+    url: "https://jz-group-redesign-v2.vercel.app",
+    telephone: contact.phoneDisplay,
+    email: contact.email,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "15219 NW 60th Ave",
+      addressLocality: "Miami Lakes",
+      addressRegion: "FL",
+      postalCode: "33014",
+      addressCountry: "US",
+    },
+    areaServed: ["Miami-Dade County", "Broward County", "Palm Beach County"],
+  };
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
       <SiteHeader />
       <CinematicHero />
 
@@ -82,6 +97,31 @@ export default function Home() {
 
       <DivisionSequence />
 
+      <section className="group-model" id="about">
+        <div className="group-model-media">
+          <Image
+            src="/media/field-story/field-leadership.webp"
+            alt="JZ field leadership coordinating work inside a commercial project"
+            fill
+            sizes="(max-width: 900px) 100vw, 48vw"
+          />
+        </div>
+        <div className="group-model-copy">
+          <p className="eyebrow">The JZ operating model</p>
+          <h2>One group.<br />Fewer handoff gaps.</h2>
+          <p className="group-model-lede">
+            Demolition, waste, construction, and development remain specialist companies. When a
+            scope crosses lanes, they can share field context and coordinate the handoff under one
+            accountable group.
+          </p>
+          <dl className="group-model-points">
+            <div><dt>01</dt><dd><strong>One entry point</strong><span>The opportunity reaches the right operating company.</span></dd></div>
+            <div><dt>02</dt><dd><strong>Shared field context</strong><span>Adjacent scopes begin with the same understanding of the site.</span></dd></div>
+            <div><dt>03</dt><dd><strong>Clear ownership</strong><span>Each company remains accountable for its own specialty work.</span></dd></div>
+          </dl>
+        </div>
+      </section>
+
       <section className="project-proof section-light" id="projects">
         <div className="section-intro proof-intro">
           <p className="eyebrow">Comparable work</p>
@@ -93,6 +133,15 @@ export default function Home() {
         </div>
 
         <article className="project-record project-record-featured">
+          <figure className="project-record-media">
+            <Image
+              src="/media/field-story/demolition-floor.webp"
+              alt="Selective demolition in progress inside an occupied commercial environment"
+              fill
+              sizes="(max-width: 900px) 100vw, 92vw"
+            />
+            <figcaption>Field record / selective interior demolition</figcaption>
+          </figure>
           <div className="project-record-heading">
             <p className="record-index">01 / Active healthcare</p>
             <h3>Baptist Medical Arts Building</h3>
@@ -107,6 +156,15 @@ export default function Home() {
         </article>
 
         <article className="project-record project-record-secondary">
+          <figure className="project-record-media project-record-media-wide">
+            <Image
+              src="/media/field-story/field-control.webp"
+              alt="JZ crews coordinating commercial interior field work"
+              fill
+              sizes="(max-width: 900px) 100vw, 92vw"
+            />
+            <figcaption>Field record / coordinated interior scope</figcaption>
+          </figure>
           <div className="project-record-heading">
             <p className="record-index">02 / Medical office</p>
             <h3>Broward MOB</h3>
@@ -119,13 +177,19 @@ export default function Home() {
             <div><dt>Delivery</dt><dd>Multi-floor demolition with concrete work handled within the same scope.</dd></div>
           </dl>
         </article>
+        <div className="project-proof-request">
+          <p>Need references or a closer comparable scope?</p>
+          <a className="text-link" href={`mailto:${contact.email}?subject=JZ%20Group%20Project%20References`}>
+            Request project references <ArrowUpRight aria-hidden="true" size={18} />
+          </a>
+        </div>
       </section>
 
       <section className="safety" id="qualifications">
         <div className="safety-image">
           <Image
-            src="/media/field-story/safety-detail.webp"
-            alt="Hard hat used during JZ field operations"
+            src="/media/field-story/field-control.webp"
+            alt="JZ crews working within a controlled commercial interior site"
             fill
             sizes="(max-width: 800px) 100vw, 42vw"
           />
@@ -143,6 +207,15 @@ export default function Home() {
             <p>Experienced field supervision</p>
             <p>Clean turnover to the next trade</p>
           </div>
+          <div className="qualification-package">
+            <p>Qualification package request</p>
+            <ul>
+              <li>Licensing and registration documentation</li>
+              <li>Certificates of insurance</li>
+              <li>Safety and training documentation</li>
+              <li>Capability statement and project references</li>
+            </ul>
+          </div>
           <a className="text-link light-link" href={`mailto:${contact.email}?subject=JZ%20Group%20Qualification%20Package`}>
             Request the qualification package <ArrowUpRight aria-hidden="true" size={18} />
           </a>
@@ -153,7 +226,7 @@ export default function Home() {
         <div className="clients-heading">
           <p className="eyebrow">Selected relationships</p>
           <h2 id="clients-title">The company behind the bid.</h2>
-          <p>Client and contractor marks shown for draft review; final public use remains subject to approval.</p>
+          <p>Selected organizations represented in JZ&apos;s current relationship and project library.</p>
         </div>
         <div className="logo-grid">
           {clientLogos.map((client) => (
@@ -169,14 +242,7 @@ export default function Home() {
           <p className="eyebrow light">Estimating / South Florida</p>
           <h2>Send the scope.<br />We will route the work.</h2>
         </div>
-        <div className="contact-action">
-          <p>
-            Tell us the service lane, location, project type, active or occupied status, and expected timeline.
-          </p>
-          <a className="button button-accent" href={`mailto:${contact.email}?subject=Bid%20Request%20for%20JZ%20Group`}>
-            Email estimating
-          </a>
-        </div>
+        <BidRequestForm destination={contact.email} />
         <footer>
           <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>
