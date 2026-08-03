@@ -24,19 +24,19 @@ const frama = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://jz-group-redesign-v2.vercel.app"),
-  title: "JZ Group | Specialty Demolition in Active Environments",
+  title: "JZ Group | Four Specialists. One Accountable Group.",
   description:
-    "JZ Group delivers specialty demolition for active hospitals, occupied facilities, and complex commercial sites across South Florida.",
+    "JZ Group coordinates specialty demolition, construction, waste management, and development across South Florida.",
   openGraph: {
-    title: "JZ Group | Built Around What Cannot Stop",
+    title: "JZ Group | Four Specialists. One Accountable Group.",
     description:
-      "Specialty demolition, waste management, construction, and development coordinated under one group.",
+      "Specialty demolition, construction, waste management, and development coordinated under one field standard.",
     images: [{ url: "/media/og-image.jpg", width: 1200, height: 630, alt: "JZ Group field operations" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "JZ Group | Built Around What Cannot Stop",
-    description: "Specialty demolition in active and occupied environments.",
+    title: "JZ Group | Four Specialists. One Accountable Group.",
+    description: "Four coordinated companies built for difficult work in active environments.",
     images: ["/media/og-image.jpg"],
   },
 };
