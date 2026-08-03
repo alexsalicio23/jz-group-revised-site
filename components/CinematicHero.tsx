@@ -17,7 +17,6 @@ export function CinematicHero() {
       media.add(
         "(min-width: 761px) and (prefers-reduced-motion: no-preference)",
         () => {
-          const completeVideo = root.current?.querySelector<HTMLVideoElement>(".hero-complete video");
           const timeline = gsap.timeline({
             defaults: { ease: "none" },
             scrollTrigger: {
@@ -25,16 +24,6 @@ export function CinematicHero() {
               start: "top top",
               end: "bottom bottom",
               scrub: 0.4,
-              onUpdate: (self) => {
-                if (!completeVideo) return;
-                if (self.progress > 0.24 && self.progress < 0.98) {
-                  void completeVideo.play().catch(() => undefined);
-                } else {
-                  completeVideo.pause();
-                }
-              },
-              onLeave: () => completeVideo?.pause(),
-              onLeaveBack: () => completeVideo?.pause(),
             },
           });
 
@@ -90,6 +79,7 @@ export function CinematicHero() {
           <div className="hero-complete">
             <video
               className="hero-video"
+              autoPlay
               muted
               loop
               playsInline

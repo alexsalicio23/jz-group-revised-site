@@ -1,8 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -24,38 +22,12 @@ export function DivisionSequence() {
           const layers = gsap.utils.toArray<HTMLElement>(".chain-layer");
           const chapters = gsap.utils.toArray<HTMLElement>(".chain-chapter");
           const railItems = gsap.utils.toArray<HTMLElement>(".chain-rail-item");
-          const videos = gsap.utils.toArray<HTMLVideoElement>(".chain-layer video");
-          let activeVideoIndex = -1;
-
-          const setActiveVideo = (index: number) => {
-            if (index === activeVideoIndex) return;
-            activeVideoIndex = index;
-            layers.forEach((layer, layerIndex) => {
-              const video = layer.querySelector("video");
-              if (!video) return;
-              if (layerIndex === index) {
-                void video.play().catch(() => undefined);
-              } else {
-                video.pause();
-              }
-            });
-          };
-
           const timeline = gsap.timeline({
             scrollTrigger: {
               trigger: root.current,
               start: "top top",
               end: "bottom bottom",
               scrub: 0.35,
-              onUpdate: (self) => {
-                const index = Math.min(
-                  Math.floor(self.progress * divisions.length),
-                  divisions.length - 1,
-                );
-                setActiveVideo(index);
-              },
-              onLeave: () => videos.forEach((video) => video.pause()),
-              onLeaveBack: () => videos.forEach((video) => video.pause()),
             },
           });
 
@@ -90,11 +62,11 @@ export function DivisionSequence() {
           {divisions.map((division) => (
             <div className="chain-layer" key={division.name}>
               {division.type === "video" ? (
-                <video muted loop playsInline preload="metadata" poster={division.poster}>
+                <video autoPlay muted loop playsInline preload="metadata" poster={division.poster}>
                   <source src={division.media} type="video/mp4" />
                 </video>
               ) : (
-                <Image src={division.media} alt="" fill sizes="(min-width: 901px) 100vw, 1px" />
+                <Image src={division.media} alt="" fill sizes="100vw" />
               )}
             </div>
           ))}
@@ -112,18 +84,15 @@ export function DivisionSequence() {
               <p className="chain-number">{division.number}</p>
               <p className="chain-kicker">{division.kicker}</p>
               <h3>{division.name}</h3>
-              <p className="chain-description">{division.description}</p>
-              <Link className="chain-link" href={division.href}>
-                Explore {division.short} <ArrowUpRight aria-hidden="true" size={17} />
-              </Link>
+              <p>{division.description}</p>
             </article>
           ))}
         </div>
 
-        <ol className="chain-rail" aria-label="JZ company websites">
+        <ol className="chain-rail" aria-hidden="true">
           {divisions.map((division) => (
             <li className="chain-rail-item" key={division.name}>
-              <Link href={division.href}><span>{division.number}</span>{division.short}</Link>
+              <span>{division.number}</span>{division.short}
             </li>
           ))}
         </ol>
@@ -147,16 +116,13 @@ export function DivisionSequence() {
                   <source src={division.media} type="video/mp4" />
                 </video>
               ) : (
-                <Image src={division.media} alt="" fill sizes="(max-width: 900px) 100vw, 1px" />
+                <Image src={division.media} alt="" fill sizes="100vw" />
               )}
             </div>
             <p className="chain-number">{division.number}</p>
             <p className="chain-kicker">{division.kicker}</p>
             <h3>{division.name}</h3>
-            <p className="chain-description">{division.description}</p>
-            <Link className="chain-link" href={division.href}>
-              Explore {division.short} <ArrowUpRight aria-hidden="true" size={17} />
-            </Link>
+            <p>{division.description}</p>
           </article>
         ))}
         <p className="chain-note">
