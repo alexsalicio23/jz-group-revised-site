@@ -19,7 +19,6 @@ export async function generateMetadata({ params }: DivisionPageProps): Promise<M
   return {
     title: `${data.name} | JZ Group`,
     description: data.introduction,
-    robots: { index: false, follow: false },
   };
 }
 

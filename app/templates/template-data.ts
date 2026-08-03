@@ -23,7 +23,7 @@ export type DivisionTemplateData = {
   };
   proof: Array<{ label: string; value: string }>;
   servicesLead: string;
-  services: Array<{ name: string; detail: string }>;
+  services: Array<{ name: string; detail: string; href?: string }>;
   feature: {
     eyebrow: string;
     title: string;
@@ -70,12 +70,12 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     servicesLead:
       "JZ Demolition removes exactly what the next phase requires while protecting what stays in service around it.",
     services: [
-      { name: "Selective interior demolition", detail: "Precise removal planned around retained systems and occupied areas." },
-      { name: "Structural demolition", detail: "Full structural takedowns with deliberate sequencing and field control." },
-      { name: "Concrete demolition", detail: "Scanning, cutting, and removal coordinated within the demolition scope." },
-      { name: "Active-facility work", detail: "Healthcare and commercial work planned around continuing operations." },
-      { name: "Waste hauling", detail: "Material movement coordinated with the pace and access constraints of the site." },
-      { name: "Final turnover", detail: "A cleared work area left ready for the trade that follows." },
+      { name: "Selective interior demolition", detail: "Precise removal planned around retained systems and occupied areas.", href: "/demolition/services/interior-demolition" },
+      { name: "Structural demolition", detail: "Full structural takedowns with deliberate sequencing and field control.", href: "/demolition/services/total-demolition" },
+      { name: "Concrete demolition", detail: "Scanning, cutting, and removal coordinated within the demolition scope.", href: "/demolition/services/concrete-work" },
+      { name: "Active-facility work", detail: "Healthcare and commercial work planned around continuing operations.", href: "/demolition/projects/healthcare" },
+      { name: "Waste hauling", detail: "Material movement coordinated with the pace and access constraints of the site.", href: "/demolition/services/waste-hauling" },
+      { name: "Final turnover", detail: "A cleared work area left ready for the trade that follows.", href: "/demolition/projects" },
     ],
     feature: {
       eyebrow: "Comparable healthcare work",
@@ -108,7 +108,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     headline: "Keep the site moving.",
     introduction:
       "Dumpsters, debris hauling, temporary fencing, and cleanup support for contractors who need material to keep moving without slowing the work.",
-    email: "estimating@jzdemo.com",
+    email: "estimating@jzwastemanagement.com",
     hero: {
       type: "video",
       media: "/media/video/workflow-waste.mp4",
@@ -122,12 +122,12 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     servicesLead:
       "One accountable service lane for the equipment, labor, and hauling that keep a commercial site clear and productive.",
     services: [
-      { name: "Dumpster rentals", detail: "Containers coordinated to the scale, access, and timing of the project." },
-      { name: "Debris hauling", detail: "Scheduled material removal that follows the actual pace of field production." },
-      { name: "Temporary fencing", detail: "Perimeter support for active construction and demolition environments." },
-      { name: "Site cleanup labor", detail: "Crews available to maintain clean, workable conditions across the site." },
-      { name: "Construction cleanup", detail: "Ongoing and final cleanup support for contractor-led projects." },
-      { name: "Residential cleanouts", detail: "Direct removal and hauling for full-property cleanout scopes." },
+      { name: "Dumpster rentals", detail: "Containers coordinated to the scale, access, and timing of the project.", href: "/waste-management/services/dumpster-rentals" },
+      { name: "Debris hauling", detail: "Scheduled material removal that follows the actual pace of field production.", href: "/waste-management/services/dumpster-rentals" },
+      { name: "Temporary fencing", detail: "Perimeter support for active construction and demolition environments.", href: "/waste-management/services/temporary-fencing" },
+      { name: "Site cleanup labor", detail: "Crews available to maintain clean, workable conditions across the site.", href: "/waste-management/services/general-labor" },
+      { name: "Construction cleanup", detail: "Ongoing and final cleanup support for contractor-led projects.", href: "/waste-management/services/general-labor" },
+      { name: "Residential cleanouts", detail: "Direct removal and hauling for full-property cleanout scopes.", href: "/waste-management/services/dumpster-rentals" },
     ],
     feature: {
       eyebrow: "Contractor support",
@@ -160,7 +160,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     headline: "Field execution, made visible.",
     introduction:
       "Field-ready construction for framing, drywall, finishes, concrete support, remodeling, and site preparation across South Florida.",
-    email: "estimating@jzdemo.com",
+    email: "estimating@jzconstruction.com",
     hero: {
       type: "video",
       media: "/media/video/workflow-build.mp4",
@@ -174,12 +174,12 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     servicesLead:
       "JZ Construction brings field execution and accountable supervision to commercial interiors, renovations, and supporting concrete scopes.",
     services: [
-      { name: "Commercial construction", detail: "Coordinated field delivery for new and renovated commercial environments." },
-      { name: "Remodeling", detail: "Interior renovation work sequenced around the existing building and project team." },
-      { name: "Site preparation", detail: "Early field work that gives the construction phase a clean, organized start." },
-      { name: "Framing", detail: "Metal framing installed to plans with close coordination across adjacent trades." },
-      { name: "Drywall and finishing", detail: "Board, finish, and closeout work delivered as a complete interior scope." },
-      { name: "Concrete work", detail: "Concrete support coordinated with the demands of the wider project." },
+      { name: "Commercial construction", detail: "Coordinated field delivery for new and renovated commercial environments.", href: "/construction/services/general-contracting" },
+      { name: "Remodeling", detail: "Interior renovation work sequenced around the existing building and project team.", href: "/construction/services/general-contracting" },
+      { name: "Site preparation", detail: "Early field work that gives the construction phase a clean, organized start.", href: "/construction/services/general-contracting" },
+      { name: "Framing", detail: "Metal framing installed to plans with close coordination across adjacent trades.", href: "/construction/services/subcontracting" },
+      { name: "Drywall and finishing", detail: "Board, finish, and closeout work delivered as a complete interior scope.", href: "/construction/services/subcontracting" },
+      { name: "Concrete work", detail: "Concrete support coordinated with the demands of the wider project.", href: "/construction/services/subcontracting" },
     ],
     feature: {
       eyebrow: "Field execution",
@@ -212,7 +212,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     headline: "Think beyond completion.",
     introduction:
       "Land acquisition, project planning, construction oversight, and property management under one accountable team.",
-    email: "estimating@jzdemo.com",
+    email: "estimating@jzdevelopment.com",
     hero: {
       type: "triptych",
       triptych: [
@@ -229,12 +229,12 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     servicesLead:
       "JZ Development connects opportunity, delivery, and long-term ownership through one clear development lifecycle.",
     services: [
-      { name: "Land acquisition", detail: "Identify and evaluate opportunities that align with the development strategy." },
-      { name: "Project planning", detail: "Shape the program, team, schedule, and delivery path before work begins." },
-      { name: "Construction oversight", detail: "Maintain owner-side visibility as the project moves from plan to field." },
-      { name: "Property management", detail: "Carry accountability beyond completion into the operation of the asset." },
-      { name: "Workforce housing", detail: "Development focused on practical housing needs and long-term community value." },
-      { name: "Redevelopment", detail: "Reposition existing property through a coordinated plan and delivery strategy." },
+      { name: "Land acquisition", detail: "Identify and evaluate opportunities that align with the development strategy.", href: "/development/about" },
+      { name: "Project planning", detail: "Shape the program, team, schedule, and delivery path before work begins.", href: "/development/about" },
+      { name: "Construction oversight", detail: "Maintain owner-side visibility as the project moves from plan to field.", href: "/development/about" },
+      { name: "Property management", detail: "Carry accountability beyond completion into the operation of the asset.", href: "/development/about" },
+      { name: "Workforce housing", detail: "Development focused on practical housing needs and long-term community value.", href: "/development/projects" },
+      { name: "Redevelopment", detail: "Reposition existing property through a coordinated plan and delivery strategy.", href: "/development/projects" },
     ],
     feature: {
       eyebrow: "Current public project story",

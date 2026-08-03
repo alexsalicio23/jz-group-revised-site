@@ -6,39 +6,13 @@ import { CinematicHero } from "@/components/CinematicHero";
 import { DivisionSequence } from "@/components/DivisionSequence";
 import { MediaPlaceholder } from "@/components/MediaPlaceholder";
 import { ProjectGallery } from "@/components/ProjectGallery";
+import { GroupHeader } from "@/components/SiteNavigation";
 import { activeProcess, clientLogos, contact, qualificationRecords } from "./data";
-
-function SiteHeader() {
-  return (
-    <header className="site-header">
-      <a className="brand" href="#top" aria-label="JZ Group home">
-        <Image src="/media/brand-logo.webp" alt="JZ Group" width={164} height={82} priority sizes="132px" />
-      </a>
-      <nav className="desktop-nav" aria-label="Primary navigation">
-        <a href="#group">The group</a>
-        <a href="#expertise">Specialty</a>
-        <a href="#projects">Projects</a>
-        <a href="#qualifications">Safety</a>
-      </nav>
-      <a className="header-contact" href="#contact">Start a bid conversation</a>
-      <details className="mobile-menu">
-        <summary>Menu</summary>
-        <nav aria-label="Mobile navigation">
-          <a href="#group">The group</a>
-          <a href="#expertise">Specialty</a>
-          <a href="#projects">Projects</a>
-          <a href="#qualifications">Safety</a>
-          <a href="#contact">Contact estimating</a>
-        </nav>
-      </details>
-    </header>
-  );
-}
 
 export default function Home() {
   return (
     <main>
-      <SiteHeader />
+      <GroupHeader />
       <CinematicHero />
 
       <DivisionSequence />

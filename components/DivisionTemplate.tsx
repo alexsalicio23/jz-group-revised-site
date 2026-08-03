@@ -1,34 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import { divisionContacts } from "@/app/content-data";
 import type { DivisionTemplateData } from "@/app/templates/template-data";
+import { DivisionHeader } from "@/components/SiteNavigation";
 
 const phoneDisplay = "(305) 793-2984";
 const phoneHref = "tel:+13057932984";
-
-function DivisionMark({ data }: { data: DivisionTemplateData }) {
-  return (
-    <Link className="template-brand" href="/" aria-label="Return to JZ Group">
-      <Image src="/media/brand-logo.webp" alt="JZ Group" width={72} height={72} priority />
-      <span><strong>{data.shortName}</strong><small>{data.legalName}</small></span>
-    </Link>
-  );
-}
-
-function TemplateHeader({ data, theme = "dark" }: { data: DivisionTemplateData; theme?: "dark" | "light" }) {
-  const emailSubject = encodeURIComponent(`${data.name} project inquiry`);
-  return (
-    <header className={`template-header template-header-${theme}`}>
-      <DivisionMark data={data} />
-      <nav aria-label={`${data.name} navigation`}>
-        <a href="#capabilities">Capabilities</a>
-        <a href="#proof">Proof</a>
-        <a href="#process">Process</a>
-      </nav>
-      <a className="template-header-cta" href={`mailto:${data.email}?subject=${emailSubject}`}>Send a scope</a>
-    </header>
-  );
-}
 
 function HeroMedia({ data }: { data: DivisionTemplateData }) {
   if (data.hero.type === "triptych" && data.hero.triptych) {
@@ -55,6 +33,7 @@ function HeroMedia({ data }: { data: DivisionTemplateData }) {
 
 function TemplateContact({ data }: { data: DivisionTemplateData }) {
   const emailSubject = encodeURIComponent(`${data.name} project inquiry`);
+  const contact = divisionContacts[data.slug];
   return (
     <section className="template-contact" id="contact">
       <div>
@@ -64,11 +43,11 @@ function TemplateContact({ data }: { data: DivisionTemplateData }) {
       <div className="template-contact-actions">
         <a className="button button-light" href={`mailto:${data.email}?subject=${emailSubject}`}>Email estimating</a>
         <a href={phoneHref}>{phoneDisplay}</a>
-        <a href={`mailto:${data.email}`}>{data.email}</a>
+        <a href={`mailto:${contact.email}`}>{contact.email}</a>
       </div>
       <footer>
         <span>Miami-Dade / Broward / Palm Beach</span>
-        <span>15219 NW 60th Ave, Miami Lakes, Florida 33014</span>
+        <span>{contact.address}</span>
         <Link href="/">Return to JZ Group</Link>
       </footer>
     </section>
@@ -79,7 +58,7 @@ function DemolitionSite({ data }: { data: DivisionTemplateData }) {
   const emailSubject = encodeURIComponent(`${data.name} project inquiry`);
   return (
     <main className="division-template template-demolition demolition-site">
-      <TemplateHeader data={data} />
+      <DivisionHeader division={data.slug} />
       <section className="template-hero" id="top">
         <div className="template-hero-media"><HeroMedia data={data} /></div>
         <div className="template-hero-shade" />
@@ -108,7 +87,10 @@ function DemolitionSite({ data }: { data: DivisionTemplateData }) {
         </div>
         <ol className="template-service-ledger">
           {data.services.map((service, index) => (
-            <li key={service.name}><span>{String(index + 1).padStart(2, "0")}</span><h3>{service.name}</h3><p>{service.detail}</p></li>
+            <li key={service.name}>
+              <span>{String(index + 1).padStart(2, "0")}</span><h3>{service.name}</h3><p>{service.detail}</p>
+              {service.href ? <Link className="template-service-deep-link" href={service.href} aria-label={`Learn more about ${service.name}`}><ArrowUpRight aria-hidden="true" size={18} /></Link> : null}
+            </li>
           ))}
         </ol>
       </section>
@@ -135,7 +117,7 @@ function WasteSite({ data }: { data: DivisionTemplateData }) {
   const emailSubject = encodeURIComponent(`${data.name} project inquiry`);
   return (
     <main className="division-template waste-site">
-      <TemplateHeader data={data} />
+      <DivisionHeader division={data.slug} />
       <section className="waste-hero" id="top">
         <div className="waste-hero-media"><HeroMedia data={data} /></div>
         <div className="waste-hero-shade" />
@@ -159,7 +141,7 @@ function WasteSite({ data }: { data: DivisionTemplateData }) {
 
       <section className="waste-service-board">
         <div className="waste-board-title"><p className="template-kicker">What we move</p><h2>Six ways we keep the work clear.</h2></div>
-        <ol>{data.services.map((service, index) => <li key={service.name}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{service.name}</h3><p>{service.detail}</p></div><ArrowRight aria-hidden="true" size={22} /></li>)}</ol>
+        <ol>{data.services.map((service, index) => <li key={service.name}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{service.name}</h3><p>{service.detail}</p>{service.href ? <Link href={service.href}>Review service <ArrowUpRight aria-hidden="true" size={15} /></Link> : null}</div><ArrowRight aria-hidden="true" size={22} /></li>)}</ol>
       </section>
 
       <section className="waste-proof" id="proof">
@@ -185,7 +167,7 @@ function ConstructionSite({ data }: { data: DivisionTemplateData }) {
   const emailSubject = encodeURIComponent(`${data.name} project inquiry`);
   return (
     <main className="division-template construction-site">
-      <TemplateHeader data={data} />
+      <DivisionHeader division={data.slug} />
       <section className="construction-hero" id="top">
         <div className="construction-hero-media"><HeroMedia data={data} /></div>
         <div className="construction-hero-shade" />
@@ -208,7 +190,7 @@ function ConstructionSite({ data }: { data: DivisionTemplateData }) {
 
       <section className="construction-capability-grid">
         {data.services.map((service, index) => (
-          <article key={service.name}><span>{String(index + 1).padStart(2, "0")}</span><h3>{service.name}</h3><p>{service.detail}</p></article>
+          <article key={service.name}><span>{String(index + 1).padStart(2, "0")}</span><h3>{service.name}</h3><p>{service.detail}</p>{service.href ? <Link href={service.href}>Review service <ArrowUpRight aria-hidden="true" size={15} /></Link> : null}</article>
         ))}
       </section>
 
@@ -231,7 +213,7 @@ function DevelopmentSite({ data }: { data: DivisionTemplateData }) {
   const emailSubject = encodeURIComponent(`${data.name} project inquiry`);
   return (
     <main className="division-template development-site">
-      <TemplateHeader data={data} />
+      <DivisionHeader division={data.slug} />
       <section className="development-hero" id="top">
         <div className="development-hero-media"><HeroMedia data={data} /></div>
         <div className="development-hero-shade" />

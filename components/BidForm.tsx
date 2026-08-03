@@ -14,7 +14,7 @@ const serviceLanes = [
   ["development", "JZ Development"],
 ] as const;
 
-export function BidForm() {
+export function BidForm({ defaultDivision = "demolition" }: { defaultDivision?: string }) {
   const [status, setStatus] = useState<SubmitState>({ type: "idle" });
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -41,7 +41,7 @@ export function BidForm() {
       </div>
       <div className="form-row">
         <label><span>Phone</span><input name="phone" type="tel" autoComplete="tel" /></label>
-        <label><span>Service lane</span><select name="division" required defaultValue="demolition">{serviceLanes.map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label>
+        <label><span>Service lane</span><select name="division" required defaultValue={defaultDivision}>{serviceLanes.map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label>
       </div>
       <div className="form-row">
         <label><span>Project type</span><input name="projectType" required placeholder="Selective demolition, renovation, hauling..." /></label>
