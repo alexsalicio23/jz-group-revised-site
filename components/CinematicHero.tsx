@@ -84,7 +84,7 @@ export function CinematicHero() {
                 trigger: root.current,
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 0.65,
+                scrub: 1,
               },
             });
 
