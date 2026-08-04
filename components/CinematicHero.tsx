@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export function CinematicHero() {
   const root = useRef<HTMLElement>(null);
+  const video = useRef<HTMLVideoElement>(null);
 
   useGSAP(
     () => {
@@ -17,6 +18,21 @@ export function CinematicHero() {
       media.add(
         "(min-width: 761px) and (prefers-reduced-motion: no-preference)",
         () => {
+          const walkthrough = video.current;
+          let videoFrame = 0;
+
+          const setOpeningFrame = () => {
+            if (!walkthrough || !Number.isFinite(walkthrough.duration)) return;
+            walkthrough.pause();
+            walkthrough.currentTime = Math.min(2, Math.max(0, walkthrough.duration - 0.1));
+          };
+
+          if (walkthrough?.readyState && walkthrough.readyState >= 1) {
+            setOpeningFrame();
+          } else {
+            walkthrough?.addEventListener("loadedmetadata", setOpeningFrame, { once: true });
+          }
+
           const timeline = gsap.timeline({
             defaults: { ease: "none" },
             scrollTrigger: {
@@ -24,6 +40,16 @@ export function CinematicHero() {
               start: "top top",
               end: "bottom bottom",
               scrub: 0.4,
+              onUpdate: ({ progress }) => {
+                if (!walkthrough || !Number.isFinite(walkthrough.duration)) return;
+                const openingTime = Math.min(2, Math.max(0, walkthrough.duration - 0.1));
+                const targetTime = openingTime + progress * Math.max(0, walkthrough.duration - openingTime - 0.08);
+
+                if (videoFrame) cancelAnimationFrame(videoFrame);
+                videoFrame = requestAnimationFrame(() => {
+                  walkthrough.currentTime = targetTime;
+                });
+              },
             },
           });
 
@@ -36,11 +62,6 @@ export function CinematicHero() {
               { autoAlpha: 1, y: 0, duration: 0.14 },
               0.3,
             )
-            .to(
-              ".hero-complete",
-              { clipPath: "inset(0 0% 0 0)", duration: 0.46 },
-              0.3,
-            )
             .to(".hero-chapter", { autoAlpha: 0, y: -20, duration: 0.12 }, 0.64)
             .fromTo(
               ".hero-resolution",
@@ -48,6 +69,11 @@ export function CinematicHero() {
               { autoAlpha: 1, y: 0, duration: 0.2 },
               0.72,
             );
+
+          return () => {
+            if (videoFrame) cancelAnimationFrame(videoFrame);
+            walkthrough?.removeEventListener("loadedmetadata", setOpeningFrame);
+          };
         },
       );
 
@@ -61,34 +87,25 @@ export function CinematicHero() {
       <div className="hero-sticky">
         <div className="hero-media" aria-hidden="true">
           <video
-            className="hero-video hero-demolition"
+            ref={video}
+            className="hero-video hero-walkthrough"
             autoPlay
             muted
-            loop
             playsInline
             preload="auto"
-            poster="/media/video/hero-demolition-poster.jpg"
+            poster="/media/jz-drone-walkthrough-poster.jpg"
+            onLoadedMetadata={(event) => {
+              if (window.matchMedia("(max-width: 760px)").matches) {
+                event.currentTarget.currentTime = Math.min(2, event.currentTarget.duration - 0.1);
+              }
+            }}
+            onEnded={(event) => {
+              event.currentTarget.currentTime = 2;
+              void event.currentTarget.play();
+            }}
           >
-            <source
-              src="/media/video/hero-demolition-mobile.mp4"
-              type="video/mp4"
-              media="(max-width: 760px)"
-            />
-            <source src="/media/video/hero-demolition.mp4" type="video/mp4" />
+            <source src="/media/jz-drone-walkthrough.mp4" type="video/mp4" />
           </video>
-          <div className="hero-complete">
-            <video
-              className="hero-video"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster="/media/video/hero-medical-poster.jpg"
-            >
-              <source src="/media/video/hero-medical.mp4" type="video/mp4" />
-            </video>
-          </div>
           <div className="hero-shade" />
         </div>
 
@@ -118,7 +135,7 @@ export function CinematicHero() {
         </div>
 
         <div className="hero-meter" aria-hidden="true">
-          <span>Demolition</span>
+          <span>Existing office</span>
           <div className="hero-progress"><span className="hero-progress-fill" /></div>
           <span>Ready for work</span>
         </div>
