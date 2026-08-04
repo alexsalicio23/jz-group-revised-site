@@ -14,6 +14,7 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
   expect(sectionOrder.slice(0, 4)).toEqual(["top", "group", "expertise", "projects"]);
   await expect(page.locator("video")).toHaveCount(3);
   await expect(page.locator('video source[src="/media/jz-drone-walkthrough.mp4"]')).toHaveCount(1);
+  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
   await expect(page.getByRole("heading", { name: /Specialists by trade/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: /Comparable work/ })).toBeAttached();
 
@@ -57,10 +58,16 @@ test("walkthrough advances through the hero on desktop and mobile", async ({ pag
   await expect.poll(() => walkthrough.evaluate((element: HTMLVideoElement) => element.readyState)).toBeGreaterThanOrEqual(1);
 
   if (testInfo.project.name === "mobile") {
+    await expect.poll(() => walkthrough.evaluate((element: HTMLVideoElement) => element.currentSrc)).toContain(
+      "/media/jz-drone-walkthrough.mp4",
+    );
     await expect.poll(() => walkthrough.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(2.1);
     return;
   }
 
+  await expect.poll(() => walkthrough.evaluate((element: HTMLVideoElement) => element.currentSrc)).toContain(
+    "/media/jz-drone-walkthrough-scrub.mp4",
+  );
   await page.evaluate(() => {
     document.documentElement.style.scrollBehavior = "auto";
     window.scrollTo(0, window.innerHeight * 0.65);

@@ -20,59 +20,76 @@ export function CinematicHero() {
         () => {
           const walkthrough = video.current;
           let videoFrame = 0;
+          let timeline: gsap.core.Timeline | undefined;
 
-          const setOpeningFrame = () => {
-            if (!walkthrough || !Number.isFinite(walkthrough.duration)) return;
+          const startDesktopExperience = () => {
+            if (
+              !walkthrough ||
+              timeline ||
+              !Number.isFinite(walkthrough.duration) ||
+              walkthrough.duration <= 0
+            ) {
+              return;
+            }
+
             walkthrough.pause();
-            walkthrough.currentTime = Math.min(2, Math.max(0, walkthrough.duration - 0.1));
+            const openingTime = walkthrough.duration < 14 ? 0 : 2;
+            const closingTime = Math.max(openingTime, walkthrough.duration - 0.08);
+            const playhead = { time: openingTime };
+
+            walkthrough.currentTime = openingTime;
+
+            const renderFrame = () => {
+              if (videoFrame) cancelAnimationFrame(videoFrame);
+              videoFrame = requestAnimationFrame(() => {
+                if (Math.abs(walkthrough.currentTime - playhead.time) > 1 / 96) {
+                  walkthrough.currentTime = playhead.time;
+                }
+              });
+            };
+
+            timeline = gsap.timeline({
+              defaults: { ease: "none" },
+              scrollTrigger: {
+                trigger: root.current,
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 0.4,
+              },
+            });
+
+            timeline
+              .to(playhead, { time: closingTime, duration: 1, onUpdate: renderFrame }, 0)
+              .to(".hero-progress-fill", { scaleX: 1, duration: 1 }, 0)
+              .to(".hero-intro", { autoAlpha: 0, y: -36, duration: 0.18 }, 0.14)
+              .fromTo(
+                ".hero-chapter",
+                { autoAlpha: 0, y: 20 },
+                { autoAlpha: 1, y: 0, duration: 0.14 },
+                0.3,
+              )
+              .to(".hero-chapter", { autoAlpha: 0, y: -20, duration: 0.12 }, 0.64)
+              .fromTo(
+                ".hero-resolution",
+                { autoAlpha: 0, y: 32 },
+                { autoAlpha: 1, y: 0, duration: 0.2 },
+                0.72,
+              );
+
+            ScrollTrigger.refresh();
           };
 
           if (walkthrough?.readyState && walkthrough.readyState >= 1) {
-            setOpeningFrame();
+            startDesktopExperience();
           } else {
-            walkthrough?.addEventListener("loadedmetadata", setOpeningFrame, { once: true });
+            walkthrough?.addEventListener("loadedmetadata", startDesktopExperience, { once: true });
           }
-
-          const timeline = gsap.timeline({
-            defaults: { ease: "none" },
-            scrollTrigger: {
-              trigger: root.current,
-              start: "top top",
-              end: "bottom bottom",
-              scrub: 0.4,
-              onUpdate: ({ progress }) => {
-                if (!walkthrough || !Number.isFinite(walkthrough.duration)) return;
-                const openingTime = Math.min(2, Math.max(0, walkthrough.duration - 0.1));
-                const targetTime = openingTime + progress * Math.max(0, walkthrough.duration - openingTime - 0.08);
-
-                if (videoFrame) cancelAnimationFrame(videoFrame);
-                videoFrame = requestAnimationFrame(() => {
-                  walkthrough.currentTime = targetTime;
-                });
-              },
-            },
-          });
-
-          timeline
-            .to(".hero-progress-fill", { scaleX: 1, duration: 1 }, 0)
-            .to(".hero-intro", { autoAlpha: 0, y: -36, duration: 0.18 }, 0.14)
-            .fromTo(
-              ".hero-chapter",
-              { autoAlpha: 0, y: 20 },
-              { autoAlpha: 1, y: 0, duration: 0.14 },
-              0.3,
-            )
-            .to(".hero-chapter", { autoAlpha: 0, y: -20, duration: 0.12 }, 0.64)
-            .fromTo(
-              ".hero-resolution",
-              { autoAlpha: 0, y: 32 },
-              { autoAlpha: 1, y: 0, duration: 0.2 },
-              0.72,
-            );
 
           return () => {
             if (videoFrame) cancelAnimationFrame(videoFrame);
-            walkthrough?.removeEventListener("loadedmetadata", setOpeningFrame);
+            walkthrough?.removeEventListener("loadedmetadata", startDesktopExperience);
+            timeline?.scrollTrigger?.kill();
+            timeline?.kill();
           };
         },
       );
@@ -104,6 +121,11 @@ export function CinematicHero() {
               void event.currentTarget.play();
             }}
           >
+            <source
+              src="/media/jz-drone-walkthrough-scrub.mp4"
+              type="video/mp4"
+              media="(min-width: 761px)"
+            />
             <source src="/media/jz-drone-walkthrough.mp4" type="video/mp4" />
           </video>
           <div className="hero-shade" />
