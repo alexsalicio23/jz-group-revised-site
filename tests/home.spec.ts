@@ -70,7 +70,9 @@ test("walkthrough advances through the hero on desktop and mobile", async ({ pag
   );
   await page.evaluate(() => {
     document.documentElement.style.scrollBehavior = "auto";
-    window.scrollTo(0, window.innerHeight * 0.65);
+    const hero = document.querySelector<HTMLElement>(".cinematic-hero");
+    const scrollDistance = Math.max(0, (hero?.offsetHeight ?? 0) - window.innerHeight);
+    window.scrollTo(0, scrollDistance * 0.72);
   });
   await expect.poll(() => walkthrough.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(8);
 });

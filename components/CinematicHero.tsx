@@ -21,6 +21,7 @@ export function CinematicHero() {
           const walkthrough = video.current;
           let videoFrame = 0;
           let timeline: gsap.core.Timeline | undefined;
+          let removeSeekListener: (() => void) | undefined;
 
           const startDesktopExperience = () => {
             if (
@@ -36,17 +37,46 @@ export function CinematicHero() {
             const openingTime = walkthrough.duration < 14 ? 0 : 2;
             const closingTime = Math.max(openingTime, walkthrough.duration - 0.08);
             const playhead = { time: openingTime };
+            const frameDuration = 1 / 24;
+            let pendingTime = openingTime;
+            let seekInFlight = false;
 
             walkthrough.currentTime = openingTime;
 
-            const renderFrame = () => {
-              if (videoFrame) cancelAnimationFrame(videoFrame);
-              videoFrame = requestAnimationFrame(() => {
-                if (Math.abs(walkthrough.currentTime - playhead.time) > 1 / 96) {
-                  walkthrough.currentTime = playhead.time;
-                }
-              });
+            const performSeek = () => {
+              videoFrame = 0;
+              if (seekInFlight) return;
+
+              const frameTime = Math.min(
+                closingTime,
+                Math.max(openingTime, Math.round(pendingTime / frameDuration) * frameDuration),
+              );
+
+              if (Math.abs(walkthrough.currentTime - frameTime) < frameDuration * 0.45) return;
+
+              seekInFlight = true;
+              walkthrough.currentTime = frameTime;
             };
+
+            const queueFrame = () => {
+              pendingTime = playhead.time;
+              if (!seekInFlight && !videoFrame) {
+                videoFrame = requestAnimationFrame(performSeek);
+              }
+            };
+
+            const handleSeeked = () => {
+              seekInFlight = false;
+              if (
+                Math.abs(pendingTime - walkthrough.currentTime) >= frameDuration * 0.7 &&
+                !videoFrame
+              ) {
+                videoFrame = requestAnimationFrame(performSeek);
+              }
+            };
+
+            walkthrough.addEventListener("seeked", handleSeeked);
+            removeSeekListener = () => walkthrough.removeEventListener("seeked", handleSeeked);
 
             timeline = gsap.timeline({
               defaults: { ease: "none" },
@@ -54,12 +84,12 @@ export function CinematicHero() {
                 trigger: root.current,
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 0.4,
+                scrub: 0.65,
               },
             });
 
             timeline
-              .to(playhead, { time: closingTime, duration: 1, onUpdate: renderFrame }, 0)
+              .to(playhead, { time: closingTime, duration: 1, onUpdate: queueFrame }, 0)
               .to(".hero-progress-fill", { scaleX: 1, duration: 1 }, 0)
               .to(".hero-intro", { autoAlpha: 0, y: -36, duration: 0.18 }, 0.14)
               .fromTo(
@@ -88,6 +118,7 @@ export function CinematicHero() {
           return () => {
             if (videoFrame) cancelAnimationFrame(videoFrame);
             walkthrough?.removeEventListener("loadedmetadata", startDesktopExperience);
+            removeSeekListener?.();
             timeline?.scrollTrigger?.kill();
             timeline?.kill();
           };
