@@ -12,10 +12,14 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
     sections.map((section) => section.id || section.className),
   );
   expect(sectionOrder.slice(0, 5)).toEqual(["top", "group", "experience", "expertise", "projects"]);
-  await expect(page.locator("video")).toHaveCount(3);
+  await expect(page.locator("video")).toHaveCount(1);
   await expect(page.locator('video source[src="/media/jz-drone-walkthrough.mp4"]')).toHaveCount(1);
   await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
   await expect(page.getByRole("heading", { name: /Four companies.*One operating group/ })).toBeAttached();
+  await expect(page.getByText("Controlled demolition", { exact: true })).toBeAttached();
+  await expect(page.getByText("Drywall and ceiling systems", { exact: true })).toBeAttached();
+  await expect(page.locator(".hero-resolution-title")).toContainText("One group.");
+  await expect(page.locator(".cinematic-hero .eyebrow")).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Comparable work." })).toBeAttached();
   await expect(page.getByText("50+", { exact: true })).toBeAttached();
   await expect(page.locator("main > .contact .bid-form")).toHaveCount(0);
@@ -43,8 +47,13 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
   expect(results.violations).toEqual([]);
 
   if (testInfo.project.name === "desktop") {
-    const chainHeight = await page.locator(".chain").evaluate((element) => element.getBoundingClientRect().height);
-    expect(chainHeight).toBeLessThanOrEqual(900 * 2.05);
+    const [stackHeight, viewportHeight] = await Promise.all([
+      page.locator(".division-stack").evaluate((element) => element.getBoundingClientRect().height),
+      page.evaluate(() => window.innerHeight),
+    ]);
+    expect(stackHeight).toBeGreaterThanOrEqual(viewportHeight * 2.95);
+    expect(stackHeight).toBeLessThanOrEqual(viewportHeight * 3.05);
+    await expect(page.locator(".division-stack-card")).toHaveCount(4);
   }
 
   await page.screenshot({
