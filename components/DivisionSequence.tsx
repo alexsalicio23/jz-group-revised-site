@@ -43,7 +43,8 @@ export function DivisionSequence() {
               yPercent: -50,
               x: getRowPosition(index),
               ...stackedPositions[index],
-              autoAlpha: 1,
+              y: stackedPositions[index].y + 42,
+              autoAlpha: 0,
             });
           });
         };
@@ -77,9 +78,10 @@ export function DivisionSequence() {
               rotationY: 0,
               rotationZ: 0,
               scale: 1,
+              autoAlpha: 1,
               duration: 0.34,
             },
-            0.17 + (cards.length - 1 - index) * 0.08,
+            0.17 + index * 0.17,
           );
         });
 
