@@ -97,6 +97,21 @@ test("drone chapters and company cards follow desktop scroll progress", async ({
     cards.filter((card) => Number.parseFloat(getComputedStyle(card).opacity) > 0.9).length,
   );
   expect(visibleCards).toBe(4);
+
+  await page.evaluate((y) => window.scrollTo(0, y), stackTop + stackHeight - viewportHeight - 4);
+  await page.waitForTimeout(700);
+
+  const openRow = await page.locator(".division-stack-card").evaluateAll((cards) =>
+    cards.map((card) => {
+      const bounds = card.getBoundingClientRect();
+      return { left: bounds.left, right: bounds.right, top: bounds.top };
+    }),
+  );
+
+  for (let index = 1; index < openRow.length; index += 1) {
+    expect(openRow[index].left).toBeGreaterThan(openRow[index - 1].right + 10);
+    expect(Math.abs(openRow[index].top - openRow[0].top)).toBeLessThan(3);
+  }
 });
 
 test("bid endpoint fails honestly until delivery credentials are configured", async ({ request }) => {

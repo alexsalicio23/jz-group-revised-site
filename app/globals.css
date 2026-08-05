@@ -3378,6 +3378,7 @@ button:focus-visible .motion-action-circle svg {
   top: 59%;
   left: 50%;
   display: block;
+  container-type: inline-size;
   width: clamp(410px, 31vw, 460px);
   height: clamp(480px, 55svh, 520px);
   color: var(--ink);
@@ -3436,6 +3437,12 @@ button:focus-visible .motion-action-circle svg {
   left: 1.4rem;
   font-size: 2.75rem;
   text-transform: uppercase;
+}
+
+@container (max-width: 370px) {
+  .division-card-visual h3 {
+    font-size: clamp(1.75rem, 9.2cqw, 2.25rem);
+  }
 }
 
 .division-card-copy {

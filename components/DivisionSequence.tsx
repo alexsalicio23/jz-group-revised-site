@@ -36,6 +36,21 @@ export function DivisionSequence() {
         const stage = root.current?.querySelector<HTMLElement>(".division-card-deck");
         if (!cards.length || !stage) return;
 
+        const getOpenRow = () => {
+          const gap = Math.max(16, Math.min(24, window.innerWidth * 0.012));
+          const sidePadding = Math.max(24, Math.min(68, window.innerWidth * 0.035));
+          const availableWidth = window.innerWidth - sidePadding * 2 - gap * (cards.length - 1);
+          const width = Math.min(460, window.innerWidth * 0.23, availableWidth / cards.length);
+          const height = Math.min(520, Math.max(430, window.innerHeight * 0.52));
+
+          return { gap, height, width };
+        };
+
+        const getOpenRowX = (index: number) => {
+          const { gap, width } = getOpenRow();
+          return (index - (cards.length - 1) / 2) * (width + gap);
+        };
+
         gsap.set(stage, { perspective: 1500, transformStyle: "preserve-3d" });
         gsap.set(headingLines, { yPercent: 115, opacity: 0 });
         if (progress) gsap.set(progress, { scaleY: 0, transformOrigin: "top" });
@@ -76,7 +91,7 @@ export function DivisionSequence() {
 
         if (progress) timeline.to(progress, { scaleY: 1, duration: 0.86, ease: "none" }, 0.1);
 
-        const arrivals = [0.14, 0.34, 0.54, 0.74];
+        const arrivals = [0.12, 0.29, 0.46, 0.63];
 
         cards.forEach((card, index) => {
           const arrival = arrivals[index];
@@ -119,7 +134,29 @@ export function DivisionSequence() {
           );
         });
 
-        timeline.to({}, { duration: 0.12 }, 0.88);
+        cards.forEach((card, index) => {
+          timeline.to(
+            card,
+            {
+              x: () => getOpenRowX(index),
+              y: 0,
+              z: 0,
+              width: () => getOpenRow().width,
+              height: () => getOpenRow().height,
+              rotationX: 0,
+              rotationY: 0,
+              rotationZ: 0,
+              scale: 1,
+              autoAlpha: 1,
+              filter: "brightness(1)",
+              duration: 0.15,
+              ease: "power3.inOut",
+            },
+            0.81,
+          );
+        });
+
+        timeline.to({}, { duration: 0.04 }, 0.96);
       });
 
       return () => media.revert();
