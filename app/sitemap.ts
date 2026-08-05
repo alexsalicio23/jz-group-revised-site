@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
 import { publicContentRoutes } from "@/app/content-data";
+import { getSiteUrl } from "@/app/site-url";
 import { templateOrder } from "@/app/templates/template-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jz-group-redesign-v2.vercel.app";
+  const base = getSiteUrl();
   return [
     { url: base, changeFrequency: "monthly", priority: 1 },
     ...templateOrder.map((division) => ({

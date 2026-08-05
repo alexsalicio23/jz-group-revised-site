@@ -5,7 +5,7 @@ import { CinematicHero } from "@/components/CinematicHero";
 import { DivisionSequence } from "@/components/DivisionSequence";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { GroupHeader } from "@/components/SiteNavigation";
-import { activeProcess, clientLogos, contact, qualificationRecords } from "./data";
+import { activeProcess, clientLogos, contact, publicPortfolioStats, qualificationRecords } from "./data";
 
 export default function Home() {
   return (
@@ -14,6 +14,21 @@ export default function Home() {
       <CinematicHero />
 
       <DivisionSequence />
+
+      <section className="experience-strip" id="experience" aria-label="Public project experience">
+        <div className="experience-strip-title">
+          <span>Public portfolio</span>
+          <strong>Experience across complex environments.</strong>
+        </div>
+        <dl>
+          {publicPortfolioStats.map((stat) => (
+            <div key={stat.label}>
+              <dt>{stat.label}</dt>
+              <dd><Link href={stat.href}>{stat.value}</Link></dd>
+            </div>
+          ))}
+        </dl>
+      </section>
 
       <section className="active-environments section-light" id="expertise">
         <div className="home-section-heading">
@@ -58,7 +73,7 @@ export default function Home() {
             <h2 id="projects-title">Comparable work.</h2>
           </div>
           <Link className="text-link" href="/projects">
-            View all projects <ArrowUpRight aria-hidden="true" size={18} />
+            View projects <ArrowUpRight aria-hidden="true" size={18} />
           </Link>
         </div>
         <ProjectGallery />
@@ -74,7 +89,7 @@ export default function Home() {
           />
         </div>
         <div className="safety-copy">
-          <p className="eyebrow light">Safety and qualifications</p>
+          <p className="eyebrow">Safety and qualifications</p>
           <h2>Safety is the operating system.</h2>
           <div className="qualification-list">
             {qualificationRecords.map((record, index) => (
@@ -84,8 +99,8 @@ export default function Home() {
               </details>
             ))}
           </div>
-          <Link className="text-link light-link" href="/safety">
-            Review safety standards <ArrowUpRight aria-hidden="true" size={18} />
+          <Link className="text-link" href="/safety">
+            View safety approach <ArrowUpRight aria-hidden="true" size={18} />
           </Link>
         </div>
       </section>
@@ -100,7 +115,15 @@ export default function Home() {
         <div className="logo-grid">
           {clientLogos.map((client) => (
             <div className="client-logo" key={client.name} tabIndex={0}>
-              <Image src={client.src} alt={client.name} width={180} height={90} sizes="(max-width: 760px) 138px, 170px" />
+              <span className="client-logo-mark">
+                <Image
+                  src={client.src}
+                  alt={client.name}
+                  fill
+                  sizes="(max-width: 760px) 42vw, 16vw"
+                  unoptimized
+                />
+              </span>
             </div>
           ))}
         </div>
@@ -114,7 +137,7 @@ export default function Home() {
         </div>
         <div className="contact-compact-actions">
           <Link className="button button-light" href="/contact">
-            Start a bid conversation <ArrowUpRight aria-hidden="true" size={18} />
+            Contact estimating <ArrowUpRight aria-hidden="true" size={18} />
           </Link>
           <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>

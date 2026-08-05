@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, X } from "lucide-react";
 import { featuredProjects } from "@/app/data";
 
@@ -46,9 +48,17 @@ export function ProjectGallery() {
             key={project.index}
             onClick={(event) => openProject(project, event.currentTarget)}
             type="button"
+            aria-label={`Open ${project.title} project summary`}
           >
             <span className="project-tile-media">
-              <strong>{project.mediaLabel}</strong>
+              <Image
+                src={project.image}
+                alt={project.imageAlt}
+                fill
+                sizes="(max-width: 760px) 100vw, (max-width: 1180px) 50vw, 33vw"
+                style={{ objectPosition: project.imagePosition }}
+              />
+              <span className="project-image-caption">{project.index} / {project.market}</span>
             </span>
             <span className="project-tile-meta">{project.market} / {project.location}</span>
             <strong className="project-tile-title">{project.title}</strong>
@@ -70,8 +80,14 @@ export function ProjectGallery() {
               <X aria-hidden="true" />
             </button>
             <div className="project-dialog-media">
-              <span>{active.mediaLabel}</span>
-              <small>PROJECT IMAGE SEQUENCE / ASSETS PENDING</small>
+              <Image
+                src={active.image}
+                alt={active.imageAlt}
+                fill
+                sizes="(max-width: 900px) 100vw, 58vw"
+                style={{ objectPosition: active.imagePosition }}
+              />
+              <span>{active.market} / {active.location}</span>
             </div>
             <article className="project-dialog-copy">
               <p className="eyebrow">{active.index} / {active.market} / {active.location}</p>
@@ -80,7 +96,9 @@ export function ProjectGallery() {
               <dl>
                 {active.facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
               </dl>
-              <p className="project-dialog-next">Full case study and approved photography will follow content review.</p>
+              <Link className="project-dialog-link" href={active.href}>
+                View project details <ArrowUpRight aria-hidden="true" size={17} />
+              </Link>
             </article>
           </div>
         ) : null}

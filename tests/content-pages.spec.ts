@@ -50,3 +50,15 @@ test("division service links lead into the detailed route system", async ({ page
   await page.goto("/development");
   expect(await page.locator('a[href="/development/projects"]').count()).toBeGreaterThan(0);
 });
+
+test("contact intake marks required fields and keeps a direct fallback visible", async ({ page }) => {
+  await page.goto("/contact");
+
+  for (const label of ["Name", "Work email", "Service lane", "Project type", "Location", "Facility status", "Project details"]) {
+    const fieldLabel = page.locator(".bid-form label").filter({ hasText: label }).first();
+    await expect(fieldLabel).toContainText("required");
+  }
+
+  await expect(page.getByRole("link", { name: "(305) 793-2984" }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "estimating@jzdemo.com" }).first()).toBeVisible();
+});

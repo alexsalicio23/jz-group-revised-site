@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Phone } from "lucide-react";
 import { divisionContacts, divisionLabels } from "@/app/content-data";
 import type { TemplateSlug } from "@/app/templates/template-data";
 
@@ -19,11 +20,15 @@ export function GroupHeader() {
       <nav className="desktop-nav" aria-label="Primary navigation">
         {groupLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
       </nav>
-      <Link className="header-contact" href="/contact">Start a bid conversation</Link>
+      <div className="header-actions">
+        <a className="header-phone" href="tel:+13057932984"><Phone aria-hidden="true" size={14} />(305) 793-2984</a>
+        <Link className="header-contact" href="/contact">Contact estimating</Link>
+      </div>
       <details className="mobile-menu">
         <summary>Menu</summary>
         <nav aria-label="Mobile navigation">
           {groupLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
+          <a href="tel:+13057932984">(305) 793-2984</a>
           <Link href="/contact">Contact estimating</Link>
         </nav>
       </details>

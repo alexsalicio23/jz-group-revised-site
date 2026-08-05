@@ -27,7 +27,7 @@ export function DivisionSequence() {
             trigger: root.current,
             start: "top top",
             end: "bottom bottom",
-            scrub: 0.32,
+            scrub: 0.24,
           },
         });
 
@@ -63,7 +63,7 @@ export function DivisionSequence() {
             <article className="chain-stage" key={division.name}>
               <div className="chain-stage-media" aria-hidden="true">
                 {division.type === "video" ? (
-                  <video autoPlay muted loop playsInline preload="metadata" poster={division.poster}>
+                  <video autoPlay muted loop playsInline preload="auto" poster={division.poster}>
                     <source src={division.media} type="video/mp4" />
                   </video>
                 ) : (

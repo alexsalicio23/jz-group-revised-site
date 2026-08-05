@@ -63,6 +63,17 @@ summary {
   -webkit-tap-highlight-color: transparent;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Public content pages                                                       */
 /* -------------------------------------------------------------------------- */
@@ -1047,7 +1058,7 @@ textarea {
   inset: 0 0 auto;
   z-index: 30;
   display: grid;
-  grid-template-columns: 180px 1fr 220px;
+  grid-template-columns: 180px 1fr auto;
   align-items: center;
   min-height: 92px;
   padding: 10px var(--page-pad);
@@ -1075,14 +1086,30 @@ textarea {
 }
 
 .desktop-nav a,
-.header-contact {
+.header-contact,
+.header-phone {
   position: relative;
   transition: opacity 220ms var(--ease);
 }
 
 .desktop-nav a:hover,
-.header-contact:hover {
+.header-contact:hover,
+.header-phone:hover {
   opacity: 0.62;
+}
+
+.header-actions {
+  display: flex;
+  justify-self: end;
+  align-items: center;
+  gap: 22px;
+}
+
+.header-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
 }
 
 .header-contact {
@@ -1153,6 +1180,11 @@ textarea {
   left: var(--page-pad);
   bottom: 104px;
   width: min(840px, calc(100% - 64px));
+}
+
+.hero-intro {
+  top: clamp(210px, 29vh, 300px);
+  bottom: auto;
 }
 
 .hero-intro h1 {
@@ -1296,10 +1328,66 @@ textarea {
   background: var(--paper);
 }
 
+.experience-strip {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.8fr) minmax(680px, 1.2fr);
+  gap: 64px;
+  align-items: center;
+  padding: 38px var(--page-pad);
+  border-bottom: 1px solid #c8cac8;
+  background: var(--paper);
+}
+
+.experience-strip-title {
+  display: grid;
+  gap: 7px;
+}
+
+.experience-strip-title span,
+.experience-strip dt {
+  color: #5b6062;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.experience-strip-title strong {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.experience-strip dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-left: 1px solid #c8cac8;
+}
+
+.experience-strip dl div {
+  display: flex;
+  min-height: 84px;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 24px;
+  border-right: 1px solid #c8cac8;
+}
+
+.experience-strip dd {
+  font-family: var(--font-frama), Arial, sans-serif;
+  font-size: 46px;
+  line-height: 0.85;
+}
+
+.experience-strip dd a:hover,
+.experience-strip dd a:focus-visible {
+  color: #5c6265;
+}
+
 .active-environments,
 .project-proof,
 .clients {
   padding: 96px var(--page-pad);
+  border-bottom: 1px solid #c8cac8;
 }
 
 .home-section-heading {
@@ -1457,7 +1545,7 @@ textarea {
 
 .chain {
   position: relative;
-  height: 280vh;
+  height: 200vh;
   color: var(--white);
   background: var(--ink);
 }
@@ -1488,7 +1576,7 @@ textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.52) saturate(0.82);
+  filter: brightness(0.72) saturate(0.88);
 }
 
 .chain-stage:first-child img {
@@ -1496,7 +1584,7 @@ textarea {
 }
 
 .chain-shade {
-  background: rgba(0, 0, 0, 0.22);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0.26) 52%, rgba(0, 0, 0, 0.14) 100%);
 }
 
 .chain-heading {
@@ -1533,20 +1621,23 @@ textarea {
 .chain-stage-copy > p:last-of-type {
   max-width: 540px;
   margin-top: 14px;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.88);
   font-size: 17px;
 }
 
 .chain-rail {
   position: absolute;
   z-index: 2;
-  top: 92px;
+  top: 74px;
   right: var(--page-pad);
   display: grid;
-  gap: 12px;
-  width: 220px;
-  padding: 0;
+  gap: 13px;
+  width: 250px;
+  padding: 16px 18px;
   list-style: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.44);
+  background: rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(6px);
 }
 
 .chain-rail-item {
@@ -1554,16 +1645,17 @@ textarea {
   grid-template-columns: 30px 1fr;
   gap: 8px;
   align-items: center;
-  font-size: 13px;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 14px;
 }
 
 .chain-rail-item span {
-  color: var(--aluminum);
-  font-size: 11px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
 }
 
 .project-proof {
-  background: var(--concrete);
+  background: var(--paper);
 }
 
 .proof-intro {
@@ -1672,21 +1764,35 @@ textarea {
 .project-tile-media {
   position: relative;
   grid-column: 1 / -1;
-  display: grid;
   min-height: 320px;
-  align-content: end;
-  padding: 24px;
   overflow: hidden;
   color: var(--white);
   background: #2a2d2f;
 }
 
-.project-tile-media > strong {
-  max-width: 300px;
-  font-family: var(--font-frama), Arial, sans-serif;
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 0.96;
+.project-tile-media img {
+  object-fit: cover;
+  transition: transform 560ms var(--ease), filter 560ms var(--ease);
+}
+
+.project-tile-media::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  content: "";
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 48%);
+}
+
+.project-image-caption {
+  position: absolute;
+  z-index: 2;
+  right: 20px;
+  bottom: 18px;
+  left: 20px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .project-tile-meta {
@@ -1728,6 +1834,12 @@ textarea {
 .project-tile:hover .project-tile-media::after,
 .project-tile:focus-visible .project-tile-media::after {
   opacity: 1;
+}
+
+.project-tile:hover .project-tile-media img,
+.project-tile:focus-visible .project-tile-media img {
+  transform: scale(1.025);
+  filter: contrast(1.04);
 }
 
 .project-dialog {
@@ -1779,6 +1891,7 @@ textarea {
 }
 
 .project-dialog-media {
+  position: relative;
   display: grid;
   align-content: end;
   gap: 8px;
@@ -1787,11 +1900,25 @@ textarea {
   background: #272a2c;
 }
 
+.project-dialog-media::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.68), transparent 52%);
+}
+
+.project-dialog-media img {
+  object-fit: cover;
+}
+
 .project-dialog-media span {
+  position: relative;
+  z-index: 1;
   max-width: 560px;
-  font-family: var(--font-frama), Arial, sans-serif;
-  font-size: 54px;
-  line-height: 0.92;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .project-dialog-media small {
@@ -1872,6 +1999,18 @@ textarea {
   font-size: 12px;
 }
 
+.project-dialog-link {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 9px;
+  margin-top: 30px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid currentColor;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 @keyframes dialog-in {
   from { opacity: 0; transform: translateY(24px) scale(0.985); }
   to { opacity: 1; transform: translateY(0) scale(1); }
@@ -1886,8 +2025,9 @@ textarea {
   display: grid;
   grid-template-columns: minmax(380px, 0.84fr) minmax(580px, 1.16fr);
   min-height: 720px;
-  color: var(--white);
-  background: var(--ink);
+  color: var(--ink);
+  border-bottom: 1px solid #c8cac8;
+  background: var(--paper);
 }
 
 .safety-image {
@@ -1923,11 +2063,11 @@ textarea {
 .qualification-list {
   display: grid;
   margin-top: 42px;
-  border-top: 1px solid rgba(255, 255, 255, 0.24);
+  border-top: 1px solid #bfc1bf;
 }
 
 .qualification-list details {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+  border-bottom: 1px solid #bfc1bf;
 }
 
 .qualification-list summary {
@@ -1947,7 +2087,7 @@ textarea {
 }
 
 .qualification-list summary span:first-child {
-  color: rgba(255, 255, 255, 0.52);
+  color: #626769;
   font-size: 11px;
 }
 
@@ -1964,13 +2104,13 @@ textarea {
 
 .qualification-list summary:hover {
   padding-left: 10px;
-  color: var(--signal);
+  color: #626769;
 }
 
 .qualification-list details > p {
   max-width: 660px;
   padding: 0 46px 22px 54px;
-  color: rgba(255, 255, 255, 0.67);
+  color: #4f5456;
 }
 
 .text-link {
@@ -1994,34 +2134,41 @@ textarea {
 }
 
 .clients-heading {
+  grid-template-columns: 1fr;
   align-items: end;
+  margin-bottom: 48px;
 }
 
 .logo-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 34px 48px;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   max-width: 1320px;
   margin: 0 auto;
+  border-top: 1px solid #c8cac8;
+  border-left: 1px solid #c8cac8;
 }
 
 .client-logo {
   display: grid;
-  width: 154px;
-  height: 78px;
+  width: auto;
+  height: 116px;
   place-items: center;
+  padding: 20px;
+  border-right: 1px solid #c8cac8;
+  border-bottom: 1px solid #c8cac8;
+}
+
+.client-logo-mark {
+  position: relative;
+  display: block;
+  width: 82%;
+  height: 62px;
 }
 
 .client-logo img {
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: 72px;
   object-fit: contain;
-  filter: grayscale(1) contrast(0.9);
-  opacity: 0.68;
+  filter: grayscale(1) contrast(1.04);
+  opacity: 0.9;
   transition: filter 220ms var(--ease), opacity 220ms var(--ease);
 }
 
@@ -2105,6 +2252,12 @@ textarea {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
+}
+
+.required-mark {
+  margin-left: 4px;
+  color: var(--white);
+  font-style: normal;
 }
 
 .bid-form input,
@@ -2195,6 +2348,10 @@ textarea {
 
 .form-status.is-error {
   color: var(--white);
+}
+
+.form-status.is-error a {
+  border-bottom: 1px solid currentColor;
 }
 
 .contact {
@@ -2324,7 +2481,7 @@ textarea {
   }
 
   .site-header {
-    grid-template-columns: 150px 1fr 190px;
+    grid-template-columns: 150px 1fr auto;
   }
 
   .desktop-nav {
@@ -2339,9 +2496,13 @@ textarea {
     font-size: 78px;
   }
 
-  .section-intro,
-  .clients-heading {
+  .section-intro {
     grid-template-columns: 130px 1fr 0.62fr;
+  }
+
+  .experience-strip {
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
 
   .section-intro h2,
@@ -2389,7 +2550,7 @@ textarea {
   }
 
   .desktop-nav,
-  .header-contact {
+  .header-actions {
     display: none;
   }
 
@@ -2449,6 +2610,10 @@ textarea {
     min-height: 640px;
   }
 
+  .experience-strip dl div {
+    padding: 0 18px;
+  }
+
   .chain {
     height: auto;
   }
@@ -2457,16 +2622,26 @@ textarea {
     position: relative;
     height: auto;
     min-height: 0;
-    padding: 120px var(--page-pad);
+    padding: 96px var(--page-pad);
   }
 
   .chain-heading {
     position: static;
-    margin-bottom: 86px;
+    margin-bottom: 54px;
   }
 
   .chain-stages {
     position: static;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78vw, 620px);
+    gap: 16px;
+    margin-right: calc(var(--page-pad) * -1);
+    padding-right: var(--page-pad);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: thin;
   }
 
   .chain-stage,
@@ -2475,14 +2650,20 @@ textarea {
     inset: auto;
     visibility: visible !important;
     opacity: 1 !important;
-    padding-bottom: 92px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-width: 0;
+    padding-bottom: 0;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: #111315;
+    scroll-snap-align: start;
   }
 
   .chain-stage-media {
     position: relative;
     inset: auto;
-    min-height: 560px;
-    margin: 0 calc(var(--page-pad) * -1) 34px;
+    min-height: 390px;
+    margin: 0;
     overflow: hidden;
   }
 
@@ -2499,6 +2680,7 @@ textarea {
     position: static;
     width: auto;
     min-height: 0;
+    padding: 28px 28px 32px;
   }
 
   .chain-stage h3 {
@@ -2613,6 +2795,11 @@ textarea {
     width: calc(100% - 36px);
   }
 
+  .hero-intro {
+    top: auto;
+    bottom: 86px;
+  }
+
   .hero-intro h1 {
     margin-top: 14px;
     font-size: 48px;
@@ -2649,6 +2836,22 @@ textarea {
 
   .proof-rail dd {
     font-size: 14px;
+  }
+
+  .experience-strip {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .experience-strip dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid #c8cac8;
+  }
+
+  .experience-strip dl div {
+    min-height: 108px;
+    padding: 18px;
+    border-bottom: 1px solid #c8cac8;
   }
 
   .active-environments,
@@ -2722,15 +2925,19 @@ textarea {
 
   .chain-stage,
   .chain-stage:not(:first-child) {
-    padding-bottom: 52px;
+    padding-bottom: 0;
   }
 
   .chain-stage-media {
     min-height: 320px;
   }
 
+  .chain-stages {
+    grid-auto-columns: calc(100vw - 54px);
+  }
+
   .chain-stage h3 {
-    font-size: 48px;
+    font-size: 44px;
   }
 
   .chain-stage-copy > p:last-of-type {
@@ -2788,7 +2995,7 @@ textarea {
   }
 
   .project-dialog-media span {
-    font-size: 40px;
+    font-size: 10px;
   }
 
   .project-dialog-copy {
@@ -2843,12 +3050,19 @@ textarea {
   }
 
   .logo-grid {
-    gap: 30px 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
   }
 
   .client-logo {
-    width: 138px;
-    height: 76px;
+    width: auto;
+    height: 96px;
+    padding: 16px;
+  }
+
+  .client-logo-mark {
+    width: 86%;
+    height: 54px;
   }
 
   .contact {
@@ -2919,9 +3133,7 @@ textarea {
     min-height: 460px;
   }
 
-  .client-logo {
-    width: 126px;
-  }
+  .client-logo { width: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { getSiteUrl } from "@/app/site-url";
 import "./globals.css";
 
 const neue = localFont({
@@ -23,7 +24,7 @@ const frama = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://jz-group-redesign-v2.vercel.app"),
+  metadataBase: new URL(getSiteUrl()),
   title: "JZ Group | Specialty Demolition in Active Environments",
   description:
     "JZ Group delivers specialty demolition for active hospitals, occupied facilities, and complex commercial sites across South Florida.",

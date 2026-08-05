@@ -11,16 +11,25 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
   const sectionOrder = await page.locator("main > section").evaluateAll((sections) =>
     sections.map((section) => section.id || section.className),
   );
-  expect(sectionOrder.slice(0, 4)).toEqual(["top", "group", "expertise", "projects"]);
+  expect(sectionOrder.slice(0, 5)).toEqual(["top", "group", "experience", "expertise", "projects"]);
   await expect(page.locator("video")).toHaveCount(3);
   await expect(page.locator('video source[src="/media/jz-drone-walkthrough.mp4"]')).toHaveCount(1);
   await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
   await expect(page.getByRole("heading", { name: /Four companies.*One operating group/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: "Comparable work." })).toBeAttached();
+  await expect(page.getByText("50+", { exact: true })).toBeAttached();
   await expect(page.locator("main > .contact .bid-form")).toHaveCount(0);
-  await expect(page.getByRole("link", { name: /Start a bid conversation/ })).toHaveCount(
+  await expect(page.getByRole("link", { name: /Contact estimating/ })).toHaveCount(
     testInfo.project.name === "mobile" ? 1 : 2,
   );
+  await expect(page.getByRole("link", { name: "(305) 793-2984" })).toHaveCount(
+    testInfo.project.name === "mobile" ? 1 : 2,
+  );
+
+  await expect(page.getByText(/ASSETS? PENDING/i)).toHaveCount(0);
+  await expect(page.getByText(/PROJECT PHOTO/i)).toHaveCount(0);
+  await expect(page.getByText(/content review/i)).toHaveCount(0);
+  await expect(page.locator(".client-logo")).toHaveCount(10);
 
   await expect(page.getByText("Access granted", { exact: false })).toHaveCount(0);
   await expect(page.getByText("Control the cut", { exact: false })).toHaveCount(0);
@@ -32,6 +41,11 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
 
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
+
+  if (testInfo.project.name === "desktop") {
+    const chainHeight = await page.locator(".chain").evaluate((element) => element.getBoundingClientRect().height);
+    expect(chainHeight).toBeLessThanOrEqual(900 * 2.05);
+  }
 
   await page.screenshot({
     path: testInfo.outputPath(`${testInfo.project.name}-hero.png`),
@@ -45,7 +59,10 @@ test("project proof and safety details expand in place", async ({ page }) => {
   const project = page.getByRole("button", { name: /Baptist Medical Arts Building/ });
   await project.click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("dialog").locator("img")).toHaveCount(1);
   await expect(page.getByText("16,300 SF", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: /View project details/ })).toBeVisible();
+  await expect(page.getByRole("dialog").getByText(/ASSETS? PENDING/i)).toHaveCount(0);
   await page.getByRole("button", { name: "Close project preview" }).click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
 

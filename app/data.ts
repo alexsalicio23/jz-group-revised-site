@@ -58,7 +58,6 @@ export const clientLogos = [
   { name: "Green Label Construction", src: "/media/client-green-label.png" },
   { name: "R & Associates", src: "/media/client-r-associates.png" },
   { name: "White Oak", src: "/media/client-white-oak.png" },
-  { name: "Building OHLA", src: "/media/client-building-ohla.png" },
   { name: "Thornton Construction", src: "/media/client-thornton.png" },
   { name: "Lee Construction", src: "/media/client-lee.png" },
   { name: "John Bell Construction", src: "/media/client-john-bell.png" },
@@ -67,6 +66,13 @@ export const clientLogos = [
   { name: "Turner Construction", src: "/media/client-turner.png" },
   { name: "UHealth", src: "/media/client-uhealth.png" },
 ];
+
+export const publicPortfolioStats = [
+  { value: "50+", label: "Healthcare projects", href: "/demolition/projects/healthcare" },
+  { value: "25+", label: "Education projects", href: "/demolition/projects/education" },
+  { value: "33+", label: "Business + community", href: "/demolition/projects/business-community" },
+  { value: "45+", label: "Retail + entertainment", href: "/demolition/projects/retail-entertainment" },
+] as const;
 
 export const activeProcess = [
   {
@@ -109,7 +115,10 @@ export const featuredProjects = [
       ["Condition", "Active hospital"],
       ["Execution", "Overnight"],
     ],
-    mediaLabel: "ACTIVE HOSPITAL PROJECT PHOTO",
+    image: "/media/field-story/demolition-floor.webp",
+    imageAlt: "Interior demolition underway on a JZ commercial project",
+    imagePosition: "center 52%",
+    href: "/demolition/projects/healthcare",
   },
   {
     index: "02",
@@ -124,22 +133,28 @@ export const featuredProjects = [
       ["Scope", "Interior demolition"],
       ["Concrete", "Scanning + cutting"],
     ],
-    mediaLabel: "MEDICAL OFFICE PROJECT PHOTO",
+    image: "/media/field-story/field-control.webp",
+    imageAlt: "JZ field operations inside a framed commercial interior",
+    imagePosition: "center",
+    href: "/demolition/projects/healthcare",
   },
   {
     index: "03",
-    title: "Workforce Housing Development",
-    market: "Development",
-    location: "Florida",
-    scope: "Planning through construction oversight",
+    title: "Memorial Cancer Institute",
+    market: "Healthcare construction",
+    location: "South Florida",
+    scope: "Completed healthcare project record",
     summary:
-      "A completed development representing JZ's long-term view of planning, execution, and lasting community value.",
+      "A recognizable healthcare environment included in JZ Construction's public portfolio of medical and commercial work.",
     facts: [
-      ["Division", "JZ Development"],
-      ["Asset", "Workforce housing"],
-      ["Status", "Completed"],
+      ["Division", "JZ Construction"],
+      ["Market", "Healthcare"],
+      ["Record", "Public portfolio"],
     ],
-    mediaLabel: "COMPLETED DEVELOPMENT PHOTO",
+    image: "/media/video/workflow-exterior-poster.jpg",
+    imageAlt: "Exterior of Memorial Cancer Institute in South Florida",
+    imagePosition: "center",
+    href: "/construction/projects/healthcare",
   },
 ] as const;
 
