@@ -15,8 +15,12 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
   await expect(page.locator("video")).toHaveCount(3);
   await expect(page.locator('video source[src="/media/jz-drone-walkthrough.mp4"]')).toHaveCount(1);
   await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
-  await expect(page.getByRole("heading", { name: /Specialists by trade/ })).toBeAttached();
-  await expect(page.getByRole("heading", { name: /Comparable work/ })).toBeAttached();
+  await expect(page.getByRole("heading", { name: /Four companies.*One operating group/ })).toBeAttached();
+  await expect(page.getByRole("heading", { name: "Comparable work." })).toBeAttached();
+  await expect(page.locator("main > .contact .bid-form")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /Start a bid conversation/ })).toHaveCount(
+    testInfo.project.name === "mobile" ? 1 : 2,
+  );
 
   await expect(page.getByText("Access granted", { exact: false })).toHaveCount(0);
   await expect(page.getByText("Control the cut", { exact: false })).toHaveCount(0);

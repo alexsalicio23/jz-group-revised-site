@@ -7,7 +7,6 @@ const groupLinks = [
   { label: "Companies", href: "/#group" },
   { label: "Projects", href: "/projects" },
   { label: "Safety", href: "/safety" },
-  { label: "Standards", href: "/values" },
   { label: "About", href: "/about" },
 ];
 

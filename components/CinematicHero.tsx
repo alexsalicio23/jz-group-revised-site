@@ -91,19 +91,12 @@ export function CinematicHero() {
             timeline
               .to(playhead, { time: closingTime, duration: 1, onUpdate: queueFrame }, 0)
               .to(".hero-progress-fill", { scaleX: 1, duration: 1 }, 0)
-              .to(".hero-intro", { autoAlpha: 0, y: -36, duration: 0.18 }, 0.14)
-              .fromTo(
-                ".hero-chapter",
-                { autoAlpha: 0, y: 20 },
-                { autoAlpha: 1, y: 0, duration: 0.14 },
-                0.3,
-              )
-              .to(".hero-chapter", { autoAlpha: 0, y: -20, duration: 0.12 }, 0.64)
+              .to(".hero-intro", { autoAlpha: 0, y: -28, duration: 0.16 }, 0.18)
               .fromTo(
                 ".hero-resolution",
                 { autoAlpha: 0, y: 32 },
                 { autoAlpha: 1, y: 0, duration: 0.2 },
-                0.72,
+                0.74,
               );
 
             ScrollTrigger.refresh();
@@ -164,33 +157,19 @@ export function CinematicHero() {
 
         <div className="hero-intro hero-copy">
           <p className="eyebrow light">JZ Group / Four coordinated companies</p>
-          <p className="hero-manifesto">Built around what cannot stop.</p>
           <h1>Specialty demolition in active environments.</h1>
-          <p className="hero-support">
-            Led by specialty demolition for hospitals, occupied facilities, and complex commercial
-            sites where safety, precision, and continuity matter.
-          </p>
           <div className="hero-actions">
-            <a className="button button-light" href="#projects">View active-facility work</a>
-            <a className="button button-ghost" href="#qualifications">Review qualifications</a>
+            <a className="button button-light" href="#group">Meet the four companies</a>
           </div>
         </div>
 
-        <div className="hero-chapter hero-copy" aria-hidden="true">
-          <p className="eyebrow light">Across JZ projects</p>
-          <p className="hero-chapter-title">From controlled removal to a work-ready environment.</p>
-        </div>
-
         <div className="hero-resolution hero-copy" aria-hidden="true">
-          <p className="eyebrow light">The operating model</p>
-          <p className="hero-resolution-title">One group.<br />One accountable workflow.</p>
-          <p className="hero-disclosure">A capability journey across multiple JZ projects.</p>
+          <p className="eyebrow light">The JZ operating model</p>
+          <p className="hero-resolution-title">Four companies.<br />One accountable group.</p>
         </div>
 
         <div className="hero-meter" aria-hidden="true">
-          <span>Existing office</span>
           <div className="hero-progress"><span className="hero-progress-fill" /></div>
-          <span>Ready for work</span>
         </div>
       </div>
     </section>

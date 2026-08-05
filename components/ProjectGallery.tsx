@@ -48,13 +48,10 @@ export function ProjectGallery() {
             type="button"
           >
             <span className="project-tile-media">
-              <span>{project.index}</span>
               <strong>{project.mediaLabel}</strong>
-              <small>LANDSCAPE ASSET / PENDING</small>
             </span>
-            <span className="project-tile-meta"><span>{project.market}</span><span>{project.location}</span></span>
+            <span className="project-tile-meta">{project.market} / {project.location}</span>
             <strong className="project-tile-title">{project.title}</strong>
-            <span className="project-tile-scope">{project.scope}</span>
             <ArrowUpRight aria-hidden="true" size={21} strokeWidth={1.5} />
           </button>
         ))}

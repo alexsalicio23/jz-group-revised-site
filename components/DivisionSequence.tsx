@@ -55,8 +55,7 @@ export function DivisionSequence() {
     <section ref={root} className="chain" id="group" aria-labelledby="chain-title">
       <div className="chain-pin">
         <header className="chain-heading">
-          <p className="eyebrow light">JZ Group / Four coordinated companies</p>
-          <h2 id="chain-title">Specialists by trade.<br />Accountable as one group.</h2>
+          <h2 id="chain-title">Four companies.<br />One operating group.</h2>
         </header>
 
         <div className="chain-stages">
@@ -73,8 +72,6 @@ export function DivisionSequence() {
                 <div className="chain-shade" />
               </div>
               <div className="chain-stage-copy">
-                <p className="chain-number">{division.number}</p>
-                <p className="chain-kicker">{division.kicker}</p>
                 <h3>{division.name}</h3>
                 <p>{division.description}</p>
                 <Link className="chain-stage-link" href={`/${division.slug}`}>
@@ -92,10 +89,6 @@ export function DivisionSequence() {
             </li>
           ))}
         </ol>
-
-        <p className="chain-note">
-          Four specialist companies coordinate around the scope, schedule, and final handoff.
-        </p>
       </div>
     </section>
   );

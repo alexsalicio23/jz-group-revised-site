@@ -1,10 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { BidForm } from "@/components/BidForm";
 import { CinematicHero } from "@/components/CinematicHero";
 import { DivisionSequence } from "@/components/DivisionSequence";
-import { MediaPlaceholder } from "@/components/MediaPlaceholder";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { GroupHeader } from "@/components/SiteNavigation";
 import { activeProcess, clientLogos, contact, qualificationRecords } from "./data";
@@ -18,9 +16,11 @@ export default function Home() {
       <DivisionSequence />
 
       <section className="active-environments section-light" id="expertise">
-        <div className="section-intro active-intro">
-          <p className="eyebrow">Specialty demolition / Active environments</p>
-          <h2>The building keeps moving.<br />So does the work.</h2>
+        <div className="home-section-heading">
+          <div>
+            <p className="eyebrow">Specialty demolition / Active environments</p>
+            <h2>The building keeps moving.<br />So does the work.</h2>
+          </div>
           <p>
             JZ plans difficult demolition around the people, systems, and schedules that remain
             active beside the work.
@@ -52,13 +52,14 @@ export default function Home() {
       </section>
 
       <section className="project-proof section-light" id="projects" aria-labelledby="projects-title">
-        <div className="section-intro proof-intro">
-          <p className="eyebrow">Selected work / Three records</p>
-          <h2 id="projects-title">Comparable work.<br />Immediately accessible.</h2>
-          <p>
-            Open a record for the setting, scope, and result. The deeper project gallery can grow
-            as photography and case-study content are approved.
-          </p>
+        <div className="home-section-heading proof-intro">
+          <div>
+            <p className="eyebrow">Selected work</p>
+            <h2 id="projects-title">Comparable work.</h2>
+          </div>
+          <Link className="text-link" href="/projects">
+            View all projects <ArrowUpRight aria-hidden="true" size={18} />
+          </Link>
         </div>
         <ProjectGallery />
       </section>
@@ -75,10 +76,6 @@ export default function Home() {
         <div className="safety-copy">
           <p className="eyebrow light">Safety and qualifications</p>
           <h2>Safety is the operating system.</h2>
-          <p className="safety-lede">
-            In active and occupied environments, safety, planning, and communication are part of
-            the deliverable.
-          </p>
           <div className="qualification-list">
             {qualificationRecords.map((record, index) => (
               <details key={record.title}>
@@ -87,17 +84,18 @@ export default function Home() {
               </details>
             ))}
           </div>
-          <a className="text-link light-link" href={`mailto:${contact.email}?subject=JZ%20Group%20Qualification%20Package`}>
-            Request the qualification package <ArrowUpRight aria-hidden="true" size={18} />
-          </a>
+          <Link className="text-link light-link" href="/safety">
+            Review safety standards <ArrowUpRight aria-hidden="true" size={18} />
+          </Link>
         </div>
       </section>
 
       <section className="clients section-light" aria-labelledby="clients-title">
-        <div className="clients-heading">
-          <p className="eyebrow">Selected relationships</p>
-          <h2 id="clients-title">The company behind the bid.</h2>
-          <p>Relationships across healthcare, commercial construction, and development.</p>
+        <div className="home-section-heading clients-heading">
+          <div>
+            <p className="eyebrow">Selected relationships</p>
+            <h2 id="clients-title">The company behind the bid.</h2>
+          </div>
         </div>
         <div className="logo-grid">
           {clientLogos.map((client) => (
@@ -106,28 +104,25 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="company-media-grid">
-          <MediaPlaceholder label="JZ TEAM PHOTO" ratio="wide" />
-          <MediaPlaceholder label="FOUR COMPANIES / ONE GROUP PHOTO" ratio="wide" />
-        </div>
       </section>
 
-      <section className="contact" id="contact">
+      <section className="contact contact-compact" id="contact">
         <div className="contact-heading">
           <p className="eyebrow light">Estimating / South Florida</p>
-          <h2>Send the scope.<br />We will route the work.</h2>
-          <p>Share the service lane, project setting, timeline, and supporting files once.</p>
-          <div className="contact-direct">
-            <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
-            <a href={`mailto:${contact.email}`}>{contact.email}</a>
-            <span>{contact.address}</span>
-          </div>
+          <h2>Have a scope?</h2>
+          <p>Send it once. JZ Group will route it to the right company.</p>
         </div>
-        <BidForm />
+        <div className="contact-compact-actions">
+          <Link className="button button-light" href="/contact">
+            Start a bid conversation <ArrowUpRight aria-hidden="true" size={18} />
+          </Link>
+          <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+        </div>
         <footer>
           <span>JZ Group</span>
+          <span>{contact.address}</span>
           <span>Miami-Dade / Broward / Palm Beach</span>
-          <span>Four companies / One accountable group</span>
         </footer>
       </section>
     </main>
