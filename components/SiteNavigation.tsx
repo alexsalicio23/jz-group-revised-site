@@ -1,35 +1,42 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Phone } from "lucide-react";
+import { ArrowUpRight, Phone } from "lucide-react";
 import { divisionContacts, divisionLabels } from "@/app/content-data";
 import type { TemplateSlug } from "@/app/templates/template-data";
 
 const groupLinks = [
-  { label: "Companies", href: "/#group" },
+  { label: "Companies", href: "/#companies" },
+  { label: "Expertise", href: "/demolition" },
   { label: "Projects", href: "/projects" },
   { label: "Safety", href: "/safety" },
   { label: "About", href: "/about" },
 ];
 
+function Brand({ href = "/#top" }: { href?: string }) {
+  return (
+    <Link className="brand" href={href} aria-label="JZ Group home">
+      <Image src="/media/brand-logo.webp" alt="JZ Group" width={164} height={82} priority sizes="112px" />
+    </Link>
+  );
+}
+
 export function GroupHeader() {
   return (
     <header className="site-header">
-      <Link className="brand" href="/#top" aria-label="JZ Group home">
-        <Image src="/media/brand-logo.webp" alt="JZ Group" width={164} height={82} priority sizes="132px" />
-      </Link>
+      <Brand />
       <nav className="desktop-nav" aria-label="Primary navigation">
         {groupLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
       </nav>
       <div className="header-actions">
         <a className="header-phone" href="tel:+13057932984"><Phone aria-hidden="true" size={14} />(305) 793-2984</a>
-        <Link className="header-contact" href="/contact">Contact estimating</Link>
+        <Link className="header-contact" href="/contact">Send a scope <ArrowUpRight aria-hidden="true" size={15} /></Link>
       </div>
       <details className="mobile-menu">
         <summary>Menu</summary>
         <nav aria-label="Mobile navigation">
           {groupLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
           <a href="tel:+13057932984">(305) 793-2984</a>
-          <Link href="/contact">Contact estimating</Link>
+          <Link href="/contact">Send a scope</Link>
         </nav>
       </details>
     </header>
@@ -40,7 +47,7 @@ function divisionLinks(division: TemplateSlug) {
   const base = `/${division}`;
   const links = [
     { label: "Overview", href: base },
-    { label: "Services", href: `${base}#capabilities` },
+    { label: "Capabilities", href: `${base}#capabilities` },
   ];
 
   if (division !== "waste-management") links.push({ label: "Projects", href: `${base}/projects` });
@@ -56,13 +63,13 @@ export function DivisionHeader({ division }: { division: TemplateSlug }) {
   return (
     <header className="template-header">
       <Link className="template-brand" href="/" aria-label="Return to JZ Group">
-        <Image src="/media/brand-logo.webp" alt="JZ Group" width={72} height={72} priority />
-        <span><strong>{divisionLabels[division]}</strong><small>A JZ Group company</small></span>
+        <Image src="/media/brand-logo.webp" alt="JZ Group" width={88} height={56} priority />
+        <span><strong>{divisionLabels[division]}</strong><small>Part of JZ Group</small></span>
       </Link>
       <nav aria-label={`${divisionLabels[division]} navigation`}>
         {links.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
       </nav>
-      <Link className="template-header-cta" href={`/${division}/contact`}>Send a scope</Link>
+      <Link className="template-header-cta" href={`/${division}/contact`}>Send a scope <ArrowUpRight aria-hidden="true" size={15} /></Link>
       <details className="template-mobile-menu">
         <summary>Menu</summary>
         <nav aria-label={`${divisionLabels[division]} mobile navigation`}>

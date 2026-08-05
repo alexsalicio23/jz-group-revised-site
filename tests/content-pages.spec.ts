@@ -24,8 +24,9 @@ for (const route of representativePages) {
     await page.goto(route);
 
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.locator(".content-jump-nav")).toBeVisible();
-    await expect(page.locator(".content-footer")).toBeVisible();
+    await expect(page.locator(".metric-content-hero-media")).toBeVisible();
+    await expect(page.locator(".metric-subpage-footer")).toBeVisible();
+    await expect(page.getByText(/ASSETS? PENDING/i)).toHaveCount(0);
 
     const hasHorizontalOverflow = await page.evaluate(
       () => document.documentElement.scrollWidth > window.innerWidth,

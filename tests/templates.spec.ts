@@ -2,10 +2,10 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 const templates = [
-  { slug: "demolition", heading: "Specialty demolition where the building cannot stop.", section: "Built for the work. Clear to the reviewer." },
-  { slug: "waste-management", heading: "Keep the site moving.", section: "Site service should run like clockwork." },
-  { slug: "construction", heading: "Field execution, made visible.", section: "From layout to finished space." },
-  { slug: "development", heading: "Think beyond completion.", section: "Value is created across the entire lifecycle." },
+  { slug: "demolition", heading: "Specialty demolition where the building cannot stop." },
+  { slug: "waste-management", heading: "Keep the site moving." },
+  { slug: "construction", heading: "Field execution, made visible." },
+  { slug: "development", heading: "Think beyond completion." },
 ];
 
 test("client review hub presents all four company directions", async ({ page }) => {
@@ -26,7 +26,8 @@ test("public division URLs avoid client-review route names", async ({ page }) =>
   for (const item of templates) {
     await page.goto(`/${item.slug}`);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(item.heading);
-    await expect(page.getByRole("link", { name: "Return to JZ Group" }).last()).toHaveAttribute("href", "/");
+    await expect(page.locator(".metric-service-index > a").first()).toBeVisible();
+    await expect(page.locator(".metric-subpage-footer").getByRole("link", { name: "JZ Group" })).toHaveAttribute("href", "/");
   }
 });
 
@@ -35,8 +36,8 @@ for (const item of templates) {
     await page.goto(`/templates/${item.slug}`);
 
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(item.heading);
-    await expect(page.getByRole("heading", { name: item.section })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Email estimating" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "One clear sequence." })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Send project details/ })).toBeVisible();
 
     const hasHorizontalOverflow = await page.evaluate(
       () => document.documentElement.scrollWidth > window.innerWidth,

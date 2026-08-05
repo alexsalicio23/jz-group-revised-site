@@ -1,33 +1,37 @@
 import Link from "next/link";
-import { ArrowUpRight, ChevronRight, Download, Phone } from "lucide-react";
+import { ArrowDownToLine, ArrowUpRight, ChevronRight, Phone } from "lucide-react";
 import type { ContentAction, ContentCard, ContentPageData } from "@/app/content-data";
 import { divisionContacts, divisionLabels } from "@/app/content-data";
 import { BidForm } from "@/components/BidForm";
-import { MediaPlaceholder } from "@/components/MediaPlaceholder";
+import { JZMedia } from "@/components/JZMedia";
 import { DivisionHeader, GroupHeader } from "@/components/SiteNavigation";
 
 function ActionLink({ action }: { action: ContentAction }) {
-  const content = <>{action.label}{action.label.toLowerCase().includes("download") ? <Download aria-hidden="true" size={17} /> : <ArrowUpRight aria-hidden="true" size={17} />}</>;
-  if (action.external) return <a className="button button-light" href={action.href} target="_blank" rel="noreferrer">{content}</a>;
-  return <Link className="button button-light" href={action.href}>{content}</Link>;
+  const icon = action.label.toLowerCase().includes("download")
+    ? <ArrowDownToLine aria-hidden="true" size={17} />
+    : <ArrowUpRight aria-hidden="true" size={17} />;
+  const content = <>{action.label}{icon}</>;
+
+  if (action.external) return <a className="metric-button" href={action.href} target="_blank" rel="noreferrer">{content}</a>;
+  return <Link className="metric-button" href={action.href}>{content}</Link>;
 }
 
 function LinkedCard({ card, index }: { card: ContentCard; index: number }) {
-  const inner = (
+  const body = (
     <>
       <span>{String(index + 1).padStart(2, "0")}</span>
       <div>
         <h3>{card.title}</h3>
-        {card.subtitle ? <p className="content-card-subtitle">{card.subtitle}</p> : null}
+        {card.subtitle ? <p className="metric-card-subtitle">{card.subtitle}</p> : null}
         {card.description ? <p>{card.description}</p> : null}
       </div>
-      {card.href ? <ArrowUpRight aria-hidden="true" size={20} /> : null}
+      {card.href ? <ArrowUpRight aria-hidden="true" size={21} /> : null}
     </>
   );
 
-  if (!card.href) return <article className="content-card">{inner}</article>;
-  if (card.href.startsWith("mailto:")) return <a className="content-card is-linked" href={card.href}>{inner}</a>;
-  return <Link className="content-card is-linked" href={card.href}>{inner}</Link>;
+  if (!card.href) return <article className="metric-content-card">{body}</article>;
+  if (card.href.startsWith("mailto:")) return <a className="metric-content-card is-linked" href={card.href}>{body}</a>;
+  return <Link className="metric-content-card is-linked" href={card.href}>{body}</Link>;
 }
 
 export function ContentPage({ data }: { data: ContentPageData }) {
@@ -37,75 +41,78 @@ export function ContentPage({ data }: { data: ContentPageData }) {
 
   return (
     <main
-      className={`content-page content-${data.division ?? "group"} content-${data.category}`}
+      className={`content-page metric-content-page content-${data.division ?? "group"} content-${data.category}`}
       data-content-source={data.sourceUrl}
     >
       {data.division ? <DivisionHeader division={data.division} /> : <GroupHeader />}
 
-      <section className="content-hero" id="top">
-        <div className="content-hero-copy">
-          <nav className="content-breadcrumb" aria-label="Breadcrumb">
+      <section className="metric-content-hero" id="top">
+        <div className="metric-content-hero-media">
+          <JZMedia data={data} motion={Boolean(data.division)} priority />
+        </div>
+        <div className="metric-content-hero-shade" />
+        <div className="metric-content-hero-copy">
+          <nav className="metric-breadcrumb" aria-label="Breadcrumb">
             <Link href={data.division ? `/${data.division}` : "/"}>{breadcrumb}</Link>
-            <ChevronRight aria-hidden="true" size={14} />
+            <ChevronRight aria-hidden="true" size={13} />
             <span>{data.category}</span>
           </nav>
-          <p className="template-kicker">{data.eyebrow}</p>
+          <p>{data.eyebrow}</p>
           <h1>{data.title}</h1>
-          <p className="content-hero-introduction">{data.introduction}</p>
-          <div className="content-hero-actions">
-            {data.actions?.map((action) => <ActionLink action={action} key={action.href} />)}
-            <Link className="content-hero-link" href={contactHref}>Discuss a project <ArrowUpRight aria-hidden="true" size={17} /></Link>
+          <div className="metric-content-hero-bottom">
+            <p>{data.introduction}</p>
+            <div>
+              {data.actions?.map((action) => <ActionLink action={action} key={action.href} />)}
+              <Link className="metric-hero-link" href={contactHref}>Discuss a project <ArrowUpRight aria-hidden="true" size={17} /></Link>
+            </div>
           </div>
-        </div>
-        <div className="content-hero-media">
-          <MediaPlaceholder label={data.mediaLabel} dark />
         </div>
       </section>
 
-      <nav className="content-jump-nav" aria-label="On this page">
-        <span>On this page</span>
-        {data.sections.map((section, index) => (
-          <a href={`#${section.id}`} key={section.id}><small>{String(index + 1).padStart(2, "0")}</small>{section.title}</a>
-        ))}
-        {data.faqs?.length ? <a href="#questions"><small>{String(data.sections.length + 1).padStart(2, "0")}</small>Questions</a> : null}
-      </nav>
-
       {data.stats?.length ? (
-        <section className="content-stats" aria-label="Page facts">
+        <section className="metric-content-stats" aria-label="Page facts">
           {data.stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
         </section>
       ) : null}
 
-      <div className="content-sections">
+      <div className="metric-content-sections">
         {data.sections.map((section, sectionIndex) => (
-          <section className={`content-section tone-${section.tone ?? (sectionIndex % 2 ? "concrete" : "paper")}`} id={section.id} key={section.id}>
-            <div className="content-section-heading">
-              <p className="template-kicker">{section.eyebrow ?? `${String(sectionIndex + 1).padStart(2, "0")} / ${data.category}`}</p>
+          <section
+            className={`metric-content-section tone-${section.tone ?? (sectionIndex % 2 ? "concrete" : "paper")}`}
+            id={section.id}
+            key={section.id}
+          >
+            <header>
+              <p className="section-index">{String(sectionIndex + 1).padStart(2, "0")} / {section.eyebrow ?? data.category}</p>
               <h2>{section.title}</h2>
-            </div>
+            </header>
 
             {section.paragraphs?.length || section.bullets?.length ? (
-              <div className="content-section-body">
+              <div className="metric-content-body">
                 {section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 {section.bullets?.length ? <ul>{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul> : null}
               </div>
             ) : null}
 
-            {section.mediaLabel ? <div className="content-section-media"><MediaPlaceholder label={section.mediaLabel} ratio="wide" dark={section.tone === "ink"} /></div> : null}
+            {section.mediaLabel ? (
+              <figure className="metric-content-media">
+                <JZMedia data={data} mediaLabel={section.mediaLabel} />
+              </figure>
+            ) : null}
 
             {section.cards?.length ? (
-              <div className="content-card-grid">
+              <div className="metric-content-card-grid">
                 {section.cards.map((card, index) => <LinkedCard card={card} index={index} key={`${card.title}-${index}`} />)}
               </div>
             ) : null}
 
             {section.specifications?.length ? (
-              <div className="content-spec-grid">
+              <div className="metric-spec-grid">
                 {section.specifications.map((spec, index) => (
-                  <article className="content-spec" key={spec.title}>
+                  <article key={spec.title}>
                     <span>{String(index + 1).padStart(2, "0")}</span>
                     <h3>{spec.title}</h3>
-                    {spec.dimensions?.length ? <dl>{spec.dimensions.map((dimension) => <div key={dimension}><dt>Dimension</dt><dd>{dimension}</dd></div>)}</dl> : null}
+                    {spec.dimensions?.length ? <p>{spec.dimensions.join(" / ")}</p> : null}
                     <h4>Best used for</h4>
                     <ul>{spec.bestFor.map((item) => <li key={item}>{item}</li>)}</ul>
                     <Link href={contactHref}>Request this service <ArrowUpRight aria-hidden="true" size={16} /></Link>
@@ -118,15 +125,15 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       </div>
 
       {data.faqs?.length ? (
-        <section className="content-faq" id="questions">
-          <div className="content-section-heading">
-            <p className="template-kicker">Project questions</p>
+        <section className="metric-faq" id="questions">
+          <header>
+            <p className="section-index">Questions / Project review</p>
             <h2>What reviewers usually need to know.</h2>
-          </div>
-          <div className="content-faq-list">
+          </header>
+          <div>
             {data.faqs.map((faq, index) => (
               <details key={faq.question}>
-                <summary><span>{String(index + 1).padStart(2, "0")}</span>{faq.question}<strong aria-hidden="true">+</strong></summary>
+                <summary><span>{String(index + 1).padStart(2, "0")}</span>{faq.question}<i aria-hidden="true">+</i></summary>
                 <p>{faq.answer}</p>
               </details>
             ))}
@@ -135,14 +142,14 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       ) : null}
 
       {data.category === "contact" ? (
-        <section className="content-form-section" aria-labelledby="content-form-title">
+        <section className="metric-content-form" aria-labelledby="content-form-title">
           <div>
-            <p className="template-kicker">Project intake</p>
+            <p className="section-index">Project intake / South Florida</p>
             <h2 id="content-form-title">Put the project in front of estimating.</h2>
             <p>Include the service lane, location, facility status, bid date, and the scope information currently available.</p>
-            <div className="content-direct-contact">
+            <div className="metric-direct-contact">
               <a href="tel:+13057932984"><Phone aria-hidden="true" size={18} />(305) 793-2984</a>
-              {contact ? <a href={`mailto:${contact.email}`}>{contact.email}</a> : <a href="mailto:estimating@jzdemo.com">estimating@jzdemo.com</a>}
+              <a href={`mailto:${contact?.email ?? "estimating@jzdemo.com"}`}>{contact?.email ?? "estimating@jzdemo.com"}</a>
             </div>
           </div>
           <BidForm defaultDivision={data.division} />
@@ -150,18 +157,24 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       ) : null}
 
       {data.related?.length ? (
-        <section className="content-related" aria-labelledby="related-title">
-          <div className="content-section-heading">
-            <p className="template-kicker">Continue the review</p>
+        <section className="metric-related" aria-labelledby="related-title">
+          <header>
+            <p className="section-index">Continue the review</p>
             <h2 id="related-title">Related JZ capabilities.</h2>
-          </div>
-          <div className="content-related-grid">
+          </header>
+          <div>
             {data.related.map((item, index) => <LinkedCard card={item} index={index} key={`${item.title}-${index}`} />)}
           </div>
         </section>
       ) : null}
 
-      <footer className="content-footer">
+      <section className="metric-page-cta">
+        <p>Have a scope?</p>
+        <h2>Let&apos;s put the right JZ company behind it.</h2>
+        <Link href={contactHref}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
+      </section>
+
+      <footer className="metric-subpage-footer">
         <div><strong>{breadcrumb}</strong><span>{contact?.address ?? "15219 NW 60th Ave, Miami Lakes, Florida 33014"}</span></div>
         <div><span>South Florida</span><a href="tel:+13057932984">(305) 793-2984</a></div>
         <div><Link href="/">JZ Group</Link><Link href={contactHref}>Contact</Link></div>
