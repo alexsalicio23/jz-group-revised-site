@@ -38,6 +38,32 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   expect(results.violations).toEqual([]);
 });
 
+test("mobile presentation copy is centered while form fields stay scannable", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile", "Mobile layout only");
+  await page.goto("/");
+
+  for (const selector of [
+    ".compact-hero-intro",
+    ".compact-hero-chapter-content",
+    ".metric-statement",
+    ".metric-field-copy",
+    ".division-stack-heading",
+    ".metric-projects .metric-section-header",
+    ".metric-contact-intro",
+  ]) {
+    const alignment = await page.locator(selector).first().evaluate((element) => getComputedStyle(element).textAlign);
+    expect(alignment, `${selector} should use the centered mobile hierarchy`).toBe("center");
+  }
+
+  const formAlignment = await page.locator(".bid-form label").first().evaluate((element) => getComputedStyle(element).textAlign);
+  expect(["left", "start"]).toContain(formAlignment);
+
+  const hasHorizontalOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > window.innerWidth,
+  );
+  expect(hasHorizontalOverflow).toBe(false);
+});
+
 test("hero tells four phases inside a strict 1.5 viewport scroll budget", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "Desktop scroll choreography");
   await page.goto("/");

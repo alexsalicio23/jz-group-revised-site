@@ -52,6 +52,28 @@ test("division service links lead into the detailed route system", async ({ page
   expect(await page.locator('a[href="/development/projects"]').count()).toBeGreaterThan(0);
 });
 
+test("mobile division and service pages preserve the centered hierarchy", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile", "Mobile layout only");
+
+  await page.goto("/demolition");
+  await expect(page.locator(".metric-division-hero-copy")).toHaveCSS("text-align", "center");
+  await expect(page.locator(".metric-division-intro")).toHaveCSS("text-align", "center");
+  const cueCenter = await page.locator(".metric-scroll-cue").evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    return bounds.left + bounds.width / 2;
+  });
+  expect(Math.abs(cueCenter - page.viewportSize()!.width / 2)).toBeLessThan(2);
+
+  await page.goto("/demolition/services/interior-demolition");
+  await expect(page.locator(".metric-content-hero-copy")).toHaveCSS("text-align", "center");
+  await expect(page.locator(".metric-content-section > header").first()).toHaveCSS("text-align", "center");
+
+  const hasHorizontalOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > window.innerWidth,
+  );
+  expect(hasHorizontalOverflow).toBe(false);
+});
+
 test("contact intake marks required fields and keeps a direct fallback visible", async ({ page }) => {
   await page.goto("/contact");
 
