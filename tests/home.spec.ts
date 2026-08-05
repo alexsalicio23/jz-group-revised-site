@@ -19,7 +19,10 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
   await expect(page.getByText("Controlled demolition", { exact: true })).toBeAttached();
   await expect(page.getByText("Drywall and ceiling systems", { exact: true })).toBeAttached();
   await expect(page.locator(".hero-resolution-title")).toContainText("One group.");
+  await expect(page.locator(".hero-resolution-logo")).toHaveAttribute("alt", "JZ Group");
   await expect(page.locator(".cinematic-hero .eyebrow")).toHaveCount(0);
+  await expect(page.locator(".division-stack-heading p")).toHaveCount(0);
+  await expect(page.locator(".division-heading-line")).toHaveCount(2);
   await expect(page.getByRole("heading", { name: "Comparable work." })).toBeAttached();
   await expect(page.getByText("50+", { exact: true })).toBeAttached();
   await expect(page.locator("main > .contact .bid-form")).toHaveCount(0);
@@ -87,9 +90,9 @@ test("desktop hero chapters occupy distinct quadrants and reverse cleanly", asyn
 
   const checkpoints = [
     { progress: 0.18, motion: "cut", horizontal: "left", vertical: "lower" },
-    { progress: 0.34, motion: "frame", horizontal: "right", vertical: "upper" },
-    { progress: 0.55, motion: "panels", horizontal: "left", vertical: "upper" },
-    { progress: 0.75, motion: "complete", horizontal: "right", vertical: "lower" },
+    { progress: 0.36, motion: "frame", horizontal: "right", vertical: "upper" },
+    { progress: 0.6, motion: "panels", horizontal: "left", vertical: "upper" },
+    { progress: 0.82, motion: "complete", horizontal: "right", vertical: "lower" },
   ] as const;
 
   for (const checkpoint of checkpoints) {
@@ -109,8 +112,11 @@ test("desktop hero chapters occupy distinct quadrants and reverse cleanly", asyn
       return {
         centerX: bounds.left + bounds.width / 2,
         centerY: bounds.top + bounds.height / 2,
+        width: bounds.width,
         top: bounds.top,
         bottom: bounds.bottom,
+        titleSize: Number.parseFloat(getComputedStyle(card.querySelector("h2")!).fontSize),
+        bodySize: Number.parseFloat(getComputedStyle(card.querySelector("p")!).fontSize),
         viewportWidth: window.innerWidth,
         viewportHeight: window.innerHeight,
       };
@@ -120,6 +126,9 @@ test("desktop hero chapters occupy distinct quadrants and reverse cleanly", asyn
     expect(checkpoint.vertical === "upper" ? layout.centerY < layout.viewportHeight / 2 : layout.centerY > layout.viewportHeight / 2).toBe(true);
     expect(layout.top).toBeGreaterThan(90);
     expect(layout.bottom).toBeLessThan(layout.viewportHeight - 70);
+    expect(layout.width).toBeGreaterThan(600);
+    expect(layout.titleSize).toBeGreaterThanOrEqual(62);
+    expect(layout.bodySize).toBeGreaterThanOrEqual(19);
 
     const chapterState = await page.locator(".hero-chapter").evaluateAll((cards) => ({
       active: cards.filter((card) => card.hasAttribute("data-active")).length,
@@ -155,6 +164,73 @@ test("desktop hero chapters occupy distinct quadrants and reverse cleanly", asyn
   await expect.poll(() => page.locator('[data-motion="frame"]').evaluate(
     (card) => Number(getComputedStyle(card).opacity),
   )).toBeGreaterThan(0.98);
+
+  const drywallRails = await page.locator('[data-motion="panels"]').evaluate((card) => ({
+    cardHeight: card.getBoundingClientRect().height,
+    bottomRailHeight: card.querySelector(".hero-chapter-rail-bottom")?.getBoundingClientRect().height,
+    topRailHeight: card.querySelector(".hero-chapter-rail-top")?.getBoundingClientRect().height,
+  }));
+  expect(drywallRails.topRailHeight).toBeLessThanOrEqual(10);
+  expect(drywallRails.bottomRailHeight).toBeLessThanOrEqual(10);
+  expect(drywallRails.cardHeight).toBeGreaterThan(250);
+});
+
+test("hero logo resolves cleanly into the animated division system", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Desktop-only hero handoff");
+  await page.goto("/");
+
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = "auto";
+    const hero = document.querySelector<HTMLElement>(".cinematic-hero");
+    const travel = Math.max(0, (hero?.offsetHeight ?? 0) - window.innerHeight);
+    window.scrollTo(0, travel * 0.975);
+  });
+
+  await expect.poll(() => page.locator(".hero-resolution").evaluate(
+    (element) => Number(getComputedStyle(element).opacity),
+  )).toBeGreaterThan(0.98);
+  await expect.poll(() => page.locator(".hero-resolution-logo").evaluate(
+    (element) => Number(getComputedStyle(element).opacity),
+  )).toBeGreaterThan(0.98);
+
+  const resolutionState = await page.locator(".hero-resolution-lockup").evaluate((lockup) => {
+    const bounds = lockup.getBoundingClientRect();
+    const visibleCards = [...document.querySelectorAll(".hero-chapter")].filter(
+      (card) => Number(getComputedStyle(card).opacity) > 0.02,
+    ).length;
+    return {
+      centerX: bounds.left + bounds.width / 2,
+      centerY: bounds.top + bounds.height / 2,
+      visibleCards,
+      viewportWidth: innerWidth,
+      viewportHeight: innerHeight,
+    };
+  });
+  expect(Math.abs(resolutionState.centerX - resolutionState.viewportWidth / 2)).toBeLessThan(4);
+  expect(Math.abs(resolutionState.centerY - resolutionState.viewportHeight / 2)).toBeLessThan(55);
+  expect(resolutionState.visibleCards).toBe(0);
+
+  await page.evaluate(() => {
+    const section = document.querySelector<HTMLElement>(".division-stack");
+    if (!section) return;
+    const top = section.getBoundingClientRect().top + scrollY;
+    const travel = Math.max(0, section.offsetHeight - innerHeight);
+    window.scrollTo(0, top + travel * 0.12);
+  });
+  await expect.poll(() => page.locator(".division-heading-line").first().evaluate(
+    (line) => Number(getComputedStyle(line.firstElementChild!).opacity),
+  )).toBeGreaterThan(0.95);
+
+  await page.evaluate(() => {
+    const section = document.querySelector<HTMLElement>(".division-stack");
+    if (!section) return;
+    const top = section.getBoundingClientRect().top + scrollY;
+    const travel = Math.max(0, section.offsetHeight - innerHeight);
+    window.scrollTo(0, top + travel * 0.9);
+  });
+  await expect.poll(() => page.locator(".division-stack-card").evaluateAll(
+    (cards) => cards.every((card) => Number(getComputedStyle(card).opacity) > 0.98),
+  )).toBe(true);
 });
 
 test("walkthrough advances through the hero on desktop and mobile", async ({ page }, testInfo) => {

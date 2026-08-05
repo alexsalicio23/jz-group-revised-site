@@ -28,6 +28,8 @@ export function DivisionSequence() {
       media.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
         const cards = gsap.utils.toArray<HTMLElement>(".division-stack-card", root.current);
         const heading = root.current?.querySelector<HTMLElement>(".division-stack-heading");
+        const headingLines = gsap.utils.toArray<HTMLElement>(".division-heading-line > span", root.current);
+        const headingRule = root.current?.querySelector<HTMLElement>(".division-heading-rule");
 
         const getRowPosition = (index: number) => {
           const width = cards[0]?.offsetWidth ?? 0;
@@ -50,7 +52,14 @@ export function DivisionSequence() {
         };
 
         positionCardsInStack();
-        if (heading) gsap.set(heading, { y: -18 });
+        if (heading) {
+          gsap.set(heading, {
+            y: () => Math.min(240, window.innerHeight * 0.24),
+            scale: 1.06,
+          });
+        }
+        gsap.set(headingLines, { opacity: 0, yPercent: 112 });
+        if (headingRule) gsap.set(headingRule, { scaleX: 0 });
 
         const timeline = gsap.timeline({
           defaults: { ease: "power2.inOut" },
@@ -64,7 +73,31 @@ export function DivisionSequence() {
         });
 
         if (heading) {
-          timeline.to(heading, { y: 0, duration: 0.22 }, 0.06);
+          timeline.to(
+            headingLines,
+            {
+              opacity: 1,
+              yPercent: 0,
+              duration: 0.14,
+              stagger: 0.035,
+              ease: "power3.out",
+            },
+            0.025,
+          );
+
+          if (headingRule) {
+            timeline.to(
+              headingRule,
+              { scaleX: 1, duration: 0.1, ease: "power2.out" },
+              0.09,
+            );
+          }
+
+          timeline.to(
+            heading,
+            { y: 0, scale: 1, duration: 0.2, ease: "power3.inOut" },
+            0.17,
+          );
         }
 
         cards.forEach((card, index) => {
@@ -81,11 +114,11 @@ export function DivisionSequence() {
               autoAlpha: 1,
               duration: 0.34,
             },
-            0.17 + index * 0.17,
+            0.31 + index * 0.145,
           );
         });
 
-        timeline.to({}, { duration: 0.3 });
+        timeline.to({}, { duration: 0.24 });
       });
 
       return () => media.revert();
@@ -97,8 +130,11 @@ export function DivisionSequence() {
     <section ref={root} className="division-stack" id="group" aria-labelledby="division-stack-title">
       <div className="division-stack-pin">
         <header className="division-stack-heading">
-          <h2 id="division-stack-title">Four companies.<br />One operating group.</h2>
-          <p>Specialized teams, shared standards, and the experience to deliver the work ahead.</p>
+          <h2 id="division-stack-title">
+            <span className="division-heading-line"><span>Four companies.</span></span>
+            <span className="division-heading-line"><span>One operating group.</span></span>
+          </h2>
+          <span className="division-heading-rule" aria-hidden="true" />
         </header>
 
         <div className="division-card-deck">

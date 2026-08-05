@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -261,23 +262,29 @@ export function CinematicHero() {
                 trigger: root.current,
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 1,
+                scrub: 1.2,
               },
             });
             timeline = desktopTimeline;
 
             desktopTimeline
               .to(playhead, { time: closingTime, duration: 1, onUpdate: queueFrame }, 0)
-              .to(".hero-progress-fill", { scaleX: 1, duration: 1.14 }, 0)
-              .to(".hero-intro", { autoAlpha: 0, y: -28, duration: 0.07 }, 0.06);
+              .to(".hero-progress-fill", { scaleX: 1, duration: 1 }, 0)
+              .to(".hero-intro", { autoAlpha: 0, y: -24, duration: 0.075 }, 0.055);
 
             const chapterRanges = walkthroughChapters.map((chapter, index) => {
               const rawStart = Math.max(0, (chapter.start - openingTime) / storyDuration);
-              const end = Math.min(1, (Math.min(chapter.end, storyEndTime) - openingTime) / storyDuration);
-              const enterStart = index === 0 ? Math.max(0.12, rawStart) : rawStart;
+              const normalizedEnd = Math.min(
+                1,
+                (Math.min(chapter.end, storyEndTime) - openingTime) / storyDuration,
+              );
+              const end = index === walkthroughChapters.length - 1
+                ? Math.min(0.905, normalizedEnd)
+                : normalizedEnd;
+              const enterStart = index === 0 ? Math.max(0.105, rawStart) : rawStart;
               const rangeDuration = Math.max(0.08, end - rawStart);
-              const enterDuration = rangeDuration * 0.12;
-              const exitDuration = rangeDuration * 0.18;
+              const enterDuration = rangeDuration * 0.2;
+              const exitDuration = rangeDuration * 0.2;
               const exitStart = end - exitDuration;
 
               return { enterStart, enterDuration, exitStart, exitDuration, end };
@@ -292,16 +299,16 @@ export function CinematicHero() {
               if (!content || !surface || !range) return;
 
               const entryTransforms: Record<ChapterMotion, gsap.TweenVars> = {
-                cut: { x: -28, y: 18, scale: 0.98 },
-                frame: { x: 26, y: -18, scale: 0.965 },
-                panels: { x: -18, y: -22, scale: 0.98 },
-                complete: { x: 28, y: 20, scale: 0.96 },
+                cut: { x: -18, y: 12, scale: 0.99 },
+                frame: { x: 18, y: -12, scale: 0.99 },
+                panels: { x: -14, y: -12, scale: 0.99 },
+                complete: { x: 18, y: 12, scale: 0.99 },
               };
               const exitTransforms: Record<ChapterMotion, gsap.TweenVars> = {
-                cut: { x: -18, y: -6, scale: 0.99 },
-                frame: { x: 20, y: -14, scale: 0.98 },
-                panels: { x: -12, y: -20, scale: 0.99 },
-                complete: { x: 22, y: 4, scale: 1.025 },
+                cut: { x: -12, y: -4, scale: 0.995 },
+                frame: { x: 12, y: -8, scale: 0.995 },
+                panels: { x: -8, y: -10, scale: 0.995 },
+                complete: { x: 12, y: 4, scale: 1.01 },
               };
 
               gsap.set(card, { autoAlpha: 0, pointerEvents: "none", ...entryTransforms[motion] });
@@ -322,15 +329,15 @@ export function CinematicHero() {
 
               if (motion === "cut") {
                 gsap.set(surface, { clipPath: "inset(0 100% 0 0)" });
-                gsap.set(content, { x: -18 });
+                gsap.set(content, { x: -14 });
                 gsap.set(rails[3], { scaleY: 0, transformOrigin: "top center" });
                 desktopTimeline
-                  .to(rails[3], { scaleY: 1, duration: range.enterDuration * 0.65, ease: "power2.out" }, range.enterStart)
-                  .to(surface, { clipPath: "inset(0 0% 0 0)", duration: range.enterDuration * 0.78, ease: "power3.out" }, range.enterStart + range.enterDuration * 0.16)
-                  .to(content, { autoAlpha: 1, x: 0, duration: range.enterDuration * 0.62, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.34)
-                  .to(content, { autoAlpha: 0, x: -12, duration: range.exitDuration * 0.55, ease: "power2.in" }, range.exitStart)
-                  .to(surface, { clipPath: "inset(0 0 0 100%)", duration: range.exitDuration * 0.75, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.12)
-                  .to(rails[3], { scaleY: 0, transformOrigin: "bottom center", duration: range.exitDuration * 0.45 }, range.exitStart + range.exitDuration * 0.5);
+                  .to(rails[3], { scaleY: 1, duration: range.enterDuration * 0.58, ease: "power2.out" }, range.enterStart)
+                  .to(surface, { clipPath: "inset(0 0% 0 0)", duration: range.enterDuration * 0.82, ease: "power3.out" }, range.enterStart + range.enterDuration * 0.08)
+                  .to(content, { autoAlpha: 1, x: 0, duration: range.enterDuration * 0.62, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.28)
+                  .to(content, { autoAlpha: 0, x: -10, duration: range.exitDuration * 0.56, ease: "power2.in" }, range.exitStart)
+                  .to(surface, { clipPath: "inset(0 0 0 100%)", duration: range.exitDuration * 0.8, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.08)
+                  .to(rails[3], { scaleY: 0, transformOrigin: "bottom center", duration: range.exitDuration * 0.46 }, range.exitStart + range.exitDuration * 0.48);
               }
 
               if (motion === "frame") {
@@ -339,13 +346,13 @@ export function CinematicHero() {
                 gsap.set([rails[0], rails[2]], { scaleX: 0 });
                 gsap.set([rails[1], rails[3]], { scaleY: 0 });
                 desktopTimeline
-                  .to([rails[0], rails[2]], { scaleX: 1, duration: range.enterDuration * 0.72, ease: "power2.out" }, range.enterStart)
-                  .to([rails[1], rails[3]], { scaleY: 1, duration: range.enterDuration * 0.72, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.15)
-                  .to(surface, { clipPath: "inset(0 0 0% 0)", duration: range.enterDuration * 0.7, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.2)
-                  .to(content, { autoAlpha: 1, y: 0, duration: range.enterDuration * 0.55, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.4)
-                  .to(content, { autoAlpha: 0, y: -12, duration: range.exitDuration * 0.5 }, range.exitStart)
-                  .to([rails[0], rails[2]], { scaleX: 0, duration: range.exitDuration * 0.58 }, range.exitStart + range.exitDuration * 0.2)
-                  .to([rails[1], rails[3]], { scaleY: 0, duration: range.exitDuration * 0.58 }, range.exitStart + range.exitDuration * 0.2);
+                  .to([rails[0], rails[2]], { scaleX: 1, duration: range.enterDuration * 0.7, ease: "power2.out" }, range.enterStart)
+                  .to([rails[1], rails[3]], { scaleY: 1, duration: range.enterDuration * 0.7, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.1)
+                  .to(surface, { clipPath: "inset(0 0 0% 0)", duration: range.enterDuration * 0.78, ease: "power3.out" }, range.enterStart + range.enterDuration * 0.12)
+                  .to(content, { autoAlpha: 1, y: 0, duration: range.enterDuration * 0.58, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.3)
+                  .to(content, { autoAlpha: 0, y: -10, duration: range.exitDuration * 0.54, ease: "power2.in" }, range.exitStart)
+                  .to([rails[0], rails[2]], { scaleX: 0, duration: range.exitDuration * 0.64, ease: "power2.in" }, range.exitStart + range.exitDuration * 0.18)
+                  .to([rails[1], rails[3]], { scaleY: 0, duration: range.exitDuration * 0.64, ease: "power2.in" }, range.exitStart + range.exitDuration * 0.18);
               }
 
               if (motion === "panels") {
@@ -354,13 +361,13 @@ export function CinematicHero() {
                 gsap.set(rails[0], { xPercent: -108 });
                 gsap.set(rails[2], { xPercent: 108 });
                 desktopTimeline
-                  .to([rails[0], rails[2]], { xPercent: 0, duration: range.enterDuration * 0.78, ease: "power3.out" }, range.enterStart)
-                  .to(surface, { clipPath: "inset(0 0% 0 0%)", duration: range.enterDuration * 0.72, ease: "power3.out" }, range.enterStart + range.enterDuration * 0.18)
-                  .to(content, { autoAlpha: 1, y: 0, duration: range.enterDuration * 0.56, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.4)
-                  .to(content, { autoAlpha: 0, y: -12, duration: range.exitDuration * 0.5 }, range.exitStart)
-                  .to(rails[0], { xPercent: -108, duration: range.exitDuration * 0.72, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.18)
-                  .to(rails[2], { xPercent: 108, duration: range.exitDuration * 0.72, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.18)
-                  .to(surface, { clipPath: "inset(0 50% 0 50%)", duration: range.exitDuration * 0.62 }, range.exitStart + range.exitDuration * 0.28);
+                  .to([rails[0], rails[2]], { xPercent: 0, duration: range.enterDuration * 0.72, ease: "power3.out" }, range.enterStart)
+                  .to(surface, { clipPath: "inset(0 0% 0 0%)", duration: range.enterDuration * 0.78, ease: "power3.out" }, range.enterStart + range.enterDuration * 0.1)
+                  .to(content, { autoAlpha: 1, y: 0, duration: range.enterDuration * 0.58, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.3)
+                  .to(content, { autoAlpha: 0, y: -10, duration: range.exitDuration * 0.54, ease: "power2.in" }, range.exitStart)
+                  .to(rails[0], { xPercent: -108, duration: range.exitDuration * 0.7, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.16)
+                  .to(rails[2], { xPercent: 108, duration: range.exitDuration * 0.7, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.16)
+                  .to(surface, { clipPath: "inset(0 50% 0 50%)", duration: range.exitDuration * 0.68 }, range.exitStart + range.exitDuration * 0.22);
               }
 
               if (motion === "complete") {
@@ -369,11 +376,11 @@ export function CinematicHero() {
                 gsap.set(rails[1], { scaleY: 0, transformOrigin: "top center" });
                 desktopTimeline
                   .to(surface, { clipPath: "inset(0 0% 0 0)", duration: range.enterDuration * 0.82, ease: "power3.out" }, range.enterStart)
-                  .to(rails[1], { scaleY: 1, duration: range.enterDuration * 0.62, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.2)
-                  .to(content, { autoAlpha: 1, x: 0, duration: range.enterDuration * 0.58, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.38)
-                  .to(content, { autoAlpha: 0, x: 14, duration: range.exitDuration * 0.5 }, range.exitStart)
-                  .to(surface, { clipPath: "inset(0 0 0 100%)", duration: range.exitDuration * 0.75, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.14)
-                  .to(rails[1], { scaleY: 0, transformOrigin: "bottom center", duration: range.exitDuration * 0.5 }, range.exitStart + range.exitDuration * 0.42);
+                  .to(rails[1], { scaleY: 1, duration: range.enterDuration * 0.64, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.14)
+                  .to(content, { autoAlpha: 1, x: 0, duration: range.enterDuration * 0.58, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.3)
+                  .to(content, { autoAlpha: 0, x: 10, duration: range.exitDuration * 0.54, ease: "power2.in" }, range.exitStart)
+                  .to(surface, { clipPath: "inset(0 0 0 100%)", duration: range.exitDuration * 0.78, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.1)
+                  .to(rails[1], { scaleY: 0, transformOrigin: "bottom center", duration: range.exitDuration * 0.5 }, range.exitStart + range.exitDuration * 0.4);
               }
 
               desktopTimeline.to(
@@ -389,11 +396,30 @@ export function CinematicHero() {
             });
 
             desktopTimeline
+              .set(".hero-resolution", { autoAlpha: 0 }, 0)
+              .set(".hero-resolution-logo", { autoAlpha: 0, scale: 0.86, y: 18 }, 0)
+              .set(".hero-resolution-rule", { scaleX: 0 }, 0)
+              .set(".hero-resolution-title", { autoAlpha: 0, y: 26 }, 0)
               .fromTo(
                 ".hero-resolution",
-                { autoAlpha: 0, y: 32 },
-                { autoAlpha: 1, y: 0, duration: 0.14, ease: "power3.out" },
-                1,
+                { autoAlpha: 0 },
+                { autoAlpha: 1, duration: 0.015 },
+                0.915,
+              )
+              .to(
+                ".hero-resolution-logo",
+                { autoAlpha: 1, scale: 1, y: 0, duration: 0.06, ease: "power3.out" },
+                0.92,
+              )
+              .to(
+                ".hero-resolution-rule",
+                { scaleX: 1, duration: 0.045, ease: "power2.out" },
+                0.94,
+              )
+              .to(
+                ".hero-resolution-title",
+                { autoAlpha: 1, y: 0, duration: 0.055, ease: "power3.out" },
+                0.945,
               );
 
             desktopTimeline.eventCallback("onUpdate", () => {
@@ -499,8 +525,19 @@ export function CinematicHero() {
           ))}
         </aside>
 
-        <div className={`hero-resolution hero-copy${mobileHeroState === "resolution" ? " is-mobile-visible" : ""}`}>
-          <p className="hero-resolution-title">One group.<br />Four divisions.</p>
+        <div className={`hero-resolution${mobileHeroState === "resolution" ? " is-mobile-visible" : ""}`}>
+          <div className="hero-resolution-lockup">
+            <Image
+              className="hero-resolution-logo"
+              src="/media/brand-logo.webp"
+              alt="JZ Group"
+              width={196}
+              height={196}
+              sizes="196px"
+            />
+            <span className="hero-resolution-rule" aria-hidden="true" />
+            <p className="hero-resolution-title">One group.<br />Four divisions.</p>
+          </div>
         </div>
 
         <div className="hero-meter" aria-hidden="true">
