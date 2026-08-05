@@ -16,6 +16,15 @@ const allowedExtensions = new Set(["pdf", "png", "jpg", "jpeg", "webp", "doc", "
 const readText = (data: FormData, key: string) => { const value = data.get(key); return typeof value === "string" ? value.trim() : ""; };
 const escapeHtml = (value: string) => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 const validEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+const validOptionalUrl = (value: string) => {
+  if (!value) return true;
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+};
 
 export async function POST(request: Request) {
   if (Number(request.headers.get("content-length") || 0) > 4 * 1024 * 1024) {
@@ -34,9 +43,10 @@ export async function POST(request: Request) {
   const projectLocation = readText(data, "projectLocation");
   const facilityStatus = readText(data, "facilityStatus");
   const timeline = readText(data, "timeline");
+  const planRoomUrl = readText(data, "planRoomUrl");
   const message = readText(data, "message");
 
-  if (!name || !validEmail(email) || !division || !projectType || !projectLocation || !facilityStatus || !message || readText(data, "consent") !== "yes") {
+  if (!name || !validEmail(email) || !division || !projectType || !projectLocation || !facilityStatus || !message || !validOptionalUrl(planRoomUrl) || readText(data, "consent") !== "yes") {
     return NextResponse.json({ ok: false, message: "Complete the required fields and try again." }, { status: 400 });
   }
 
@@ -50,7 +60,7 @@ export async function POST(request: Request) {
   if (!apiKey || !from) return NextResponse.json({ ok: false, message: "Online submission is temporarily unavailable. Use the estimating email shown on the page." }, { status: 503 });
 
   const reference = crypto.randomUUID().split("-")[0].toUpperCase();
-  const details = [["Reference", reference], ["Division", division.division], ["Project type", projectType], ["Location", projectLocation], ["Facility status", facilityStatus], ["Timeline", timeline || "Not provided"], ["Name", name], ["Email", email], ["Phone", phone || "Not provided"]];
+  const details = [["Reference", reference], ["Division", division.division], ["Project type", projectType], ["Location", projectLocation], ["Facility status", facilityStatus], ["Timeline", timeline || "Not provided"], ["Plan-room link", planRoomUrl || "Not provided"], ["Name", name], ["Email", email], ["Phone", phone || "Not provided"]];
   const attachments = await Promise.all(files.map(async (file) => ({ filename: file.name.replace(/[^\w.\-() ]/g, "_").slice(0, 140), content: Buffer.from(await file.arrayBuffer()) })));
   const rows = details.map(([label, value]) => `<tr><th align="left" style="padding:6px 16px 6px 0;color:#666">${escapeHtml(label)}</th><td>${escapeHtml(value)}</td></tr>`).join("");
 

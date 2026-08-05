@@ -46,6 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${neue.variable} ${frama.variable}`}>
       <body>
+        <a className="skip-link" href="#top">Skip to content</a>
         {children}
         <Analytics />
         <SpeedInsights />

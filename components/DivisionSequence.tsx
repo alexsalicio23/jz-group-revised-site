@@ -112,13 +112,13 @@ export function DivisionSequence() {
               rotationZ: 0,
               scale: 1,
               autoAlpha: 1,
-              duration: 0.34,
+              duration: 0.3,
             },
-            0.31 + index * 0.145,
+            0.2 + index * 0.125,
           );
         });
 
-        timeline.to({}, { duration: 0.24 });
+        timeline.to({}, { duration: 0.12 });
       });
 
       return () => media.revert();

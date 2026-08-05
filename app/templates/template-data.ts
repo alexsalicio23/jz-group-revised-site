@@ -15,10 +15,11 @@ export type DivisionTemplateData = {
   introduction: string;
   email: string;
   hero: {
-    type: "video" | "triptych";
+    type: "video" | "triptych" | "image";
     media?: string;
     poster?: string;
     mobileMedia?: string;
+    alt?: string;
     triptych?: Array<{ media: string; poster: string }>;
   };
   proof: Array<{ label: string; value: string }>;
@@ -214,12 +215,9 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       "Land acquisition, project planning, construction oversight, and property management under one accountable team.",
     email: "estimating@jzdevelopment.com",
     hero: {
-      type: "triptych",
-      triptych: [
-        { media: "/media/video/development-exterior.mp4", poster: "/media/video/development-exterior-poster.jpg" },
-        { media: "/media/video/development-kitchen.mp4", poster: "/media/video/development-kitchen-poster.jpg" },
-        { media: "/media/video/development-interior.mp4", poster: "/media/video/development-interior-poster.jpg" },
-      ],
+      type: "image",
+      media: "/media/development/workforce-housing-kitchen.webp",
+      alt: "Completed workforce housing unit interior delivered by JZ Development",
     },
     proof: [
       { label: "Start", value: "Land acquisition" },

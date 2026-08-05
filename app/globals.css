@@ -74,6 +74,27 @@ summary {
   border: 0;
 }
 
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 14px;
+  left: 14px;
+  padding: 11px 15px;
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  background: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  transform: translateY(-160%);
+  transition: transform 180ms var(--ease);
+}
+
+.skip-link:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+  transform: translateY(0);
+}
+
 /* -------------------------------------------------------------------------- */
 /* Public content pages                                                       */
 /* -------------------------------------------------------------------------- */
@@ -1126,7 +1147,7 @@ textarea {
 
 .cinematic-hero {
   position: relative;
-  height: 420vh;
+  height: 250vh;
   background: var(--ink);
 }
 
@@ -1875,7 +1896,7 @@ textarea {
 
 .division-stack {
   position: relative;
-  height: 300vh;
+  height: 215vh;
   color: #243238;
   background: #f4f6f7;
 }
@@ -2740,6 +2761,70 @@ textarea {
   border-bottom: 1px solid currentColor;
 }
 
+.form-routing {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px 18px;
+  align-items: center;
+  padding: 15px 0;
+  color: rgba(255, 255, 255, 0.62);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+}
+
+.form-routing > span {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.form-routing > strong {
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-routing > a {
+  color: rgba(255, 255, 255, 0.72);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+.form-routing > a:hover {
+  color: var(--white);
+  border-bottom-color: currentColor;
+}
+
+.form-confirmation {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px 18px;
+  padding: 18px 20px;
+  color: var(--ink);
+  border: 1px solid var(--white);
+  background: var(--white);
+}
+
+.form-confirmation > span {
+  align-self: center;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.form-confirmation > strong {
+  font-family: var(--font-frama), Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.form-confirmation > p {
+  grid-column: 1 / -1;
+  color: #44484a;
+  font-size: 13px;
+}
+
 .contact {
   display: grid;
   grid-template-columns: minmax(330px, 0.78fr) minmax(520px, 1.22fr);
@@ -2788,6 +2873,171 @@ textarea {
 
 .contact-direct a:hover {
   color: var(--white);
+}
+
+.home-contact {
+  align-items: start;
+  padding-top: 112px;
+}
+
+.home-contact::before {
+  width: 100%;
+  height: 1px;
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.home-contact .contact-heading h2 {
+  font-size: clamp(64px, 6vw, 92px);
+}
+
+.home-contact .bid-form {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.service-area-radar {
+  width: min(520px, 100%);
+  margin-top: 58px;
+  border-top: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.service-area-radar figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 15px 0;
+  color: rgba(255, 255, 255, 0.58);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.service-area-radar figcaption strong {
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.service-area-plot {
+  position: relative;
+  height: 290px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+  background: #181a1c;
+}
+
+.service-area-axis {
+  position: absolute;
+  top: 22px;
+  bottom: 34px;
+  left: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.19);
+}
+
+.service-area-ring {
+  position: absolute;
+  left: 50%;
+  bottom: -58px;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.service-area-ring-one {
+  width: 170px;
+  height: 170px;
+}
+
+.service-area-ring-two {
+  width: 290px;
+  height: 290px;
+}
+
+.service-area-ring-three {
+  width: 430px;
+  height: 430px;
+}
+
+.service-area-node {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 8px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  min-width: 170px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+}
+
+.service-area-node::before {
+  position: absolute;
+  right: calc(100% + 10px);
+  width: 54px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.24);
+  content: "";
+}
+
+.service-area-node i {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--white);
+  border-radius: 50%;
+  background: #181a1c;
+}
+
+.service-area-node b {
+  font-weight: 500;
+}
+
+.service-area-node small {
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 9px;
+}
+
+.service-area-palm {
+  top: 38px;
+  left: 65%;
+}
+
+.service-area-broward {
+  top: 103px;
+  left: 58%;
+}
+
+.service-area-miami {
+  top: 168px;
+  left: 51%;
+}
+
+.service-area-hq {
+  position: absolute;
+  z-index: 2;
+  bottom: 16px;
+  left: 50%;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: var(--white);
+  transform: translateX(-50%);
+}
+
+.service-area-hq > span {
+  display: grid;
+  min-width: 132px;
+}
+
+.service-area-hq strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.service-area-hq small {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 9px;
 }
 
 .button-accent {
@@ -3484,6 +3734,42 @@ textarea {
     padding-top: 92px;
   }
 
+  .home-contact {
+    padding-top: 82px;
+  }
+
+  .service-area-radar {
+    margin-top: 42px;
+  }
+
+  .service-area-plot {
+    height: 250px;
+  }
+
+  .service-area-node {
+    min-width: 136px;
+    grid-template-columns: 7px 1fr;
+  }
+
+  .service-area-node small {
+    display: none;
+  }
+
+  .service-area-palm {
+    top: 30px;
+    left: 58%;
+  }
+
+  .service-area-broward {
+    top: 86px;
+    left: 54%;
+  }
+
+  .service-area-miami {
+    top: 142px;
+    left: 50%;
+  }
+
   .contact.contact-compact {
     padding-top: 76px;
   }
@@ -3506,6 +3792,17 @@ textarea {
 
   .bid-form {
     padding: 24px 18px;
+  }
+
+  .form-routing {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .form-routing > a {
+    width: fit-content;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   .form-row {
@@ -3893,6 +4190,7 @@ textarea {
   object-position: center;
   filter: saturate(0.65) brightness(0.72);
 }
+
 
 .template-triptych {
   display: grid;
@@ -5093,6 +5391,14 @@ textarea {
 .development-site .template-triptych-panel video {
   transform: scale(1.42);
   transform-origin: center top;
+  filter: grayscale(0.48) brightness(0.58);
+}
+
+/* Development hero is a bright interior still rather than footage. Frame it
+   low so the cabinetry sits under the display type, and grade it to match
+   the other three division heroes. */
+.development-hero-media .template-hero-video {
+  object-position: center 72%;
   filter: grayscale(0.48) brightness(0.58);
 }
 

@@ -25,9 +25,11 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
   await expect(page.locator(".division-heading-line")).toHaveCount(2);
   await expect(page.getByRole("heading", { name: "Comparable work." })).toBeAttached();
   await expect(page.getByText("50+", { exact: true })).toBeAttached();
-  await expect(page.locator("main > .contact .bid-form")).toHaveCount(0);
+  await expect(page.locator("main > .contact .bid-form")).toHaveCount(1);
+  await expect(page.locator("main > .contact .form-routing")).toContainText("JZ Demolition");
+  await expect(page.locator("main > .contact .service-area-node")).toHaveCount(3);
   await expect(page.getByRole("link", { name: /Contact estimating/ })).toHaveCount(
-    testInfo.project.name === "mobile" ? 1 : 2,
+    testInfo.project.name === "mobile" ? 0 : 1,
   );
   await expect(page.getByRole("link", { name: "(305) 793-2984" })).toHaveCount(
     testInfo.project.name === "mobile" ? 1 : 2,
@@ -46,16 +48,23 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
   );
   expect(hasHorizontalOverflow).toBe(false);
 
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".skip-link")).toBeFocused();
+  await expect(page.locator(".skip-link")).toHaveAttribute("href", "#top");
+
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
 
   if (testInfo.project.name === "desktop") {
-    const [stackHeight, viewportHeight] = await Promise.all([
+    const [heroHeight, stackHeight, viewportHeight] = await Promise.all([
+      page.locator(".cinematic-hero").evaluate((element) => element.getBoundingClientRect().height),
       page.locator(".division-stack").evaluate((element) => element.getBoundingClientRect().height),
       page.evaluate(() => window.innerHeight),
     ]);
-    expect(stackHeight).toBeGreaterThanOrEqual(viewportHeight * 2.95);
-    expect(stackHeight).toBeLessThanOrEqual(viewportHeight * 3.05);
+    expect(heroHeight).toBeGreaterThanOrEqual(viewportHeight * 2.45);
+    expect(heroHeight).toBeLessThanOrEqual(viewportHeight * 2.55);
+    expect(stackHeight).toBeGreaterThanOrEqual(viewportHeight * 2.1);
+    expect(stackHeight).toBeLessThanOrEqual(viewportHeight * 2.2);
     await expect(page.locator(".division-stack-card")).toHaveCount(4);
   }
 
@@ -63,6 +72,21 @@ test("opens cinematically, then moves quickly into the JZ Group system", async (
     path: testInfo.outputPath(`${testInfo.project.name}-hero.png`),
     fullPage: false,
   });
+});
+
+test("homepage inquiry visibly routes to the selected JZ company", async ({ page }) => {
+  await page.goto("/#contact");
+
+  const form = page.locator("main > .contact .bid-form");
+  await expect(form.locator('input[name="name"]')).toBeVisible();
+  await expect(form.locator('input[name="email"]')).toBeVisible();
+  await expect(form.locator('input[name="projectType"]')).toBeVisible();
+  await expect(form.locator('input[name="projectLocation"]')).toBeVisible();
+
+  await form.locator('select[name="division"]').selectOption("construction");
+  await expect(form.locator(".form-routing")).toContainText("JZ Construction");
+  await expect(form.locator(".form-routing")).toContainText("estimating@jzconstruction.com");
+  await expect(form.locator('input[name="planRoomUrl"]')).toHaveAttribute("type", "url");
 });
 
 test("project proof and safety details expand in place", async ({ page }) => {

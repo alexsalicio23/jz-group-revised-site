@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function WalkthroughPage() {
   return (
-    <main className="walkthrough-page">
+    <main className="walkthrough-page" id="top">
       <header>
         <Link href="/">JZ Group</Link>
         <span>Motion study / review</span>

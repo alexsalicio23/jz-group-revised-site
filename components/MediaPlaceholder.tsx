@@ -9,7 +9,6 @@ export function MediaPlaceholder({ label, ratio = "standard", dark = false }: Me
     <div className={`media-placeholder is-${ratio}${dark ? " is-dark" : ""}`} role="img" aria-label={`Placeholder for ${label.toLowerCase()}`}>
       <span aria-hidden="true">JZ</span>
       <strong>{label}</strong>
-      <small>{ratio === "wide" ? "21:9" : "16:9"} / ASSET PENDING</small>
     </div>
   );
 }

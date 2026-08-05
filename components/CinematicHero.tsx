@@ -262,7 +262,7 @@ export function CinematicHero() {
                 trigger: root.current,
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 1.2,
+                scrub: 0.75,
               },
             });
             timeline = desktopTimeline;
@@ -512,7 +512,7 @@ export function CinematicHero() {
         </div>
 
         <aside
-          className={`hero-chapters${mobileHeroState === "resolution" ? " is-mobile-hidden" : ""}`}
+          className={`hero-chapters${mobileHeroState !== "chapter" ? " is-mobile-hidden" : ""}`}
           aria-label="Walkthrough stages"
         >
           {walkthroughChapters.map((chapter, index) => (

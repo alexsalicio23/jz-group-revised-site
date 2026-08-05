@@ -3,7 +3,9 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { CinematicHero } from "@/components/CinematicHero";
 import { DivisionSequence } from "@/components/DivisionSequence";
+import { BidForm } from "@/components/BidForm";
 import { ProjectGallery } from "@/components/ProjectGallery";
+import { ServiceAreaRadar } from "@/components/ServiceAreaRadar";
 import { GroupHeader } from "@/components/SiteNavigation";
 import { activeProcess, clientLogos, contact, publicPortfolioStats, qualificationRecords } from "./data";
 
@@ -45,8 +47,8 @@ export default function Home() {
         <div className="active-grid">
           <figure className="active-visual">
             <Image
-              src="/media/field-story/demolition-floor.webp"
-              alt="JZ demolition work inside a commercial interior"
+              src="/media/field-story/field-leadership.webp"
+              alt="JZ field leadership reviewing work inside a framed commercial interior"
               fill
               sizes="(max-width: 800px) 100vw, 48vw"
             />
@@ -129,19 +131,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="contact contact-compact" id="contact">
+      <section className="contact home-contact" id="contact">
         <div className="contact-heading">
           <p className="eyebrow light">Estimating / South Florida</p>
           <h2>Have a scope?</h2>
           <p>Send it once. JZ Group will route it to the right company.</p>
+          <div className="contact-direct">
+            <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </div>
+          <ServiceAreaRadar />
         </div>
-        <div className="contact-compact-actions">
-          <Link className="button button-light" href="/contact">
-            Contact estimating <ArrowUpRight aria-hidden="true" size={18} />
-          </Link>
-          <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>
-        </div>
+        <BidForm />
         <footer>
           <span>JZ Group</span>
           <span>{contact.address}</span>

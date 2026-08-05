@@ -14,7 +14,7 @@ const previews = {
   demolition: "/media/video/hero-demolition-poster.jpg",
   "waste-management": "/media/video/workflow-waste-poster.jpg",
   construction: "/media/video/workflow-build-poster.jpg",
-  development: "/media/video/development-kitchen-poster.jpg",
+  development: "/media/development/workforce-housing-kitchen.webp",
 };
 
 const concepts = {
@@ -26,7 +26,7 @@ const concepts = {
 
 export default function TemplatesPage() {
   return (
-    <main className="template-review">
+    <main className="template-review" id="top">
       <header className="review-header">
         <Link href="/" aria-label="JZ Group flagship homepage">
           <Image src="/media/brand-logo.webp" alt="JZ Group" width={108} height={72} priority />

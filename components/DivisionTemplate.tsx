@@ -9,6 +9,19 @@ const phoneDisplay = "(305) 793-2984";
 const phoneHref = "tel:+13057932984";
 
 function HeroMedia({ data }: { data: DivisionTemplateData }) {
+  if (data.hero.type === "image" && data.hero.media) {
+    return (
+      <Image
+        className="template-hero-video"
+        src={data.hero.media}
+        alt={data.hero.alt ?? ""}
+        fill
+        priority
+        sizes="100vw"
+      />
+    );
+  }
+
   if (data.hero.type === "triptych" && data.hero.triptych) {
     return (
       <div className="template-triptych" aria-hidden="true">
