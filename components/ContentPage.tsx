@@ -4,7 +4,13 @@ import type { ContentAction, ContentCard, ContentPageData } from "@/app/content-
 import { divisionContacts, divisionLabels } from "@/app/content-data";
 import { BidForm } from "@/components/BidForm";
 import { JZMedia } from "@/components/JZMedia";
+import {
+  ActionCircle,
+  CircleTransitionLink,
+  type RevealTone,
+} from "@/components/MotionSystem";
 import { DivisionHeader, GroupHeader } from "@/components/SiteNavigation";
+import { TeamPortraitGrid } from "@/components/TeamPortraitGrid";
 
 function ActionLink({ action }: { action: ContentAction }) {
   const icon = action.label.toLowerCase().includes("download")
@@ -16,7 +22,7 @@ function ActionLink({ action }: { action: ContentAction }) {
   return <Link className="metric-button" href={action.href}>{content}</Link>;
 }
 
-function LinkedCard({ card, index }: { card: ContentCard; index: number }) {
+function LinkedCard({ card, index, tone = "neutral" }: { card: ContentCard; index: number; tone?: RevealTone }) {
   const body = (
     <>
       <span>{String(index + 1).padStart(2, "0")}</span>
@@ -25,19 +31,21 @@ function LinkedCard({ card, index }: { card: ContentCard; index: number }) {
         {card.subtitle ? <p className="metric-card-subtitle">{card.subtitle}</p> : null}
         {card.description ? <p>{card.description}</p> : null}
       </div>
-      {card.href ? <ArrowUpRight aria-hidden="true" size={21} /> : null}
+      {card.href ? <ActionCircle /> : null}
     </>
   );
 
   if (!card.href) return <article className="metric-content-card">{body}</article>;
   if (card.href.startsWith("mailto:")) return <a className="metric-content-card is-linked" href={card.href}>{body}</a>;
-  return <Link className="metric-content-card is-linked" href={card.href}>{body}</Link>;
+  if (card.href.startsWith("http")) return <a className="metric-content-card is-linked" href={card.href} target="_blank" rel="noreferrer">{body}</a>;
+  return <CircleTransitionLink className="metric-content-card is-linked" href={card.href} tone={tone}>{body}</CircleTransitionLink>;
 }
 
 export function ContentPage({ data }: { data: ContentPageData }) {
   const contact = data.division ? divisionContacts[data.division] : null;
   const contactHref = data.division ? `/${data.division}/contact` : "/contact";
   const breadcrumb = data.division ? divisionLabels[data.division] : "JZ Group";
+  const revealTone: RevealTone = data.division ?? "neutral";
 
   return (
     <main
@@ -48,7 +56,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
 
       <section className="metric-content-hero" id="top">
         <div className="metric-content-hero-media">
-          <JZMedia data={data} motion={Boolean(data.division)} priority />
+          <JZMedia data={data} media={data.media} motion={Boolean(data.division)} priority />
         </div>
         <div className="metric-content-hero-shade" />
         <div className="metric-content-hero-copy">
@@ -57,7 +65,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
             <ChevronRight aria-hidden="true" size={13} />
             <span>{data.category}</span>
           </nav>
-          <p>{data.eyebrow}</p>
+          <p className="sr-only">{data.eyebrow}</p>
           <h1>{data.title}</h1>
           <div className="metric-content-hero-bottom">
             <p>{data.introduction}</p>
@@ -75,6 +83,8 @@ export function ContentPage({ data }: { data: ContentPageData }) {
         </section>
       ) : null}
 
+      <TeamPortraitGrid members={data.teamMembers} />
+
       <div className="metric-content-sections">
         {data.sections.map((section, sectionIndex) => (
           <section
@@ -83,7 +93,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
             key={section.id}
           >
             <header>
-              <p className="section-index">{String(sectionIndex + 1).padStart(2, "0")} / {section.eyebrow ?? data.category}</p>
+              <p className="sr-only">{String(sectionIndex + 1).padStart(2, "0")} / {section.eyebrow ?? data.category}</p>
               <h2>{section.title}</h2>
             </header>
 
@@ -96,15 +106,17 @@ export function ContentPage({ data }: { data: ContentPageData }) {
 
             {section.mediaLabel ? (
               <figure className="metric-content-media">
-                <JZMedia data={data} mediaLabel={section.mediaLabel} />
+                <JZMedia data={data} media={section.media} mediaLabel={section.mediaLabel} />
               </figure>
             ) : null}
 
             {section.cards?.length ? (
               <div className="metric-content-card-grid">
-                {section.cards.map((card, index) => <LinkedCard card={card} index={index} key={`${card.title}-${index}`} />)}
+                {section.cards.map((card, index) => <LinkedCard card={card} index={index} tone={revealTone} key={`${card.title}-${index}`} />)}
               </div>
             ) : null}
+
+            <TeamPortraitGrid members={section.teamMembers} />
 
             {section.specifications?.length ? (
               <div className="metric-spec-grid">
@@ -127,7 +139,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       {data.faqs?.length ? (
         <section className="metric-faq" id="questions">
           <header>
-            <p className="section-index">Questions / Project review</p>
+            <p className="sr-only">Questions / Project review</p>
             <h2>What reviewers usually need to know.</h2>
           </header>
           <div>
@@ -144,7 +156,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       {data.category === "contact" ? (
         <section className="metric-content-form" aria-labelledby="content-form-title">
           <div>
-            <p className="section-index">Project intake / South Florida</p>
+            <p className="sr-only">Project intake / South Florida</p>
             <h2 id="content-form-title">Put the project in front of estimating.</h2>
             <p>Include the service lane, location, facility status, bid date, and the scope information currently available.</p>
             <div className="metric-direct-contact">
@@ -159,17 +171,17 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       {data.related?.length ? (
         <section className="metric-related" aria-labelledby="related-title">
           <header>
-            <p className="section-index">Continue the review</p>
+            <p className="sr-only">Continue the review</p>
             <h2 id="related-title">Related JZ capabilities.</h2>
           </header>
           <div>
-            {data.related.map((item, index) => <LinkedCard card={item} index={index} key={`${item.title}-${index}`} />)}
+            {data.related.map((item, index) => <LinkedCard card={item} index={index} tone={revealTone} key={`${item.title}-${index}`} />)}
           </div>
         </section>
       ) : null}
 
       <section className="metric-page-cta">
-        <p>Have a scope?</p>
+        <p className="sr-only">Have a scope?</p>
         <h2>Let&apos;s put the right JZ company behind it.</h2>
         <Link href={contactHref}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
       </section>

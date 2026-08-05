@@ -1,6 +1,23 @@
 import type { TemplateSlug } from "@/app/templates/template-data";
 
 export type Stat = { value: string; label: string };
+export type ApprovedMedia = {
+  src: string;
+  alt: string;
+  type?: "image" | "video";
+  poster?: string;
+  position?: string;
+  approved: true;
+};
+export type TeamMember = {
+  name: string;
+  role: string;
+  bio: string;
+  responsibilities: string[];
+  division: TemplateSlug;
+  portrait: ApprovedMedia;
+  approved: true;
+};
 export type ContentCard = {
   title: string;
   subtitle?: string;
@@ -23,6 +40,8 @@ export type ContentSection = {
   cards?: ContentCard[];
   specifications?: Specification[];
   mediaLabel?: string;
+  media?: ApprovedMedia;
+  teamMembers?: TeamMember[];
   tone?: "paper" | "concrete" | "ink";
 };
 
@@ -41,6 +60,8 @@ export type ContentPageData = {
   title: string;
   introduction: string;
   mediaLabel: string;
+  media?: ApprovedMedia;
+  teamMembers?: TeamMember[];
   stats?: Stat[];
   actions?: ContentAction[];
   sections: ContentSection[];

@@ -49,7 +49,7 @@ export const divisions = [
     kicker: "Extend the lifecycle.",
     description:
       "Development capability spanning acquisition, planning, construction oversight, and property management.",
-    media: "/media/field-story/one-group.webp",
+    media: "/media/development/workforce-housing-kitchen.webp",
     type: "image" as const,
   },
 ];

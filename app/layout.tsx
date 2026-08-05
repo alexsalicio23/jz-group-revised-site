@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getSiteUrl } from "@/app/site-url";
+import { MotionProvider } from "@/components/MotionSystem";
 import "./globals.css";
 
 const neue = localFont({
@@ -47,7 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${neue.variable} ${frama.variable}`}>
       <body>
         <a className="skip-link" href="#top">Skip to content</a>
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         <Analytics />
         <SpeedInsights />
       </body>

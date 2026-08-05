@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { divisionContacts } from "@/app/content-data";
 import type { DivisionTemplateData } from "@/app/templates/template-data";
+import { ActionCircle, CircleTransitionLink } from "@/components/MotionSystem";
 import { DivisionHeader } from "@/components/SiteNavigation";
 
 function HeroMedia({ data }: { data: DivisionTemplateData }) {
@@ -53,7 +54,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
         <div className="metric-division-hero-media"><HeroMedia data={data} /></div>
         <div className="metric-division-hero-shade" />
         <div className="metric-division-hero-copy">
-          <p>{data.index} / {data.discipline}</p>
+          <p className="sr-only">{data.index} / {data.discipline}</p>
           <h1>{data.headline}</h1>
           <div>
             <p>{data.introduction}</p>
@@ -74,7 +75,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
       </section>
 
       <section className="metric-division-intro" id="capabilities">
-        <p className="section-index">01 / Capabilities</p>
+        <p className="sr-only">Capabilities</p>
         <h2>{data.servicesLead}</h2>
       </section>
 
@@ -85,11 +86,11 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h3>{service.name}</h3>
               <p>{service.detail}</p>
-              <ArrowUpRight aria-hidden="true" size={24} />
+              {service.href ? <ActionCircle /> : null}
             </>
           );
           return service.href
-            ? <Link href={service.href} key={service.name}>{content}</Link>
+            ? <CircleTransitionLink href={service.href} tone={data.slug} key={service.name}>{content}</CircleTransitionLink>
             : <article key={service.name}>{content}</article>;
         })}
       </section>
@@ -98,7 +99,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
         <div className="metric-division-feature-media"><FeatureMedia data={data} /></div>
         <div className="metric-division-feature-shade" />
         <div className="metric-division-feature-copy">
-          <p>{data.feature.eyebrow}</p>
+          <p className="sr-only">{data.feature.eyebrow}</p>
           <h2>{data.feature.title}</h2>
           <div>
             <p>{data.feature.description}</p>
@@ -109,7 +110,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
 
       <section className="metric-division-process" id="process">
         <header>
-          <p className="section-index">02 / How the work moves</p>
+          <p className="sr-only">How the work moves</p>
           <h2>One clear sequence.</h2>
         </header>
         <ol>
@@ -124,7 +125,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
       </section>
 
       <section className="metric-division-contact" id="contact">
-        <p>Have a scope?</p>
+        <p className="sr-only">Have a scope?</p>
         <h2>{data.close}</h2>
         <div>
           <Link href={`/${data.slug}/contact`}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>

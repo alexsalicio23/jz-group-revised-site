@@ -94,6 +94,7 @@ function HeroChapterCard({ chapter, index, activeMobileChapter }: HeroChapterCar
 }
 
 function getChapterIndex(time: number) {
+  if (time < walkthroughChapters[0].start) return 0;
   const index = walkthroughChapters.findIndex(
     (chapter) => time >= chapter.start && time < chapter.end,
   );
@@ -112,14 +113,13 @@ export function CinematicHero() {
       const media = gsap.matchMedia();
 
       media.add(
-        "(min-width: 761px) and (prefers-reduced-motion: no-preference)",
+        "(min-width: 901px) and (prefers-reduced-motion: no-preference)",
         () => {
           const walkthrough = video.current;
           const chapterCards = gsap.utils.toArray<HTMLElement>(".hero-chapter", root.current);
           const supportsPointerDepth = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
           let videoFrame = 0;
           let timeline: gsap.core.Timeline | undefined;
-          let removeSeekListener: (() => void) | undefined;
           let activePointerChapter = -1;
           const hoverCleanups: Array<() => void> = [];
 
@@ -217,44 +217,24 @@ export function CinematicHero() {
             const playhead = { time: openingTime };
             const frameDuration = 1 / 24;
             let pendingTime = openingTime;
-            let seekInFlight = false;
 
             walkthrough.currentTime = openingTime;
 
             const performSeek = () => {
               videoFrame = 0;
-              if (seekInFlight) return;
-
               const frameTime = Math.min(
                 closingTime,
                 Math.max(openingTime, Math.round(pendingTime / frameDuration) * frameDuration),
               );
 
               if (Math.abs(walkthrough.currentTime - frameTime) < frameDuration * 0.45) return;
-
-              seekInFlight = true;
               walkthrough.currentTime = frameTime;
             };
 
             const queueFrame = () => {
               pendingTime = playhead.time;
-              if (!seekInFlight && !videoFrame) {
-                videoFrame = requestAnimationFrame(performSeek);
-              }
+              if (!videoFrame) videoFrame = requestAnimationFrame(performSeek);
             };
-
-            const handleSeeked = () => {
-              seekInFlight = false;
-              if (
-                Math.abs(pendingTime - walkthrough.currentTime) >= frameDuration * 0.7 &&
-                !videoFrame
-              ) {
-                videoFrame = requestAnimationFrame(performSeek);
-              }
-            };
-
-            walkthrough.addEventListener("seeked", handleSeeked);
-            removeSeekListener = () => walkthrough.removeEventListener("seeked", handleSeeked);
 
             const desktopTimeline = gsap.timeline({
               defaults: { ease: "none" },
@@ -262,7 +242,7 @@ export function CinematicHero() {
                 trigger: root.current,
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 0.75,
+                scrub: 0.42,
               },
             });
             timeline = desktopTimeline;
@@ -283,8 +263,8 @@ export function CinematicHero() {
                 : normalizedEnd;
               const enterStart = index === 0 ? Math.max(0.105, rawStart) : rawStart;
               const rangeDuration = Math.max(0.08, end - rawStart);
-              const enterDuration = rangeDuration * 0.2;
-              const exitDuration = rangeDuration * 0.2;
+              const enterDuration = rangeDuration * 0.12;
+              const exitDuration = rangeDuration * 0.18;
               const exitStart = end - exitDuration;
 
               return { enterStart, enterDuration, exitStart, exitDuration, end };
@@ -442,7 +422,6 @@ export function CinematicHero() {
           return () => {
             if (videoFrame) cancelAnimationFrame(videoFrame);
             walkthrough?.removeEventListener("loadedmetadata", startDesktopExperience);
-            removeSeekListener?.();
             hoverCleanups.forEach((cleanup) => cleanup());
             chapterCards.forEach((card) => {
               card.removeAttribute("data-active");
@@ -472,12 +451,12 @@ export function CinematicHero() {
             preload="auto"
             poster="/media/jz-drone-walkthrough-poster.jpg"
             onLoadedMetadata={(event) => {
-              if (window.matchMedia("(max-width: 760px)").matches) {
-                event.currentTarget.currentTime = Math.min(2, event.currentTarget.duration - 0.1);
+              if (window.matchMedia("(max-width: 900px)").matches) {
+                event.currentTarget.currentTime = 0;
               }
             }}
             onTimeUpdate={(event) => {
-              if (window.matchMedia("(max-width: 760px)").matches) {
+              if (window.matchMedia("(max-width: 900px)").matches) {
                 const { currentTime } = event.currentTarget;
                 const chapterIndex = getChapterIndex(currentTime);
                 setActiveMobileChapter((current) =>
@@ -489,7 +468,7 @@ export function CinematicHero() {
               }
             }}
             onEnded={(event) => {
-              event.currentTarget.currentTime = 2;
+              event.currentTarget.currentTime = 0;
               setMobileHeroState("intro");
               void event.currentTarget.play();
             }}
@@ -497,7 +476,7 @@ export function CinematicHero() {
             <source
               src="/media/jz-drone-walkthrough-scrub.mp4"
               type="video/mp4"
-              media="(min-width: 761px)"
+              media="(min-width: 901px)"
             />
             <source src="/media/jz-drone-walkthrough.mp4" type="video/mp4" />
           </video>
@@ -505,9 +484,9 @@ export function CinematicHero() {
         </div>
 
         <div className={`hero-intro hero-copy${mobileHeroState !== "intro" ? " is-mobile-hidden" : ""}`}>
-          <h1>Specialty demolition in active environments.</h1>
+          <h1>Built around what can&apos;t stop.</h1>
           <div className="hero-actions">
-            <a className="button button-light" href="#group">Meet the four companies</a>
+            <a className="button button-light" href="#companies">Meet the four companies</a>
           </div>
         </div>
 

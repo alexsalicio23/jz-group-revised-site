@@ -1,22 +1,26 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { divisions } from "@/app/data";
+import {
+  ActionCircle,
+  CircleTransitionLink,
+  MediaTilt,
+  type RevealTone,
+} from "@/components/MotionSystem";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const stackedPositions = [
-  { y: 64, z: -210, rotationY: -16, rotationZ: -4, scale: 0.82 },
-  { y: 24, z: -72, rotationY: -7, rotationZ: -1.5, scale: 0.91 },
-  { y: -20, z: 54, rotationY: 6, rotationZ: 1.5, scale: 1 },
-  { y: -62, z: 158, rotationY: 14, rotationZ: 4, scale: 0.9 },
-] as const;
+const divisionTone: Record<string, RevealTone> = {
+  demolition: "demolition",
+  construction: "construction",
+  "waste-management": "waste-management",
+  development: "development",
+};
 
 export function DivisionSequence() {
   const root = useRef<HTMLElement>(null);
@@ -27,84 +31,79 @@ export function DivisionSequence() {
 
       media.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
         const cards = gsap.utils.toArray<HTMLElement>(".division-stack-card", root.current);
-        const heading = root.current?.querySelector<HTMLElement>(".division-stack-heading");
         const headingLines = gsap.utils.toArray<HTMLElement>(".division-heading-line > span", root.current);
-        const headingRule = root.current?.querySelector<HTMLElement>(".division-heading-rule");
+        const progress = root.current?.querySelector<HTMLElement>(".division-stack-progress-fill");
+        const stage = root.current?.querySelector<HTMLElement>(".division-card-deck");
+        if (!cards.length || !stage) return;
 
-        const getRowPosition = (index: number) => {
-          const width = cards[0]?.offsetWidth ?? 0;
-          const gap = Math.max(16, Math.min(26, width * 0.06));
+        gsap.set(stage, { perspective: 1500, transformStyle: "preserve-3d" });
+        gsap.set(headingLines, { yPercent: 115, opacity: 0 });
+        if (progress) gsap.set(progress, { scaleY: 0, transformOrigin: "top" });
 
-          return (index - (cards.length - 1) / 2) * (width + gap);
-        };
-
-        const positionCardsInStack = () => {
-          cards.forEach((card, index) => {
-            gsap.set(card, {
-              xPercent: -50,
-              yPercent: -50,
-              x: getRowPosition(index),
-              ...stackedPositions[index],
-              y: stackedPositions[index].y + 42,
-              autoAlpha: 0,
-            });
+        cards.forEach((card, index) => {
+          gsap.set(card, {
+            xPercent: -50,
+            yPercent: -50,
+            x: index % 2 ? 34 : -34,
+            y: () => Math.max(520, window.innerHeight * 0.76),
+            z: 180,
+            rotationX: 9,
+            rotationY: index % 2 ? 4 : -4,
+            rotationZ: index % 2 ? 2.4 : -2.4,
+            scale: 0.96,
+            autoAlpha: 0,
+            zIndex: index + 2,
+            transformOrigin: "center center",
           });
-        };
-
-        positionCardsInStack();
-        if (heading) {
-          gsap.set(heading, {
-            y: () => Math.min(240, window.innerHeight * 0.24),
-            scale: 1.06,
-          });
-        }
-        gsap.set(headingLines, { opacity: 0, yPercent: 112 });
-        if (headingRule) gsap.set(headingRule, { scaleX: 0 });
+        });
 
         const timeline = gsap.timeline({
-          defaults: { ease: "power2.inOut" },
+          defaults: { ease: "power3.inOut" },
           scrollTrigger: {
             trigger: root.current,
             start: "top top",
             end: "bottom bottom",
-            scrub: 0.45,
+            scrub: 0.48,
             invalidateOnRefresh: true,
           },
         });
 
-        if (heading) {
-          timeline.to(
-            headingLines,
-            {
-              opacity: 1,
-              yPercent: 0,
-              duration: 0.14,
-              stagger: 0.035,
-              ease: "power3.out",
-            },
-            0.025,
-          );
+        timeline.to(
+          headingLines,
+          { yPercent: 0, opacity: 1, duration: 0.11, stagger: 0.025, ease: "power3.out" },
+          0.015,
+        );
 
-          if (headingRule) {
-            timeline.to(
-              headingRule,
-              { scaleX: 1, duration: 0.1, ease: "power2.out" },
-              0.09,
-            );
-          }
+        if (progress) timeline.to(progress, { scaleY: 1, duration: 0.86, ease: "none" }, 0.1);
 
-          timeline.to(
-            heading,
-            { y: 0, scale: 1, duration: 0.2, ease: "power3.inOut" },
-            0.17,
-          );
-        }
+        const arrivals = [0.14, 0.34, 0.54, 0.74];
 
         cards.forEach((card, index) => {
+          const arrival = arrivals[index];
+
+          cards.slice(0, index).forEach((previous, previousIndex) => {
+            const depth = index - previousIndex;
+            timeline.to(
+              previous,
+              {
+                x: (previousIndex % 2 ? 1 : -1) * depth * 9,
+                y: -depth * 24,
+                z: -depth * 82,
+                rotationX: -depth * 0.8,
+                rotationY: (previousIndex % 2 ? 1 : -1) * depth * 1.1,
+                rotationZ: (previousIndex % 2 ? 1 : -1) * depth * 0.8,
+                scale: 1 - depth * 0.035,
+                filter: `brightness(${Math.max(0.68, 1 - depth * 0.09)})`,
+                duration: 0.12,
+              },
+              arrival,
+            );
+          });
+
           timeline.to(
             card,
             {
-              x: () => getRowPosition(index),
+              x: 0,
               y: 0,
               z: 0,
               rotationX: 0,
@@ -112,13 +111,15 @@ export function DivisionSequence() {
               rotationZ: 0,
               scale: 1,
               autoAlpha: 1,
-              duration: 0.3,
+              filter: "brightness(1)",
+              duration: 0.15,
+              ease: "power4.out",
             },
-            0.2 + index * 0.125,
+            arrival,
           );
         });
 
-        timeline.to({}, { duration: 0.12 });
+        timeline.to({}, { duration: 0.12 }, 0.88);
       });
 
       return () => media.revert();
@@ -127,14 +128,14 @@ export function DivisionSequence() {
   );
 
   return (
-    <section ref={root} className="division-stack" id="group" aria-labelledby="division-stack-title">
+    <section ref={root} className="division-stack" id="companies" aria-labelledby="division-stack-title">
+      <span className="anchor-target" id="group" aria-hidden="true" />
       <div className="division-stack-pin">
         <header className="division-stack-heading">
           <h2 id="division-stack-title">
             <span className="division-heading-line"><span>Four companies.</span></span>
             <span className="division-heading-line"><span>One operating group.</span></span>
           </h2>
-          <span className="division-heading-rule" aria-hidden="true" />
         </header>
 
         <div className="division-card-deck">
@@ -142,26 +143,37 @@ export function DivisionSequence() {
             const media = division.type === "video" ? division.poster : division.media;
 
             return (
-              <Link className="division-stack-card" href={`/${division.slug}`} key={division.name}>
-                <div className="division-card-visual">
-                  <Image
-                    alt=""
-                    fill
-                    sizes="(max-width: 900px) 84vw, (max-width: 1550px) 23vw, 460px"
-                    src={media}
-                  />
-                  <span className="division-card-number">{division.number}</span>
-                  <h3>{division.short}</h3>
-                </div>
-                <div className="division-card-copy">
-                  <p>{division.description}</p>
-                  <span className="division-card-link">
-                    Learn more <ArrowUpRight aria-hidden="true" size={16} />
-                  </span>
-                </div>
-              </Link>
+              <CircleTransitionLink
+                className="division-stack-card"
+                href={`/${division.slug}`}
+                key={division.name}
+                tone={divisionTone[division.slug]}
+                ariaLabel={`Explore ${division.name}`}
+              >
+                <MediaTilt className="division-card-depth">
+                  <div className="division-card-visual">
+                    <Image
+                      alt={`${division.name} field operations`}
+                      fill
+                      sizes="(max-width: 900px) 84vw, 450px"
+                      src={media}
+                    />
+                    <span className="division-card-number">{division.number}</span>
+                    <h3>{division.short}</h3>
+                  </div>
+                  <div className="division-card-copy">
+                    <p>{division.description}</p>
+                    <span className="division-card-link">Explore company</span>
+                    <ActionCircle />
+                  </div>
+                </MediaTilt>
+              </CircleTransitionLink>
             );
           })}
+        </div>
+
+        <div className="division-stack-progress" aria-hidden="true">
+          <span className="division-stack-progress-fill" />
         </div>
       </div>
     </section>

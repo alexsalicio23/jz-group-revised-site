@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { ContentPageData } from "@/app/content-data";
+import type { ApprovedMedia, ContentPageData } from "@/app/content-data";
 import type { TemplateSlug } from "@/app/templates/template-data";
 
 type MediaAsset = {
@@ -99,7 +99,8 @@ const motionAssets: Partial<Record<TemplateSlug, MediaAsset>> = {
   },
 };
 
-function selectAsset(data: ContentPageData, motion: boolean, mediaLabel?: string): MediaAsset {
+function selectAsset(data: ContentPageData, motion: boolean, mediaLabel?: string, explicit?: ApprovedMedia): MediaAsset {
+  if (explicit?.approved) return explicit;
   const label = (mediaLabel ?? data.mediaLabel).toLowerCase();
 
   if (motion && data.division && motionAssets[data.division]) return motionAssets[data.division]!;
@@ -117,14 +118,16 @@ export function JZMedia({
   priority = false,
   className = "",
   mediaLabel,
+  media,
 }: {
   data: ContentPageData;
   motion?: boolean;
   priority?: boolean;
   className?: string;
   mediaLabel?: string;
+  media?: ApprovedMedia;
 }) {
-  const asset = selectAsset(data, motion, mediaLabel);
+  const asset = selectAsset(data, motion, mediaLabel, media ?? data.media);
 
   if (asset.type === "video") {
     return (

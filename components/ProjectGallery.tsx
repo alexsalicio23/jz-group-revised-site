@@ -2,13 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight, X } from "lucide-react";
+import { X } from "lucide-react";
 import { featuredProjects } from "@/app/data";
+import {
+  ActionCircle,
+  CircleTransitionLink,
+  MediaTilt,
+  useMotionReveal,
+} from "@/components/MotionSystem";
 
 type FeaturedProject = (typeof featuredProjects)[number];
 
 export function ProjectGallery() {
+  const { runReveal } = useMotionReveal();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -25,7 +31,8 @@ export function ProjectGallery() {
 
   const openProject = (project: FeaturedProject, opener: HTMLButtonElement) => {
     openerRef.current = opener;
-    setActive(project);
+    const source = opener.querySelector<HTMLElement>(".motion-action-circle") ?? opener;
+    runReveal({ source, tone: "demolition", onCovered: () => setActive(project) });
   };
 
   const closeProject = () => {
@@ -50,7 +57,7 @@ export function ProjectGallery() {
             type="button"
             aria-label={`Open ${project.title} project summary`}
           >
-            <span className="project-tile-media">
+            <MediaTilt className="project-tile-media">
               <Image
                 src={project.image}
                 alt={project.imageAlt}
@@ -59,16 +66,17 @@ export function ProjectGallery() {
                 style={{ objectPosition: project.imagePosition }}
               />
               <span className="project-image-caption">{project.index} / {project.market}</span>
-            </span>
+            </MediaTilt>
             <span className="project-tile-meta">{project.market} / {project.location}</span>
             <strong className="project-tile-title">{project.title}</strong>
-            <ArrowUpRight aria-hidden="true" size={21} strokeWidth={1.5} />
+            <ActionCircle />
           </button>
         ))}
       </div>
 
       <dialog
         className="project-dialog"
+        aria-labelledby="project-dialog-title"
         data-closing={closing ? "true" : "false"}
         onCancel={(event) => { event.preventDefault(); closeProject(); }}
         onClick={(event) => { if (event.target === event.currentTarget) closeProject(); }}
@@ -90,15 +98,15 @@ export function ProjectGallery() {
               <span>{active.market} / {active.location}</span>
             </div>
             <article className="project-dialog-copy">
-              <p className="eyebrow">{active.index} / {active.market} / {active.location}</p>
-              <h2>{active.title}</h2>
+              <p className="sr-only">{active.index} / {active.market} / {active.location}</p>
+              <h2 id="project-dialog-title">{active.title}</h2>
               <p>{active.summary}</p>
               <dl>
                 {active.facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
               </dl>
-              <Link className="project-dialog-link" href={active.href}>
-                View project details <ArrowUpRight aria-hidden="true" size={17} />
-              </Link>
+              <CircleTransitionLink className="project-dialog-link" href={active.href} tone="demolition">
+                <span>View project details</span><ActionCircle />
+              </CircleTransitionLink>
             </article>
           </div>
         ) : null}

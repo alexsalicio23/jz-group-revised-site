@@ -5,13 +5,13 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Built around");
-  await expect(page.locator('video source[src="/media/video/hero-demolition.mp4"]')).toHaveCount(1);
-  await expect(page.getByRole("heading", { name: /Four companies.*One accountable workflow/ })).toBeAttached();
+  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
+  await expect(page.getByRole("heading", { name: /Four companies.*One operating group/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: /The building keeps moving.*So do we/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: /Comparable work.*Clear project records/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: "Safety is part of the deliverable." })).toBeAttached();
   await expect(page.getByText("50+", { exact: true })).toBeAttached();
-  await expect(page.locator(".division-index-list > a")).toHaveCount(4);
+  await expect(page.locator(".division-stack-card")).toHaveCount(4);
   await expect(page.locator(".metric-contact .bid-form")).toHaveCount(1);
   await expect(page.locator(".metric-logo")).toHaveCount(10);
 
@@ -57,11 +57,13 @@ test("project proof and safety details expand in place", async ({ page }) => {
 
   const project = page.getByRole("button", { name: /Baptist Medical Arts Building/ });
   await project.click();
+  await expect(page.locator(".motion-page-reveal")).toBeVisible();
   await expect(page.getByRole("dialog")).toBeVisible();
   await expect(page.getByText("16,300 SF", { exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: /View project details/ })).toBeVisible();
   await page.getByRole("button", { name: "Close project preview" }).click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
+  await expect(project).toBeFocused();
 
   const safetyRecord = page.locator(".metric-qualification-list details").nth(1);
   await safetyRecord.locator("summary").click();
@@ -69,14 +71,32 @@ test("project proof and safety details expand in place", async ({ page }) => {
   await expect(safetyRecord.getByText(/Access, work zones, material movement/)).toBeVisible();
 });
 
-test("company index changes its active field image on desktop", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile", "Desktop pointer behavior");
-  await page.goto("/#companies");
+test("drone chapters and company cards follow desktop scroll progress", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Desktop scroll choreography");
+  await page.goto("/");
 
-  const rows = page.locator(".division-index-list > a");
-  await rows.nth(2).hover();
-  await expect(rows.nth(2)).toHaveClass(/is-active/);
-  await expect(page.locator(".division-index-media figure").nth(2)).toHaveClass(/is-active/);
+  const hero = page.locator(".cinematic-hero");
+  const heroHeight = await hero.evaluate((element) => element.getBoundingClientRect().height);
+  const viewportHeight = page.viewportSize()!.height;
+  const chapterProgress = [0.17, 0.36, 0.62, 0.82];
+
+  for (let index = 0; index < chapterProgress.length; index += 1) {
+    await page.evaluate((y) => window.scrollTo(0, y), (heroHeight - viewportHeight) * chapterProgress[index]);
+    await page.waitForTimeout(650);
+    await expect(page.locator(".hero-chapter").nth(index)).toHaveAttribute("data-active", "");
+    await expect(page.locator(".hero-chapter[data-active]")).toHaveCount(1);
+  }
+
+  const stack = page.locator(".division-stack");
+  const stackTop = await stack.evaluate((element) => element.getBoundingClientRect().top + scrollY);
+  const stackHeight = await stack.evaluate((element) => element.getBoundingClientRect().height);
+  await page.evaluate((y) => window.scrollTo(0, y), stackTop + (stackHeight - viewportHeight) * 0.88);
+  await page.waitForTimeout(700);
+
+  const visibleCards = await page.locator(".division-stack-card").evaluateAll((cards) =>
+    cards.filter((card) => Number.parseFloat(getComputedStyle(card).opacity) > 0.9).length,
+  );
+  expect(visibleCards).toBe(4);
 });
 
 test("bid endpoint fails honestly until delivery credentials are configured", async ({ request }) => {
