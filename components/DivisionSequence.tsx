@@ -29,27 +29,26 @@ export function DivisionSequence() {
         const cards = gsap.utils.toArray<HTMLElement>(".division-stack-card", root.current);
         const heading = root.current?.querySelector<HTMLElement>(".division-stack-heading");
 
-        const positionCardsInRow = () => {
+        const getRowPosition = (index: number) => {
           const width = cards[0]?.getBoundingClientRect().width ?? 0;
           const gap = Math.max(16, Math.min(26, width * 0.06));
 
+          return (index - (cards.length - 1) / 2) * (width + gap);
+        };
+
+        const positionCardsInStack = () => {
           cards.forEach((card, index) => {
             gsap.set(card, {
               xPercent: -50,
               yPercent: -50,
-              x: (index - (cards.length - 1) / 2) * (width + gap),
-              y: 0,
-              z: 0,
-              rotationX: 0,
-              rotationY: 0,
-              rotationZ: 0,
-              scale: 1,
+              ...stackedPositions[index],
               autoAlpha: 1,
             });
           });
         };
 
-        positionCardsInRow();
+        positionCardsInStack();
+        if (heading) gsap.set(heading, { y: -18 });
 
         const timeline = gsap.timeline({
           defaults: { ease: "power2.inOut" },
@@ -59,16 +58,28 @@ export function DivisionSequence() {
             end: "bottom bottom",
             scrub: 0.45,
             invalidateOnRefresh: true,
-            onRefresh: positionCardsInRow,
           },
         });
 
         if (heading) {
-          timeline.to(heading, { autoAlpha: 0.42, y: -18, duration: 0.22 }, 0.06);
+          timeline.to(heading, { y: 0, duration: 0.22 }, 0.06);
         }
 
         cards.forEach((card, index) => {
-          timeline.to(card, { ...stackedPositions[index], duration: 0.34 }, 0.17 + index * 0.08);
+          timeline.to(
+            card,
+            {
+              x: () => getRowPosition(index),
+              y: 0,
+              z: 0,
+              rotationX: 0,
+              rotationY: 0,
+              rotationZ: 0,
+              scale: 1,
+              duration: 0.34,
+            },
+            0.17 + (cards.length - 1 - index) * 0.08,
+          );
         });
 
         timeline.to({}, { duration: 0.3 });
