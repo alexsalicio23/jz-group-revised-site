@@ -81,6 +81,82 @@ test("project proof and safety details expand in place", async ({ page }) => {
   await expect(safetyRecord.getByText(/facilities, people, and systems/)).toBeVisible();
 });
 
+test("desktop hero chapters occupy distinct quadrants and reverse cleanly", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Desktop-only hero choreography");
+  await page.goto("/");
+
+  const checkpoints = [
+    { progress: 0.18, motion: "cut", horizontal: "left", vertical: "lower" },
+    { progress: 0.34, motion: "frame", horizontal: "right", vertical: "upper" },
+    { progress: 0.55, motion: "panels", horizontal: "left", vertical: "upper" },
+    { progress: 0.75, motion: "complete", horizontal: "right", vertical: "lower" },
+  ] as const;
+
+  for (const checkpoint of checkpoints) {
+    await page.evaluate((progress) => {
+      document.documentElement.style.scrollBehavior = "auto";
+      const hero = document.querySelector<HTMLElement>(".cinematic-hero");
+      const travel = Math.max(0, (hero?.offsetHeight ?? 0) - window.innerHeight);
+      window.scrollTo(0, travel * progress);
+    }, checkpoint.progress);
+
+    const activeCard = page.locator(`[data-motion="${checkpoint.motion}"]`);
+    await expect.poll(() => activeCard.getAttribute("data-active")).toBe("");
+    await expect.poll(() => activeCard.evaluate((card) => Number(getComputedStyle(card).opacity))).toBeGreaterThan(0.98);
+
+    const layout = await activeCard.evaluate((card) => {
+      const bounds = card.getBoundingClientRect();
+      return {
+        centerX: bounds.left + bounds.width / 2,
+        centerY: bounds.top + bounds.height / 2,
+        top: bounds.top,
+        bottom: bounds.bottom,
+        viewportWidth: window.innerWidth,
+        viewportHeight: window.innerHeight,
+      };
+    });
+
+    expect(checkpoint.horizontal === "left" ? layout.centerX < layout.viewportWidth / 2 : layout.centerX > layout.viewportWidth / 2).toBe(true);
+    expect(checkpoint.vertical === "upper" ? layout.centerY < layout.viewportHeight / 2 : layout.centerY > layout.viewportHeight / 2).toBe(true);
+    expect(layout.top).toBeGreaterThan(90);
+    expect(layout.bottom).toBeLessThan(layout.viewportHeight - 70);
+
+    const chapterState = await page.locator(".hero-chapter").evaluateAll((cards) => ({
+      active: cards.filter((card) => card.hasAttribute("data-active")).length,
+      fullyVisible: cards.filter((card) => Number(getComputedStyle(card).opacity) > 0.98).length,
+      blockedInactive: cards
+        .filter((card) => !card.hasAttribute("data-active"))
+        .every((card) => getComputedStyle(card).pointerEvents === "none"),
+    }));
+    expect(chapterState).toEqual({ active: 1, fullyVisible: 1, blockedInactive: true });
+  }
+
+  const completeCard = page.locator('[data-motion="complete"]');
+  const completeBounds = await completeCard.boundingBox();
+  expect(completeBounds).not.toBeNull();
+  await page.mouse.move(
+    (completeBounds?.x ?? 0) + (completeBounds?.width ?? 0) - 8,
+    (completeBounds?.y ?? 0) + 12,
+  );
+  await expect.poll(() => completeCard.locator(".hero-chapter-interactive").evaluate(
+    (card) => getComputedStyle(card).getPropertyValue("--pointer-x").trim(),
+  )).not.toBe("0px");
+  await page.mouse.move(8, 8);
+  await expect.poll(() => completeCard.locator(".hero-chapter-interactive").evaluate(
+    (card) => getComputedStyle(card).getPropertyValue("--pointer-x").trim(),
+  )).toBe("0px");
+
+  await page.evaluate(() => {
+    const hero = document.querySelector<HTMLElement>(".cinematic-hero");
+    const travel = Math.max(0, (hero?.offsetHeight ?? 0) - window.innerHeight);
+    window.scrollTo(0, travel * 0.34);
+  });
+  await expect.poll(() => page.locator('[data-motion="frame"]').getAttribute("data-active")).toBe("");
+  await expect.poll(() => page.locator('[data-motion="frame"]').evaluate(
+    (card) => Number(getComputedStyle(card).opacity),
+  )).toBeGreaterThan(0.98);
+});
+
 test("walkthrough advances through the hero on desktop and mobile", async ({ page }, testInfo) => {
   await page.goto("/");
   const walkthrough = page.locator(".hero-walkthrough");

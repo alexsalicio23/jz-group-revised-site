@@ -7,6 +7,19 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+type ChapterPlacement = "lower-left" | "upper-right" | "upper-left" | "lower-right";
+type ChapterMotion = "cut" | "frame" | "panels" | "complete";
+
+type WalkthroughChapter = {
+  number: string;
+  title: string;
+  detail: string;
+  start: number;
+  end: number;
+  placement: ChapterPlacement;
+  motion: ChapterMotion;
+};
+
 const walkthroughChapters = [
   {
     number: "01",
@@ -14,6 +27,8 @@ const walkthroughChapters = [
     detail: "Selective removal in an active environment.",
     start: 2,
     end: 4.8,
+    placement: "lower-left",
+    motion: "cut",
   },
   {
     number: "02",
@@ -21,6 +36,8 @@ const walkthroughChapters = [
     detail: "The new plan takes shape.",
     start: 4.8,
     end: 7.5,
+    placement: "upper-right",
+    motion: "frame",
   },
   {
     number: "03",
@@ -28,6 +45,8 @@ const walkthroughChapters = [
     detail: "Interiors rebuilt around the next phase.",
     start: 7.5,
     end: 10.1,
+    placement: "upper-left",
+    motion: "panels",
   },
   {
     number: "04",
@@ -35,8 +54,43 @@ const walkthroughChapters = [
     detail: "A clean turnover for the people coming next.",
     start: 10.1,
     end: 13,
+    placement: "lower-right",
+    motion: "complete",
   },
-] as const;
+] as const satisfies readonly WalkthroughChapter[];
+
+type HeroChapterCardProps = {
+  chapter: WalkthroughChapter;
+  index: number;
+  activeMobileChapter: number;
+};
+
+function HeroChapterCard({ chapter, index, activeMobileChapter }: HeroChapterCardProps) {
+  return (
+    <article
+      className={`hero-chapter hero-chapter-${chapter.placement} hero-chapter-${chapter.motion}${
+        activeMobileChapter === index ? " is-active" : ""
+      }`}
+      data-motion={chapter.motion}
+      data-placement={chapter.placement}
+    >
+      <div className="hero-chapter-interactive">
+        <div className="hero-chapter-structure" aria-hidden="true">
+          <span className="hero-chapter-surface" />
+          <span className="hero-chapter-rail hero-chapter-rail-top" />
+          <span className="hero-chapter-rail hero-chapter-rail-right" />
+          <span className="hero-chapter-rail hero-chapter-rail-bottom" />
+          <span className="hero-chapter-rail hero-chapter-rail-left" />
+        </div>
+        <div className="hero-chapter-content">
+          <span>{chapter.number} / 04</span>
+          <h2>{chapter.title}</h2>
+          <p>{chapter.detail}</p>
+        </div>
+      </div>
+    </article>
+  );
+}
 
 function getChapterIndex(time: number) {
   const index = walkthroughChapters.findIndex(
@@ -61,9 +115,88 @@ export function CinematicHero() {
         () => {
           const walkthrough = video.current;
           const chapterCards = gsap.utils.toArray<HTMLElement>(".hero-chapter", root.current);
+          const supportsPointerDepth = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
           let videoFrame = 0;
           let timeline: gsap.core.Timeline | undefined;
           let removeSeekListener: (() => void) | undefined;
+          let activePointerChapter = -1;
+          const hoverCleanups: Array<() => void> = [];
+
+          const resetPointerDepth = (card: HTMLElement, animate = true) => {
+            const interactive = card.querySelector<HTMLElement>(".hero-chapter-interactive");
+            if (!interactive) return;
+
+            const values = {
+              "--pointer-x": "0px",
+              "--pointer-y": "0px",
+              "--pointer-rotate-x": "0deg",
+              "--pointer-rotate-y": "0deg",
+              "--pointer-detail-x": "0px",
+            };
+
+            if (animate) {
+              gsap.to(interactive, { ...values, duration: 0.45, ease: "power3.out", overwrite: true });
+            } else {
+              Object.entries(values).forEach(([property, value]) => interactive.style.setProperty(property, value));
+            }
+          };
+
+          const setActivePointerChapter = (nextIndex: number) => {
+            if (activePointerChapter === nextIndex) return;
+
+            chapterCards.forEach((card, index) => {
+              const isActive = index === nextIndex;
+              card.toggleAttribute("data-active", isActive);
+              card.style.pointerEvents = isActive && supportsPointerDepth ? "auto" : "none";
+              if (!isActive) resetPointerDepth(card);
+            });
+
+            activePointerChapter = nextIndex;
+          };
+
+          if (supportsPointerDepth) {
+            chapterCards.forEach((card) => {
+              const interactive = card.querySelector<HTMLElement>(".hero-chapter-interactive");
+              if (!interactive) return;
+
+              let pointerFrame = 0;
+              let pointerX = 0;
+              let pointerY = 0;
+
+              const applyPointerDepth = () => {
+                pointerFrame = 0;
+                interactive.style.setProperty("--pointer-x", `${pointerX.toFixed(2)}px`);
+                interactive.style.setProperty("--pointer-y", `${pointerY.toFixed(2)}px`);
+                interactive.style.setProperty("--pointer-rotate-x", `${(-pointerY * 0.25).toFixed(2)}deg`);
+                interactive.style.setProperty("--pointer-rotate-y", `${(pointerX * 0.25).toFixed(2)}deg`);
+                interactive.style.setProperty("--pointer-detail-x", `${(pointerX * 0.45).toFixed(2)}px`);
+              };
+
+              const handlePointerMove = (event: PointerEvent) => {
+                if (!card.hasAttribute("data-active")) return;
+                const bounds = card.getBoundingClientRect();
+                pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 12;
+                pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 12;
+
+                if (!pointerFrame) pointerFrame = requestAnimationFrame(applyPointerDepth);
+              };
+
+              const handlePointerLeave = () => {
+                if (pointerFrame) cancelAnimationFrame(pointerFrame);
+                pointerFrame = 0;
+                resetPointerDepth(card);
+              };
+
+              resetPointerDepth(card, false);
+              card.addEventListener("pointermove", handlePointerMove, { passive: true });
+              card.addEventListener("pointerleave", handlePointerLeave);
+              hoverCleanups.push(() => {
+                if (pointerFrame) cancelAnimationFrame(pointerFrame);
+                card.removeEventListener("pointermove", handlePointerMove);
+                card.removeEventListener("pointerleave", handlePointerLeave);
+              });
+            });
+          }
 
           const startDesktopExperience = () => {
             if (
@@ -78,6 +211,8 @@ export function CinematicHero() {
             walkthrough.pause();
             const openingTime = Math.min(2, Math.max(0, walkthrough.duration - 0.1));
             const closingTime = Math.max(openingTime, walkthrough.duration - 0.08);
+            const storyEndTime = Math.min(13, closingTime);
+            const storyDuration = Math.max(0.1, storyEndTime - openingTime);
             const playhead = { time: openingTime };
             const frameDuration = 1 / 24;
             let pendingTime = openingTime;
@@ -120,7 +255,7 @@ export function CinematicHero() {
             walkthrough.addEventListener("seeked", handleSeeked);
             removeSeekListener = () => walkthrough.removeEventListener("seeked", handleSeeked);
 
-            timeline = gsap.timeline({
+            const desktopTimeline = gsap.timeline({
               defaults: { ease: "none" },
               scrollTrigger: {
                 trigger: root.current,
@@ -129,27 +264,145 @@ export function CinematicHero() {
                 scrub: 1,
               },
             });
+            timeline = desktopTimeline;
 
-            gsap.set(chapterCards, { autoAlpha: 0, y: 30, scale: 0.98 });
-
-            timeline
+            desktopTimeline
               .to(playhead, { time: closingTime, duration: 1, onUpdate: queueFrame }, 0)
-              .to(".hero-progress-fill", { scaleX: 1, duration: 1 }, 0)
-              .to(".hero-intro", { autoAlpha: 0, y: -28, duration: 0.13 }, 0.1)
-              .to(chapterCards[0], { autoAlpha: 1, y: 0, scale: 1, duration: 0.08 }, 0.14)
-              .to(chapterCards[0], { autoAlpha: 0, y: -20, duration: 0.06 }, 0.25)
-              .to(chapterCards[1], { autoAlpha: 1, y: 0, scale: 1, duration: 0.08 }, 0.26)
-              .to(chapterCards[1], { autoAlpha: 0, y: -20, duration: 0.06 }, 0.49)
-              .to(chapterCards[2], { autoAlpha: 1, y: 0, scale: 1, duration: 0.08 }, 0.5)
-              .to(chapterCards[2], { autoAlpha: 0, y: -20, duration: 0.06 }, 0.73)
-              .to(chapterCards[3], { autoAlpha: 1, y: 0, scale: 1, duration: 0.08 }, 0.74)
-              .to(chapterCards[3], { autoAlpha: 0, y: -20, duration: 0.06 }, 0.9)
+              .to(".hero-progress-fill", { scaleX: 1, duration: 1.14 }, 0)
+              .to(".hero-intro", { autoAlpha: 0, y: -28, duration: 0.07 }, 0.06);
+
+            const chapterRanges = walkthroughChapters.map((chapter, index) => {
+              const rawStart = Math.max(0, (chapter.start - openingTime) / storyDuration);
+              const end = Math.min(1, (Math.min(chapter.end, storyEndTime) - openingTime) / storyDuration);
+              const enterStart = index === 0 ? Math.max(0.12, rawStart) : rawStart;
+              const rangeDuration = Math.max(0.08, end - rawStart);
+              const enterDuration = rangeDuration * 0.12;
+              const exitDuration = rangeDuration * 0.18;
+              const exitStart = end - exitDuration;
+
+              return { enterStart, enterDuration, exitStart, exitDuration, end };
+            });
+
+            chapterCards.forEach((card, index) => {
+              const motion = card.dataset.motion as ChapterMotion;
+              const content = card.querySelector<HTMLElement>(".hero-chapter-content");
+              const surface = card.querySelector<HTMLElement>(".hero-chapter-surface");
+              const rails = gsap.utils.toArray<HTMLElement>(".hero-chapter-rail", card);
+              const range = chapterRanges[index];
+              if (!content || !surface || !range) return;
+
+              const entryTransforms: Record<ChapterMotion, gsap.TweenVars> = {
+                cut: { x: -28, y: 18, scale: 0.98 },
+                frame: { x: 26, y: -18, scale: 0.965 },
+                panels: { x: -18, y: -22, scale: 0.98 },
+                complete: { x: 28, y: 20, scale: 0.96 },
+              };
+              const exitTransforms: Record<ChapterMotion, gsap.TweenVars> = {
+                cut: { x: -18, y: -6, scale: 0.99 },
+                frame: { x: 20, y: -14, scale: 0.98 },
+                panels: { x: -12, y: -20, scale: 0.99 },
+                complete: { x: 22, y: 4, scale: 1.025 },
+              };
+
+              gsap.set(card, { autoAlpha: 0, pointerEvents: "none", ...entryTransforms[motion] });
+              gsap.set(content, { autoAlpha: 0 });
+
+              desktopTimeline.to(
+                card,
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  y: 0,
+                  scale: 1,
+                  duration: range.enterDuration,
+                  ease: "power3.out",
+                },
+                range.enterStart,
+              );
+
+              if (motion === "cut") {
+                gsap.set(surface, { clipPath: "inset(0 100% 0 0)" });
+                gsap.set(content, { x: -18 });
+                gsap.set(rails[3], { scaleY: 0, transformOrigin: "top center" });
+                desktopTimeline
+                  .to(rails[3], { scaleY: 1, duration: range.enterDuration * 0.65, ease: "power2.out" }, range.enterStart)
+                  .to(surface, { clipPath: "inset(0 0% 0 0)", duration: range.enterDuration * 0.78, ease: "power3.out" }, range.enterStart + range.enterDuration * 0.16)
+                  .to(content, { autoAlpha: 1, x: 0, duration: range.enterDuration * 0.62, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.34)
+                  .to(content, { autoAlpha: 0, x: -12, duration: range.exitDuration * 0.55, ease: "power2.in" }, range.exitStart)
+                  .to(surface, { clipPath: "inset(0 0 0 100%)", duration: range.exitDuration * 0.75, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.12)
+                  .to(rails[3], { scaleY: 0, transformOrigin: "bottom center", duration: range.exitDuration * 0.45 }, range.exitStart + range.exitDuration * 0.5);
+              }
+
+              if (motion === "frame") {
+                gsap.set(surface, { clipPath: "inset(0 0 100% 0)" });
+                gsap.set(content, { y: 16 });
+                gsap.set([rails[0], rails[2]], { scaleX: 0 });
+                gsap.set([rails[1], rails[3]], { scaleY: 0 });
+                desktopTimeline
+                  .to([rails[0], rails[2]], { scaleX: 1, duration: range.enterDuration * 0.72, ease: "power2.out" }, range.enterStart)
+                  .to([rails[1], rails[3]], { scaleY: 1, duration: range.enterDuration * 0.72, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.15)
+                  .to(surface, { clipPath: "inset(0 0 0% 0)", duration: range.enterDuration * 0.7, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.2)
+                  .to(content, { autoAlpha: 1, y: 0, duration: range.enterDuration * 0.55, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.4)
+                  .to(content, { autoAlpha: 0, y: -12, duration: range.exitDuration * 0.5 }, range.exitStart)
+                  .to([rails[0], rails[2]], { scaleX: 0, duration: range.exitDuration * 0.58 }, range.exitStart + range.exitDuration * 0.2)
+                  .to([rails[1], rails[3]], { scaleY: 0, duration: range.exitDuration * 0.58 }, range.exitStart + range.exitDuration * 0.2);
+              }
+
+              if (motion === "panels") {
+                gsap.set(surface, { clipPath: "inset(0 50% 0 50%)" });
+                gsap.set(content, { y: 14 });
+                gsap.set(rails[0], { xPercent: -108 });
+                gsap.set(rails[2], { xPercent: 108 });
+                desktopTimeline
+                  .to([rails[0], rails[2]], { xPercent: 0, duration: range.enterDuration * 0.78, ease: "power3.out" }, range.enterStart)
+                  .to(surface, { clipPath: "inset(0 0% 0 0%)", duration: range.enterDuration * 0.72, ease: "power3.out" }, range.enterStart + range.enterDuration * 0.18)
+                  .to(content, { autoAlpha: 1, y: 0, duration: range.enterDuration * 0.56, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.4)
+                  .to(content, { autoAlpha: 0, y: -12, duration: range.exitDuration * 0.5 }, range.exitStart)
+                  .to(rails[0], { xPercent: -108, duration: range.exitDuration * 0.72, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.18)
+                  .to(rails[2], { xPercent: 108, duration: range.exitDuration * 0.72, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.18)
+                  .to(surface, { clipPath: "inset(0 50% 0 50%)", duration: range.exitDuration * 0.62 }, range.exitStart + range.exitDuration * 0.28);
+              }
+
+              if (motion === "complete") {
+                gsap.set(surface, { clipPath: "inset(0 100% 0 0)" });
+                gsap.set(content, { x: 20 });
+                gsap.set(rails[1], { scaleY: 0, transformOrigin: "top center" });
+                desktopTimeline
+                  .to(surface, { clipPath: "inset(0 0% 0 0)", duration: range.enterDuration * 0.82, ease: "power3.out" }, range.enterStart)
+                  .to(rails[1], { scaleY: 1, duration: range.enterDuration * 0.62, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.2)
+                  .to(content, { autoAlpha: 1, x: 0, duration: range.enterDuration * 0.58, ease: "power2.out" }, range.enterStart + range.enterDuration * 0.38)
+                  .to(content, { autoAlpha: 0, x: 14, duration: range.exitDuration * 0.5 }, range.exitStart)
+                  .to(surface, { clipPath: "inset(0 0 0 100%)", duration: range.exitDuration * 0.75, ease: "power3.in" }, range.exitStart + range.exitDuration * 0.14)
+                  .to(rails[1], { scaleY: 0, transformOrigin: "bottom center", duration: range.exitDuration * 0.5 }, range.exitStart + range.exitDuration * 0.42);
+              }
+
+              desktopTimeline.to(
+                card,
+                {
+                  autoAlpha: 0,
+                  ...exitTransforms[motion],
+                  duration: range.exitDuration * 0.52,
+                  ease: "power2.in",
+                },
+                range.exitStart + range.exitDuration * 0.48,
+              );
+            });
+
+            desktopTimeline
               .fromTo(
                 ".hero-resolution",
                 { autoAlpha: 0, y: 32 },
-                { autoAlpha: 1, y: 0, duration: 0.2 },
-                0.9,
+                { autoAlpha: 1, y: 0, duration: 0.14, ease: "power3.out" },
+                1,
               );
+
+            desktopTimeline.eventCallback("onUpdate", () => {
+              const timelinePosition = desktopTimeline.time();
+              const nextIndex = chapterRanges.findIndex(
+                (range) => timelinePosition >= range.enterStart && timelinePosition < range.end,
+              );
+              setActivePointerChapter(nextIndex);
+            });
 
             ScrollTrigger.refresh();
           };
@@ -164,6 +417,11 @@ export function CinematicHero() {
             if (videoFrame) cancelAnimationFrame(videoFrame);
             walkthrough?.removeEventListener("loadedmetadata", startDesktopExperience);
             removeSeekListener?.();
+            hoverCleanups.forEach((cleanup) => cleanup());
+            chapterCards.forEach((card) => {
+              card.removeAttribute("data-active");
+              card.style.removeProperty("pointer-events");
+            });
             timeline?.scrollTrigger?.kill();
             timeline?.kill();
           };
@@ -232,14 +490,12 @@ export function CinematicHero() {
           aria-label="Walkthrough stages"
         >
           {walkthroughChapters.map((chapter, index) => (
-            <article
-              className={`hero-chapter${activeMobileChapter === index ? " is-active" : ""}`}
+            <HeroChapterCard
+              activeMobileChapter={activeMobileChapter}
+              chapter={chapter}
+              index={index}
               key={chapter.title}
-            >
-              <span>{chapter.number} / 04</span>
-              <h2>{chapter.title}</h2>
-              <p>{chapter.detail}</p>
-            </article>
+            />
           ))}
         </aside>
 
