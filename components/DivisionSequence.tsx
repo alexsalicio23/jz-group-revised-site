@@ -12,10 +12,10 @@ import { divisions } from "@/app/data";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const stackedPositions = [
-  { x: -178, y: 64, z: -210, rotationY: -16, rotationZ: -4, scale: 0.82 },
-  { x: -58, y: 24, z: -72, rotationY: -7, rotationZ: -1.5, scale: 0.91 },
-  { x: 62, y: -20, z: 54, rotationY: 6, rotationZ: 1.5, scale: 1 },
-  { x: 180, y: -62, z: 158, rotationY: 14, rotationZ: 4, scale: 0.9 },
+  { y: 64, z: -210, rotationY: -16, rotationZ: -4, scale: 0.82 },
+  { y: 24, z: -72, rotationY: -7, rotationZ: -1.5, scale: 0.91 },
+  { y: -20, z: 54, rotationY: 6, rotationZ: 1.5, scale: 1 },
+  { y: -62, z: 158, rotationY: 14, rotationZ: 4, scale: 0.9 },
 ] as const;
 
 export function DivisionSequence() {
@@ -30,7 +30,7 @@ export function DivisionSequence() {
         const heading = root.current?.querySelector<HTMLElement>(".division-stack-heading");
 
         const getRowPosition = (index: number) => {
-          const width = cards[0]?.getBoundingClientRect().width ?? 0;
+          const width = cards[0]?.offsetWidth ?? 0;
           const gap = Math.max(16, Math.min(26, width * 0.06));
 
           return (index - (cards.length - 1) / 2) * (width + gap);
@@ -41,6 +41,7 @@ export function DivisionSequence() {
             gsap.set(card, {
               xPercent: -50,
               yPercent: -50,
+              x: getRowPosition(index),
               ...stackedPositions[index],
               autoAlpha: 1,
             });
