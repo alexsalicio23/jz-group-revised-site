@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Archivo } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getSiteUrl } from "@/app/site-url";
@@ -20,6 +21,16 @@ const frama = localFont({
     { path: "./fonts/PPFrama-Medium-RD.woff2", weight: "600", style: "normal" },
   ],
   variable: "--font-frama",
+  display: "swap",
+});
+
+// Display face. PP Neue Montreal only ships Book/Medium here, which left every
+// heading soft — Archivo carries the heavy, slightly-expanded weights the
+// display type needs.
+const display = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -44,7 +55,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${neue.variable} ${frama.variable}`}>
+    <html lang="en" className={`${neue.variable} ${frama.variable} ${display.variable}`}>
       <body>
         <a className="skip-link" href="#top">Skip to content</a>
         {children}

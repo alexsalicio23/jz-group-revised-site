@@ -32,6 +32,17 @@ export default function Home() {
         </dl>
       </section>
 
+      <div className="trust-strip">
+        <span>Built for</span>
+        <ul>
+          <li>Active hospitals</li>
+          <li>Occupied facilities</li>
+          <li>Education</li>
+          <li>Commercial interiors</li>
+          <li>Concrete + structural</li>
+        </ul>
+      </div>
+
       <section className="active-environments section-light" id="expertise">
         <div className="home-section-heading">
           <div>
@@ -104,6 +115,22 @@ export default function Home() {
           <Link className="text-link" href="/safety">
             View safety approach <ArrowUpRight aria-hidden="true" size={18} />
           </Link>
+        </div>
+      </section>
+
+      <section className="signal-band" aria-labelledby="band-title">
+        <div>
+          <h2 id="band-title">The building<br />never closes.<br />Neither do we.</h2>
+        </div>
+        <div>
+          <p>
+            Nights, phased windows, and live-floor sequencing. JZ works around the
+            operation instead of asking it to stop.
+          </p>
+          <div className="band-actions">
+            <Link href="/contact">Send a scope <ArrowUpRight aria-hidden="true" size={16} /></Link>
+            <Link href="/safety">Safety approach <ArrowUpRight aria-hidden="true" size={16} /></Link>
+          </div>
         </div>
       </section>
 

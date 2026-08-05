@@ -1,15 +1,29 @@
 :root {
-  --ink: #070809;
-  --graphite: #1f2224;
+  /* Warm-cream ground, softened ink. The cold near-white/near-black pair read
+     clinical; cream + #1d1d1d gives the same contrast with far more warmth. */
+  --ink: #1d1d1d;
+  --graphite: #2a2a2a;
   --steel: #73787c;
   --aluminum: #c9cdcf;
-  --concrete: #ececea;
-  --paper: #f7f7f4;
+  --concrete: #f6ebda;
+  --paper: #fff5e8;
   --white: #ffffff;
-  --signal: #c9cdcf;
+
+  /* Signal. This was previously aliased to grey, which left the whole site
+     with no accent colour at all. High-vis amber is the site-safety cue the
+     work actually trades on. */
+  --signal: #ff5a12;
+  --signal-deep: #d63f00;
+  --signal-wash: rgba(255, 90, 18, 0.12);
   --orange: var(--signal);
+
   --page-pad: 32px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* display type */
+  --dsp-tight: -0.03em;
+  --rule-heavy: 2px solid var(--ink);
 }
 
 * {
@@ -5952,4 +5966,495 @@ textarea {
   .development-capabilities li {
     min-height: 250px;
   }
+}
+
+/* ============================================================================
+   REDESIGN LAYER — "SIGNAL"
+   Heavy industrial display type, amber signal used as full-bleed sections,
+   scannable reviewer-first lists. Appended last so it wins on equal
+   specificity; the layout system above is left intact.
+   ========================================================================= */
+
+/* ---- display type ------------------------------------------------------ */
+.hero-intro h1,
+.home-section-heading h2,
+.contact-heading h2,
+.safety-copy h2 {
+  font-family: var(--font-display), var(--font-frama), Arial, sans-serif;
+  font-variation-settings: "wdth" 104;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: var(--dsp-tight);
+}
+
+.hero-intro h1 {
+  font-size: clamp(40px, 6.4vw, 96px);
+  line-height: 0.88;
+  max-width: 16ch;
+}
+
+.home-section-heading h2,
+.contact-heading h2,
+.safety-copy h2 {
+  font-size: clamp(30px, 4.6vw, 68px);
+  line-height: 0.9;
+}
+
+/* ---- eyebrows become signal labels ------------------------------------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--signal);
+  font-family: var(--font-frama), monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 2px;
+  background: var(--signal);
+  flex: none;
+}
+
+.eyebrow.light {
+  color: var(--signal);
+}
+
+/* ---- hero -------------------------------------------------------------- */
+.hero-intro h1 em {
+  font-style: normal;
+  color: var(--signal);
+}
+
+/* ---- experience strip: dead stats become signal numerals --------------- */
+.experience-strip dd {
+  font-family: var(--font-display), Arial, sans-serif;
+  font-variation-settings: "wdth" 102;
+  font-weight: 900;
+  font-size: clamp(34px, 4.4vw, 62px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.experience-strip dd a {
+  transition: color 0.25s var(--ease-out);
+}
+
+.experience-strip dd a:hover,
+.experience-strip dd a:focus-visible {
+  color: var(--signal);
+}
+
+.experience-strip dt {
+  color: #6c7175;
+  letter-spacing: 0.16em;
+}
+
+.experience-strip-title strong {
+  font-family: var(--font-display), Arial, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+}
+
+/* ---- four pillars as a segment control (Metric-style) ------------------ */
+.process-list {
+  border-top: var(--rule-heavy);
+}
+
+.process-list li {
+  border-bottom: 1px solid rgba(7, 8, 9, 0.14);
+}
+
+.process-list li > a {
+  position: relative;
+  padding-block: 22px;
+  transition: padding-left 0.32s var(--ease-out), background 0.32s var(--ease-out);
+}
+
+.process-list li > a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--signal);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.34s var(--ease-out);
+}
+
+.process-list li > a:hover::before,
+.process-list li > a:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.process-list li > a:hover,
+.process-list li > a:focus-visible {
+  padding-left: 18px;
+  background: var(--signal-wash);
+}
+
+.process-list li > a > span:first-child {
+  font-family: var(--font-frama), monospace;
+  color: var(--signal);
+  letter-spacing: 0.12em;
+}
+
+.process-list h3 {
+  font-family: var(--font-display), Arial, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: clamp(20px, 2.1vw, 30px);
+  line-height: 1;
+}
+
+/* ---- safety accordion --------------------------------------------------- */
+.qualification-list summary span:first-child {
+  color: var(--signal);
+  font-family: var(--font-frama), monospace;
+}
+
+.qualification-list details[open] summary {
+  color: var(--signal);
+}
+
+/* ---- trust strip -------------------------------------------------------- */
+.trust-strip {
+  border-top: 1px solid rgba(7, 8, 9, 0.12);
+  border-bottom: 1px solid rgba(7, 8, 9, 0.12);
+  padding: 26px var(--page-pad);
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 4vw, 64px);
+  flex-wrap: wrap;
+  background: var(--paper);
+}
+
+.trust-strip > span {
+  font-family: var(--font-frama), monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6c7175;
+  flex: none;
+}
+
+.trust-strip ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trust-strip li {
+  font-family: var(--font-frama), monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border: 1px solid rgba(7, 8, 9, 0.2);
+  border-radius: 999px;
+  color: var(--graphite);
+  transition: border-color 0.25s var(--ease-out), color 0.25s var(--ease-out);
+}
+
+.trust-strip li:hover {
+  border-color: var(--signal);
+  color: var(--signal);
+}
+
+/* ---- full-bleed signal band -------------------------------------------- */
+.signal-band {
+  background: var(--signal);
+  color: var(--ink);
+  padding: clamp(44px, 6vw, 92px) var(--page-pad);
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: end;
+}
+
+.signal-band h2 {
+  font-family: var(--font-display), Arial, sans-serif;
+  font-variation-settings: "wdth" 106;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(30px, 5.4vw, 84px);
+  line-height: 0.86;
+  letter-spacing: -0.028em;
+  margin: 0;
+}
+
+.signal-band p {
+  margin: 0;
+  font-size: clamp(15px, 1.3vw, 19px);
+  line-height: 1.5;
+  max-width: 40ch;
+  color: rgba(7, 8, 9, 0.78);
+}
+
+.signal-band .band-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.signal-band .band-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 24px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-frama), monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: transform 0.25s var(--ease-out), background 0.25s var(--ease-out);
+}
+
+.signal-band .band-actions a:hover,
+.signal-band .band-actions a:focus-visible {
+  transform: translateY(-2px);
+  background: #000;
+}
+
+@media (max-width: 900px) {
+  .signal-band {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
+
+/* ---- SIGNAL: carry the display system onto every page ------------------
+   The first pass only reached 6 homepage selectors, leaving interior pages
+   on PP Frama weight 400 — two different-looking sites. Sizes below are the
+   originals scaled by 0.73, the measured width ratio of Archivo-800-uppercase
+   against Frama-400 sentence case, so line lengths are preserved.          */
+
+.content-hero h1,
+.template-hero-copy h1,
+.waste-hero-copy h1,
+.review-intro h1,
+.walkthrough-copy h1,
+.hero-resolution-title,
+.content-form-section h2,
+.template-section-heading h2,
+.template-feature-copy h2,
+.template-contact h2,
+.clients-heading h2,
+.division-stack-heading h2,
+.project-dialog-copy h2,
+.waste-board-title h2,
+.waste-proof-copy h2,
+.waste-dispatch h2,
+.hero-chapter h2,
+.content-card h3,
+.content-spec h3,
+.template-service-ledger h3,
+.template-process h3,
+.waste-service-board h3,
+.waste-dispatch h3,
+.project-record-heading h3,
+.project-tile-title,
+.review-tile-copy strong,
+.content-stats strong,
+.project-stat strong,
+.waste-promise dd {
+  font-family: var(--font-display), var(--font-frama), Arial, sans-serif;
+  font-variation-settings: "wdth" 104;
+  text-transform: uppercase;
+  letter-spacing: var(--dsp-tight);
+}
+
+/* page-level headlines */
+.content-hero h1,
+.template-hero-copy h1,
+.waste-hero-copy h1,
+.review-intro h1,
+.walkthrough-copy h1 {
+  font-weight: 850;
+  line-height: 0.88;
+}
+
+.content-hero h1 { font-size: clamp(34px, 4.6vw, 60px); }
+.template-hero-copy h1 { font-size: clamp(38px, 5.9vw, 96px); }
+.waste-hero-copy h1 { font-size: clamp(44px, 7.7vw, 122px); }
+.review-intro h1,
+.walkthrough-copy h1 { font-size: clamp(32px, 4.4vw, 58px); }
+
+/* section headings */
+.content-form-section h2,
+.template-section-heading h2,
+.template-feature-copy h2,
+.template-contact h2,
+.clients-heading h2,
+.division-stack-heading h2,
+.project-dialog-copy h2,
+.waste-board-title h2,
+.waste-proof-copy h2,
+.waste-dispatch h2 {
+  font-weight: 800;
+  line-height: 0.9;
+}
+
+.template-section-heading h2,
+.template-feature-copy h2,
+.template-contact h2 { font-size: clamp(30px, 4.4vw, 68px); }
+.clients-heading h2 { font-size: clamp(30px, 4.6vw, 57px); }
+.division-stack-heading h2 { font-size: clamp(30px, 3.5vw, 60px); }
+.content-form-section h2,
+.project-dialog-copy h2 { font-size: clamp(26px, 3.4vw, 48px); }
+.waste-board-title h2,
+.waste-proof-copy h2,
+.waste-dispatch h2 { font-size: clamp(28px, 4vw, 62px); }
+
+/* card + ledger headings */
+.content-card h3,
+.content-spec h3,
+.template-service-ledger h3,
+.template-process h3,
+.waste-service-board h3,
+.waste-dispatch h3,
+.project-record-heading h3,
+.project-tile-title,
+.review-tile-copy strong {
+  font-weight: 750;
+  line-height: 0.98;
+  font-size: clamp(17px, 1.8vw, 25px);
+}
+
+/* hero chapter cards ride over video — keep them compact */
+.hero-chapter h2 {
+  font-weight: 800;
+  line-height: 0.94;
+  font-size: clamp(20px, 2.3vw, 34px);
+}
+
+.hero-resolution-title {
+  font-weight: 900;
+  line-height: 0.86;
+  font-size: clamp(30px, 4.6vw, 72px);
+}
+
+/* numerals: heavy, but never uppercased-letterspaced into oddness */
+.content-stats strong,
+.project-stat strong,
+.waste-promise dd {
+  font-weight: 900;
+  font-variation-settings: "wdth" 102;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* signal accents on interior pages, matching the homepage language */
+.template-kicker,
+.review-tile-index,
+.template-service-ledger li > span {
+  color: var(--signal);
+}
+
+.template-process h3::before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--signal);
+  margin-bottom: 12px;
+}
+
+/* Signal eyebrows: beat the per-context .template-kicker colour overrides. */
+.template-hero-copy .template-kicker,
+.content-section-heading .template-kicker,
+.content-form-section .template-kicker,
+.content-hero .template-kicker,
+.template-section-heading .template-kicker,
+.waste-hero-copy .template-kicker,
+.development-hero-copy .template-kicker {
+  color: var(--signal);
+}
+
+/* ============================================================================
+   METRIC PASS
+   Measured off metriccivil.ca: uppercase display at weight ~600-700 with
+   line-height 1.2 and normal tracking, on a warm cream ground. The earlier
+   pass was crushed (weight 850 / lh 0.88 / -0.03em) — this opens it back up.
+   ========================================================================= */
+
+.hero-intro h1,
+.home-section-heading h2,
+.contact-heading h2,
+.safety-copy h2,
+.content-hero h1,
+.template-hero-copy h1,
+.waste-hero-copy h1,
+.review-intro h1,
+.walkthrough-copy h1,
+.content-form-section h2,
+.template-section-heading h2,
+.template-feature-copy h2,
+.template-contact h2,
+.clients-heading h2,
+.division-stack-heading h2,
+.project-dialog-copy h2,
+.waste-board-title h2,
+.waste-proof-copy h2,
+.waste-dispatch h2,
+.hero-resolution-title,
+.signal-band h2 {
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -0.005em;
+  font-variation-settings: "wdth" 100;
+  text-wrap: balance;
+}
+
+.content-card h3,
+.content-spec h3,
+.template-service-ledger h3,
+.template-process h3,
+.waste-service-board h3,
+.waste-dispatch h3,
+.project-record-heading h3,
+.project-tile-title,
+.process-list h3 {
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+/* Metric's heading composition: big statement left, short body + hairline
+   rule right. */
+.home-section-heading > p {
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(29, 29, 29, 0.22);
+  color: #45494b;
+}
+
+/* Warm ground needs warmer section separators than the old cold greys. */
+.section-light {
+  background: var(--paper);
+}
+
+.trust-strip {
+  background: var(--concrete);
+  border-color: rgba(29, 29, 29, 0.14);
+}
+
+.trust-strip li {
+  border-color: rgba(29, 29, 29, 0.24);
+}
+
+/* Amber reads hot and clean on cream; keep the band ink-on-amber. */
+.signal-band {
+  color: #1d1d1d;
 }
