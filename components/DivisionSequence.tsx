@@ -11,12 +11,7 @@ import { divisions } from "@/app/data";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const stackedPositions = [
-  { y: 64, z: -210, rotationY: -16, rotationZ: -4, scale: 0.82 },
-  { y: 24, z: -72, rotationY: -7, rotationZ: -1.5, scale: 0.91 },
-  { y: -20, z: 54, rotationY: 6, rotationZ: 1.5, scale: 1 },
-  { y: -62, z: 158, rotationY: 14, rotationZ: 4, scale: 0.9 },
-] as const;
+const arrivalPoints = [0.06, 0.23, 0.4, 0.57] as const;
 
 export function DivisionSequence() {
   const root = useRef<HTMLElement>(null);
@@ -26,85 +21,97 @@ export function DivisionSequence() {
       const media = gsap.matchMedia();
 
       media.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
-        const cards = gsap.utils.toArray<HTMLElement>(".division-stack-card", root.current);
-        const heading = root.current?.querySelector<HTMLElement>(".division-stack-heading");
-        const headingLines = gsap.utils.toArray<HTMLElement>(".division-heading-line > span", root.current);
-        const headingRule = root.current?.querySelector<HTMLElement>(".division-heading-rule");
+        const element = root.current;
+        if (!element) return;
 
-        const getRowPosition = (index: number) => {
-          const width = cards[0]?.offsetWidth ?? 0;
-          const gap = Math.max(16, Math.min(26, width * 0.06));
+        const cards = gsap.utils.toArray<HTMLElement>(".division-stack-card", element);
+        const stage = element.querySelector<HTMLElement>(".division-card-deck");
+        const heading = element.querySelector<HTMLElement>(".division-stack-heading");
+        const progress = element.querySelector<HTMLElement>(".division-stack-progress-fill");
+        if (!cards.length || !stage || !heading) return;
 
-          return (index - (cards.length - 1) / 2) * (width + gap);
+        element.dataset.enhanced = "true";
+
+        const getMetrics = () => {
+          const gap = Math.max(14, Math.min(24, window.innerWidth * 0.012));
+          const sidePadding = Math.max(24, Math.min(64, window.innerWidth * 0.034));
+          const available = window.innerWidth - sidePadding * 2 - gap * (cards.length - 1);
+          const rowWidth = Math.min(430, available / cards.length);
+          const rowHeight = Math.min(500, Math.max(370, window.innerHeight * 0.52));
+          const stackWidth = Math.min(460, Math.max(390, window.innerWidth * 0.31));
+          const stackHeight = Math.min(520, Math.max(440, window.innerHeight * 0.56));
+
+          return { gap, rowHeight, rowWidth, stackHeight, stackWidth };
         };
 
-        const positionCardsInStack = () => {
-          cards.forEach((card, index) => {
-            gsap.set(card, {
-              xPercent: -50,
-              yPercent: -50,
-              x: getRowPosition(index),
-              ...stackedPositions[index],
-              y: stackedPositions[index].y + 42,
-              autoAlpha: 0,
-            });
-          });
+        const getRowX = (index: number) => {
+          const { gap, rowWidth } = getMetrics();
+          return (index - (cards.length - 1) / 2) * (rowWidth + gap);
         };
 
-        positionCardsInStack();
-        if (heading) {
-          gsap.set(heading, {
-            y: () => Math.min(240, window.innerHeight * 0.24),
-            scale: 1.06,
+        gsap.set(stage, { perspective: 1600, transformStyle: "preserve-3d" });
+        gsap.set(heading, { y: 18, opacity: 1 });
+        if (progress) gsap.set(progress, { scaleY: 0, transformOrigin: "top" });
+
+        cards.forEach((card, index) => {
+          const { stackHeight, stackWidth } = getMetrics();
+          gsap.set(card, {
+            xPercent: -50,
+            yPercent: -50,
+            x: 0,
+            y: index === 0 ? 58 : Math.max(420, window.innerHeight * 0.62),
+            z: index === 0 ? 0 : 150,
+            width: stackWidth,
+            height: stackHeight,
+            rotationX: index === 0 ? 0 : 8,
+            rotationY: index % 2 ? 3 : -3,
+            rotationZ: index % 2 ? 1.5 : -1.5,
+            scale: index === 0 ? 0.98 : 0.94,
+            autoAlpha: index === 0 ? 1 : 0,
+            zIndex: index + 2,
+            transformOrigin: "center center",
           });
-        }
-        gsap.set(headingLines, { opacity: 0, yPercent: 112 });
-        if (headingRule) gsap.set(headingRule, { scaleX: 0 });
+        });
 
         const timeline = gsap.timeline({
-          defaults: { ease: "power2.inOut" },
+          defaults: { ease: "power3.inOut" },
           scrollTrigger: {
-            trigger: root.current,
+            trigger: element,
             start: "top top",
             end: "bottom bottom",
-            scrub: 0.45,
+            scrub: 0.34,
             invalidateOnRefresh: true,
           },
         });
 
-        if (heading) {
-          timeline.to(
-            headingLines,
-            {
-              opacity: 1,
-              yPercent: 0,
-              duration: 0.14,
-              stagger: 0.035,
-              ease: "power3.out",
-            },
-            0.025,
-          );
-
-          if (headingRule) {
-            timeline.to(
-              headingRule,
-              { scaleX: 1, duration: 0.1, ease: "power2.out" },
-              0.09,
-            );
-          }
-
-          timeline.to(
-            heading,
-            { y: 0, scale: 1, duration: 0.2, ease: "power3.inOut" },
-            0.17,
-          );
-        }
+        timeline.to(heading, { y: 0, duration: 0.08, ease: "power3.out" }, 0);
+        if (progress) timeline.to(progress, { scaleY: 1, duration: 0.94, ease: "none" }, 0.03);
 
         cards.forEach((card, index) => {
+          const arrival = arrivalPoints[index];
+
+          cards.slice(0, index).forEach((previous, previousIndex) => {
+            const depth = index - previousIndex;
+            timeline.to(
+              previous,
+              {
+                x: (previousIndex % 2 ? 1 : -1) * depth * 30,
+                y: -depth * 22,
+                z: -depth * 78,
+                rotationY: (previousIndex % 2 ? 1 : -1) * depth * 1.6,
+                rotationZ: (previousIndex % 2 ? 1 : -1) * depth * 0.65,
+                scale: 1 - depth * 0.035,
+                filter: `brightness(${Math.max(0.7, 1 - depth * 0.08)})`,
+                duration: 0.12,
+              },
+              arrival,
+            );
+          });
+
           timeline.to(
             card,
             {
-              x: () => getRowPosition(index),
+              x: 0,
               y: 0,
               z: 0,
               rotationX: 0,
@@ -112,13 +119,44 @@ export function DivisionSequence() {
               rotationZ: 0,
               scale: 1,
               autoAlpha: 1,
-              duration: 0.3,
+              filter: "brightness(1)",
+              duration: 0.15,
+              ease: "power4.out",
             },
-            0.2 + index * 0.125,
+            arrival,
           );
         });
 
-        timeline.to({}, { duration: 0.12 });
+        cards.forEach((card, index) => {
+          timeline.to(
+            card,
+            {
+              x: () => getRowX(index),
+              y: 20,
+              z: 0,
+              width: () => getMetrics().rowWidth,
+              height: () => getMetrics().rowHeight,
+              rotationX: 0,
+              rotationY: 0,
+              rotationZ: 0,
+              scale: 1,
+              autoAlpha: 1,
+              filter: "brightness(1)",
+              duration: 0.2,
+              ease: "power3.inOut",
+            },
+            0.76,
+          );
+        });
+
+        timeline.to({}, { duration: 0.04 }, 0.96);
+        ScrollTrigger.refresh();
+
+        return () => {
+          delete element.dataset.enhanced;
+          timeline.scrollTrigger?.kill();
+          timeline.kill();
+        };
       });
 
       return () => media.revert();
@@ -127,14 +165,20 @@ export function DivisionSequence() {
   );
 
   return (
-    <section ref={root} className="division-stack" id="group" aria-labelledby="division-stack-title">
+    <section
+      ref={root}
+      className="division-stack"
+      data-pinned-scroll="compact"
+      id="companies"
+      aria-labelledby="division-stack-title"
+    >
+      <span className="anchor-target" id="group" aria-hidden="true" />
       <div className="division-stack-pin">
         <header className="division-stack-heading">
           <h2 id="division-stack-title">
-            <span className="division-heading-line"><span>Four companies.</span></span>
-            <span className="division-heading-line"><span>One operating group.</span></span>
+            <span>Four companies.</span>
+            <span>One operating group.</span>
           </h2>
-          <span className="division-heading-rule" aria-hidden="true" />
         </header>
 
         <div className="division-card-deck">
@@ -145,9 +189,9 @@ export function DivisionSequence() {
               <Link className="division-stack-card" href={`/${division.slug}`} key={division.name}>
                 <div className="division-card-visual">
                   <Image
-                    alt=""
+                    alt={`${division.name} field operations`}
                     fill
-                    sizes="(max-width: 900px) 84vw, (max-width: 1550px) 23vw, 460px"
+                    sizes="(max-width: 900px) 82vw, (max-width: 1550px) 24vw, 430px"
                     src={media}
                   />
                   <span className="division-card-number">{division.number}</span>
@@ -156,12 +200,16 @@ export function DivisionSequence() {
                 <div className="division-card-copy">
                   <p>{division.description}</p>
                   <span className="division-card-link">
-                    Learn more <ArrowUpRight aria-hidden="true" size={16} />
+                    Explore company <ArrowUpRight aria-hidden="true" size={17} />
                   </span>
                 </div>
               </Link>
             );
           })}
+        </div>
+
+        <div className="division-stack-progress" aria-hidden="true">
+          <span className="division-stack-progress-fill" />
         </div>
       </div>
     </section>

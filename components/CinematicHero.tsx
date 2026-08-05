@@ -11,6 +11,8 @@ type HeroChapter = {
   detail: string;
   start: number;
   end: number;
+  placement: "lower-left" | "upper-right" | "upper-left" | "lower-right";
+  motion: "cut" | "frame" | "panels" | "complete";
 };
 
 const START_TIME = 2;
@@ -23,6 +25,8 @@ const chapters = [
     detail: "Selective removal planned around an active environment.",
     start: 2,
     end: 4.8,
+    placement: "lower-left",
+    motion: "cut",
   },
   {
     number: "02",
@@ -30,6 +34,8 @@ const chapters = [
     detail: "The new floor plan begins taking shape.",
     start: 4.8,
     end: 7.5,
+    placement: "upper-right",
+    motion: "frame",
   },
   {
     number: "03",
@@ -37,6 +43,8 @@ const chapters = [
     detail: "Interiors are rebuilt around the next phase of work.",
     start: 7.5,
     end: 10.1,
+    placement: "upper-left",
+    motion: "panels",
   },
   {
     number: "04",
@@ -44,6 +52,8 @@ const chapters = [
     detail: "A clean turnover for the people coming next.",
     start: 10.1,
     end: 13,
+    placement: "lower-right",
+    motion: "complete",
   },
 ] as const satisfies readonly HeroChapter[];
 
@@ -70,7 +80,14 @@ export function CinematicHero() {
       const active = chapterIndex === index;
       chapter.toggleAttribute("data-active", active);
       if (active) chapter.setAttribute("aria-current", "step");
-      else chapter.removeAttribute("aria-current");
+      else {
+        chapter.removeAttribute("aria-current");
+        const frame = chapter.querySelector<HTMLElement>(".compact-hero-chapter-frame");
+        frame?.style.setProperty("--chapter-x", "0px");
+        frame?.style.setProperty("--chapter-y", "0px");
+        frame?.style.setProperty("--chapter-rx", "0deg");
+        frame?.style.setProperty("--chapter-ry", "0deg");
+      }
     });
 
     const activeElement = chapterElements[index];
@@ -112,6 +129,53 @@ export function CinematicHero() {
     let videoFrame = 0;
     let targetTime = START_TIME;
     let renderedTime = START_TIME;
+    const pointerCleanups: Array<() => void> = [];
+
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      const cards = Array.from(element.querySelectorAll<HTMLElement>(".compact-hero-chapter"));
+
+      cards.forEach((card) => {
+        const frame = card.querySelector<HTMLElement>(".compact-hero-chapter-frame");
+        if (!frame) return;
+
+        let pointerFrame = 0;
+        let pointerX = 0;
+        let pointerY = 0;
+
+        const renderPointer = () => {
+          pointerFrame = 0;
+          frame.style.setProperty("--chapter-x", `${pointerX.toFixed(2)}px`);
+          frame.style.setProperty("--chapter-y", `${pointerY.toFixed(2)}px`);
+          frame.style.setProperty("--chapter-rx", `${(-pointerY * 0.22).toFixed(2)}deg`);
+          frame.style.setProperty("--chapter-ry", `${(pointerX * 0.22).toFixed(2)}deg`);
+        };
+
+        const handlePointerMove = (event: PointerEvent) => {
+          if (!card.hasAttribute("data-active")) return;
+          const bounds = card.getBoundingClientRect();
+          pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 12;
+          pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 12;
+          if (!pointerFrame) pointerFrame = requestAnimationFrame(renderPointer);
+        };
+
+        const handlePointerLeave = () => {
+          if (pointerFrame) cancelAnimationFrame(pointerFrame);
+          pointerFrame = 0;
+          frame.style.setProperty("--chapter-x", "0px");
+          frame.style.setProperty("--chapter-y", "0px");
+          frame.style.setProperty("--chapter-rx", "0deg");
+          frame.style.setProperty("--chapter-ry", "0deg");
+        };
+
+        card.addEventListener("pointermove", handlePointerMove, { passive: true });
+        card.addEventListener("pointerleave", handlePointerLeave);
+        pointerCleanups.push(() => {
+          if (pointerFrame) cancelAnimationFrame(pointerFrame);
+          card.removeEventListener("pointermove", handlePointerMove);
+          card.removeEventListener("pointerleave", handlePointerLeave);
+        });
+      });
+    }
 
     const renderVideo = () => {
       videoFrame = 0;
@@ -169,6 +233,7 @@ export function CinematicHero() {
       walkthrough.removeEventListener("loadedmetadata", prepareVideo);
       window.removeEventListener("scroll", queueUpdate);
       window.removeEventListener("resize", queueUpdate);
+      pointerCleanups.forEach((cleanup) => cleanup());
     };
   }, []);
 
@@ -237,14 +302,29 @@ export function CinematicHero() {
         >
           {chapters.map((chapter, index) => (
             <li
-              className="compact-hero-chapter"
+              className={`compact-hero-chapter is-${chapter.placement} is-${chapter.motion}`}
               data-active={index === 0 ? "" : undefined}
+              data-motion={chapter.motion}
+              data-placement={chapter.placement}
               aria-current={index === 0 ? "step" : undefined}
               key={chapter.title}
             >
-              <span>{chapter.number}</span>
-              <strong>{chapter.title}</strong>
-              <p>{chapter.detail}</p>
+              <div className="compact-hero-chapter-frame">
+                <div className="compact-hero-chapter-structure" aria-hidden="true">
+                  <span className="compact-hero-chapter-surface" />
+                  <span className="compact-hero-chapter-panel panel-a" />
+                  <span className="compact-hero-chapter-panel panel-b" />
+                  <span className="compact-hero-chapter-rail rail-top" />
+                  <span className="compact-hero-chapter-rail rail-right" />
+                  <span className="compact-hero-chapter-rail rail-bottom" />
+                  <span className="compact-hero-chapter-rail rail-left" />
+                </div>
+                <div className="compact-hero-chapter-content">
+                  <span>{chapter.number} / 04</span>
+                  <strong>{chapter.title}</strong>
+                  <p>{chapter.detail}</p>
+                </div>
+              </div>
             </li>
           ))}
         </ol>

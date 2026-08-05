@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { BidForm } from "@/components/BidForm";
 import { CinematicHero } from "@/components/CinematicHero";
-import { DivisionIndex } from "@/components/DivisionIndex";
+import { DivisionSequence } from "@/components/DivisionSequence";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { GroupHeader } from "@/components/SiteNavigation";
 import { activeProcess, clientLogos, contact, publicPortfolioStats, qualificationRecords } from "./data";
@@ -69,14 +69,7 @@ export default function Home() {
         </ol>
       </section>
 
-      <section className="metric-companies" id="companies" aria-labelledby="companies-title">
-        <header className="metric-section-header">
-          <p className="section-index">02 / The group</p>
-          <h2 id="companies-title">Four companies.<br />One accountable workflow.</h2>
-          <p>Each company owns a specific part of the work. All four answer to the same standard.</p>
-        </header>
-        <DivisionIndex />
-      </section>
+      <DivisionSequence />
 
       <section className="metric-delivery" aria-labelledby="delivery-title">
         <div className="metric-delivery-media">

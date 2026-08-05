@@ -7,12 +7,12 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Built around");
   await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
   await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
-  await expect(page.getByRole("heading", { name: /Four companies.*One accountable workflow/ })).toBeAttached();
+  await expect(page.getByRole("heading", { name: /Four companies.*One operating group/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: /The building keeps moving.*So do we/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: /Comparable work.*Clear project records/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: "Safety is part of the deliverable." })).toBeAttached();
   await expect(page.getByText("50+", { exact: true })).toBeAttached();
-  await expect(page.locator(".division-index-list > a")).toHaveCount(4);
+  await expect(page.locator(".division-stack-card")).toHaveCount(4);
   await expect(page.locator(".metric-contact .bid-form")).toHaveCount(1);
   await expect(page.locator(".metric-logo")).toHaveCount(10);
 
@@ -106,6 +106,8 @@ test("homepage content remains visible without JavaScript", async ({ browser }) 
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
   await expect(page.locator(".compact-hero-chapter").first()).toBeVisible();
+  await expect(page.locator(".division-stack-card")).toHaveCount(4);
+  await expect(page.locator(".division-stack-card").first()).toBeVisible();
   await expect(page.getByRole("heading", { name: /One standard.*across every handoff/ })).toBeVisible();
   await expect(page.locator(".metric-logo")).toHaveCount(10);
 
@@ -153,14 +155,31 @@ test("project proof and safety details expand in place", async ({ page }) => {
   await expect(safetyRecord.getByText(/Access, work zones, material movement/)).toBeVisible();
 });
 
-test("company index changes its active field image on desktop", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile", "Desktop pointer behavior");
+test("company sequence stays compact and opens into four columns", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Desktop scroll choreography");
   await page.goto("/#companies");
 
-  const rows = page.locator(".division-index-list > a");
-  await rows.nth(2).hover();
-  await expect(rows.nth(2)).toHaveClass(/is-active/);
-  await expect(page.locator(".division-index-media figure").nth(2)).toHaveClass(/is-active/);
+  const viewportHeight = page.viewportSize()!.height;
+  const section = page.locator(".division-stack");
+  const sectionHeight = await section.evaluate((element) => element.getBoundingClientRect().height);
+  expect(sectionHeight).toBeLessThanOrEqual(viewportHeight * 1.5 + 2);
+
+  const sectionTop = await section.evaluate((element) => element.offsetTop);
+  const travel = sectionHeight - viewportHeight;
+  await page.evaluate((y) => window.scrollTo(0, y), sectionTop + travel * 0.98);
+  await page.waitForTimeout(500);
+
+  const cards = page.locator(".division-stack-card");
+  await expect(cards).toHaveCount(4);
+  const positions = await cards.evaluateAll((elements) =>
+    elements.map((element) => {
+      const bounds = element.getBoundingClientRect();
+      return { left: Math.round(bounds.left), opacity: Number(getComputedStyle(element).opacity) };
+    }),
+  );
+
+  expect(positions.every((position) => position.opacity > 0.95)).toBe(true);
+  expect(new Set(positions.map((position) => position.left)).size).toBe(4);
 });
 
 test("bid endpoint fails honestly until delivery credentials are configured", async ({ request }) => {
