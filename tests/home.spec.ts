@@ -5,7 +5,8 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Built around");
-  await expect(page.locator('video source[src="/media/video/hero-demolition.mp4"]')).toHaveCount(1);
+  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
+  await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
   await expect(page.getByRole("heading", { name: /Four companies.*One accountable workflow/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: /The building keeps moving.*So do we/ })).toBeAttached();
   await expect(page.getByRole("heading", { name: /Comparable work.*Clear project records/ })).toBeAttached();
@@ -35,6 +36,89 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
 
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
+});
+
+test("hero tells four phases inside a strict 1.5 viewport scroll budget", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Desktop scroll choreography");
+  await page.goto("/");
+
+  const viewportHeight = page.viewportSize()!.height;
+  const hero = page.locator(".compact-hero");
+  const heroHeight = await hero.evaluate((element) => element.getBoundingClientRect().height);
+  expect(heroHeight).toBeLessThanOrEqual(viewportHeight * 1.5 + 2);
+
+  const travel = heroHeight - viewportHeight;
+  const checkpoints = [0.08, 0.32, 0.6, 0.8];
+
+  for (let index = 0; index < checkpoints.length; index += 1) {
+    await page.evaluate((y) => window.scrollTo(0, y), travel * checkpoints[index]);
+    await page.waitForTimeout(180);
+    await expect(page.locator(".compact-hero-chapter").nth(index)).toHaveAttribute("data-active", "");
+    await expect(page.locator(".compact-hero-chapter[data-active]")).toHaveCount(1);
+  }
+
+  await page.evaluate((y) => window.scrollTo(0, y), travel * 0.96);
+  await page.waitForTimeout(260);
+  await expect(page.locator(".compact-hero-resolution")).toHaveCSS("opacity", "1");
+});
+
+test("jump scrolling and anchor navigation never produce an empty viewport", async ({ page }) => {
+  await page.goto("/");
+
+  const maxScroll = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight);
+  for (const progress of [0.28, 0.56, 0.84]) {
+    await page.evaluate((y) => window.scrollTo(0, y), maxScroll * progress);
+    await page.waitForTimeout(120);
+
+    const visibleContent = await page.locator("main h1, main h2, main h3, main p, main a, main img").evaluateAll((elements) =>
+      elements.filter((element) => {
+        const bounds = element.getBoundingClientRect();
+        if (bounds.bottom <= 0 || bounds.top >= innerHeight || bounds.width <= 0 || bounds.height <= 0) return false;
+
+        let current: Element | null = element;
+        while (current) {
+          const style = getComputedStyle(current);
+          if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) return false;
+          current = current.parentElement;
+        }
+        return true;
+      }).length,
+    );
+
+    expect(visibleContent).toBeGreaterThan(0);
+  }
+
+  for (const target of ["standard", "companies", "projects", "contact"]) {
+    await page.goto(`/#${target}`);
+    await page.waitForTimeout(120);
+    await expect(page.locator(`#${target}`)).toBeInViewport();
+  }
+});
+
+test("homepage content remains visible without JavaScript", async ({ browser }) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 1440, height: 900 },
+  });
+  const page = await context.newPage();
+  await page.goto("/");
+
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
+  await expect(page.locator(".compact-hero-chapter").first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: /One standard.*across every handoff/ })).toBeVisible();
+  await expect(page.locator(".metric-logo")).toHaveCount(10);
+
+  const unavailableSections = await page.locator("main > section").evaluateAll((sections) =>
+    sections.filter((section) => {
+      const style = getComputedStyle(section);
+      const bounds = section.getBoundingClientRect();
+      return style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0 || bounds.height === 0;
+    }).map((section) => section.id || section.className),
+  );
+  expect(unavailableSections).toEqual([]);
+
+  await context.close();
 });
 
 test("homepage inquiry visibly routes to the selected JZ company", async ({ page }) => {

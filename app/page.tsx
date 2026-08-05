@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { BidForm } from "@/components/BidForm";
+import { CinematicHero } from "@/components/CinematicHero";
 import { DivisionIndex } from "@/components/DivisionIndex";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { GroupHeader } from "@/components/SiteNavigation";
@@ -12,44 +13,7 @@ export default function Home() {
     <main className="metric-home">
       <GroupHeader />
 
-      <section className="metric-hero" id="top" aria-labelledby="home-title">
-        <video
-          className="metric-hero-media"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster="/media/video/hero-demolition-poster.jpg"
-          aria-label="Specialty demolition underway inside a commercial building"
-        >
-          <source src="/media/video/hero-demolition-mobile.mp4" type="video/mp4" media="(max-width: 760px)" />
-          <source src="/media/video/hero-demolition.mp4" type="video/mp4" />
-        </video>
-        <div className="metric-hero-shade" />
-        <div className="metric-hero-copy">
-          <p>JZ Group / South Florida</p>
-          <h1 id="home-title">Built around<br />what can&apos;t stop.</h1>
-          <div className="metric-hero-summary">
-            <p>
-              Four coordinated companies built for specialty demolition, construction,
-              waste management, and development.
-            </p>
-            <div>
-              <Link href="#companies">Explore the group <ArrowUpRight aria-hidden="true" size={17} /></Link>
-              <Link href="/contact">Send a scope <ArrowUpRight aria-hidden="true" size={17} /></Link>
-            </div>
-          </div>
-        </div>
-        <div className="metric-hero-register" aria-label="JZ Group operating summary">
-          <span>Specialty demolition</span>
-          <span>Active environments</span>
-          <span>One operating group</span>
-        </div>
-        <a className="metric-scroll-cue" href="#standard" aria-label="Continue to the next section">
-          <span>Scroll</span><ArrowDown aria-hidden="true" size={18} />
-        </a>
-      </section>
+      <CinematicHero />
 
       <section className="metric-statement" id="standard">
         <p className="section-index">01 / The operating standard</p>
