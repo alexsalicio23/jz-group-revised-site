@@ -7,6 +7,8 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Built around");
   await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
   await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
+  await expect(page.locator(".compact-hero-resolution img")).toHaveCount(1);
+  await expect(page.locator(".compact-hero-resolution p, .compact-hero-resolution i")).toHaveCount(0);
   await expect(page.locator("#division-stack-title")).toHaveText("Four companies one operating group");
   await expect(page.locator("#field-title")).toHaveText("The building keeps moving so do we");
   await expect(page.locator("#projects-title")).toHaveText("Comparable work clear project records");
@@ -87,6 +89,19 @@ test("hero tells four phases at a deliberate scroll pace", async ({ page }, test
     await page.waitForTimeout(180);
     await expect(page.locator(".compact-hero-chapter").nth(index)).toHaveAttribute("data-active", "");
     await expect(page.locator(".compact-hero-chapter[data-active]")).toHaveCount(1);
+
+    const activeCard = await page.locator(".compact-hero-chapter[data-active]").evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      const surface = element.querySelector<HTMLElement>(".compact-hero-chapter-surface");
+      return {
+        centerX: bounds.left + bounds.width / 2,
+        centerY: bounds.top + bounds.height / 2,
+        background: surface ? getComputedStyle(surface).backgroundColor : "missing",
+      };
+    });
+    expect(Math.abs(activeCard.centerX - page.viewportSize()!.width / 2)).toBeLessThan(2);
+    expect(Math.abs(activeCard.centerY - viewportHeight / 2)).toBeLessThan(2);
+    expect(activeCard.background).toBe("rgba(0, 0, 0, 0)");
   }
 
   await page.evaluate((y) => window.scrollTo(0, y), travel * 0.96);

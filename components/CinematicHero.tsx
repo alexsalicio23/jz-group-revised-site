@@ -351,8 +351,6 @@ export function CinematicHero() {
 
         <div className="compact-hero-resolution" aria-hidden="true">
           <Image src="/media/brand-logo.webp" alt="" width={180} height={90} />
-          <i />
-          <p>One group four divisions</p>
         </div>
 
         <div className="compact-hero-progress" aria-hidden="true"><span /></div>

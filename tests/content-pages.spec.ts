@@ -32,6 +32,12 @@ for (const route of representativePages) {
     const headingCopy = await page.locator("main h1, main h2, main h3, main h4").allTextContents();
     expect(headingCopy.every((heading) => !heading.includes("."))).toBe(true);
 
+    const supportAlignment = await page.locator(
+      ".metric-content-hero-bottom > p, .metric-content-body > p, .metric-content-card p, .metric-spec-grid article > p",
+    ).evaluateAll((elements) => elements.map((element) => getComputedStyle(element).textAlign));
+    expect(supportAlignment.length).toBeGreaterThan(0);
+    expect(supportAlignment.every((alignment) => alignment === "center")).toBe(true);
+
     const hasHorizontalOverflow = await page.evaluate(
       () => document.documentElement.scrollWidth > window.innerWidth,
     );
