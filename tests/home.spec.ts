@@ -69,6 +69,21 @@ test("mobile presentation copy is centered while form fields stay scannable", as
     () => document.documentElement.scrollWidth > window.innerWidth,
   );
   expect(hasHorizontalOverflow).toBe(false);
+
+  for (const selector of [
+    ".compact-hero-summary",
+    ".metric-statement-grid > div",
+    ".metric-statement-grid .metric-text-link",
+    ".metric-proof > header h2",
+    ".metric-section-header h2",
+    ".metric-section-header .metric-text-link",
+  ]) {
+    const center = await page.locator(selector).first().evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      return bounds.left + bounds.width / 2;
+    });
+    expect(Math.abs(center - page.viewportSize()!.width / 2), `${selector} should sit on the page center`).toBeLessThan(2);
+  }
 });
 
 test("hero tells four phases at a deliberate scroll pace", async ({ page }, testInfo) => {

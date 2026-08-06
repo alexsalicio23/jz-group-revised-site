@@ -99,12 +99,6 @@ export function CinematicHero() {
     const element = root.current;
     if (!element) return;
 
-    const desktop = window.matchMedia("(min-width: 901px)").matches;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!desktop || reducedMotion) return;
-
-    element.dataset.enhanced = "true";
-
     let anchorFrame = 0;
     const alignAnchor = () => {
       const anchorId = decodeURIComponent(window.location.hash.slice(1));
@@ -124,6 +118,10 @@ export function CinematicHero() {
 
     alignAnchor();
     window.addEventListener("hashchange", alignAnchor);
+
+    const desktop = window.matchMedia("(min-width: 901px)").matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (desktop && !reducedMotion) element.dataset.enhanced = "true";
 
     return () => {
       if (anchorFrame) cancelAnimationFrame(anchorFrame);
