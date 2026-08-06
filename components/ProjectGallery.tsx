@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, X } from "lucide-react";
 import { featuredProjects } from "@/app/data";
+import { displayHeading } from "@/app/display-text";
 
 type FeaturedProject = (typeof featuredProjects)[number];
 
@@ -90,8 +91,7 @@ export function ProjectGallery() {
               <span>{active.market} / {active.location}</span>
             </div>
             <article className="project-dialog-copy">
-              <p className="eyebrow">{active.index} / {active.market} / {active.location}</p>
-              <h2>{active.title}</h2>
+              <h2>{displayHeading(active.title)}</h2>
               <p>{active.summary}</p>
               <dl>
                 {active.facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}

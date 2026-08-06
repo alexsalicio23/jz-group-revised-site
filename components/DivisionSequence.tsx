@@ -11,7 +11,7 @@ import { divisions } from "@/app/data";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const arrivalPoints = [0.06, 0.23, 0.4, 0.57] as const;
+const arrivalPoints = [0.24, 0.39, 0.54, 0.69] as const;
 
 export function DivisionSequence() {
   const root = useRef<HTMLElement>(null);
@@ -27,6 +27,7 @@ export function DivisionSequence() {
         const cards = gsap.utils.toArray<HTMLElement>(".division-stack-card", element);
         const stage = element.querySelector<HTMLElement>(".division-card-deck");
         const heading = element.querySelector<HTMLElement>(".division-stack-heading");
+        const progressTrack = element.querySelector<HTMLElement>(".division-stack-progress");
         const progress = element.querySelector<HTMLElement>(".division-stack-progress-fill");
         if (!cards.length || !stage || !heading) return;
 
@@ -50,7 +51,8 @@ export function DivisionSequence() {
         };
 
         gsap.set(stage, { perspective: 1600, transformStyle: "preserve-3d" });
-        gsap.set(heading, { y: 18, opacity: 1 });
+        gsap.set(heading, { y: 34, autoAlpha: 0 });
+        if (progressTrack) gsap.set(progressTrack, { autoAlpha: 0 });
         if (progress) gsap.set(progress, { scaleY: 0, transformOrigin: "top" });
 
         cards.forEach((card, index) => {
@@ -59,15 +61,15 @@ export function DivisionSequence() {
             xPercent: -50,
             yPercent: -50,
             x: 0,
-            y: index === 0 ? 58 : Math.max(420, window.innerHeight * 0.62),
-            z: index === 0 ? 0 : 150,
+            y: Math.max(420, window.innerHeight * 0.62),
+            z: 150,
             width: stackWidth,
             height: stackHeight,
-            rotationX: index === 0 ? 0 : 8,
+            rotationX: 8,
             rotationY: index % 2 ? 3 : -3,
             rotationZ: index % 2 ? 1.5 : -1.5,
-            scale: index === 0 ? 0.98 : 0.94,
-            autoAlpha: index === 0 ? 1 : 0,
+            scale: 0.94,
+            autoAlpha: 0,
             zIndex: index + 2,
             transformOrigin: "center center",
           });
@@ -84,8 +86,9 @@ export function DivisionSequence() {
           },
         });
 
-        timeline.to(heading, { y: 0, duration: 0.08, ease: "power3.out" }, 0);
-        if (progress) timeline.to(progress, { scaleY: 1, duration: 0.94, ease: "none" }, 0.03);
+        timeline.to(heading, { y: 0, autoAlpha: 1, duration: 0.14, ease: "power3.out" }, 0.06);
+        if (progressTrack) timeline.to(progressTrack, { autoAlpha: 1, duration: 0.12, ease: "power2.out" }, 0.04);
+        if (progress) timeline.to(progress, { scaleY: 1, duration: 0.9, ease: "none" }, 0.07);
 
         cards.forEach((card, index) => {
           const arrival = arrivalPoints[index];
@@ -120,7 +123,7 @@ export function DivisionSequence() {
               scale: 1,
               autoAlpha: 1,
               filter: "brightness(1)",
-              duration: 0.15,
+              duration: 0.14,
               ease: "power4.out",
             },
             arrival,
@@ -142,14 +145,14 @@ export function DivisionSequence() {
               scale: 1,
               autoAlpha: 1,
               filter: "brightness(1)",
-              duration: 0.2,
+              duration: 0.15,
               ease: "power3.inOut",
             },
-            0.76,
+            0.81,
           );
         });
 
-        timeline.to({}, { duration: 0.04 }, 0.96);
+        timeline.to({}, { duration: 0.03 }, 0.97);
         ScrollTrigger.refresh();
 
         return () => {
@@ -175,10 +178,7 @@ export function DivisionSequence() {
       <span className="anchor-target" id="group" aria-hidden="true" />
       <div className="division-stack-pin">
         <header className="division-stack-heading">
-          <h2 id="division-stack-title">
-            <span>Four companies.</span>
-            <span>One operating group.</span>
-          </h2>
+          <h2 id="division-stack-title">Four companies one operating group</h2>
         </header>
 
         <div className="division-card-deck">

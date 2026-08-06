@@ -16,9 +16,8 @@ export default function Home() {
       <CinematicHero />
 
       <section className="metric-statement" id="standard">
-        <p className="section-index">01 / The operating standard</p>
         <div className="metric-statement-grid">
-          <h2>One standard<br />across every handoff.</h2>
+          <h2>One standard across every handoff</h2>
           <div>
             <p>
               JZ Group coordinates the work before, during, and after the cut. The result is
@@ -52,8 +51,7 @@ export default function Home() {
         />
         <div className="metric-field-shade" />
         <div className="metric-field-copy">
-          <p>Specialty work / Active environments</p>
-          <h2 id="field-title">The building keeps moving.<br />So do we.</h2>
+          <h2 id="field-title">The building keeps moving so do we</h2>
         </div>
         <ol className="metric-process">
           {activeProcess.map((step) => (
@@ -82,8 +80,7 @@ export default function Home() {
           />
         </div>
         <div className="metric-delivery-copy">
-          <p className="section-index">03 / Accountability</p>
-          <h2 id="delivery-title">First to plan.<br />Last to leave.</h2>
+          <h2 id="delivery-title">First to plan last to leave</h2>
           <p>
             The scope is not finished when material comes down. JZ plans the handoff,
             coordinates the supporting companies, and leaves the next team ready to move.
@@ -94,8 +91,7 @@ export default function Home() {
 
       <section className="metric-proof" aria-labelledby="proof-title">
         <header>
-          <p className="section-index">04 / Public portfolio</p>
-          <h2 id="proof-title">Experience you can qualify.</h2>
+          <h2 id="proof-title">Experience you can qualify</h2>
         </header>
         <div className="metric-proof-grid">
           {publicPortfolioStats.map((stat) => (
@@ -110,8 +106,7 @@ export default function Home() {
 
       <section className="metric-projects" id="projects" aria-labelledby="projects-title">
         <header className="metric-section-header">
-          <p className="section-index">05 / Selected work</p>
-          <h2 id="projects-title">Comparable work.<br />Clear project records.</h2>
+          <h2 id="projects-title">Comparable work clear project records</h2>
           <Link className="metric-text-link" href="/projects">View all projects <ArrowUpRight aria-hidden="true" size={17} /></Link>
         </header>
         <ProjectGallery />
@@ -128,8 +123,7 @@ export default function Home() {
           />
         </div>
         <div className="metric-safety-copy">
-          <p className="section-index">06 / Safety and qualifications</p>
-          <h2 id="safety-title">Safety is part of the deliverable.</h2>
+          <h2 id="safety-title">Safety is part of the deliverable</h2>
           <div className="metric-qualification-list">
             {qualificationRecords.map((record, index) => (
               <details key={record.title} open={index === 0}>
@@ -144,8 +138,7 @@ export default function Home() {
 
       <section className="metric-contact" id="contact" aria-labelledby="contact-title">
         <div className="metric-contact-intro">
-          <p className="section-index">07 / Estimating</p>
-          <h2 id="contact-title">Put the scope<br />in front of JZ.</h2>
+          <h2 id="contact-title">Put the scope in front of JZ</h2>
           <p>Send it once. The group routes it to the company responsible for the work.</p>
           <div>
             <a href={contact.phoneHref}>{contact.phoneDisplay}</a>

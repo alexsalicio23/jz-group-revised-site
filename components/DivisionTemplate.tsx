@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { divisionContacts } from "@/app/content-data";
+import { displayHeading } from "@/app/display-text";
 import type { DivisionTemplateData } from "@/app/templates/template-data";
 import { DivisionHeader } from "@/components/SiteNavigation";
 
@@ -53,8 +54,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
         <div className="metric-division-hero-media"><HeroMedia data={data} /></div>
         <div className="metric-division-hero-shade" />
         <div className="metric-division-hero-copy">
-          <p>{data.index} / {data.discipline}</p>
-          <h1>{data.headline}</h1>
+          <h1>{displayHeading(data.headline)}</h1>
           <div>
             <p>{data.introduction}</p>
             <div>
@@ -74,8 +74,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
       </section>
 
       <section className="metric-division-intro" id="capabilities">
-        <p className="section-index">01 / Capabilities</p>
-        <h2>{data.servicesLead}</h2>
+        <h2>{displayHeading(data.servicesLead)}</h2>
       </section>
 
       <section className="metric-service-index" aria-label={`${data.name} services`}>
@@ -83,7 +82,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
           const content = (
             <>
               <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{service.name}</h3>
+              <h3>{displayHeading(service.name)}</h3>
               <p>{service.detail}</p>
               <ArrowUpRight aria-hidden="true" size={24} />
             </>
@@ -98,8 +97,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
         <div className="metric-division-feature-media"><FeatureMedia data={data} /></div>
         <div className="metric-division-feature-shade" />
         <div className="metric-division-feature-copy">
-          <p>{data.feature.eyebrow}</p>
-          <h2>{data.feature.title}</h2>
+          <h2>{displayHeading(data.feature.title)}</h2>
           <div>
             <p>{data.feature.description}</p>
             <dl>{data.feature.facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl>
@@ -109,14 +107,13 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
 
       <section className="metric-division-process" id="process">
         <header>
-          <p className="section-index">02 / How the work moves</p>
-          <h2>One clear sequence.</h2>
+          <h2>One clear sequence</h2>
         </header>
         <ol>
           {data.process.map((step) => (
             <li key={step.number}>
               <span>{step.number}</span>
-              <h3>{step.title}</h3>
+              <h3>{displayHeading(step.title)}</h3>
               <p>{step.description}</p>
             </li>
           ))}
@@ -124,8 +121,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
       </section>
 
       <section className="metric-division-contact" id="contact">
-        <p>Have a scope?</p>
-        <h2>{data.close}</h2>
+        <h2>{displayHeading(data.close)}</h2>
         <div>
           <Link href={`/${data.slug}/contact`}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
           <a href="tel:+13057932984">{contact.phone}</a>

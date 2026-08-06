@@ -36,8 +36,7 @@ export default function TemplatesPage() {
       </header>
 
       <section className="review-intro">
-        <p className="template-kicker">JZ family of companies</p>
-        <h1>Four companies.<br />Four distinct reasons to believe.</h1>
+        <h1>Four companies four distinct reasons to believe</h1>
         <p>
           These are homepage templates for visual and strategic approval. They share one JZ standard,
           but each site leads with the audience, work, and proof that matter to that company.

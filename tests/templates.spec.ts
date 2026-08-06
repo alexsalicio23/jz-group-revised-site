@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { displayHeading } from "../app/display-text";
 
 const templates = [
   { slug: "demolition", heading: "Specialty demolition where the building cannot stop." },
@@ -25,7 +26,7 @@ test("client review hub presents all four company directions", async ({ page }) 
 test("public division URLs avoid client-review route names", async ({ page }) => {
   for (const item of templates) {
     await page.goto(`/${item.slug}`);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(item.heading);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(displayHeading(item.heading));
     await expect(page.locator(".metric-service-index > a").first()).toBeVisible();
     await expect(page.locator(".metric-subpage-footer").getByRole("link", { name: "JZ Group" })).toHaveAttribute("href", "/");
   }
@@ -35,8 +36,8 @@ for (const item of templates) {
   test(`${item.slug} template is complete and accessible`, async ({ page }, testInfo) => {
     await page.goto(`/templates/${item.slug}`);
 
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(item.heading);
-    await expect(page.getByRole("heading", { name: "One clear sequence." })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(displayHeading(item.heading));
+    await expect(page.getByRole("heading", { name: "One clear sequence" })).toBeVisible();
     await expect(page.getByRole("link", { name: /Send project details/ })).toBeVisible();
 
     const hasHorizontalOverflow = await page.evaluate(

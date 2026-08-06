@@ -27,6 +27,10 @@ for (const route of representativePages) {
     await expect(page.locator(".metric-content-hero-media")).toBeVisible();
     await expect(page.locator(".metric-subpage-footer")).toBeVisible();
     await expect(page.getByText(/ASSETS? PENDING/i)).toHaveCount(0);
+    await expect(page.locator(".section-index")).toHaveCount(0);
+
+    const headingCopy = await page.locator("main h1, main h2, main h3, main h4").allTextContents();
+    expect(headingCopy.every((heading) => !heading.includes("."))).toBe(true);
 
     const hasHorizontalOverflow = await page.evaluate(
       () => document.documentElement.scrollWidth > window.innerWidth,

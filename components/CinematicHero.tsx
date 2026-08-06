@@ -6,7 +6,6 @@ import { ArrowUpRight } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef } from "react";
 
 type HeroChapter = {
-  number: string;
   title: string;
   detail: string;
   start: number;
@@ -20,7 +19,6 @@ const END_TIME = 13;
 
 const chapters = [
   {
-    number: "01",
     title: "Controlled demolition",
     detail: "Selective removal planned around an active environment.",
     start: 2,
@@ -29,7 +27,6 @@ const chapters = [
     motion: "cut",
   },
   {
-    number: "02",
     title: "Framing",
     detail: "The new floor plan begins taking shape.",
     start: 4.8,
@@ -38,7 +35,6 @@ const chapters = [
     motion: "frame",
   },
   {
-    number: "03",
     title: "Drywall and ceiling systems",
     detail: "Interiors are rebuilt around the next phase of work.",
     start: 7.5,
@@ -47,7 +43,6 @@ const chapters = [
     motion: "panels",
   },
   {
-    number: "04",
     title: "Ready for work",
     detail: "A clean turnover for the people coming next.",
     start: 10.1,
@@ -106,7 +101,34 @@ export function CinematicHero() {
 
     const desktop = window.matchMedia("(min-width: 901px)").matches;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (desktop && !reducedMotion) element.dataset.enhanced = "true";
+    if (!desktop || reducedMotion) return;
+
+    element.dataset.enhanced = "true";
+
+    let anchorFrame = 0;
+    const alignAnchor = () => {
+      const anchorId = decodeURIComponent(window.location.hash.slice(1));
+      if (!anchorId || anchorId === "top") return;
+      if (anchorFrame) cancelAnimationFrame(anchorFrame);
+      anchorFrame = requestAnimationFrame(() => {
+        anchorFrame = requestAnimationFrame(() => {
+          const target = document.getElementById(anchorId);
+          if (!target) return;
+          const previousBehavior = document.documentElement.style.scrollBehavior;
+          document.documentElement.style.scrollBehavior = "auto";
+          target.scrollIntoView({ block: "start" });
+          document.documentElement.style.scrollBehavior = previousBehavior;
+        });
+      });
+    };
+
+    alignAnchor();
+    window.addEventListener("hashchange", alignAnchor);
+
+    return () => {
+      if (anchorFrame) cancelAnimationFrame(anchorFrame);
+      window.removeEventListener("hashchange", alignAnchor);
+    };
   }, []);
 
   useEffect(() => {
@@ -281,8 +303,7 @@ export function CinematicHero() {
         <div className="compact-hero-shade" aria-hidden="true" />
 
         <div className="compact-hero-intro">
-          <p>JZ Group / South Florida</p>
-          <h1 id="home-title">Built around<br />what can&apos;t stop.</h1>
+          <h1 id="home-title">Built around what can&apos;t stop</h1>
           <div className="compact-hero-summary">
             <p>
               Four coordinated companies built for specialty demolition, construction,
@@ -320,7 +341,6 @@ export function CinematicHero() {
                   <span className="compact-hero-chapter-rail rail-left" />
                 </div>
                 <div className="compact-hero-chapter-content">
-                  <span>{chapter.number} / 04</span>
                   <strong>{chapter.title}</strong>
                   <p>{chapter.detail}</p>
                 </div>
@@ -332,7 +352,7 @@ export function CinematicHero() {
         <div className="compact-hero-resolution" aria-hidden="true">
           <Image src="/media/brand-logo.webp" alt="" width={180} height={90} />
           <i />
-          <p>One group.<br />Four divisions.</p>
+          <p>One group four divisions</p>
         </div>
 
         <div className="compact-hero-progress" aria-hidden="true"><span /></div>

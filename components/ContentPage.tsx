@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowDownToLine, ArrowUpRight, ChevronRight, Phone } from "lucide-react";
 import type { ContentAction, ContentCard, ContentPageData } from "@/app/content-data";
 import { divisionContacts, divisionLabels } from "@/app/content-data";
+import { displayHeading } from "@/app/display-text";
 import { BidForm } from "@/components/BidForm";
 import { JZMedia } from "@/components/JZMedia";
 import { DivisionHeader, GroupHeader } from "@/components/SiteNavigation";
@@ -21,7 +22,7 @@ function LinkedCard({ card, index }: { card: ContentCard; index: number }) {
     <>
       <span>{String(index + 1).padStart(2, "0")}</span>
       <div>
-        <h3>{card.title}</h3>
+        <h3>{displayHeading(card.title)}</h3>
         {card.subtitle ? <p className="metric-card-subtitle">{card.subtitle}</p> : null}
         {card.description ? <p>{card.description}</p> : null}
       </div>
@@ -57,8 +58,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
             <ChevronRight aria-hidden="true" size={13} />
             <span>{data.category}</span>
           </nav>
-          <p>{data.eyebrow}</p>
-          <h1>{data.title}</h1>
+          <h1>{displayHeading(data.title)}</h1>
           <div className="metric-content-hero-bottom">
             <p>{data.introduction}</p>
             <div>
@@ -83,8 +83,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
             key={section.id}
           >
             <header>
-              <p className="section-index">{String(sectionIndex + 1).padStart(2, "0")} / {section.eyebrow ?? data.category}</p>
-              <h2>{section.title}</h2>
+              <h2>{displayHeading(section.title)}</h2>
             </header>
 
             {section.paragraphs?.length || section.bullets?.length ? (
@@ -111,7 +110,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
                 {section.specifications.map((spec, index) => (
                   <article key={spec.title}>
                     <span>{String(index + 1).padStart(2, "0")}</span>
-                    <h3>{spec.title}</h3>
+                    <h3>{displayHeading(spec.title)}</h3>
                     {spec.dimensions?.length ? <p>{spec.dimensions.join(" / ")}</p> : null}
                     <h4>Best used for</h4>
                     <ul>{spec.bestFor.map((item) => <li key={item}>{item}</li>)}</ul>
@@ -127,8 +126,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       {data.faqs?.length ? (
         <section className="metric-faq" id="questions">
           <header>
-            <p className="section-index">Questions / Project review</p>
-            <h2>What reviewers usually need to know.</h2>
+            <h2>What reviewers usually need to know</h2>
           </header>
           <div>
             {data.faqs.map((faq, index) => (
@@ -144,8 +142,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       {data.category === "contact" ? (
         <section className="metric-content-form" aria-labelledby="content-form-title">
           <div>
-            <p className="section-index">Project intake / South Florida</p>
-            <h2 id="content-form-title">Put the project in front of estimating.</h2>
+            <h2 id="content-form-title">Put the project in front of estimating</h2>
             <p>Include the service lane, location, facility status, bid date, and the scope information currently available.</p>
             <div className="metric-direct-contact">
               <a href="tel:+13057932984"><Phone aria-hidden="true" size={18} />(305) 793-2984</a>
@@ -159,8 +156,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       {data.related?.length ? (
         <section className="metric-related" aria-labelledby="related-title">
           <header>
-            <p className="section-index">Continue the review</p>
-            <h2 id="related-title">Related JZ capabilities.</h2>
+            <h2 id="related-title">Related JZ capabilities</h2>
           </header>
           <div>
             {data.related.map((item, index) => <LinkedCard card={item} index={index} key={`${item.title}-${index}`} />)}
@@ -169,8 +165,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       ) : null}
 
       <section className="metric-page-cta">
-        <p>Have a scope?</p>
-        <h2>Let&apos;s put the right JZ company behind it.</h2>
+        <h2>Let&apos;s put the right JZ company behind it</h2>
         <Link href={contactHref}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
       </section>
 
