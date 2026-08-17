@@ -9,6 +9,7 @@ import "./globals.css";
 import "./sitewide-update.css";
 import "./hero-d77.css";
 import "./process-d77.css";
+import "./mobile-optimization.css";
 
 const neue = localFont({
   src: [

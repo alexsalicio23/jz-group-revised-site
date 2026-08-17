@@ -1,0 +1,390 @@
+/* Mobile-only density, touch, and media optimization. Desktop remains unchanged. */
+@media (max-width: 760px) {
+  html {
+    scroll-padding-top: calc(var(--header-height) + env(safe-area-inset-top));
+  }
+
+  .site-header,
+  .template-header {
+    height: calc(var(--header-height) + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .brand,
+  .template-brand,
+  .mobile-menu > summary,
+  .template-mobile-menu > summary {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .mobile-menu nav,
+  .template-mobile-menu nav {
+    width: min(310px, calc(100vw - 2rem));
+    max-height: calc(100dvh - var(--header-height) - 1rem);
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .mobile-menu nav a,
+  .template-mobile-menu nav a,
+  .mobile-expertise-menu summary {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    padding-block: 0.75rem;
+  }
+
+  .metric-text-link,
+  .metric-hero-link,
+  .compact-hero-summary a,
+  .division-card-link,
+  .metric-content-hero-bottom a,
+  .metric-direct-contact a,
+  .metric-contact-intro > div a {
+    min-height: 44px;
+    align-items: center;
+    padding-top: 0.55rem;
+    padding-bottom: 0.45rem;
+  }
+
+  .compact-hero-chapters {
+    gap: 0.75rem;
+    padding-inline: 6vw;
+    scroll-padding-inline: 6vw;
+  }
+
+  .compact-hero-chapter {
+    min-width: 82vw;
+    flex-basis: 82vw;
+  }
+
+  .compact-hero-intro {
+    right: 1.25rem;
+    left: 1.25rem;
+  }
+
+  .compact-hero-intro h1 {
+    max-width: 330px;
+    font-size: clamp(2.9rem, 13vw, 3.6rem);
+  }
+
+  .metric-statement,
+  .metric-projects,
+  .metric-proof,
+  .metric-contact,
+  .metric-content-section,
+  .metric-faq,
+  .metric-related,
+  .metric-content-form,
+  .metric-page-cta,
+  .metric-division-process,
+  .metric-division-contact {
+    padding: 3rem var(--gutter);
+  }
+
+  .metric-statement h2,
+  .metric-section-header h2,
+  .metric-proof h2,
+  .metric-delivery h2,
+  .metric-safety h2,
+  .metric-contact h2,
+  .metric-content-section h2,
+  .metric-faq h2,
+  .metric-related h2,
+  .metric-page-cta h2,
+  .metric-division-intro h2,
+  .metric-division-process h2,
+  .metric-division-contact h2 {
+    font-size: clamp(2.45rem, 11vw, 3rem);
+  }
+
+  .metric-field-story {
+    padding-top: 19rem;
+  }
+
+  .metric-field-story > img,
+  .metric-field-shade {
+    height: 19rem !important;
+  }
+
+  .metric-field-copy {
+    top: 2.25rem;
+  }
+
+  .metric-field-copy h2 {
+    max-width: 330px;
+    font-size: clamp(2.55rem, 11.8vw, 3rem);
+  }
+
+  .metric-process a {
+    min-height: 120px;
+    padding: 1rem 1.25rem;
+  }
+
+  .metric-process strong {
+    font-size: 1.65rem;
+  }
+
+  main .metric-process p {
+    max-width: 310px;
+    font-size: 0.92rem;
+  }
+
+  .division-stack {
+    padding-top: 2.75rem;
+    padding-bottom: 2.75rem;
+  }
+
+  .division-stack-heading {
+    max-width: 340px;
+    margin-bottom: 1.5rem;
+  }
+
+  .division-stack-heading h2 {
+    font-size: clamp(2.8rem, 12vw, 3.35rem);
+  }
+
+  .division-stack-card {
+    height: 420px;
+    min-height: 420px;
+  }
+
+  .division-card-copy {
+    padding: 1.1rem;
+  }
+
+  .division-card-copy h3 {
+    font-size: 1.85rem;
+  }
+
+  .division-card-copy p {
+    font-size: 0.96rem;
+  }
+
+  .metric-delivery-media,
+  .metric-safety-media {
+    min-height: 280px;
+  }
+
+  .metric-delivery-copy,
+  .metric-safety-copy {
+    padding: 2.75rem var(--gutter);
+  }
+
+  .qualification-item button {
+    min-height: 64px;
+    grid-template-columns: 32px minmax(0, 1fr) 24px;
+    gap: 0.65rem;
+  }
+
+  .qualification-item button strong {
+    font-size: 1rem;
+  }
+
+  .qualification-panel p {
+    padding-right: 0;
+    padding-left: 2rem;
+    font-size: 0.94rem;
+  }
+
+  .metric-projects .project-grid,
+  .metric-content-section > .project-grid {
+    display: flex;
+    width: calc(100% + var(--gutter));
+    grid-column: 1 / -1;
+    gap: 0.75rem;
+    margin-right: calc(-1 * var(--gutter));
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding: 0 var(--gutter) 0.5rem 0;
+    scroll-padding-inline: 0;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .metric-projects .project-grid::-webkit-scrollbar,
+  .metric-content-section > .project-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-tile,
+  .project-tile:nth-child(1),
+  .project-tile:nth-child(2),
+  .project-tile:nth-child(3) {
+    width: 82vw;
+    min-width: 82vw;
+    min-height: 370px;
+    flex: 0 0 82vw;
+    scroll-snap-align: start;
+  }
+
+  .project-tile-title,
+  .project-tile:nth-child(n + 2) .project-tile-title {
+    font-size: 1.85rem;
+  }
+
+  .project-tile-meta {
+    font-size: 0.7rem;
+  }
+
+  .team-grid,
+  .team-grid[data-count="3"],
+  .team-grid[data-count="6"] {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .team-card-copy {
+    right: 0.7rem;
+    bottom: 0.7rem;
+    left: 0.7rem;
+  }
+
+  .team-card-copy h3 {
+    font-size: clamp(1.15rem, 5.3vw, 1.45rem);
+  }
+
+  .team-card-copy p {
+    margin-top: 0.3rem;
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
+
+  .team-grid[data-count="3"] .team-card:last-child {
+    width: calc(50% - 0.375rem);
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .metric-content-hero,
+  .metric-division-hero {
+    min-height: 560px;
+    height: 78svh;
+    max-height: 680px;
+  }
+
+  .metric-content-hero-copy,
+  .metric-division-hero-copy {
+    bottom: 2rem;
+  }
+
+  .metric-content-hero-copy h1,
+  .metric-division-hero-copy h1 {
+    font-size: clamp(2.75rem, 12vw, 3.35rem);
+  }
+
+  .metric-content-hero-bottom,
+  .metric-division-hero-copy > div {
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .metric-content-media {
+    min-height: 270px;
+  }
+
+  .metric-content-card-grid,
+  .metric-related > div,
+  .metric-spec-grid {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .metric-content-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 150px;
+    grid-template-columns: 24px minmax(0, 1fr) 20px;
+    gap: 0.6rem;
+    padding: 1.1rem;
+  }
+
+  .metric-content-card h3 {
+    min-width: 0;
+    font-size: 1.45rem;
+    overflow-wrap: anywhere;
+  }
+
+  .metric-content-card p {
+    min-width: 0;
+    font-size: 0.82rem;
+    overflow-wrap: anywhere;
+  }
+
+  .metric-contact,
+  .metric-content-form {
+    gap: 1.5rem;
+  }
+
+  .metric-contact-intro > p:not(.section-index),
+  .metric-content-form > div:first-child > p:not(.section-index) {
+    margin-top: 1rem;
+  }
+
+  .metric-contact-intro > div,
+  .metric-direct-contact {
+    gap: 0.25rem 1rem;
+    margin-top: 1rem;
+  }
+
+  .metric-contact .bid-form,
+  .metric-content-form .bid-form {
+    gap: 0.7rem;
+    padding: 1rem;
+  }
+
+  .form-row {
+    gap: 0.7rem;
+  }
+
+  .bid-form label {
+    gap: 0.25rem;
+  }
+
+  .bid-form input,
+  .bid-form select,
+  .bid-form textarea {
+    min-height: 46px;
+    padding-block: 0.55rem;
+  }
+
+  .bid-form textarea {
+    min-height: 90px;
+  }
+
+  .form-consent {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-consent input {
+    width: 20px;
+    min-width: 20px;
+    min-height: 20px;
+  }
+
+  .metric-footer {
+    gap: 2rem;
+    padding-top: 2.75rem;
+  }
+
+  .metric-footer a,
+  .metric-subpage-footer a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .team-grid,
+  .team-grid[data-count="3"],
+  .team-grid[data-count="6"] {
+    grid-template-columns: 1fr;
+  }
+}

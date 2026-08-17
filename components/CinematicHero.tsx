@@ -264,6 +264,11 @@ export function CinematicHero() {
           }}
         >
           <source
+            src="/media/jz-drone-walkthrough-mobile.mp4"
+            type="video/mp4"
+            media="(max-width: 900px)"
+          />
+          <source
             src="/media/jz-drone-walkthrough-scrub.mp4"
             type="video/mp4"
             media="(min-width: 901px)"

@@ -20,13 +20,20 @@ function ActionLink({ action }: { action: ContentAction }) {
   return <Link className="metric-button" href={action.href}>{content}</Link>;
 }
 
+function BreakableLabel({ text }: { text: string }) {
+  const atIndex = text.indexOf("@");
+  if (atIndex === -1) return text;
+
+  return <>{text.slice(0, atIndex + 1)}<wbr />{text.slice(atIndex + 1)}</>;
+}
+
 function LinkedCard({ card, index }: { card: ContentCard; index: number }) {
   const body = (
     <>
       <span>{String(index + 1).padStart(2, "0")}</span>
       <div>
         <h3>{displayHeading(card.title)}</h3>
-        {card.subtitle ? <p className="metric-card-subtitle">{card.subtitle}</p> : null}
+        {card.subtitle ? <p className="metric-card-subtitle"><BreakableLabel text={card.subtitle} /></p> : null}
         {card.description ? <p>{card.description}</p> : null}
       </div>
       {card.href ? <ArrowUpRight aria-hidden="true" size={21} /> : null}

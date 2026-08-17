@@ -169,4 +169,16 @@ test("mobile form and menu controls remain readable and touch friendly", async (
   });
   expect(menuBounds.width).toBeGreaterThanOrEqual(44);
   expect(menuBounds.height).toBeGreaterThanOrEqual(44);
+
+  const contactCardsFit = await page.locator(".metric-content-card-grid").first().evaluate((grid) => {
+    const bounds = grid.getBoundingClientRect();
+    return bounds.left >= 0 && bounds.right <= window.innerWidth;
+  });
+  expect(contactCardsFit).toBe(true);
+
+  await page.goto("/about");
+  const teamColumnCount = await page.locator(".team-grid").first().evaluate((grid) =>
+    getComputedStyle(grid).gridTemplateColumns.split(" ").length,
+  );
+  expect(teamColumnCount).toBe(2);
 });

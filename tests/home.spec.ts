@@ -73,6 +73,7 @@ test("mobile presentation copy is centered while form fields stay scannable", as
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("link", { name: "Send a scope" }).first()).toBeVisible();
   await expect(page.locator(".compact-hero-summary > p")).toBeHidden();
+  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-mobile.mp4"]')).toHaveCount(1);
 
   for (const selector of [
     ".compact-hero-intro",
@@ -92,12 +93,15 @@ test("mobile presentation copy is centered while form fields stay scannable", as
 
   const projectLayout = await page.locator(".project-grid").evaluate((grid) => ({
     display: getComputedStyle(grid).display,
+    scrollWidth: grid.scrollWidth,
+    clientWidth: grid.clientWidth,
     cardTops: Array.from(grid.querySelectorAll<HTMLElement>(".project-tile")).map(
       (card) => Math.round(card.getBoundingClientRect().top),
     ),
   }));
-  expect(projectLayout.display).toBe("grid");
-  expect(new Set(projectLayout.cardTops).size).toBe(3);
+  expect(projectLayout.display).toBe("flex");
+  expect(new Set(projectLayout.cardTops).size).toBe(1);
+  expect(projectLayout.scrollWidth).toBeGreaterThan(projectLayout.clientWidth);
 
   const hasHorizontalOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth,
