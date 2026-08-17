@@ -44,7 +44,7 @@ test("sitemap, structured data, caching, and security headers are launch ready",
   expect(homeResponse.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   expect(homeResponse.headers()["permissions-policy"]).toContain("camera=()");
 
-  const mediaResponse = await request.get("/media/jz-drone-walkthrough-mobile-v2.mp4");
+  const mediaResponse = await request.get("/media/jz-drone-walkthrough.mp4");
   expect(mediaResponse.headers()["cache-control"]).toContain("max-age=31536000");
   expect(mediaResponse.headers()["cache-control"]).toContain("immutable");
 });

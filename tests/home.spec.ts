@@ -5,7 +5,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Built around");
-  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub-v2.mp4"]')).toHaveCount(1);
+  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
   await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
   await expect(page.locator(".compact-hero-resolution img")).toHaveCount(1);
   await expect(page.locator(".compact-hero-resolution p, .compact-hero-resolution i")).toHaveCount(0);
@@ -19,7 +19,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.locator(".metric-market-row li")).toHaveCount(4);
   await expect(page.locator('img[src*="client-"]')).toHaveCount(0);
   await expect(page.locator("video")).toHaveCount(1);
-  await expect(page.locator(".compact-hero-media")).toHaveAttribute("preload", "metadata");
+  await expect(page.locator(".compact-hero-media")).toHaveAttribute("preload", "auto");
   await expect(page.locator('.metric-field-story img[src*="field-bascom-action.webp"]')).toHaveCount(1);
   await expect(page.locator('.metric-delivery img[src*="group-field-team.webp"]')).toHaveCount(1);
   await expect(page.locator('.metric-safety img[src*="safety-containment.webp"]')).toHaveCount(1);
@@ -31,7 +31,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
 
   const headingCopy = await page.locator("main h1, main h2").allTextContents();
   expect(headingCopy.every((heading) => !heading.includes("."))).toBe(true);
-  const headingStyles = await page.locator("main h1, main h2, main h3, main h4").evaluateAll((headings) =>
+  const headingStyles = await page.locator("main section:not(.compact-hero) h1, main section:not(.compact-hero) h2, main section:not(.compact-hero) h3, main section:not(.compact-hero) h4").evaluateAll((headings) =>
     headings.map((heading) => ({
       letterSpacing: getComputedStyle(heading).letterSpacing,
       textTransform: getComputedStyle(heading).textTransform,
@@ -39,6 +39,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   );
   expect(headingStyles.every((style) => style.textTransform === "uppercase")).toBe(true);
   expect(headingStyles.every((style) => ["normal", "0px"].includes(style.letterSpacing))).toBe(true);
+  await expect(page.locator("#home-title")).toHaveCSS("text-transform", "none");
   await expect(page.locator("main h1 br, main h2 br")).toHaveCount(0);
 
   const headingAlignment = await page.locator("main h1, main h2, main h3, main h4").evaluateAll(
@@ -71,11 +72,7 @@ test("mobile presentation copy is centered while form fields stay scannable", as
   await page.waitForTimeout(4200);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("link", { name: "Send a scope" }).first()).toBeVisible();
-  await expect(page.locator(".compact-hero-summary > p")).toBeVisible();
-  const mobileSubheadingSize = await page.locator(".compact-hero-summary > p").evaluate(
-    (element) => Number.parseFloat(getComputedStyle(element).fontSize),
-  );
-  expect(mobileSubheadingSize).toBeGreaterThanOrEqual(17.5);
+  await expect(page.locator(".compact-hero-summary > p")).toBeHidden();
 
   for (const selector of [
     ".compact-hero-intro",
@@ -151,15 +148,15 @@ test("hero tells four phases without an oversized scroll gap", async ({ page }, 
   const viewportHeight = page.viewportSize()!.height;
   const hero = page.locator(".compact-hero");
   const heroHeight = await hero.evaluate((element) => element.getBoundingClientRect().height);
-  expect(heroHeight).toBeGreaterThanOrEqual(viewportHeight * 1.88);
-  expect(heroHeight).toBeLessThanOrEqual(viewportHeight * 1.92);
+  expect(heroHeight).toBeGreaterThanOrEqual(viewportHeight * 2.18);
+  expect(heroHeight).toBeLessThanOrEqual(viewportHeight * 2.22);
   const desktopSubheadingSize = await page.locator(".compact-hero-summary > p").evaluate(
     (element) => Number.parseFloat(getComputedStyle(element).fontSize),
   );
-  expect(desktopSubheadingSize).toBeGreaterThanOrEqual(19);
+  expect(desktopSubheadingSize).toBeGreaterThanOrEqual(16);
 
   const travel = heroHeight - viewportHeight;
-  const checkpoints = [0.08, 0.32, 0.6, 0.8];
+  const checkpoints = [0.12, 0.34, 0.6, 0.8];
 
   for (let index = 0; index < checkpoints.length; index += 1) {
     await page.evaluate((y) => window.scrollTo(0, y), travel * checkpoints[index]);
@@ -169,7 +166,7 @@ test("hero tells four phases without an oversized scroll gap", async ({ page }, 
 
     const activeCard = await page.locator(".compact-hero-chapter[data-active]").evaluate((element) => {
       const bounds = element.getBoundingClientRect();
-      const surface = element.querySelector<HTMLElement>(".compact-hero-chapter-surface");
+      const surface = element.querySelector<HTMLElement>(".compact-hero-chapter-frame");
       return {
         centerX: bounds.left + bounds.width / 2,
         centerY: bounds.top + bounds.height / 2,

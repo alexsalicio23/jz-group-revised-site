@@ -11,11 +11,6 @@ type HeroChapter = {
   start: number;
   end: number;
   placement: "lower-left" | "upper-right" | "upper-left" | "lower-right";
-  motion: "cut" | "frame" | "panels" | "complete";
-};
-
-type NavigatorWithConnection = Navigator & {
-  connection?: { saveData?: boolean };
 };
 
 const START_TIME = 2;
@@ -28,7 +23,6 @@ const chapters = [
     start: 2,
     end: 4.8,
     placement: "lower-left",
-    motion: "cut",
   },
   {
     title: "Framing",
@@ -36,7 +30,6 @@ const chapters = [
     start: 4.8,
     end: 7.5,
     placement: "upper-right",
-    motion: "frame",
   },
   {
     title: "Drywall and ceiling systems",
@@ -44,7 +37,6 @@ const chapters = [
     start: 7.5,
     end: 10.1,
     placement: "upper-left",
-    motion: "panels",
   },
   {
     title: "Ready for work",
@@ -52,7 +44,6 @@ const chapters = [
     start: 10.1,
     end: 13,
     placement: "lower-right",
-    motion: "complete",
   },
 ] as const satisfies readonly HeroChapter[];
 
@@ -79,14 +70,7 @@ export function CinematicHero() {
       const active = chapterIndex === index;
       chapter.toggleAttribute("data-active", active);
       if (active) chapter.setAttribute("aria-current", "step");
-      else {
-        chapter.removeAttribute("aria-current");
-        const frame = chapter.querySelector<HTMLElement>(".compact-hero-chapter-frame");
-        frame?.style.setProperty("--chapter-x", "0px");
-        frame?.style.setProperty("--chapter-y", "0px");
-        frame?.style.setProperty("--chapter-rx", "0deg");
-        frame?.style.setProperty("--chapter-ry", "0deg");
-      }
+      else chapter.removeAttribute("aria-current");
     });
 
     const activeElement = chapterElements[index];
@@ -104,6 +88,21 @@ export function CinematicHero() {
     if (!element) return;
 
     let anchorFrame = 0;
+    let resetTimer = 0;
+    const navigationEntry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+    const isReload = navigationEntry?.type === "reload";
+    window.history.scrollRestoration = "manual";
+
+    if (isReload) {
+      if (window.location.hash) {
+        window.history.replaceState(
+          window.history.state,
+          "",
+          `${window.location.pathname}${window.location.search}`,
+        );
+      }
+    }
+
     const alignAnchor = () => {
       const anchorId = decodeURIComponent(window.location.hash.slice(1));
       if (!anchorId || anchorId === "top") return;
@@ -120,16 +119,33 @@ export function CinematicHero() {
       });
     };
 
-    alignAnchor();
+    const resetTop = () => {
+      const previousBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(0, 0);
+      document.documentElement.style.scrollBehavior = previousBehavior;
+    };
+
+    if (isReload) {
+      resetTop();
+      anchorFrame = requestAnimationFrame(() => {
+        anchorFrame = requestAnimationFrame(resetTop);
+      });
+      resetTimer = window.setTimeout(resetTop, 180);
+      window.addEventListener("pageshow", resetTop);
+    } else {
+      alignAnchor();
+    }
     window.addEventListener("hashchange", alignAnchor);
 
     const desktop = window.matchMedia("(min-width: 901px)").matches;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const saveData = Boolean((navigator as NavigatorWithConnection).connection?.saveData);
-    if (desktop && !reducedMotion && !saveData) element.dataset.enhanced = "true";
+    if (desktop && !reducedMotion) element.dataset.enhanced = "true";
 
     return () => {
       if (anchorFrame) cancelAnimationFrame(anchorFrame);
+      if (resetTimer) window.clearTimeout(resetTimer);
+      window.removeEventListener("pageshow", resetTop);
       window.removeEventListener("hashchange", alignAnchor);
     };
   }, []);
@@ -141,85 +157,19 @@ export function CinematicHero() {
 
     const desktop = window.matchMedia("(min-width: 901px)").matches;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const saveData = Boolean((navigator as NavigatorWithConnection).connection?.saveData);
 
-    if (reducedMotion || saveData) {
-      walkthrough.pause();
-      walkthrough.currentTime = START_TIME;
-      element.dataset.media = saveData ? "save-data" : "reduced-motion";
+    if (!desktop || reducedMotion) {
+      if (reducedMotion) {
+        walkthrough.pause();
+        walkthrough.currentTime = START_TIME;
+      }
       return;
-    }
-
-    if (!desktop) {
-      let playTimer = 0;
-      const startPlayback = () => {
-        playTimer = window.setTimeout(() => {
-          void walkthrough.play().catch(() => {
-            element.dataset.media = "poster";
-          });
-        }, 900);
-      };
-
-      if (document.readyState === "complete") startPlayback();
-      else window.addEventListener("load", startPlayback, { once: true });
-
-      return () => {
-        if (playTimer) window.clearTimeout(playTimer);
-        window.removeEventListener("load", startPlayback);
-      };
     }
 
     let scrollFrame = 0;
     let videoFrame = 0;
     let targetTime = START_TIME;
     let renderedTime = START_TIME;
-    const pointerCleanups: Array<() => void> = [];
-
-    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      const cards = Array.from(element.querySelectorAll<HTMLElement>(".compact-hero-chapter"));
-
-      cards.forEach((card) => {
-        const frame = card.querySelector<HTMLElement>(".compact-hero-chapter-frame");
-        if (!frame) return;
-
-        let pointerFrame = 0;
-        let pointerX = 0;
-        let pointerY = 0;
-
-        const renderPointer = () => {
-          pointerFrame = 0;
-          frame.style.setProperty("--chapter-x", `${pointerX.toFixed(2)}px`);
-          frame.style.setProperty("--chapter-y", `${pointerY.toFixed(2)}px`);
-          frame.style.setProperty("--chapter-rx", `${(-pointerY * 0.22).toFixed(2)}deg`);
-          frame.style.setProperty("--chapter-ry", `${(pointerX * 0.22).toFixed(2)}deg`);
-        };
-
-        const handlePointerMove = (event: PointerEvent) => {
-          if (!card.hasAttribute("data-active")) return;
-          const bounds = card.getBoundingClientRect();
-          pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 12;
-          pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 12;
-          if (!pointerFrame) pointerFrame = requestAnimationFrame(renderPointer);
-        };
-
-        const handlePointerLeave = () => {
-          if (pointerFrame) cancelAnimationFrame(pointerFrame);
-          pointerFrame = 0;
-          frame.style.setProperty("--chapter-x", "0px");
-          frame.style.setProperty("--chapter-y", "0px");
-          frame.style.setProperty("--chapter-rx", "0deg");
-          frame.style.setProperty("--chapter-ry", "0deg");
-        };
-
-        card.addEventListener("pointermove", handlePointerMove, { passive: true });
-        card.addEventListener("pointerleave", handlePointerLeave);
-        pointerCleanups.push(() => {
-          if (pointerFrame) cancelAnimationFrame(pointerFrame);
-          card.removeEventListener("pointermove", handlePointerMove);
-          card.removeEventListener("pointerleave", handlePointerLeave);
-        });
-      });
-    }
 
     const renderVideo = () => {
       videoFrame = 0;
@@ -277,7 +227,6 @@ export function CinematicHero() {
       walkthrough.removeEventListener("loadedmetadata", prepareVideo);
       window.removeEventListener("scroll", queueUpdate);
       window.removeEventListener("resize", queueUpdate);
-      pointerCleanups.forEach((cleanup) => cleanup());
     };
   }, []);
 
@@ -294,23 +243,32 @@ export function CinematicHero() {
         <video
           ref={video}
           className="compact-hero-media"
+          autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
-          poster="/media/jz-drone-walkthrough-poster-v2.webp"
+          preload="auto"
+          poster="/media/jz-drone-walkthrough-poster.jpg"
           aria-label="A continuous walkthrough of a commercial interior moving from demolition to completion"
           onTimeUpdate={(event) => {
             if (window.matchMedia("(min-width: 901px)").matches) return;
-            setActiveChapter(getChapterIndex(event.currentTarget.currentTime));
+            const currentTime = event.currentTarget.currentTime;
+            if (root.current) {
+              root.current.dataset.state = currentTime >= END_TIME
+                ? "resolution"
+                : currentTime >= START_TIME
+                  ? "chapters"
+                  : "intro";
+            }
+            setActiveChapter(getChapterIndex(currentTime));
           }}
         >
           <source
-            src="/media/jz-drone-walkthrough-scrub-v2.mp4"
+            src="/media/jz-drone-walkthrough-scrub.mp4"
             type="video/mp4"
             media="(min-width: 901px)"
           />
-          <source src="/media/jz-drone-walkthrough-mobile-v2.mp4" type="video/mp4" />
+          <source src="/media/jz-drone-walkthrough.mp4" type="video/mp4" />
         </video>
 
         <div className="compact-hero-shade" aria-hidden="true" />
@@ -336,23 +294,13 @@ export function CinematicHero() {
         >
           {chapters.map((chapter, index) => (
             <li
-              className={`compact-hero-chapter is-${chapter.placement} is-${chapter.motion}`}
+              className={`compact-hero-chapter is-${chapter.placement}`}
               data-active={index === 0 ? "" : undefined}
-              data-motion={chapter.motion}
               data-placement={chapter.placement}
               aria-current={index === 0 ? "step" : undefined}
               key={chapter.title}
             >
               <div className="compact-hero-chapter-frame">
-                <div className="compact-hero-chapter-structure" aria-hidden="true">
-                  <span className="compact-hero-chapter-surface" />
-                  <span className="compact-hero-chapter-panel panel-a" />
-                  <span className="compact-hero-chapter-panel panel-b" />
-                  <span className="compact-hero-chapter-rail rail-top" />
-                  <span className="compact-hero-chapter-rail rail-right" />
-                  <span className="compact-hero-chapter-rail rail-bottom" />
-                  <span className="compact-hero-chapter-rail rail-left" />
-                </div>
                 <div className="compact-hero-chapter-content">
                   <strong>{chapter.title}</strong>
                   <p>{chapter.detail}</p>
@@ -363,7 +311,7 @@ export function CinematicHero() {
         </ol>
 
         <div className="compact-hero-resolution" aria-hidden="true">
-          <Image src="/media/brand-logo.webp" alt="JZ Group" width={180} height={90} />
+          <Image src="/media/brand-logo.webp" alt="" width={180} height={90} />
         </div>
 
         <div className="compact-hero-progress" aria-hidden="true"><span /></div>

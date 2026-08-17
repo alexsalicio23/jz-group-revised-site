@@ -7,6 +7,7 @@ import { buildPageMetadata } from "@/app/seo";
 import { OrganizationStructuredData } from "@/components/StructuredData";
 import "./globals.css";
 import "./sitewide-update.css";
+import "./hero-d77.css";
 
 const neue = localFont({
   src: [

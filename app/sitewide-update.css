@@ -4,39 +4,11 @@ html {
   scroll-padding-top: 84px;
 }
 
-.metric-home :is(h1, h2, h3, h4),
+.metric-home section:not(.compact-hero) :is(h1, h2, h3, h4),
 .metric-content-page :is(h1, h2, h3, h4),
 .metric-subpage :is(h1, h2, h3, h4) {
   letter-spacing: 0;
   text-transform: uppercase;
-}
-
-.compact-hero-intro {
-  display: grid;
-  justify-items: center;
-  text-align: center;
-}
-
-.compact-hero-intro h1,
-.compact-hero-summary,
-.compact-hero-summary > p {
-  margin-right: auto;
-  margin-left: auto;
-  text-align: center;
-}
-
-.compact-hero-intro h1 {
-  max-width: min(92vw, 1500px);
-}
-
-.compact-hero-summary {
-  max-width: 920px;
-}
-
-.compact-hero-summary > p {
-  max-width: 900px;
-  font-size: clamp(1.25rem, 1.55vw, 1.58rem);
-  line-height: 1.45;
 }
 
 .metric-statement {
@@ -663,17 +635,6 @@ html {
 }
 
 @media (max-width: 620px) {
-  .compact-hero-intro {
-    bottom: 7.25rem;
-  }
-
-  .compact-hero-summary > p {
-    display: block;
-    max-width: 360px;
-    font-size: 1.02rem;
-    line-height: 1.45;
-  }
-
   .metric-field-copy h2 {
     font-size: clamp(3rem, 14vw, 4.4rem);
   }
