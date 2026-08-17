@@ -555,3 +555,16 @@ main :is(.compact-hero-summary > p, .compact-hero-chapter p) {
   margin-inline: auto;
   text-align: center;
 }
+
+@media (min-width: 901px) {
+  .compact-hero-intro {
+    top: 50%;
+    bottom: auto;
+    transform: translate3d(0, -50%, 0);
+  }
+
+  .compact-hero[data-enhanced="true"][data-state="chapters"] .compact-hero-intro,
+  .compact-hero[data-enhanced="true"][data-state="resolution"] .compact-hero-intro {
+    transform: translate3d(0, calc(-50% - 18px), 0);
+  }
+}
