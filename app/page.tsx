@@ -58,7 +58,6 @@ export default function Home() {
           {activeProcess.map((step) => (
             <li key={step.title}>
               <Link href={step.href}>
-                <span>{step.number}</span>
                 <strong>{step.title}</strong>
                 <p>{step.description}</p>
                 <ArrowUpRight aria-hidden="true" size={19} />

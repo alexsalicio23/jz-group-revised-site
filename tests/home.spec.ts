@@ -135,8 +135,9 @@ test("expertise navigation exposes every JZ company", async ({ page }, testInfo)
   const trigger = page.getByRole("button", { name: /Expertise/ });
   await trigger.hover();
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
-  await expect(page.locator(".expertise-menu-panel a")).toHaveCount(4);
-  await expect(page.getByRole("link", { name: /JZ Waste Management/ })).toBeVisible();
+  const expertiseMenu = page.locator(".expertise-menu-panel");
+  await expect(expertiseMenu.getByRole("link")).toHaveCount(4);
+  await expect(expertiseMenu.getByRole("link", { name: /JZ Waste Management/ })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
 });

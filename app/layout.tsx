@@ -8,6 +8,7 @@ import { OrganizationStructuredData } from "@/components/StructuredData";
 import "./globals.css";
 import "./sitewide-update.css";
 import "./hero-d77.css";
+import "./process-d77.css";
 
 const neue = localFont({
   src: [
