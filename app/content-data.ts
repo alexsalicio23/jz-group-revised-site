@@ -310,6 +310,11 @@ export const groupPages: Record<string, ContentPageData> = {
           "These measures support the larger goal: protect people and property while allowing critical operations beside the scope to continue.",
         ],
         mediaLabel: "ACTIVE FACILITY CONTROL DETAIL",
+        media: {
+          src: "/media/jzg/safety-air-control.webp",
+          alt: "Air-control equipment supporting contained work inside an occupied medical-office environment",
+          position: "center",
+        },
       },
       {
         id: "field-readiness",

@@ -97,17 +97,17 @@ test("division service links lead into the detailed route system", async ({ page
 
 test("supplied field photography follows the service context", async ({ page }) => {
   await page.goto("/safety");
-  await expect(page.locator('.metric-content-hero-media img[src*="active-facility-containment.webp"]')).toBeVisible();
-  await expect(page.locator('.metric-content-media img[src*="active-facility-air-control.webp"]')).toBeVisible();
+  await expect(page.locator('.metric-content-hero-media img[src*="safety-containment.webp"]')).toBeVisible();
+  await expect(page.locator('.metric-content-media img[src*="safety-air-control.webp"]')).toBeVisible();
 
   await page.goto("/demolition/services/interior-demolition");
-  await expect(page.locator('.metric-content-media img[src*="active-facility-containment.webp"]')).toBeVisible();
+  await expect(page.locator('.metric-content-media img[src*="mob-pompano-demolition.webp"]')).toBeVisible();
 
   await page.goto("/construction/services/general-contracting");
-  await expect(page.locator('.metric-content-media img[src*="construction-blueprints.webp"]')).toBeVisible();
+  await expect(page.locator('.metric-content-media img[src*="division-construction.webp"]')).toBeVisible();
 
   await page.goto("/construction/services/subcontracting");
-  await expect(page.locator('.metric-content-media img[src*="construction-ceiling-framing.webp"]')).toBeVisible();
+  await expect(page.locator('.metric-content-media img[src*="division-construction.webp"]')).toBeVisible();
 });
 
 test("mobile division and service pages preserve the centered hierarchy", async ({ page }, testInfo) => {

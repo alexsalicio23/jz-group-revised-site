@@ -20,9 +20,9 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.locator('img[src*="client-"]')).toHaveCount(0);
   await expect(page.locator("video")).toHaveCount(1);
   await expect(page.locator(".compact-hero-media")).toHaveAttribute("preload", "metadata");
-  await expect(page.locator('.metric-field-story img[src*="demolition-active-interior.webp"]')).toHaveCount(1);
-  await expect(page.locator('.metric-delivery img[src*="jz-group-field-operations.webp"]')).toHaveCount(1);
-  await expect(page.locator('.metric-safety img[src*="active-facility-containment.webp"]')).toHaveCount(1);
+  await expect(page.locator('.metric-field-story img[src*="field-bascom-action.webp"]')).toHaveCount(1);
+  await expect(page.locator('.metric-delivery img[src*="group-field-team.webp"]')).toHaveCount(1);
+  await expect(page.locator('.metric-safety img[src*="safety-containment.webp"]')).toHaveCount(1);
 
   await expect(page.getByText(/ASSETS? PENDING/i)).toHaveCount(0);
   await expect(page.getByText(/PROJECT PHOTO/i)).toHaveCount(0);
