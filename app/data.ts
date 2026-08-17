@@ -3,6 +3,7 @@ export const contact = {
   phoneHref: "tel:+13057932984",
   email: "estimating@jzdemo.com",
   address: "15219 NW 60th Ave, Miami Lakes, Florida 33014",
+  officeLabel: "JZ Group office",
 };
 
 export const divisions = [
@@ -14,7 +15,7 @@ export const divisions = [
     kicker: "Define the cut.",
     description:
       "Selective interior, structural, and concrete demolition planned around active and occupied environments.",
-    media: "/media/field-story/demolition-floor.webp",
+    media: "/media/website-photos/demolition-active-interior.webp",
     type: "image" as const,
   },
   {
@@ -26,14 +27,14 @@ export const divisions = [
     description:
       "Framing, drywall, finishing, concrete support, and commercial construction delivered by the same group.",
     media: "/media/video/workflow-build.mp4",
-    poster: "/media/field-story/hero-field.webp",
+    poster: "/media/website-photos/construction-framed-interior.webp",
     type: "video" as const,
   },
   {
     number: "03",
     slug: "waste-management",
     name: "JZ Waste Management",
-    short: "Waste",
+    short: "Waste Management",
     kicker: "Keep material moving.",
     description:
       "Dumpsters, hauling, temporary fencing, and site cleanup coordinated around the pace of the work.",
@@ -49,29 +50,16 @@ export const divisions = [
     kicker: "Extend the lifecycle.",
     description:
       "Development capability spanning acquisition, planning, construction oversight, and property management.",
-    media: "/media/field-story/one-group.webp",
+    media: "/media/development/workforce-housing-kitchen.webp",
     type: "image" as const,
   },
 ];
 
-export const clientLogos = [
-  { name: "Green Label Construction", src: "/media/client-green-label.png" },
-  { name: "R & Associates", src: "/media/client-r-associates.png" },
-  { name: "White Oak", src: "/media/client-white-oak.png" },
-  { name: "Thornton Construction", src: "/media/client-thornton.png" },
-  { name: "Lee Construction", src: "/media/client-lee.png" },
-  { name: "John Bell Construction", src: "/media/client-john-bell.png" },
-  { name: "Vilar Hoynack", src: "/media/client-vilar-hoynack.png" },
-  { name: "Nicklaus Children's", src: "/media/client-nicklaus.png" },
-  { name: "Turner Construction", src: "/media/client-turner.png" },
-  { name: "UHealth", src: "/media/client-uhealth.png" },
-];
-
 export const publicPortfolioStats = [
-  { value: "50+", label: "Healthcare projects", href: "/demolition/projects/healthcare" },
-  { value: "25+", label: "Education projects", href: "/demolition/projects/education" },
-  { value: "33+", label: "Business + community", href: "/demolition/projects/business-community" },
-  { value: "45+", label: "Retail + entertainment", href: "/demolition/projects/retail-entertainment" },
+  { value: "Healthcare", label: "Active and occupied facilities", href: "/demolition/projects/healthcare" },
+  { value: "Education", label: "Campus renovation experience", href: "/demolition/projects/education" },
+  { value: "Commercial", label: "Business and community environments", href: "/demolition/projects/business-community" },
+  { value: "Retail", label: "Retail and entertainment environments", href: "/demolition/projects/retail-entertainment" },
 ] as const;
 
 export const activeProcess = [

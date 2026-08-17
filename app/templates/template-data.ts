@@ -61,7 +61,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       type: "video",
       media: "/media/video/hero-demolition.mp4",
       mobileMedia: "/media/video/hero-demolition-mobile.mp4",
-      poster: "/media/video/hero-demolition-poster.jpg",
+      poster: "/media/website-photos/demolition-active-interior.webp",
     },
     proof: [
       { label: "Featured scope", value: "16,300 SF" },
@@ -165,7 +165,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     hero: {
       type: "video",
       media: "/media/video/workflow-build.mp4",
-      poster: "/media/video/workflow-build-poster.jpg",
+      poster: "/media/website-photos/construction-framed-interior.webp",
     },
     proof: [
       { label: "Field start", value: "Site preparation" },
@@ -187,7 +187,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       title: "Built by people who understand the full site.",
       description:
         "The construction team works within the same operating system as JZ's demolition and waste companies, giving overlapping scopes a clearer handoff and a single standard of accountability.",
-      media: "/media/field-story/field-control.webp",
+      media: "/media/website-photos/construction-project-coordination.webp",
       mediaType: "image",
       facts: [
         { label: "Capability", value: "Commercial interiors" },
@@ -238,7 +238,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       eyebrow: "Current public project story",
       title: "Workforce housing development",
       description:
-        "A development direction built around acquisition, execution, and operation. Final client-review photography will replace social-source footage once the project library is approved.",
+        "A development approach connecting acquisition, project planning, construction oversight, and property management around workforce housing and long-term community value.",
       media: "/media/video/development-kitchen.mp4",
       mediaType: "video",
       poster: "/media/video/development-kitchen-poster.jpg",

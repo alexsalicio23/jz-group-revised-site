@@ -6,6 +6,7 @@ import { displayHeading } from "@/app/display-text";
 import { BidForm } from "@/components/BidForm";
 import { JZMedia } from "@/components/JZMedia";
 import { DivisionHeader, GroupHeader } from "@/components/SiteNavigation";
+import { BreadcrumbStructuredData, ServiceStructuredData } from "@/components/StructuredData";
 
 function ActionLink({ action }: { action: ContentAction }) {
   const icon = action.label.toLowerCase().includes("download")
@@ -39,12 +40,28 @@ export function ContentPage({ data }: { data: ContentPageData }) {
   const contact = data.division ? divisionContacts[data.division] : null;
   const contactHref = data.division ? `/${data.division}/contact` : "/contact";
   const breadcrumb = data.division ? divisionLabels[data.division] : "JZ Group";
+  const currentPath = data.division ? `/${data.division}/${data.path}` : `/${data.path}`;
+  const breadcrumbItems = [
+    { name: "JZ Group", path: "/" },
+    ...(data.division ? [{ name: breadcrumb, path: `/${data.division}` }] : []),
+    { name: data.title, path: currentPath },
+  ];
+  const serviceName = data.eyebrow.split(" / ").at(-1) ?? data.title;
 
   return (
     <main
       className={`content-page metric-content-page content-${data.division ?? "group"} content-${data.category}`}
       data-content-source={data.sourceUrl}
     >
+      <BreadcrumbStructuredData items={breadcrumbItems} />
+      {data.category === "service" ? (
+        <ServiceStructuredData
+          name={serviceName}
+          description={data.introduction}
+          path={currentPath}
+          division={data.division}
+        />
+      ) : null}
       {data.division ? <DivisionHeader division={data.division} /> : <GroupHeader />}
 
       <section className="metric-content-hero" id="top">
@@ -73,6 +90,12 @@ export function ContentPage({ data }: { data: ContentPageData }) {
         <section className="metric-content-stats" aria-label="Page facts">
           {data.stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
         </section>
+      ) : null}
+
+      {data.category === "projects" || data.category === "sector" ? (
+        <p className="metric-record-note">
+          Public examples are shown for qualification. Dates, references, and complete scope records are available through estimating, subject to client approval.
+        </p>
       ) : null}
 
       <div className="metric-content-sections">
@@ -170,7 +193,10 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       </section>
 
       <footer className="metric-subpage-footer">
-        <div><strong>{breadcrumb}</strong><span>{contact?.address ?? "15219 NW 60th Ave, Miami Lakes, Florida 33014"}</span></div>
+        <div>
+          <strong>{breadcrumb}</strong>
+          <span>{contact ? `${contact.officeLabel}: ${contact.address}` : "JZ Group office: 15219 NW 60th Ave, Miami Lakes, Florida 33014"}</span>
+        </div>
         <div><span>South Florida</span><a href="tel:+13057932984">(305) 793-2984</a></div>
         <div><Link href="/">JZ Group</Link><Link href={contactHref}>Contact</Link></div>
       </footer>

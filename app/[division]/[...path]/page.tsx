@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { divisionPageList, getDivisionPage } from "@/app/content-data";
+import { buildPageMetadata, divisionSocialImages } from "@/app/seo";
 import { ContentPage } from "@/components/ContentPage";
 
 type ContentRouteProps = {
@@ -20,16 +21,15 @@ export async function generateMetadata({ params }: ContentRouteProps): Promise<M
   const { division, path } = await params;
   const data = getDivisionPage(division, path);
   if (!data) return {};
+  const socialImage = data.division ? divisionSocialImages[data.division] : undefined;
 
-  return {
+  return buildPageMetadata({
     title: `${data.title} | ${data.eyebrow.split(" / ")[0]}`,
     description: data.introduction,
-    openGraph: {
-      title: data.title,
-      description: data.introduction,
-      images: [{ url: "/media/og-image.jpg", width: 1200, height: 630, alt: "JZ Group field operations" }],
-    },
-  };
+    path: `/${division}/${path.join("/")}`,
+    image: socialImage?.src,
+    imageAlt: socialImage?.alt,
+  });
 }
 
 export default async function DivisionContentPage({ params }: ContentRouteProps) {

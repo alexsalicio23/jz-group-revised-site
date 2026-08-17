@@ -10,17 +10,72 @@ type MediaAsset = {
   position?: string;
 };
 
-const divisionAssets: Record<TemplateSlug, MediaAsset> = {
-  demolition: {
-    src: "/media/field-story/demolition-floor.webp",
-    alt: "Selective demolition underway inside a commercial building",
+const suppliedAssets = {
+  demolitionActive: {
+    src: "/media/website-photos/demolition-active-interior.webp",
+    alt: "JZ demolition crews working inside an active commercial interior",
     position: "center 48%",
   },
-  construction: {
-    src: "/media/field-story/field-control.webp",
-    alt: "JZ field crews coordinating commercial interior construction",
+  demolitionWorker: {
+    src: "/media/website-photos/demolition-field-worker.webp",
+    alt: "JZ demolition field worker completing selective interior removal",
+    position: "center 46%",
+  },
+  demolitionFloorRemoval: {
+    src: "/media/website-photos/demolition-floor-removal.webp",
+    alt: "JZ demolition worker operating floor-removal equipment inside an active facility",
+    position: "center 52%",
+  },
+  demolitionTeam: {
+    src: "/media/website-photos/demolition-field-team.webp",
+    alt: "JZ demolition field team inside an active interior project",
+    position: "center 44%",
+  },
+  airControl: {
+    src: "/media/website-photos/active-facility-air-control.webp",
+    alt: "HEPA air-control equipment supporting contained interior work",
     position: "center",
   },
+  containment: {
+    src: "/media/website-photos/active-facility-containment.webp",
+    alt: "Temporary containment protecting the occupied areas around an interior work zone",
+    position: "center",
+  },
+  constructionFraming: {
+    src: "/media/website-photos/construction-framed-interior.webp",
+    alt: "Commercial interior build-out with metal framing in progress",
+    position: "center",
+  },
+  ceilingFraming: {
+    src: "/media/website-photos/construction-ceiling-framing.webp",
+    alt: "Detailed metal ceiling framing inside a commercial build-out",
+    position: "center 42%",
+  },
+  groupOperations: {
+    src: "/media/website-photos/jz-group-field-operations.webp",
+    alt: "JZ Group field professional carrying material through a commercial interior",
+    position: "center",
+  },
+  projectCoordination: {
+    src: "/media/website-photos/construction-project-coordination.webp",
+    alt: "JZ Group field leadership coordinating work with a project partner",
+    position: "center 44%",
+  },
+  planReview: {
+    src: "/media/website-photos/construction-plan-review.webp",
+    alt: "JZ construction professional reviewing project plans in the field",
+    position: "center 44%",
+  },
+  blueprints: {
+    src: "/media/website-photos/construction-blueprints.webp",
+    alt: "Construction drawings being reviewed inside an active build-out",
+    position: "center",
+  },
+} satisfies Record<string, MediaAsset>;
+
+const divisionAssets: Record<TemplateSlug, MediaAsset> = {
+  demolition: suppliedAssets.demolitionActive,
+  construction: suppliedAssets.constructionFraming,
   "waste-management": {
     src: "/media/field-story/waste-truck.webp",
     alt: "JZ Waste Management truck serving a South Florida project",
@@ -34,55 +89,34 @@ const divisionAssets: Record<TemplateSlug, MediaAsset> = {
 };
 
 const groupAssets: Record<ContentPageData["category"], MediaAsset> = {
-  company: {
-    src: "/media/field-story/one-group.webp",
-    alt: "JZ Group field team member representing the four operating companies",
-    position: "center 35%",
-  },
-  values: {
-    src: "/media/field-story/hero-field.webp",
-    alt: "JZ crews working together inside a complex commercial interior",
-  },
-  safety: {
-    src: "/media/field-story/safety-detail.webp",
-    alt: "JZ safety equipment used during field operations",
-    position: "center 30%",
-  },
-  service: {
-    src: "/media/field-story/demolition-floor.webp",
-    alt: "JZ specialty work inside a commercial project",
-  },
+  company: suppliedAssets.groupOperations,
+  values: suppliedAssets.groupOperations,
+  safety: suppliedAssets.containment,
+  service: suppliedAssets.demolitionFloorRemoval,
   team: {
     src: "/media/field-story/field-leadership.webp",
     alt: "JZ field leadership reviewing work in progress",
     position: "center 28%",
   },
-  projects: {
-    src: "/media/field-story/field-control.webp",
-    alt: "JZ field operations inside a commercial project",
-  },
+  projects: suppliedAssets.constructionFraming,
   sector: {
     src: "/media/field-story/medical-finish.webp",
     alt: "Completed healthcare environment representing JZ project experience",
   },
-  contact: {
-    src: "/media/field-story/field-leadership.webp",
-    alt: "JZ field leader coordinating commercial work",
-    position: "center 30%",
-  },
+  contact: suppliedAssets.planReview,
 };
 
 const motionAssets: Partial<Record<TemplateSlug, MediaAsset>> = {
   demolition: {
     type: "video",
     src: "/media/video/hero-demolition.mp4",
-    poster: "/media/video/hero-demolition-poster.jpg",
+    poster: "/media/website-photos/demolition-active-interior.webp",
     alt: "Specialty demolition operating inside a commercial interior",
   },
   construction: {
     type: "video",
     src: "/media/video/workflow-build.mp4",
-    poster: "/media/video/workflow-build-poster.jpg",
+    poster: "/media/website-photos/construction-framed-interior.webp",
     alt: "Commercial construction progressing through the field",
   },
   "waste-management": {
@@ -99,14 +133,41 @@ const motionAssets: Partial<Record<TemplateSlug, MediaAsset>> = {
   },
 };
 
+function labelMatches(label: string, phrases: string[]) {
+  return phrases.some((phrase) => label.includes(phrase));
+}
+
 function selectAsset(data: ContentPageData, motion: boolean, mediaLabel?: string): MediaAsset {
   const label = (mediaLabel ?? data.mediaLabel).toLowerCase();
 
   if (motion && data.division && motionAssets[data.division]) return motionAssets[data.division]!;
-  if (label.includes("safety") || label.includes("protection")) return groupAssets.safety;
+
+  if (data.division === "demolition") {
+    if (labelMatches(label, ["containment", "site protection", "perimeter control"])) return suppliedAssets.containment;
+    if (labelMatches(label, ["active facility control", "safety"])) return suppliedAssets.airControl;
+    if (labelMatches(label, ["field team", "demolition team"])) return suppliedAssets.demolitionTeam;
+    if (labelMatches(label, ["company photo", "office team"])) return suppliedAssets.demolitionWorker;
+    if (labelMatches(label, ["interior demolition", "healthcare"])) return suppliedAssets.demolitionFloorRemoval;
+    return suppliedAssets.demolitionActive;
+  }
+
+  if (data.division === "construction") {
+    if (label.includes("preconstruction team")) return suppliedAssets.planReview;
+    if (label.includes("preconstruction / plan review")) return suppliedAssets.blueprints;
+    if (labelMatches(label, ["preconstruction", "plan review"])) return suppliedAssets.planReview;
+    if (label.includes("blueprint")) return suppliedAssets.blueprints;
+    if (labelMatches(label, ["leadership", "project team", "field team", "construction team"])) return suppliedAssets.projectCoordination;
+    if (labelMatches(label, ["metal framing", "drywall", "subcontracting"])) return suppliedAssets.ceilingFraming;
+    return suppliedAssets.constructionFraming;
+  }
+
+  if (label.includes("active facility control")) return suppliedAssets.airControl;
+  if (label.includes("safety") || label.includes("protection")) return suppliedAssets.containment;
+  if (labelMatches(label, ["estimating", "preconstruction", "plan review"])) return suppliedAssets.planReview;
+  if (label.includes("field team")) return suppliedAssets.demolitionTeam;
+  if (labelMatches(label, ["four companies", "one group", "jz group team"])) return suppliedAssets.groupOperations;
   if (label.includes("founder") || label.includes("leadership") || label.includes("team")) return groupAssets.team;
   if (label.includes("finish") || label.includes("healthcare")) return groupAssets.sector;
-  if (label.includes("four companies") || label.includes("one group")) return groupAssets.company;
   if (data.division) return divisionAssets[data.division];
   return groupAssets[data.category];
 }

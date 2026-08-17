@@ -49,25 +49,29 @@ export type ContentPageData = {
   sourceUrl: string;
 };
 
-export const divisionContacts: Record<TemplateSlug, { email: string; address: string; phone: string }> = {
+export const divisionContacts: Record<TemplateSlug, { email: string; address: string; officeLabel: string; phone: string }> = {
   demolition: {
     email: "estimating@jzdemo.com",
     address: "8015 NW 37th Ave, Miami, Florida 33147",
+    officeLabel: "JZ Demolition office",
     phone: "(305) 793-2984",
   },
   construction: {
     email: "estimating@jzconstruction.com",
     address: "8015 NW 37th Ave, Miami, Florida 33147",
+    officeLabel: "JZ Construction office",
     phone: "(305) 793-2984",
   },
   "waste-management": {
     email: "estimating@jzwastemanagement.com",
     address: "8015 NW 37th Ave, Miami, Florida 33147",
+    officeLabel: "JZ Waste Management office",
     phone: "(305) 793-2984",
   },
   development: {
     email: "estimating@jzdevelopment.com",
     address: "15219 NW 60th Ave, Miami Lakes, Florida 33014",
+    officeLabel: "JZ Development office",
     phone: "(305) 793-2984",
   },
 };
@@ -298,10 +302,10 @@ export const groupPages: Record<string, ContentPageData> = {
         eyebrow: "Explore by market",
         title: "Find the most comparable experience quickly.",
         cards: [
-          { title: "Healthcare", subtitle: "50+ public project count", href: "/demolition/projects/healthcare" },
-          { title: "Education", subtitle: "25+ public project count", href: "/demolition/projects/education" },
-          { title: "Business / Community", subtitle: "33+ public project count", href: "/demolition/projects/business-community" },
-          { title: "Retail / Entertainment", subtitle: "45+ public project count", href: "/demolition/projects/retail-entertainment" },
+          { title: "Healthcare", subtitle: "Selected public experience", href: "/demolition/projects/healthcare" },
+          { title: "Education", subtitle: "Selected public experience", href: "/demolition/projects/education" },
+          { title: "Business / Community", subtitle: "Selected public experience", href: "/demolition/projects/business-community" },
+          { title: "Retail / Entertainment", subtitle: "Selected public experience", href: "/demolition/projects/retail-entertainment" },
           { title: "Construction portfolio", subtitle: "Healthcare and commercial", href: "/construction/projects" },
           { title: "Development portfolio", subtitle: "South Florida residential", href: "/development/projects" },
         ],
@@ -709,10 +713,10 @@ const demolitionPages: ContentPageData[] = [
         eyebrow: "View by sector",
         title: "Go directly to the work that is most comparable.",
         cards: [
-          { title: "Healthcare", subtitle: "50+ projects completed", description: "Sensitive medical environments, active hospitals, clinic clear-outs, and occupied interior renovation work.", href: "/demolition/projects/healthcare" },
-          { title: "Education", subtitle: "25+ projects completed", description: "Active campuses, classroom renovations, and full-building interior gut work.", href: "/demolition/projects/education" },
-          { title: "Business / Community", subtitle: "33+ projects completed", description: "Offices, restaurants, housing, mixed-use property, and community environments.", href: "/demolition/projects/business-community" },
-          { title: "Retail / Entertainment", subtitle: "45+ projects completed", description: "Stores, shopping environments, fitness spaces, and entertainment facilities.", href: "/demolition/projects/retail-entertainment" },
+          { title: "Healthcare", subtitle: "Selected public experience", description: "Sensitive medical environments, active hospitals, clinic clear-outs, and occupied interior renovation work.", href: "/demolition/projects/healthcare" },
+          { title: "Education", subtitle: "Selected public experience", description: "Active campuses, classroom renovations, and full-building interior gut work.", href: "/demolition/projects/education" },
+          { title: "Business / Community", subtitle: "Selected public experience", description: "Offices, restaurants, housing, mixed-use property, and community environments.", href: "/demolition/projects/business-community" },
+          { title: "Retail / Entertainment", subtitle: "Selected public experience", description: "Stores, shopping environments, fitness spaces, and entertainment facilities.", href: "/demolition/projects/retail-entertainment" },
         ],
       },
       {
@@ -739,8 +743,8 @@ const demolitionPages: ContentPageData[] = [
       "Healthcare demolition is performed in environments where patient care, staff movement, building systems, and essential services may continue directly beside the work.",
     mediaLabel: "ACTIVE HEALTHCARE DEMOLITION",
     stats: [
-      { value: "50+", label: "Healthcare projects completed" },
-      { value: "5+", label: "Years of service" },
+      { value: "Selected", label: "Public healthcare experience" },
+      { value: "Occupied", label: "Facility coordination" },
       { value: "Active", label: "Hospital experience" },
     ],
     sections: [
@@ -782,8 +786,8 @@ const demolitionPages: ContentPageData[] = [
       "Educational demolition requires clean work zones, deliberate sequencing, and communication that protects students, staff, campus operations, and the schedule for renovation.",
     mediaLabel: "EDUCATION DEMOLITION PROJECT",
     stats: [
-      { value: "25+", label: "Education projects completed" },
-      { value: "5+", label: "Years of service" },
+      { value: "Selected", label: "Public education experience" },
+      { value: "Occupied", label: "Campus coordination" },
       { value: "Active", label: "Campus coordination" },
     ],
     sections: [
@@ -822,8 +826,8 @@ const demolitionPages: ContentPageData[] = [
       "Office, restaurant, residential, mixed-use, and community demolition scopes are coordinated around productivity, neighboring occupants, property operations, access, and the project schedule.",
     mediaLabel: "BUSINESS / COMMUNITY PROJECT",
     stats: [
-      { value: "33+", label: "Business projects completed" },
-      { value: "5+", label: "Years of service" },
+      { value: "Selected", label: "Public commercial experience" },
+      { value: "Occupied", label: "Tenant coordination" },
       { value: "Clean", label: "Operational coordination" },
     ],
     sections: [
@@ -863,8 +867,8 @@ const demolitionPages: ContentPageData[] = [
       "Retail and entertainment work is planned around patrons, neighboring tenants, access, property operations, cleanliness, and the deadlines that shape openings and renovations.",
     mediaLabel: "RETAIL / ENTERTAINMENT PROJECT",
     stats: [
-      { value: "45+", label: "Retail projects completed" },
-      { value: "5+", label: "Years of service" },
+      { value: "Selected", label: "Public retail experience" },
+      { value: "Occupied", label: "Property coordination" },
       { value: "Active", label: "Commercial environments" },
     ],
     sections: [
@@ -909,7 +913,7 @@ const demolitionPages: ContentPageData[] = [
         paragraphs: [
           "Email: estimating@jzdemo.com",
           "Phone: (305) 793-2984",
-          "Address: 8015 NW 37th Ave, Miami, Florida 33147",
+          "JZ Demolition office: 8015 NW 37th Ave, Miami, Florida 33147",
         ],
       },
     ],
@@ -1211,7 +1215,7 @@ const wastePages: ContentPageData[] = [
         paragraphs: [
           "Email: estimating@jzwastemanagement.com",
           "Phone: (305) 793-2984",
-          "Address: 8015 NW 37th Ave, Miami, Florida 33147",
+          "JZ Waste Management office: 8015 NW 37th Ave, Miami, Florida 33147",
         ],
       },
     ],
@@ -1470,8 +1474,8 @@ const constructionPages: ContentPageData[] = [
         eyebrow: "View by sector",
         title: "Two clear paths into the current public record.",
         cards: [
-          { title: "Healthcare", subtitle: "50+ public project count", description: "Medical build-outs and clinic renovations in sensitive, active environments.", href: "/construction/projects/healthcare" },
-          { title: "Commercial", subtitle: "45+ public retail count", description: "Retail, entertainment, office, and active commercial construction.", href: "/construction/projects/commercial" },
+          { title: "Healthcare", subtitle: "Selected public experience", description: "Medical build-outs and clinic renovations in sensitive, active environments.", href: "/construction/projects/healthcare" },
+          { title: "Commercial", subtitle: "Selected public experience", description: "Retail, entertainment, office, and active commercial construction.", href: "/construction/projects/commercial" },
         ],
       },
       {
@@ -1498,8 +1502,8 @@ const constructionPages: ContentPageData[] = [
       "Healthcare construction is coordinated around patients, staff, essential services, facility requirements, sensitive equipment, cleanliness, and the operations that continue around the work.",
     mediaLabel: "HEALTHCARE CONSTRUCTION PROJECT",
     stats: [
-      { value: "50+", label: "Healthcare projects completed" },
-      { value: "5+", label: "Years of service" },
+      { value: "Selected", label: "Public healthcare experience" },
+      { value: "Occupied", label: "Medical coordination" },
       { value: "Active", label: "Medical environments" },
     ],
     sections: [
@@ -1537,8 +1541,8 @@ const constructionPages: ContentPageData[] = [
       "Retail, entertainment, office, and active commercial projects are coordinated around property operations, customers, neighboring tenants, schedule, safety, and the finished experience.",
     mediaLabel: "COMMERCIAL CONSTRUCTION PROJECT",
     stats: [
-      { value: "45+", label: "Public retail project count" },
-      { value: "5+", label: "Years of service" },
+      { value: "Selected", label: "Public commercial experience" },
+      { value: "Occupied", label: "Property coordination" },
       { value: "Active", label: "Commercial coordination" },
     ],
     sections: [
@@ -1583,7 +1587,7 @@ const constructionPages: ContentPageData[] = [
         paragraphs: [
           "Email: estimating@jzconstruction.com",
           "Phone: (305) 793-2984",
-          "Address: 8015 NW 37th Ave, Miami, Florida 33147",
+          "JZ Construction office: 8015 NW 37th Ave, Miami, Florida 33147",
         ],
       },
     ],

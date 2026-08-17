@@ -62,6 +62,21 @@ test("division service links lead into the detailed route system", async ({ page
   expect(await page.locator('a[href="/development/projects"]').count()).toBeGreaterThan(0);
 });
 
+test("supplied field photography follows the service context", async ({ page }) => {
+  await page.goto("/safety");
+  await expect(page.locator('.metric-content-hero-media img[src*="active-facility-containment.webp"]')).toBeVisible();
+  await expect(page.locator('.metric-content-media img[src*="active-facility-air-control.webp"]')).toBeVisible();
+
+  await page.goto("/demolition/services/interior-demolition");
+  await expect(page.locator('.metric-content-media img[src*="active-facility-containment.webp"]')).toBeVisible();
+
+  await page.goto("/construction/services/general-contracting");
+  await expect(page.locator('.metric-content-media img[src*="construction-blueprints.webp"]')).toBeVisible();
+
+  await page.goto("/construction/services/subcontracting");
+  await expect(page.locator('.metric-content-media img[src*="construction-ceiling-framing.webp"]')).toBeVisible();
+});
+
 test("mobile division and service pages preserve the centered hierarchy", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile", "Mobile layout only");
 
@@ -87,11 +102,38 @@ test("mobile division and service pages preserve the centered hierarchy", async 
 test("contact intake marks required fields and keeps a direct fallback visible", async ({ page }) => {
   await page.goto("/contact");
 
-  for (const label of ["Name", "Work email", "Service lane", "Project type", "Location", "Facility status", "Project details"]) {
+  for (const label of ["Name", "Company", "Work email", "Service lane", "Project type", "Location", "Facility status", "Project details"]) {
     const fieldLabel = page.locator(".bid-form label").filter({ hasText: label }).first();
     await expect(fieldLabel).toContainText("required");
   }
 
+  await expect(page.locator(".form-consent")).toContainText("required");
+
   await expect(page.getByRole("link", { name: "(305) 793-2984" }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: "estimating@jzdemo.com" }).first()).toBeVisible();
+  await expect(page.locator(".bid-form")).toHaveAttribute("method", "post");
+  await expect(page.locator(".bid-form")).toHaveAttribute("action", "/api/contact");
+  await expect(page.locator('input[name="attachments"]')).toHaveAttribute("accept", "application/pdf,image/png,image/jpeg,image/webp");
+  await expect(page.locator("#attachment-help")).toContainText("plan-room link above");
+});
+
+test("mobile form and menu controls remain readable and touch friendly", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile", "Mobile layout only");
+  await page.goto("/contact");
+
+  const controlSizes = await page.locator('.bid-form input:not([type="checkbox"]), .bid-form select, .bid-form textarea').evaluateAll(
+    (controls) => controls.map((control) => ({
+      fontSize: Number.parseFloat(getComputedStyle(control).fontSize),
+      height: control.getBoundingClientRect().height,
+    })),
+  );
+  expect(controlSizes.every((control) => control.fontSize >= 16)).toBe(true);
+  expect(controlSizes.every((control) => control.height >= 44)).toBe(true);
+
+  const menuBounds = await page.locator(".mobile-menu summary, .template-mobile-menu summary").first().evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    return { width: bounds.width, height: bounds.height };
+  });
+  expect(menuBounds.width).toBeGreaterThanOrEqual(44);
+  expect(menuBounds.height).toBeGreaterThanOrEqual(44);
 });

@@ -5,7 +5,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Built around");
-  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
+  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub-v2.mp4"]')).toHaveCount(1);
   await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
   await expect(page.locator(".compact-hero-resolution img")).toHaveCount(1);
   await expect(page.locator(".compact-hero-resolution p, .compact-hero-resolution i")).toHaveCount(0);
@@ -13,10 +13,16 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.locator("#field-title")).toHaveText("The building keeps moving so do we");
   await expect(page.locator("#projects-title")).toHaveText("Comparable work clear project records");
   await expect(page.getByRole("heading", { name: "Safety is part of the deliverable" })).toBeAttached();
-  await expect(page.getByText("50+", { exact: true })).toBeAttached();
+  await expect(page.locator(".metric-proof-grid").getByText("Healthcare", { exact: true })).toBeAttached();
   await expect(page.locator(".division-stack-card")).toHaveCount(4);
   await expect(page.locator(".metric-contact .bid-form")).toHaveCount(1);
-  await expect(page.locator(".metric-logo")).toHaveCount(10);
+  await expect(page.locator(".metric-market-row li")).toHaveCount(4);
+  await expect(page.locator('img[src*="client-"]')).toHaveCount(0);
+  await expect(page.locator("video")).toHaveCount(1);
+  await expect(page.locator(".compact-hero-media")).toHaveAttribute("preload", "metadata");
+  await expect(page.locator('.metric-field-story img[src*="demolition-active-interior.webp"]')).toHaveCount(1);
+  await expect(page.locator('.metric-delivery img[src*="jz-group-field-operations.webp"]')).toHaveCount(1);
+  await expect(page.locator('.metric-safety img[src*="active-facility-containment.webp"]')).toHaveCount(1);
 
   await expect(page.getByText(/ASSETS? PENDING/i)).toHaveCount(0);
   await expect(page.getByText(/PROJECT PHOTO/i)).toHaveCount(0);
@@ -26,6 +32,11 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   const headingCopy = await page.locator("main h1, main h2").allTextContents();
   expect(headingCopy.every((heading) => !heading.includes("."))).toBe(true);
   await expect(page.locator("main h1 br, main h2 br")).toHaveCount(0);
+
+  const headingAlignment = await page.locator("main h1, main h2, main h3, main h4").evaluateAll(
+    (headings) => headings.map((heading) => getComputedStyle(heading).textAlign),
+  );
+  expect(headingAlignment.every((alignment) => alignment === "center")).toBe(true);
 
   const sectionOrder = await page.locator("main > section").evaluateAll((sections) =>
     sections.map((section) => section.id || section.className),
@@ -48,6 +59,15 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
 test("mobile presentation copy is centered while form fields stay scannable", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile", "Mobile layout only");
   await page.goto("/");
+
+  await page.waitForTimeout(4200);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Send a scope" }).first()).toBeVisible();
+  await expect(page.locator(".compact-hero-summary > p")).toBeVisible();
+  const mobileSubheadingSize = await page.locator(".compact-hero-summary > p").evaluate(
+    (element) => Number.parseFloat(getComputedStyle(element).fontSize),
+  );
+  expect(mobileSubheadingSize).toBeGreaterThanOrEqual(17.5);
 
   for (const selector of [
     ".compact-hero-intro",
@@ -86,15 +106,19 @@ test("mobile presentation copy is centered while form fields stay scannable", as
   }
 });
 
-test("hero tells four phases at a deliberate scroll pace", async ({ page }, testInfo) => {
+test("hero tells four phases without an oversized scroll gap", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "Desktop scroll choreography");
   await page.goto("/");
 
   const viewportHeight = page.viewportSize()!.height;
   const hero = page.locator(".compact-hero");
   const heroHeight = await hero.evaluate((element) => element.getBoundingClientRect().height);
-  expect(heroHeight).toBeGreaterThanOrEqual(viewportHeight * 2.15);
-  expect(heroHeight).toBeLessThanOrEqual(viewportHeight * 2.2 + 2);
+  expect(heroHeight).toBeGreaterThanOrEqual(viewportHeight * 1.88);
+  expect(heroHeight).toBeLessThanOrEqual(viewportHeight * 1.92);
+  const desktopSubheadingSize = await page.locator(".compact-hero-summary > p").evaluate(
+    (element) => Number.parseFloat(getComputedStyle(element).fontSize),
+  );
+  expect(desktopSubheadingSize).toBeGreaterThanOrEqual(19);
 
   const travel = heroHeight - viewportHeight;
   const checkpoints = [0.08, 0.32, 0.6, 0.8];
@@ -132,7 +156,7 @@ test("jump scrolling and anchor navigation never produce an empty viewport", asy
     await page.evaluate((y) => window.scrollTo(0, y), maxScroll * progress);
     await page.waitForTimeout(120);
 
-    const visibleContent = await page.locator("main h1, main h2, main h3, main p, main a, main img").evaluateAll((elements) =>
+    const visibleContent = await page.locator("main h1, main h2, main h3, main p, main a, main img, main label, main input, main select, main textarea, main button").evaluateAll((elements) =>
       elements.filter((element) => {
         const bounds = element.getBoundingClientRect();
         if (bounds.bottom <= 0 || bounds.top >= innerHeight || bounds.width <= 0 || bounds.height <= 0) return false;
@@ -171,7 +195,7 @@ test("homepage content remains visible without JavaScript", async ({ browser }) 
   await expect(page.locator(".division-stack-card")).toHaveCount(4);
   await expect(page.locator(".division-stack-card").first()).toBeVisible();
   await expect(page.getByRole("heading", { name: /One standard.*across every handoff/ })).toBeVisible();
-  await expect(page.locator(".metric-logo")).toHaveCount(10);
+  await expect(page.locator(".metric-market-row li")).toHaveCount(4);
 
   const unavailableSections = await page.locator("main > section").evaluateAll((sections) =>
     sections.filter((section) => {
@@ -190,6 +214,7 @@ test("homepage inquiry visibly routes to the selected JZ company", async ({ page
 
   const form = page.locator(".metric-contact .bid-form");
   await expect(form.locator('input[name="name"]')).toBeVisible();
+  await expect(form.locator('input[name="company"]')).toBeVisible();
   await expect(form.locator('input[name="email"]')).toBeVisible();
   await expect(form.locator('input[name="projectType"]')).toBeVisible();
   await expect(form.locator('input[name="projectLocation"]')).toBeVisible();
@@ -200,7 +225,7 @@ test("homepage inquiry visibly routes to the selected JZ company", async ({ page
   await expect(form.locator('input[name="planRoomUrl"]')).toHaveAttribute("type", "url");
 });
 
-test("project proof and safety details expand in place", async ({ page }) => {
+test("project proof and safety details expand in place", async ({ page }, testInfo) => {
   await page.goto("/#projects");
 
   const project = page.getByRole("button", { name: /Baptist Medical Arts Building/ });
@@ -208,6 +233,14 @@ test("project proof and safety details expand in place", async ({ page }) => {
   await expect(page.getByRole("dialog")).toBeVisible();
   await expect(page.getByText("16,300 SF", { exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: /View project details/ })).toBeVisible();
+  if (testInfo.project.name === "mobile") {
+    const dialogBounds = await page.getByRole("dialog").evaluate((dialog) => {
+      const bounds = dialog.getBoundingClientRect();
+      return { top: bounds.top, bottom: bounds.bottom, viewportHeight: innerHeight };
+    });
+    expect(dialogBounds.top).toBeGreaterThanOrEqual(0);
+    expect(dialogBounds.bottom).toBeLessThanOrEqual(dialogBounds.viewportHeight);
+  }
   await page.getByRole("button", { name: "Close project preview" }).click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
 
@@ -217,7 +250,7 @@ test("project proof and safety details expand in place", async ({ page }) => {
   await expect(safetyRecord.getByText(/Access, work zones, material movement/)).toBeVisible();
 });
 
-test("company sequence reveals from blank and opens into four columns", async ({ page }, testInfo) => {
+test("company sequence keeps links discoverable and opens into four columns", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "Desktop scroll choreography");
   await page.goto("/#companies");
 
@@ -229,17 +262,17 @@ test("company sequence reveals from blank and opens into four columns", async ({
   const sectionHeight = await section.evaluate((element) => element.getBoundingClientRect().height);
   expect(sectionHeight).toBeLessThanOrEqual(viewportHeight * 1.8 + 2);
 
-  await expect(heading).toHaveCSS("opacity", "0");
-  await expect(cards.first()).toHaveCSS("opacity", "0");
+  await expect(heading).toHaveCSS("opacity", "1");
+  expect(Number(await cards.first().evaluate((element) => getComputedStyle(element).opacity))).toBeGreaterThan(0);
   await expect(progressTrack).toHaveCSS("opacity", "0");
 
-  const sectionTop = await section.evaluate((element) => element.offsetTop);
+  const sectionTop = await section.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
   const travel = sectionHeight - viewportHeight;
 
   await page.evaluate((y) => window.scrollTo(0, y), sectionTop + travel * 0.2);
   await page.waitForTimeout(500);
   await expect(heading).toHaveCSS("opacity", "1");
-  await expect(cards.first()).toHaveCSS("opacity", "0");
+  expect(Number(await cards.first().evaluate((element) => getComputedStyle(element).opacity))).toBeGreaterThan(0);
   await expect(progressTrack).toHaveCSS("opacity", "1");
 
   await page.evaluate((y) => window.scrollTo(0, y), sectionTop + travel * 0.4);
@@ -265,6 +298,7 @@ test("bid endpoint fails honestly until delivery credentials are configured", as
   const response = await request.post("/api/contact", {
     multipart: {
       name: "Estimator Test",
+      company: "General Contractor Test",
       email: "estimator@example.com",
       division: "demolition",
       projectType: "Selective demolition",
@@ -277,4 +311,62 @@ test("bid endpoint fails honestly until delivery credentials are configured", as
 
   expect(response.status()).toBe(503);
   await expect(response.json()).resolves.toMatchObject({ ok: false });
+});
+
+test("bid endpoint rejects cross-site submissions and unverified attachment formats", async ({ request }) => {
+  const crossSite = await request.post("/api/contact", {
+    headers: { Origin: "https://example.invalid", "Sec-Fetch-Site": "cross-site" },
+    multipart: {
+      name: "Estimator Test",
+      company: "General Contractor Test",
+      email: "estimator@example.com",
+      division: "demolition",
+      projectType: "Selective demolition",
+      projectLocation: "Miami, Florida",
+      facilityStatus: "Occupied commercial facility",
+      message: "Cross-site test request.",
+      consent: "yes",
+    },
+  });
+  expect(crossSite.status()).toBe(403);
+
+  const unsupportedFile = await request.post("/api/contact", {
+    multipart: {
+      name: "Estimator Test",
+      company: "General Contractor Test",
+      email: "estimator@example.com",
+      division: "demolition",
+      projectType: "Selective demolition",
+      projectLocation: "Miami, Florida",
+      facilityStatus: "Occupied commercial facility",
+      message: "Attachment validation test.",
+      consent: "yes",
+      attachments: {
+        name: "plans.zip",
+        mimeType: "application/zip",
+        buffer: Buffer.from("PK-not-a-plan"),
+      },
+    },
+  });
+  expect(unsupportedFile.status()).toBe(415);
+
+  const spoofedPdf = await request.post("/api/contact", {
+    multipart: {
+      name: "Estimator Test",
+      company: "General Contractor Test",
+      email: "estimator@example.com",
+      division: "demolition",
+      projectType: "Selective demolition",
+      projectLocation: "Miami, Florida",
+      facilityStatus: "Occupied commercial facility",
+      message: "File signature validation test.",
+      consent: "yes",
+      attachments: {
+        name: "plans.pdf",
+        mimeType: "application/pdf",
+        buffer: Buffer.from("This is not a PDF."),
+      },
+    },
+  });
+  expect(spoofedPdf.status()).toBe(415);
 });

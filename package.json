@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "check:launch": "node --env-file-if-exists=.env.local scripts/check-launch-config.mjs",
     "start": "next start",
     "lint": "eslint . --ignore-pattern .next",
     "test:e2e": "playwright test"

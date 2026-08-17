@@ -5,6 +5,7 @@ import { divisionContacts } from "@/app/content-data";
 import { displayHeading } from "@/app/display-text";
 import type { DivisionTemplateData } from "@/app/templates/template-data";
 import { DivisionHeader } from "@/components/SiteNavigation";
+import { BreadcrumbStructuredData, ServiceStructuredData } from "@/components/StructuredData";
 
 function HeroMedia({ data }: { data: DivisionTemplateData }) {
   if (data.hero.type === "image" && data.hero.media) {
@@ -48,6 +49,21 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
 
   return (
     <main className={`metric-division metric-division-${data.slug}`}>
+      <BreadcrumbStructuredData items={[
+        { name: "JZ Group", path: "/" },
+        { name: data.name, path: `/${data.slug}` },
+      ]} />
+      <ServiceStructuredData
+        name={`${data.name} services`}
+        description={data.introduction}
+        path={`/${data.slug}`}
+        division={data.slug}
+        catalog={data.services.map((service) => ({
+          name: service.name,
+          description: service.detail,
+          path: service.href,
+        }))}
+      />
       <DivisionHeader division={data.slug} />
 
       <section className="metric-division-hero" id="top">
@@ -130,7 +146,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
       </section>
 
       <footer className="metric-subpage-footer">
-        <div><strong>{data.name}</strong><span>{contact.address}</span></div>
+        <div><strong>{data.name}</strong><span>{contact.officeLabel}: {contact.address}</span></div>
         <div><span>South Florida</span><a href="tel:+13057932984">{contact.phone}</a></div>
         <div><Link href="/">JZ Group</Link><Link href={`/${data.slug}/contact`}>Contact</Link></div>
       </footer>

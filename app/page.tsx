@@ -6,7 +6,7 @@ import { CinematicHero } from "@/components/CinematicHero";
 import { DivisionSequence } from "@/components/DivisionSequence";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { GroupHeader } from "@/components/SiteNavigation";
-import { activeProcess, clientLogos, contact, publicPortfolioStats, qualificationRecords } from "./data";
+import { activeProcess, contact, publicPortfolioStats, qualificationRecords } from "./data";
 
 export default function Home() {
   return (
@@ -31,23 +31,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="metric-trust" aria-label="Selected client relationships">
-        <p>Trusted across South Florida</p>
-        <div className="metric-logo-row">
-          {clientLogos.map((client) => (
-            <span className="metric-logo" key={client.name}>
-              <Image src={client.src} alt={client.name} fill sizes="150px" unoptimized />
-            </span>
-          ))}
-        </div>
+      <section className="metric-trust" aria-label="Markets served across South Florida">
+        <p>Experience across active environments</p>
+        <ul className="metric-market-row">
+          <li>Healthcare</li>
+          <li>Education</li>
+          <li>Commercial</li>
+          <li>Retail</li>
+        </ul>
       </section>
 
       <section className="metric-field-story" aria-labelledby="field-title">
         <Image
-          src="/media/field-story/hero-field.webp"
-          alt="JZ crews coordinating work inside a complex commercial interior"
+          src="/media/website-photos/demolition-active-interior.webp"
+          alt="JZ demolition crews working inside an active commercial interior"
           fill
           sizes="100vw"
+          style={{ objectPosition: "center 48%" }}
         />
         <div className="metric-field-shade" />
         <div className="metric-field-copy">
@@ -72,11 +72,11 @@ export default function Home() {
       <section className="metric-delivery" aria-labelledby="delivery-title">
         <div className="metric-delivery-media">
           <Image
-            src="/media/field-story/one-group.webp"
-            alt="JZ Group field team member representing the four operating companies"
+            src="/media/website-photos/jz-group-field-operations.webp"
+            alt="JZ Group field professional carrying material through a commercial interior"
             fill
             sizes="(max-width: 840px) 100vw, 46vw"
-            style={{ objectPosition: "center 35%" }}
+            style={{ objectPosition: "center" }}
           />
         </div>
         <div className="metric-delivery-copy">
@@ -115,11 +115,11 @@ export default function Home() {
       <section className="metric-safety" aria-labelledby="safety-title">
         <div className="metric-safety-media">
           <Image
-            src="/media/field-story/safety-detail.webp"
-            alt="JZ safety equipment used during field operations"
+            src="/media/website-photos/active-facility-containment.webp"
+            alt="Temporary containment protecting the occupied areas around an interior work zone"
             fill
             sizes="(max-width: 840px) 100vw, 42vw"
-            style={{ objectPosition: "center 28%" }}
+            style={{ objectPosition: "center" }}
           />
         </div>
         <div className="metric-safety-copy">
@@ -160,7 +160,7 @@ export default function Home() {
           <Link href="/development">Development</Link>
         </nav>
         <div className="metric-footer-meta">
-          <span>{contact.address}</span>
+          <span>{contact.officeLabel}: {contact.address}</span>
           <span>Miami-Dade / Broward / Palm Beach</span>
           <a href="#top">Back to top ↑</a>
         </div>

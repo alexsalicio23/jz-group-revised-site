@@ -28,6 +28,7 @@ Open http://localhost:3000 in a browser.
 npm run lint
 npm run build
 npm run test:e2e
+npm run check:launch
 ```
 
 ## Project Structure
@@ -40,3 +41,5 @@ npm run test:e2e
 - `tests/`: Playwright desktop, mobile, and accessibility checks
 
 See `CONTENT-HANDOFF.md` for the complete page map, image-placeholder workflow, and launch verification list. Public claims, project media, contact details, and final division names should be reconfirmed with JZ before launch.
+
+The project-inquiry form captures the requesting company and accepts verified PDF, PNG, JPEG, and WebP excerpts only. CAD, Office, ZIP, and larger plan sets should be shared through the plan-room field. Production should also enforce rate limits at the hosting firewall and submit one real delivery test for each company address.

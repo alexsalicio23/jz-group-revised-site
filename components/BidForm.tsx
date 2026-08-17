@@ -69,13 +69,23 @@ export function BidForm({ defaultDivision = "demolition" }: { defaultDivision?: 
   };
 
   return (
-    <form className="bid-form" onSubmit={submit} aria-busy={status.type === "submitting"}>
+    <form
+      action="/api/contact"
+      className="bid-form"
+      encType="multipart/form-data"
+      method="post"
+      onSubmit={submit}
+      aria-busy={status.type === "submitting"}
+    >
       <div className="form-row">
         <label><FieldLabel required>Name</FieldLabel><input name="name" autoComplete="name" required /></label>
-        <label><FieldLabel required>Work email</FieldLabel><input name="email" type="email" autoComplete="email" required /></label>
+        <label><FieldLabel required>Company</FieldLabel><input name="company" autoComplete="organization" required /></label>
       </div>
       <div className="form-row">
+        <label><FieldLabel required>Work email</FieldLabel><input name="email" type="email" autoComplete="email" required /></label>
         <label><FieldLabel>Phone</FieldLabel><input name="phone" type="tel" autoComplete="tel" /></label>
+      </div>
+      <div className="form-row">
         <label>
           <FieldLabel required>Service lane</FieldLabel>
           <select
@@ -87,19 +97,26 @@ export function BidForm({ defaultDivision = "demolition" }: { defaultDivision?: 
             {serviceLanes.map((lane) => <option value={lane.value} key={lane.value}>{lane.label}</option>)}
           </select>
         </label>
-      </div>
-      <div className="form-row">
         <label><FieldLabel required>Project type</FieldLabel><input name="projectType" required placeholder="Selective demolition, renovation, hauling..." /></label>
-        <label><FieldLabel required>Location</FieldLabel><input name="projectLocation" required placeholder="City or jobsite address" /></label>
       </div>
       <div className="form-row">
+        <label><FieldLabel required>Location</FieldLabel><input name="projectLocation" required placeholder="City or jobsite address" /></label>
         <label><FieldLabel required>Facility status</FieldLabel><select name="facilityStatus" required defaultValue=""><option value="" disabled>Select status</option><option>Active hospital or healthcare facility</option><option>Occupied commercial facility</option><option>Vacant or unoccupied site</option><option>Not sure yet</option></select></label>
-        <label><FieldLabel>Timeline</FieldLabel><input name="timeline" placeholder="Bid due date or target start" /></label>
       </div>
-      <label><FieldLabel>Plan-room or document link</FieldLabel><input name="planRoomUrl" type="url" inputMode="url" placeholder="https://..." /></label>
+      <div className="form-row">
+        <label><FieldLabel>Timeline</FieldLabel><input name="timeline" placeholder="Bid due date or target start" /></label>
+        <label><FieldLabel>Plan-room or document link</FieldLabel><input name="planRoomUrl" type="url" inputMode="url" placeholder="https://..." /></label>
+      </div>
       <label><FieldLabel required>Project details</FieldLabel><textarea name="message" rows={4} required placeholder="Scope, square footage, access constraints, and anything estimating should know." /></label>
-      <label className="file-field"><FieldLabel>Plans or scope</FieldLabel><input name="attachments" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.xls,.xlsx,.dwg,.dxf,.zip" /><small>Up to five files and 3 MB total. Use the plan-room field for larger sets.</small></label>
-      <label className="form-consent"><input name="consent" type="checkbox" value="yes" required /><span>JZ Group may use this information to evaluate and respond to this request.</span></label>
+      <label className="file-field">
+        <FieldLabel>Small plan or scope excerpts</FieldLabel>
+        <input name="attachments" type="file" multiple accept="application/pdf,image/png,image/jpeg,image/webp" aria-describedby="attachment-help" />
+        <small id="attachment-help">Optional: attach up to five PDF or image excerpts under 3 MB total. Share full plan sets, CAD, Office, ZIP, or larger files with the plan-room link above.</small>
+      </label>
+      <label className="form-consent">
+        <input name="consent" type="checkbox" value="yes" required />
+        <span>JZ Group may use this information to evaluate and respond to this request.<em className="required-mark" aria-hidden="true">*</em><span className="sr-only"> required</span></span>
+      </label>
       <label className="form-honeypot" aria-hidden="true"><span>Company website</span><input name="companyWebsite" tabIndex={-1} autoComplete="off" /></label>
       <p className="form-routing" aria-live="polite">
         <span>Routing to</span>
@@ -114,7 +131,7 @@ export function BidForm({ defaultDivision = "demolition" }: { defaultDivision?: 
           <p>Your project has been routed to the selected JZ estimating team.</p>
         </div>
       ) : null}
-      {status.type === "error" ? <p className="form-status is-error" role="alert">{status.message} <a href="mailto:estimating@jzdemo.com">Email estimating directly.</a></p> : null}
+      {status.type === "error" ? <p className="form-status is-error" role="alert">{status.message} <a href={`mailto:${selectedLane.email}`}>Email {selectedLane.label} directly.</a></p> : null}
     </form>
   );
 }

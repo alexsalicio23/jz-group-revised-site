@@ -51,8 +51,8 @@ export function DivisionSequence() {
         };
 
         gsap.set(stage, { perspective: 1600, transformStyle: "preserve-3d" });
-        gsap.set(heading, { y: 34, autoAlpha: 0 });
-        if (progressTrack) gsap.set(progressTrack, { autoAlpha: 0 });
+        gsap.set(heading, { y: 34, opacity: 1 });
+        if (progressTrack) gsap.set(progressTrack, { opacity: 0 });
         if (progress) gsap.set(progress, { scaleY: 0, transformOrigin: "top" });
 
         cards.forEach((card, index) => {
@@ -69,7 +69,7 @@ export function DivisionSequence() {
             rotationY: index % 2 ? 3 : -3,
             rotationZ: index % 2 ? 1.5 : -1.5,
             scale: 0.94,
-            autoAlpha: 0,
+            opacity: 0.12,
             zIndex: index + 2,
             transformOrigin: "center center",
           });
@@ -86,8 +86,8 @@ export function DivisionSequence() {
           },
         });
 
-        timeline.to(heading, { y: 0, autoAlpha: 1, duration: 0.14, ease: "power3.out" }, 0.06);
-        if (progressTrack) timeline.to(progressTrack, { autoAlpha: 1, duration: 0.12, ease: "power2.out" }, 0.04);
+        timeline.to(heading, { y: 0, opacity: 1, duration: 0.14, ease: "power3.out" }, 0.06);
+        if (progressTrack) timeline.to(progressTrack, { opacity: 1, duration: 0.12, ease: "power2.out" }, 0.04);
         if (progress) timeline.to(progress, { scaleY: 1, duration: 0.9, ease: "none" }, 0.07);
 
         cards.forEach((card, index) => {
@@ -121,7 +121,7 @@ export function DivisionSequence() {
               rotationY: 0,
               rotationZ: 0,
               scale: 1,
-              autoAlpha: 1,
+              opacity: 1,
               filter: "brightness(1)",
               duration: 0.14,
               ease: "power4.out",
@@ -143,7 +143,7 @@ export function DivisionSequence() {
               rotationY: 0,
               rotationZ: 0,
               scale: 1,
-              autoAlpha: 1,
+              opacity: 1,
               filter: "brightness(1)",
               duration: 0.15,
               ease: "power3.inOut",

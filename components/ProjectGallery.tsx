@@ -49,7 +49,6 @@ export function ProjectGallery() {
             key={project.index}
             onClick={(event) => openProject(project, event.currentTarget)}
             type="button"
-            aria-label={`Open ${project.title} project summary`}
           >
             <span className="project-tile-media">
               <Image
@@ -96,6 +95,9 @@ export function ProjectGallery() {
               <dl>
                 {active.facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
               </dl>
+              <p className="project-dialog-note">
+                Request the dated scope record and approved references from estimating.
+              </p>
               <Link className="project-dialog-link" href={active.href}>
                 View project details <ArrowUpRight aria-hidden="true" size={17} />
               </Link>

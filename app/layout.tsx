@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getSiteUrl } from "@/app/site-url";
+import { buildPageMetadata } from "@/app/seo";
+import { OrganizationStructuredData } from "@/components/StructuredData";
 import "./globals.css";
 
 const neue = localFont({
@@ -25,31 +27,33 @@ const frama = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
-  title: "JZ Group | Specialty Demolition in Active Environments",
-  description:
-    "JZ Group delivers specialty demolition for active hospitals, occupied facilities, and complex commercial sites across South Florida.",
-  openGraph: {
-    title: "JZ Group | Built Around What Cannot Stop",
-    description:
-      "Specialty demolition, waste management, construction, and development coordinated under one group.",
-    images: [{ url: "/media/og-image.jpg", width: 1200, height: 630, alt: "JZ Group field operations" }],
+  applicationName: "JZ Group",
+  ...buildPageMetadata({
+    title: "JZ Group | Specialty Demolition in Active Environments",
+    description: "JZ Group delivers specialty demolition, construction, waste management, and development services across South Florida.",
+    path: "/",
+    image: "/media/og-image.jpg",
+    imageAlt: "JZ Group field operations in South Florida",
+  }),
+  icons: {
+    icon: [{ url: "/favicon.ico", type: "image/x-icon" }],
+    shortcut: "/favicon.ico",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "JZ Group | Built Around What Cannot Stop",
-    description: "Specialty demolition in active and occupied environments.",
-    images: ["/media/og-image.jpg"],
-  },
+  robots: process.env.VERCEL_ENV === "preview"
+    ? { index: false, follow: false }
+    : { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const isVercelDeployment = process.env.VERCEL === "1";
+
   return (
     <html lang="en" className={`${neue.variable} ${frama.variable}`}>
       <body>
         <a className="skip-link" href="#top">Skip to content</a>
+        <OrganizationStructuredData />
         {children}
-        <Analytics />
-        <SpeedInsights />
+        {isVercelDeployment ? <><Analytics /><SpeedInsights /></> : null}
       </body>
     </html>
   );

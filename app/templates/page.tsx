@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 };
 
 const previews = {
-  demolition: "/media/video/hero-demolition-poster.jpg",
+  demolition: "/media/website-photos/demolition-active-interior.webp",
   "waste-management": "/media/video/workflow-waste-poster.jpg",
-  construction: "/media/video/workflow-build-poster.jpg",
+  construction: "/media/website-photos/construction-framed-interior.webp",
   development: "/media/development/workforce-housing-kitchen.webp",
 };
 
@@ -48,7 +48,7 @@ export default function TemplatesPage() {
           const item = templates[slug];
           return (
             <Link className={`review-tile review-${slug}`} href={`/templates/${slug}`} key={slug}>
-              <Image src={previews[slug]} alt="" fill sizes="(max-width: 800px) 100vw, 50vw" />
+              <Image src={previews[slug]} alt={`${item.name} field and project preview`} fill sizes="(max-width: 800px) 100vw, 50vw" />
               <span className="review-tile-shade" />
               <span className="review-tile-index">{item.index}</span>
               <span className="review-tile-copy">

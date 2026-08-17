@@ -8,22 +8,22 @@ import { divisions } from "@/app/data";
 
 const stills: Record<string, { src: string; alt: string; position?: string }> = {
   demolition: {
-    src: "/media/field-story/demolition-floor.webp",
-    alt: "Selective demolition underway inside a commercial interior",
-    position: "center 46%",
+    src: "/media/website-photos/demolition-floor-removal.webp",
+    alt: "JZ demolition worker operating floor-removal equipment inside an active facility",
+    position: "center 52%",
   },
   construction: {
-    src: "/media/field-story/field-control.webp",
-    alt: "JZ construction crews coordinating commercial interior work",
+    src: "/media/website-photos/construction-framed-interior.webp",
+    alt: "Commercial interior build-out with metal framing in progress",
   },
   "waste-management": {
     src: "/media/field-story/waste-truck.webp",
     alt: "JZ Waste Management truck supporting a South Florida project",
   },
   development: {
-    src: "/media/field-story/one-group.webp",
-    alt: "JZ Group team member representing all four operating companies",
-    position: "center 35%",
+    src: "/media/development/workforce-housing-kitchen.webp",
+    alt: "Completed workforce housing interior from JZ Development",
+    position: "center",
   },
 };
 

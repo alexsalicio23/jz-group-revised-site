@@ -14,6 +14,10 @@ type HeroChapter = {
   motion: "cut" | "frame" | "panels" | "complete";
 };
 
+type NavigatorWithConnection = Navigator & {
+  connection?: { saveData?: boolean };
+};
+
 const START_TIME = 2;
 const END_TIME = 13;
 
@@ -121,7 +125,8 @@ export function CinematicHero() {
 
     const desktop = window.matchMedia("(min-width: 901px)").matches;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (desktop && !reducedMotion) element.dataset.enhanced = "true";
+    const saveData = Boolean((navigator as NavigatorWithConnection).connection?.saveData);
+    if (desktop && !reducedMotion && !saveData) element.dataset.enhanced = "true";
 
     return () => {
       if (anchorFrame) cancelAnimationFrame(anchorFrame);
@@ -136,13 +141,32 @@ export function CinematicHero() {
 
     const desktop = window.matchMedia("(min-width: 901px)").matches;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = Boolean((navigator as NavigatorWithConnection).connection?.saveData);
 
-    if (!desktop || reducedMotion) {
-      if (reducedMotion) {
-        walkthrough.pause();
-        walkthrough.currentTime = START_TIME;
-      }
+    if (reducedMotion || saveData) {
+      walkthrough.pause();
+      walkthrough.currentTime = START_TIME;
+      element.dataset.media = saveData ? "save-data" : "reduced-motion";
       return;
+    }
+
+    if (!desktop) {
+      let playTimer = 0;
+      const startPlayback = () => {
+        playTimer = window.setTimeout(() => {
+          void walkthrough.play().catch(() => {
+            element.dataset.media = "poster";
+          });
+        }, 900);
+      };
+
+      if (document.readyState === "complete") startPlayback();
+      else window.addEventListener("load", startPlayback, { once: true });
+
+      return () => {
+        if (playTimer) window.clearTimeout(playTimer);
+        window.removeEventListener("load", startPlayback);
+      };
     }
 
     let scrollFrame = 0;
@@ -270,32 +294,23 @@ export function CinematicHero() {
         <video
           ref={video}
           className="compact-hero-media"
-          autoPlay
           muted
           loop
           playsInline
-          preload="auto"
-          poster="/media/jz-drone-walkthrough-poster.jpg"
+          preload="metadata"
+          poster="/media/jz-drone-walkthrough-poster-v2.webp"
           aria-label="A continuous walkthrough of a commercial interior moving from demolition to completion"
           onTimeUpdate={(event) => {
             if (window.matchMedia("(min-width: 901px)").matches) return;
-            const currentTime = event.currentTarget.currentTime;
-            if (root.current) {
-              root.current.dataset.state = currentTime >= END_TIME
-                ? "resolution"
-                : currentTime >= START_TIME
-                  ? "chapters"
-                  : "intro";
-            }
-            setActiveChapter(getChapterIndex(currentTime));
+            setActiveChapter(getChapterIndex(event.currentTarget.currentTime));
           }}
         >
           <source
-            src="/media/jz-drone-walkthrough-scrub.mp4"
+            src="/media/jz-drone-walkthrough-scrub-v2.mp4"
             type="video/mp4"
             media="(min-width: 901px)"
           />
-          <source src="/media/jz-drone-walkthrough.mp4" type="video/mp4" />
+          <source src="/media/jz-drone-walkthrough-mobile-v2.mp4" type="video/mp4" />
         </video>
 
         <div className="compact-hero-shade" aria-hidden="true" />
@@ -348,7 +363,7 @@ export function CinematicHero() {
         </ol>
 
         <div className="compact-hero-resolution" aria-hidden="true">
-          <Image src="/media/brand-logo.webp" alt="" width={180} height={90} />
+          <Image src="/media/brand-logo.webp" alt="JZ Group" width={180} height={90} />
         </div>
 
         <div className="compact-hero-progress" aria-hidden="true"><span /></div>

@@ -82,10 +82,12 @@ Recommended first asset pass:
 
 ## Before launch
 
-- Confirm names, titles, addresses, emails, and project counts with JZ.
+- Confirm names, titles, addresses, and emails with JZ. Office addresses are deliberately labeled by company so the two public locations are not presented as one conflicting address.
+- Quantified portfolio totals have been removed from public copy until JZ provides an approved, dated source record.
 - Confirm every safety, training, equipment, and active-facility statement is current.
-- Confirm permission for project names, client logos, and photographs.
-- Replace or remove every labeled media placeholder.
-- Configure the Resend environment variables used by `/api/contact` and submit a real test scope.
+- Confirm permission for project names and photographs. The client-logo wall has been removed; restore individual logos only after relationship and trademark clearance.
+- The current public layouts use approved draft field photography and contain no visible `ASSET PENDING` placeholders.
+- Configure all Resend and company-specific routing variables used by `/api/contact`; run `npm run check:launch`; then submit one real test scope for each company. The endpoint will not silently fall back to another company.
+- Enforce a production rate-limit rule at the hosting firewall. The application includes a per-instance limit, origin checks, and PDF/image signature validation, but infrastructure-level abuse protection and any required PDF malware scanning remain deployment responsibilities.
 - Set `NEXT_PUBLIC_SITE_URL` to the final production domain.
 - Remove the private `/templates` review archive when it is no longer needed.

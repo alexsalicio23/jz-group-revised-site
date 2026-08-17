@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DivisionTemplate } from "@/components/DivisionTemplate";
+import { buildPageMetadata, divisionSocialImages } from "@/app/seo";
 import { isTemplateSlug, templateOrder, templates } from "@/app/templates/template-data";
 
 type DivisionPageProps = { params: Promise<{ division: string }> };
@@ -15,11 +16,15 @@ export async function generateMetadata({ params }: DivisionPageProps): Promise<M
   const { division } = await params;
   if (!isTemplateSlug(division)) return {};
   const data = templates[division];
+  const socialImage = divisionSocialImages[division];
 
-  return {
+  return buildPageMetadata({
     title: `${data.name} | JZ Group`,
     description: data.introduction,
-  };
+    path: `/${division}`,
+    image: socialImage.src,
+    imageAlt: socialImage.alt,
+  });
 }
 
 export default async function DivisionPage({ params }: DivisionPageProps) {
