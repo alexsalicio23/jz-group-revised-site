@@ -543,7 +543,9 @@ main :is(.compact-hero-summary > p, .compact-hero-chapter p) {
 }
 
 .compact-hero-intro h1 {
+  width: 100%;
   margin-inline: auto;
+  font-weight: 600;
   text-align: center;
   text-transform: none;
 }
