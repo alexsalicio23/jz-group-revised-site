@@ -3,13 +3,20 @@ import Link from "next/link";
 import { ArrowUpRight, Phone } from "lucide-react";
 import { divisionContacts, divisionLabels } from "@/app/content-data";
 import type { TemplateSlug } from "@/app/templates/template-data";
+import { ExpertiseMenu } from "@/components/ExpertiseMenu";
 
 const groupLinks = [
   { label: "Companies", href: "/#companies" },
-  { label: "Expertise", href: "/demolition" },
   { label: "Projects", href: "/projects" },
   { label: "Safety", href: "/safety" },
   { label: "About", href: "/about" },
+];
+
+const mobileExpertiseLinks = [
+  { label: "JZ Demolition", href: "/demolition" },
+  { label: "JZ Construction", href: "/construction" },
+  { label: "JZ Waste Management", href: "/waste-management" },
+  { label: "JZ Development", href: "/development" },
 ];
 
 function Brand({ href = "/#top" }: { href?: string }) {
@@ -25,7 +32,9 @@ export function GroupHeader() {
     <header className="site-header">
       <Brand />
       <nav className="desktop-nav" aria-label="Primary navigation">
-        {groupLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
+        <Link href="/#companies">Companies</Link>
+        <ExpertiseMenu />
+        {groupLinks.slice(1).map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
       </nav>
       <div className="header-actions">
         <a className="header-phone" href="tel:+13057932984"><Phone aria-hidden="true" size={14} />(305) 793-2984</a>
@@ -34,7 +43,14 @@ export function GroupHeader() {
       <details className="mobile-menu">
         <summary>Menu</summary>
         <nav aria-label="Mobile navigation">
-          {groupLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
+          <Link href="/#companies">Companies</Link>
+          <details className="mobile-expertise-menu">
+            <summary>Expertise</summary>
+            <div>
+              {mobileExpertiseLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
+            </div>
+          </details>
+          {groupLinks.slice(1).map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
           <a href="tel:+13057932984">(305) 793-2984</a>
           <Link href="/contact">Send a scope</Link>
         </nav>

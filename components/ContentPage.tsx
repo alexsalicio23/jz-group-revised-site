@@ -5,8 +5,10 @@ import { divisionContacts, divisionLabels } from "@/app/content-data";
 import { displayHeading } from "@/app/display-text";
 import { BidForm } from "@/components/BidForm";
 import { JZMedia } from "@/components/JZMedia";
+import { ProjectGallery } from "@/components/ProjectGallery";
 import { DivisionHeader, GroupHeader } from "@/components/SiteNavigation";
 import { BreadcrumbStructuredData, ServiceStructuredData } from "@/components/StructuredData";
+import { TeamGrid } from "@/components/TeamGrid";
 
 function ActionLink({ action }: { action: ContentAction }) {
   const icon = action.label.toLowerCase().includes("download")
@@ -116,13 +118,17 @@ export function ContentPage({ data }: { data: ContentPageData }) {
               </div>
             ) : null}
 
-            {section.mediaLabel ? (
+            {section.mediaLabel || section.media ? (
               <figure className="metric-content-media">
-                <JZMedia data={data} mediaLabel={section.mediaLabel} />
+                <JZMedia asset={section.media} context="section" data={data} />
               </figure>
             ) : null}
 
-            {section.cards?.length ? (
+            {section.layout === "project-grid" ? <ProjectGallery /> : null}
+
+            {section.team?.length ? <TeamGrid members={section.team} /> : null}
+
+            {section.cards?.length && section.layout !== "project-grid" ? (
               <div className="metric-content-card-grid">
                 {section.cards.map((card, index) => <LinkedCard card={card} index={index} key={`${card.title}-${index}`} />)}
               </div>

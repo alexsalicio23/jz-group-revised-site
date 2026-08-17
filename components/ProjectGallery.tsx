@@ -43,28 +43,33 @@ export function ProjectGallery() {
   return (
     <>
       <div className="project-grid">
-        {featuredProjects.map((project) => (
-          <button
-            className="project-tile"
-            key={project.index}
-            onClick={(event) => openProject(project, event.currentTarget)}
-            type="button"
-          >
-            <span className="project-tile-media">
-              <Image
-                src={project.image}
-                alt={project.imageAlt}
-                fill
-                sizes="(max-width: 760px) 100vw, (max-width: 1180px) 50vw, 33vw"
-                style={{ objectPosition: project.imagePosition }}
-              />
-              <span className="project-image-caption">{project.index} / {project.market}</span>
-            </span>
-            <span className="project-tile-meta">{project.market} / {project.location}</span>
-            <strong className="project-tile-title">{project.title}</strong>
-            <ArrowUpRight aria-hidden="true" size={21} strokeWidth={1.5} />
-          </button>
-        ))}
+        {featuredProjects.map((project) => {
+          const cover = project.images[0];
+
+          return (
+            <button
+              className="project-tile"
+              key={project.index}
+              onClick={(event) => openProject(project, event.currentTarget)}
+              type="button"
+              aria-label={`Open ${project.title} project summary`}
+            >
+              <span className="project-tile-media">
+                <Image
+                  src={cover.src}
+                  alt={cover.alt}
+                  fill
+                  sizes="(max-width: 760px) 100vw, (max-width: 1180px) 50vw, 62vw"
+                  style={{ objectPosition: cover.position }}
+                />
+                <span className="project-image-caption">{project.index} / {project.market}</span>
+              </span>
+              <span className="project-tile-meta">{project.market} / {project.location}</span>
+              <strong className="project-tile-title">{project.title}</strong>
+              <ArrowUpRight aria-hidden="true" size={21} strokeWidth={1.5} />
+            </button>
+          );
+        })}
       </div>
 
       <dialog
@@ -79,18 +84,23 @@ export function ProjectGallery() {
             <button className="project-dialog-close" onClick={closeProject} type="button" aria-label="Close project preview">
               <X aria-hidden="true" />
             </button>
-            <div className="project-dialog-media">
-              <Image
-                src={active.image}
-                alt={active.imageAlt}
-                fill
-                sizes="(max-width: 900px) 100vw, 58vw"
-                style={{ objectPosition: active.imagePosition }}
-              />
-              <span>{active.market} / {active.location}</span>
+            <div className="project-dialog-gallery">
+              {active.images.map((image, index) => (
+                <div className={index === 0 ? "is-primary" : ""} key={image.src}>
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes={index === 0 ? "(max-width: 900px) 100vw, 58vw" : "(max-width: 900px) 50vw, 29vw"}
+                    style={{ objectPosition: image.position }}
+                  />
+                  {index === 0 ? <span>{active.market} / {active.location}</span> : null}
+                </div>
+              ))}
             </div>
             <article className="project-dialog-copy">
               <h2>{displayHeading(active.title)}</h2>
+              <p className="project-dialog-scope">{active.scope}</p>
               <p>{active.summary}</p>
               <dl>
                 {active.facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}

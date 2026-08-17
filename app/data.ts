@@ -15,7 +15,7 @@ export const divisions = [
     kicker: "Define the cut.",
     description:
       "Selective interior, structural, and concrete demolition planned around active and occupied environments.",
-    media: "/media/website-photos/demolition-active-interior.webp",
+    media: "/media/jzg/mob-pompano-demolition.webp",
     type: "image" as const,
   },
   {
@@ -27,7 +27,7 @@ export const divisions = [
     description:
       "Framing, drywall, finishing, concrete support, and commercial construction delivered by the same group.",
     media: "/media/video/workflow-build.mp4",
-    poster: "/media/website-photos/construction-framed-interior.webp",
+    poster: "/media/jzg/division-construction.webp",
     type: "video" as const,
   },
   {
@@ -39,7 +39,7 @@ export const divisions = [
     description:
       "Dumpsters, hauling, temporary fencing, and site cleanup coordinated around the pace of the work.",
     media: "/media/video/workflow-waste.mp4",
-    poster: "/media/field-story/waste-truck.webp",
+    poster: "/media/jzg/division-waste.webp",
     type: "video" as const,
   },
   {
@@ -92,56 +92,98 @@ export const activeProcess = [
 export const featuredProjects = [
   {
     index: "01",
-    title: "Baptist Medical Arts Building",
-    market: "Active healthcare",
-    location: "South Florida",
-    scope: "Fourth-floor selective interior demolition",
+    title: "MOB Pompano",
+    market: "Medical office",
+    location: "Pompano Beach, Florida",
+    scope: "Demolition and framing field record",
     summary:
-      "A complex demolition scope planned around an active hospital environment and an overnight execution window.",
+      "A field-photography record showing demolition, containment, air-control equipment, and framing work inside a medical-office environment.",
     facts: [
-      ["Scope", "16,300 SF"],
-      ["Condition", "Active hospital"],
-      ["Execution", "Overnight"],
+      ["Company", "JZ Demolition"],
+      ["Work shown", "Demolition + framing"],
+      ["Record", "Field photography"],
     ],
-    image: "/media/video/hero-demolition-poster.jpg",
-    imageAlt: "Specialty demolition equipment operating inside a commercial project",
-    imagePosition: "center 52%",
+    images: [
+      {
+        src: "/media/jzg/mob-pompano-demolition.webp",
+        alt: "Controlled demolition underway at the MOB Pompano project",
+        position: "center 45%",
+      },
+      {
+        src: "/media/jzg/safety-containment.webp",
+        alt: "Temporary containment inside the MOB Pompano medical-office project",
+        position: "center",
+      },
+      {
+        src: "/media/jzg/safety-air-control.webp",
+        alt: "Air-control equipment used during MOB Pompano interior work",
+        position: "center",
+      },
+    ],
     href: "/demolition/projects/healthcare",
   },
   {
     index: "02",
-    title: "Broward Medical Office Building",
-    market: "Medical office",
-    location: "Pompano Beach, Florida",
-    scope: "Multi-floor demolition and concrete work",
+    title: "100 Biscayne",
+    market: "Commercial construction",
+    location: "South Florida",
+    scope: "Interior planning and framing field record",
     summary:
-      "Three stories of interior demolition with concrete scanning and cutting coordinated within the same scope.",
+      "Field photography documenting plan review, interior framing, and project coordination during commercial construction.",
     facts: [
-      ["Building", "3 stories"],
-      ["Scope", "Interior demolition"],
-      ["Concrete", "Scanning + cutting"],
+      ["Company", "JZ Construction"],
+      ["Work shown", "Planning + framing"],
+      ["Record", "Field photography"],
     ],
-    image: "/media/field-story/field-control.webp",
-    imageAlt: "JZ field operations inside a framed commercial interior",
-    imagePosition: "center",
-    href: "/demolition/projects/healthcare",
+    images: [
+      {
+        src: "/media/jzg/project-100-biscayne.webp",
+        alt: "A JZ team member reviewing drawings at 100 Biscayne",
+        position: "center 48%",
+      },
+      {
+        src: "/media/jzg/division-construction.webp",
+        alt: "Interior framing at the 100 Biscayne project",
+        position: "center",
+      },
+      {
+        src: "/media/jzg/project-100-biscayne-team.webp",
+        alt: "JZ field coordination at the 100 Biscayne project",
+        position: "center",
+      },
+    ],
+    href: "/construction/projects",
   },
   {
     index: "03",
-    title: "Memorial Cancer Institute",
+    title: "Bascom Palmer",
     market: "Healthcare construction",
     location: "South Florida",
-    scope: "Completed healthcare project record",
+    scope: "Interior framing and buildout field record",
     summary:
-      "A recognizable healthcare environment included in JZ Construction's public portfolio of medical and commercial work.",
+      "Field photography showing interior framing, active coordination, and construction progress within a healthcare project.",
     facts: [
-      ["Division", "JZ Construction"],
-      ["Market", "Healthcare"],
-      ["Record", "Public portfolio"],
+      ["Company", "JZ Construction"],
+      ["Work shown", "Interior framing"],
+      ["Record", "Field photography"],
     ],
-    image: "/media/video/workflow-exterior-poster.jpg",
-    imageAlt: "Exterior of Memorial Cancer Institute in South Florida",
-    imagePosition: "center",
+    images: [
+      {
+        src: "/media/jzg/project-bascom-palmer.webp",
+        alt: "Interior framing progress at the Bascom Palmer project",
+        position: "center",
+      },
+      {
+        src: "/media/jzg/field-bascom-action.webp",
+        alt: "JZ field work underway at the Bascom Palmer project",
+        position: "center",
+      },
+      {
+        src: "/media/jzg/project-bascom-palmer-team.webp",
+        alt: "JZ team coordination inside the Bascom Palmer project",
+        position: "center",
+      },
+    ],
     href: "/construction/projects/healthcare",
   },
 ] as const;

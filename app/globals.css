@@ -3216,6 +3216,19 @@ ul {
     scrollbar-width: none;
   }
 
+  .compact-hero:not([data-enhanced="true"])[data-state="intro"] .compact-hero-chapters {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    pointer-events: none;
+  }
+
+  .compact-hero:not([data-enhanced="true"])[data-state="chapters"] .compact-hero-chapters {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
   .compact-hero-chapters::-webkit-scrollbar {
     display: none;
   }

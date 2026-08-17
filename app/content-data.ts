@@ -1,6 +1,22 @@
 import type { TemplateSlug } from "@/app/templates/template-data";
 
 export type Stat = { value: string; label: string };
+export type MediaAsset = {
+  src: string;
+  alt: string;
+  position?: string;
+  poster?: string;
+  type?: "image" | "video";
+};
+
+export type TeamMember = {
+  name: string;
+  role: string;
+  image?: string;
+  imageAlt?: string;
+  imagePosition?: string;
+};
+
 export type ContentCard = {
   title: string;
   subtitle?: string;
@@ -21,6 +37,9 @@ export type ContentSection = {
   paragraphs?: string[];
   bullets?: string[];
   cards?: ContentCard[];
+  layout?: "default" | "project-grid" | "team-grid";
+  media?: MediaAsset;
+  team?: TeamMember[];
   specifications?: Specification[];
   mediaLabel?: string;
   tone?: "paper" | "concrete" | "ink";
@@ -41,6 +60,7 @@ export type ContentPageData = {
   title: string;
   introduction: string;
   mediaLabel: string;
+  heroMedia?: MediaAsset;
   stats?: Stat[];
   actions?: ContentAction[];
   sections: ContentSection[];
@@ -83,15 +103,46 @@ export const divisionLabels: Record<TemplateSlug, string> = {
   development: "JZ Development",
 };
 
-const leadershipCards: ContentCard[] = [
-  { title: "Alexander DeArmas", subtitle: "President" },
-  { title: "Jonathan Lantigua", subtitle: "Vice President / Chief Estimator" },
-  { title: "Zenaida Balseiro", subtitle: "Secretary" },
-  { title: "Katherine Lantigua", subtitle: "Treasurer" },
-  { title: "Christopher Carter", subtitle: "Project leadership / Estimating" },
-  { title: "Alberto DeArmas", subtitle: "Development leadership" },
-  { title: "Luis Perez", subtitle: "Director of Construction" },
-  { title: "Bryan Gonzalez", subtitle: "Marketing" },
+const leadershipTeam: TeamMember[] = [
+  {
+    name: "Alex DeArmas",
+    role: "President",
+    image: "/media/jzg/team-alex-dearmas.webp",
+    imageAlt: "Alex DeArmas, President of JZ Group",
+  },
+  { name: "Zeniada Balseiro", role: "Secretary" },
+  {
+    name: "Chris Carter",
+    role: "Vice President",
+    image: "/media/jzg/team-chris-carter.webp",
+    imageAlt: "Chris Carter, Vice President of JZ Group",
+  },
+];
+
+const operationsTeam: TeamMember[] = [
+  {
+    name: "Juan Machado",
+    role: "Project Manager",
+    image: "/media/jzg/team-juan-machado.webp",
+    imageAlt: "Juan Machado, Project Manager at JZ Group",
+  },
+  { name: "Robert Rey", role: "Project Manager" },
+  { name: "Franja DeArmas", role: "Accountant" },
+  { name: "Henry Monterrey", role: "Estimator" },
+];
+
+const fieldTeam: TeamMember[] = [
+  { name: "Yacel Frontela", role: "Superintendent" },
+  {
+    name: "Miguel Munoz",
+    role: "Superintendent",
+    image: "/media/jzg/team-miguel-munoz.webp",
+    imageAlt: "Miguel Munoz, Superintendent at JZ Group",
+  },
+  { name: "Alejandro Osorio", role: "Superintendent" },
+  { name: "Freddy Oleva", role: "Foreman" },
+  { name: "Lazaro Pérez", role: "Foreman" },
+  { name: "Yunier Fernandez", role: "Foreman" },
 ];
 
 export const groupPages: Record<string, ContentPageData> = {
@@ -104,6 +155,11 @@ export const groupPages: Record<string, ContentPageData> = {
     introduction:
       "JZ Group brings demolition, construction, waste management, and development together so clients can move through complex work with fewer handoffs and one shared standard.",
     mediaLabel: "JZ GROUP TEAM PHOTO",
+    heroMedia: {
+      src: "/media/jzg/group-field-team.webp",
+      alt: "JZ Group field team inside an active commercial project",
+      position: "center 42%",
+    },
     actions: [{ label: "Meet the four companies", href: "/#group" }],
     sections: [
       {
@@ -128,25 +184,24 @@ export const groupPages: Record<string, ContentPageData> = {
       },
       {
         id: "leadership",
-        eyebrow: "Office leadership",
-        title: "The company behind every handoff.",
-        cards: leadershipCards,
-        mediaLabel: "OFFICE LEADERSHIP PHOTO",
+        title: "Leadership",
+        layout: "team-grid",
+        team: leadershipTeam,
+      },
+      {
+        id: "operations",
+        title: "Project and office operations",
+        layout: "team-grid",
+        team: operationsTeam,
       },
       {
         id: "field",
-        eyebrow: "Field leadership",
-        title: "Experience where the work happens.",
+        title: "Field leadership",
         paragraphs: [
           "JZ Group hires verified, experienced people and relies on field leadership to manage work according to project requirements, schedule, safety expectations, and the conditions around each scope.",
         ],
-        cards: [
-          { title: "Yacel Frontela", subtitle: "Lead Superintendent" },
-          { title: "Miguel Muniz", subtitle: "Superintendent" },
-          { title: "Kaleb Perez", subtitle: "Superintendent" },
-          { title: "Yeser Martinez", subtitle: "Superintendent" },
-        ],
-        mediaLabel: "FIELD TEAM PHOTO",
+        layout: "team-grid",
+        team: fieldTeam,
       },
     ],
     related: [
@@ -165,6 +220,11 @@ export const groupPages: Record<string, ContentPageData> = {
     introduction:
       "The divisions have different responsibilities, but they operate around the same expectations: safety, integrity, excellence, and a positive impact on the communities around the work.",
     mediaLabel: "FOUR COMPANIES / ONE GROUP PHOTO",
+    heroMedia: {
+      src: "/media/jzg/group-field-team.webp",
+      alt: "Four JZ Group field team members coordinating work inside a commercial project",
+      position: "center 42%",
+    },
     sections: [
       {
         id: "standards",
@@ -219,6 +279,11 @@ export const groupPages: Record<string, ContentPageData> = {
     introduction:
       "In active hospitals, occupied facilities, and complex commercial environments, safe work depends on planning, communication, controlled access, experienced supervision, and disciplined execution.",
     mediaLabel: "APPROVED SAFETY / PROTECTION SETUP",
+    heroMedia: {
+      src: "/media/jzg/safety-containment.webp",
+      alt: "Temporary containment protecting an occupied medical-office corridor",
+      position: "center",
+    },
     sections: [
       {
         id: "planning",
@@ -269,33 +334,18 @@ export const groupPages: Record<string, ContentPageData> = {
     eyebrow: "JZ Group / Work",
     title: "Browse the work by company and operating environment.",
     introduction:
-      "The project library brings demolition sectors, construction markets, and development records into one clear path. Approved photography can replace every labeled media position without changing the page structure.",
+      "The project library brings demolition sectors, construction markets, and development records into one clear path. Each record connects the visible work to the JZ company responsible for delivering it.",
     mediaLabel: "FEATURED ACROSS JZ PROJECTS",
+    heroMedia: {
+      src: "/media/jzg/project-100-biscayne.webp",
+      alt: "A JZ team member reviewing construction drawings at 100 Biscayne",
+      position: "center 46%",
+    },
     sections: [
       {
         id: "featured",
-        eyebrow: "Featured records",
         title: "The right proof, one click away.",
-        cards: [
-          {
-            title: "Baptist Medical Arts Building",
-            subtitle: "Active healthcare / JZ Demolition",
-            description: "Fourth-floor selective interior demolition planned around an active hospital and overnight execution.",
-            href: "/demolition/projects/healthcare",
-          },
-          {
-            title: "Broward Medical Office Building",
-            subtitle: "Medical office / JZ Demolition",
-            description: "Multi-floor demolition supported by concrete scanning and cutting within the same scope.",
-            href: "/demolition/projects/healthcare",
-          },
-          {
-            title: "South Florida commercial work",
-            subtitle: "JZ Construction",
-            description: "Healthcare and commercial construction delivered through general contracting and in-house trade capability.",
-            href: "/construction/projects",
-          },
-        ],
+        layout: "project-grid",
       },
       {
         id: "markets",
@@ -327,6 +377,11 @@ export const groupPages: Record<string, ContentPageData> = {
     introduction:
       "Share the project type, location, facility status, timeline, and available documents. The group can route demolition, construction, waste management, and development inquiries from one intake.",
     mediaLabel: "ESTIMATING / PRECONSTRUCTION TEAM PHOTO",
+    heroMedia: {
+      src: "/media/jzg/project-100-biscayne.webp",
+      alt: "A JZ team member reviewing project drawings",
+      position: "center 45%",
+    },
     sections: [
       {
         id: "contacts",

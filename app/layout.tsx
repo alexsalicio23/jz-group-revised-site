@@ -6,6 +6,7 @@ import { getSiteUrl } from "@/app/site-url";
 import { buildPageMetadata } from "@/app/seo";
 import { OrganizationStructuredData } from "@/components/StructuredData";
 import "./globals.css";
+import "./sitewide-update.css";
 
 const neue = localFont({
   src: [

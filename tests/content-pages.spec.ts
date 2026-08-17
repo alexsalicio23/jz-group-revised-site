@@ -31,6 +31,14 @@ for (const route of representativePages) {
 
     const headingCopy = await page.locator("main h1, main h2, main h3, main h4").allTextContents();
     expect(headingCopy.every((heading) => !heading.includes("."))).toBe(true);
+    const headingStyles = await page.locator("main h1, main h2, main h3, main h4").evaluateAll((headings) =>
+      headings.map((heading) => ({
+        letterSpacing: getComputedStyle(heading).letterSpacing,
+        textTransform: getComputedStyle(heading).textTransform,
+      })),
+    );
+    expect(headingStyles.every((style) => style.textTransform === "uppercase")).toBe(true);
+    expect(headingStyles.every((style) => ["normal", "0px"].includes(style.letterSpacing))).toBe(true);
 
     const supportAlignment = await page.locator(
       ".metric-content-hero-bottom > p, .metric-content-body > p, .metric-content-card p, .metric-spec-grid article > p",
@@ -47,6 +55,31 @@ for (const route of representativePages) {
     expect(results.violations).toEqual([]);
   });
 }
+
+test("about page presents the approved team roster in order", async ({ page }) => {
+  await page.goto("/about");
+
+  const expectedNames = [
+    "Alex DeArmas",
+    "Zeniada Balseiro",
+    "Chris Carter",
+    "Juan Machado",
+    "Robert Rey",
+    "Franja DeArmas",
+    "Henry Monterrey",
+    "Yacel Frontela",
+    "Miguel Munoz",
+    "Alejandro Osorio",
+    "Freddy Oleva",
+    "Lazaro Pérez",
+    "Yunier Fernandez",
+  ];
+
+  await expect(page.locator(".team-card")).toHaveCount(expectedNames.length);
+  expect(await page.locator(".team-card h3").allTextContents()).toEqual(expectedNames);
+  await expect(page.locator(".team-card img")).toHaveCount(4);
+  await expect(page.locator(".team-card-initials")).toHaveCount(9);
+});
 
 test("division service links lead into the detailed route system", async ({ page }) => {
   await page.goto("/demolition");

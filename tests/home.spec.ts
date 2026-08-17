@@ -31,6 +31,14 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
 
   const headingCopy = await page.locator("main h1, main h2").allTextContents();
   expect(headingCopy.every((heading) => !heading.includes("."))).toBe(true);
+  const headingStyles = await page.locator("main h1, main h2, main h3, main h4").evaluateAll((headings) =>
+    headings.map((heading) => ({
+      letterSpacing: getComputedStyle(heading).letterSpacing,
+      textTransform: getComputedStyle(heading).textTransform,
+    })),
+  );
+  expect(headingStyles.every((style) => style.textTransform === "uppercase")).toBe(true);
+  expect(headingStyles.every((style) => ["normal", "0px"].includes(style.letterSpacing))).toBe(true);
   await expect(page.locator("main h1 br, main h2 br")).toHaveCount(0);
 
   const headingAlignment = await page.locator("main h1, main h2, main h3, main h4").evaluateAll(
@@ -85,6 +93,15 @@ test("mobile presentation copy is centered while form fields stay scannable", as
   const formAlignment = await page.locator(".bid-form label").first().evaluate((element) => getComputedStyle(element).textAlign);
   expect(["left", "start"]).toContain(formAlignment);
 
+  const projectLayout = await page.locator(".project-grid").evaluate((grid) => ({
+    display: getComputedStyle(grid).display,
+    cardTops: Array.from(grid.querySelectorAll<HTMLElement>(".project-tile")).map(
+      (card) => Math.round(card.getBoundingClientRect().top),
+    ),
+  }));
+  expect(projectLayout.display).toBe("grid");
+  expect(new Set(projectLayout.cardTops).size).toBe(3);
+
   const hasHorizontalOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth,
   );
@@ -104,6 +121,27 @@ test("mobile presentation copy is centered while form fields stay scannable", as
     });
     expect(Math.abs(center - page.viewportSize()!.width / 2), `${selector} should sit on the page center`).toBeLessThan(2);
   }
+});
+
+test("expertise navigation exposes every JZ company", async ({ page }, testInfo) => {
+  await page.goto("/");
+
+  if (testInfo.project.name === "mobile") {
+    await page.locator(".mobile-menu > summary").click();
+    const disclosure = page.locator(".mobile-expertise-menu > summary");
+    await disclosure.click();
+    await expect(page.locator(".mobile-expertise-menu")).toHaveAttribute("open", "");
+    await expect(page.locator(".mobile-expertise-menu a")).toHaveCount(4);
+    return;
+  }
+
+  const trigger = page.getByRole("button", { name: /Expertise/ });
+  await trigger.hover();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(page.locator(".expertise-menu-panel a")).toHaveCount(4);
+  await expect(page.getByRole("link", { name: /JZ Waste Management/ })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
 });
 
 test("hero tells four phases without an oversized scroll gap", async ({ page }, testInfo) => {
@@ -228,10 +266,11 @@ test("homepage inquiry visibly routes to the selected JZ company", async ({ page
 test("project proof and safety details expand in place", async ({ page }, testInfo) => {
   await page.goto("/#projects");
 
-  const project = page.getByRole("button", { name: /Baptist Medical Arts Building/ });
+  const project = page.getByRole("button", { name: /Open MOB Pompano project summary/ });
   await project.click();
   await expect(page.getByRole("dialog")).toBeVisible();
-  await expect(page.getByText("16,300 SF", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "MOB POMPANO" })).toBeVisible();
+  await expect(page.getByText("Demolition and framing field record")).toBeVisible();
   await expect(page.getByRole("link", { name: /View project details/ })).toBeVisible();
   if (testInfo.project.name === "mobile") {
     const dialogBounds = await page.getByRole("dialog").evaluate((dialog) => {
@@ -244,9 +283,20 @@ test("project proof and safety details expand in place", async ({ page }, testIn
   await page.getByRole("button", { name: "Close project preview" }).click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
 
-  const safetyRecord = page.locator(".metric-qualification-list details").nth(1);
-  await safetyRecord.locator("summary").click();
-  await expect(safetyRecord).toHaveAttribute("open", "");
+  await project.click();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await expect(project).toBeFocused();
+
+  const safetyRecord = page.locator(".qualification-item").nth(1);
+  const safetyTrigger = safetyRecord.getByRole("button", { name: /Site-specific planning/ });
+  if (testInfo.project.name === "desktop") await safetyRecord.hover();
+  else {
+    await safetyTrigger.focus();
+    await page.keyboard.press("Enter");
+  }
+  await expect(safetyRecord).toHaveAttribute("data-open", "true");
+  await expect(safetyTrigger).toHaveAttribute("aria-expanded", "true");
   await expect(safetyRecord.getByText(/Access, work zones, material movement/)).toBeVisible();
 });
 

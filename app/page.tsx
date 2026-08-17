@@ -5,8 +5,9 @@ import { BidForm } from "@/components/BidForm";
 import { CinematicHero } from "@/components/CinematicHero";
 import { DivisionSequence } from "@/components/DivisionSequence";
 import { ProjectGallery } from "@/components/ProjectGallery";
+import { QualificationAccordion } from "@/components/QualificationAccordion";
 import { GroupHeader } from "@/components/SiteNavigation";
-import { activeProcess, contact, publicPortfolioStats, qualificationRecords } from "./data";
+import { activeProcess, contact, publicPortfolioStats } from "./data";
 
 export default function Home() {
   return (
@@ -43,8 +44,8 @@ export default function Home() {
 
       <section className="metric-field-story" aria-labelledby="field-title">
         <Image
-          src="/media/website-photos/demolition-active-interior.webp"
-          alt="JZ demolition crews working inside an active commercial interior"
+          src="/media/jzg/field-bascom-action.webp"
+          alt="JZ field operations during interior construction at Bascom Palmer"
           fill
           sizes="100vw"
           style={{ objectPosition: "center 48%" }}
@@ -72,11 +73,11 @@ export default function Home() {
       <section className="metric-delivery" aria-labelledby="delivery-title">
         <div className="metric-delivery-media">
           <Image
-            src="/media/website-photos/jz-group-field-operations.webp"
-            alt="JZ Group field professional carrying material through a commercial interior"
+            src="/media/jzg/group-field-team.webp"
+            alt="Four JZ Group field team members inside a commercial project"
             fill
             sizes="(max-width: 840px) 100vw, 46vw"
-            style={{ objectPosition: "center" }}
+            style={{ objectPosition: "center 42%" }}
           />
         </div>
         <div className="metric-delivery-copy">
@@ -115,8 +116,8 @@ export default function Home() {
       <section className="metric-safety" aria-labelledby="safety-title">
         <div className="metric-safety-media">
           <Image
-            src="/media/website-photos/active-facility-containment.webp"
-            alt="Temporary containment protecting the occupied areas around an interior work zone"
+            src="/media/jzg/safety-containment.webp"
+            alt="Temporary containment protecting an occupied medical-office corridor"
             fill
             sizes="(max-width: 840px) 100vw, 42vw"
             style={{ objectPosition: "center" }}
@@ -124,14 +125,7 @@ export default function Home() {
         </div>
         <div className="metric-safety-copy">
           <h2 id="safety-title">Safety is part of the deliverable</h2>
-          <div className="metric-qualification-list">
-            {qualificationRecords.map((record, index) => (
-              <details key={record.title} open={index === 0}>
-                <summary><span>{String(index + 1).padStart(2, "0")}</span>{record.title}<i aria-hidden="true">+</i></summary>
-                <p>{record.description}</p>
-              </details>
-            ))}
-          </div>
+          <QualificationAccordion />
           <Link className="metric-text-link is-light" href="/safety">Review safety approach <ArrowUpRight aria-hidden="true" size={17} /></Link>
         </div>
       </section>

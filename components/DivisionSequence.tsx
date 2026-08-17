@@ -195,9 +195,9 @@ export function DivisionSequence() {
                     src={media}
                   />
                   <span className="division-card-number">{division.number}</span>
-                  <h3>{division.short}</h3>
                 </div>
                 <div className="division-card-copy">
+                  <h3>{division.short}</h3>
                   <p>{division.description}</p>
                   <span className="division-card-link">
                     Explore company <ArrowUpRight aria-hidden="true" size={17} />
