@@ -2,7 +2,7 @@ function withProtocol(value: string) {
   return value.startsWith("http://") || value.startsWith("https://") ? value : `https://${value}`;
 }
 
-const defaultProductionUrl = "https://jzdemo.com";
+const defaultProductionUrl = "https://www.jzgroupmiami.com";
 
 export function getSiteUrl() {
   const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL;
