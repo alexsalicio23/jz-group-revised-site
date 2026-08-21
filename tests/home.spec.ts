@@ -82,7 +82,11 @@ test("mobile presentation copy is centered while form fields stay scannable", as
   await page.waitForTimeout(4200);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("link", { name: "Send a scope" }).first()).toBeVisible();
-  await expect(page.locator(".compact-hero-summary > p")).toBeHidden();
+  await expect(page.locator(".compact-hero-summary > p")).toBeVisible();
+  const heroSummarySize = await page.locator(".compact-hero-summary > p").evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).fontSize),
+  );
+  expect(heroSummarySize).toBeGreaterThanOrEqual(16);
   await expect(page.locator(".compact-hero-media")).toHaveJSProperty(
     "currentSrc",
     new URL("/media/jz-drone-walkthrough-mobile-v2.mp4", page.url()).toString(),

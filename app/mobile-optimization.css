@@ -82,6 +82,21 @@
     font-size: clamp(2.9rem, 13vw, 3.6rem);
   }
 
+  .compact-hero-summary > p {
+    display: block;
+    max-width: 340px;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  main h1,
+  main h2,
+  main h3,
+  main h4 {
+    line-height: 1;
+    padding-block: 0.1em;
+  }
+
   .compact-hero-chapter p {
     font-size: 1rem;
     line-height: 1.45;
@@ -164,9 +179,9 @@
   }
 
   .division-stack-card {
-    height: 490px;
+    height: auto;
     min-height: 490px;
-    grid-template-rows: 54% 46%;
+    grid-template-rows: 265px auto;
   }
 
   .division-card-copy {
@@ -195,20 +210,25 @@
 
   .division-card-visual,
   .division-card-copy,
-  .division-card-copy > *,
   .metric-service-index > a,
   .metric-service-index > article,
+  .team-card-copy,
+  .form-routing,
+  .qualification-item,
+  .qualification-item h3,
+  .qualification-item button {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .division-card-copy > *,
   .metric-service-index h3,
   .metric-service-index p,
-  .team-card-copy,
   .team-card-copy > *,
   .metric-content-card > *,
   .metric-spec-grid article > *,
-  .form-routing,
   .form-routing > *,
-  .qualification-item,
-  .qualification-item h3,
-  .qualification-item button,
   .qualification-item button strong {
     width: auto;
     max-width: 100%;
@@ -226,6 +246,12 @@
     grid-row: auto;
   }
 
+  .metric-process a {
+    height: auto;
+    min-height: 140px;
+    grid-template-rows: auto auto;
+  }
+
   .metric-delivery-media,
   .metric-safety-media {
     min-height: 280px;
@@ -238,8 +264,8 @@
 
   .qualification-item button {
     min-height: 64px;
-    grid-template-columns: 32px minmax(0, 1fr) 24px;
-    gap: 0.65rem;
+    grid-template-columns: 28px minmax(0, 1fr) 20px;
+    gap: 0.5rem;
   }
 
   .qualification-item button strong {
