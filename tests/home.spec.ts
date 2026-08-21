@@ -121,6 +121,20 @@ test("mobile presentation copy is centered while form fields stay scannable", as
   expect(new Set(projectLayout.cardTops).size).toBe(1);
   expect(projectLayout.scrollWidth).toBeGreaterThan(projectLayout.clientWidth);
 
+  for (const width of [320, 390, 430]) {
+    await page.setViewportSize({ width, height: 844 });
+    const divisionContainment = await page.locator(".division-stack-card").evaluateAll((cards) =>
+      cards.map((card) => ({
+        horizontal: card.scrollWidth <= card.clientWidth + 1,
+        vertical: card.scrollHeight <= card.clientHeight + 1,
+      })),
+    );
+    expect(
+      divisionContainment.every(({ horizontal, vertical }) => horizontal && vertical),
+      `division card text should remain contained at ${width}px`,
+    ).toBe(true);
+  }
+
   const hasHorizontalOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth,
   );
@@ -254,6 +268,20 @@ test("homepage content remains visible without JavaScript", async ({ browser }) 
   await expect(page.locator(".division-stack-card").first()).toBeVisible();
   await expect(page.getByRole("heading", { name: /One standard.*across every handoff/ })).toBeVisible();
   await expect(page.locator(".metric-market-row li")).toHaveCount(4);
+
+  for (const width of [1024, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 900 });
+    const divisionContainment = await page.locator(".division-stack-card").evaluateAll((cards) =>
+      cards.map((card) => ({
+        horizontal: card.scrollWidth <= card.clientWidth + 1,
+        vertical: card.scrollHeight <= card.clientHeight + 1,
+      })),
+    );
+    expect(
+      divisionContainment.every(({ horizontal, vertical }) => horizontal && vertical),
+      `fallback division card text should remain contained at ${width}px`,
+    ).toBe(true);
+  }
 
   const unavailableSections = await page.locator("main > section").evaluateAll((sections) =>
     sections.filter((section) => {

@@ -116,6 +116,10 @@ test("mobile division and service pages preserve the centered hierarchy", async 
   await page.goto("/demolition");
   await expect(page.locator(".metric-division-hero-copy")).toHaveCSS("text-align", "center");
   await expect(page.locator(".metric-division-intro")).toHaveCSS("text-align", "center");
+  const serviceIndexContainment = await page.locator(".metric-service-index > a, .metric-service-index > article").evaluateAll(
+    (rows) => rows.map((row) => row.scrollWidth <= row.clientWidth + 1),
+  );
+  expect(serviceIndexContainment.every(Boolean)).toBe(true);
   const cueCenter = await page.locator(".metric-scroll-cue").evaluate((element) => {
     const bounds = element.getBoundingClientRect();
     return bounds.left + bounds.width / 2;

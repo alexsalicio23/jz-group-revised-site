@@ -164,8 +164,9 @@
   }
 
   .division-stack-card {
-    height: 420px;
-    min-height: 420px;
+    height: 490px;
+    min-height: 490px;
+    grid-template-rows: 54% 46%;
   }
 
   .division-card-copy {
@@ -178,6 +179,51 @@
 
   .division-card-copy p {
     font-size: 0.96rem;
+  }
+
+  .metric-service-index > a,
+  .metric-service-index > article {
+    padding-right: clamp(1.25rem, 7vw, 2.25rem);
+    padding-left: clamp(1.25rem, 7vw, 2.25rem);
+  }
+
+  .metric-service-index h3 {
+    font-size: clamp(1.55rem, 7.8vw, 1.95rem);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .division-card-visual,
+  .division-card-copy,
+  .division-card-copy > *,
+  .metric-service-index > a,
+  .metric-service-index > article,
+  .metric-service-index h3,
+  .metric-service-index p,
+  .team-card-copy,
+  .team-card-copy > *,
+  .metric-content-card > *,
+  .metric-spec-grid article > *,
+  .form-routing,
+  .form-routing > *,
+  .qualification-item,
+  .qualification-item h3,
+  .qualification-item button,
+  .qualification-item button strong {
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .metric-service-index h3 {
+    overflow-wrap: normal;
+  }
+
+  .metric-service-index svg {
+    top: 1.25rem;
+    right: 0.25rem;
+    grid-row: auto;
   }
 
   .metric-delivery-media,

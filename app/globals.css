@@ -764,8 +764,8 @@ ul {
 .division-stack-card {
   display: grid;
   min-width: 0;
-  min-height: 500px;
-  grid-template-rows: 56% 44%;
+  min-height: 560px;
+  grid-template-rows: minmax(280px, 56%) auto;
   overflow: hidden;
   color: var(--ink);
   background: var(--paper);
@@ -777,6 +777,9 @@ ul {
 
 .division-card-visual {
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 0;
   overflow: hidden;
   background: var(--graphite);
@@ -826,6 +829,9 @@ ul {
 
 .division-card-copy {
   display: flex;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 0;
   flex-direction: column;
   justify-content: space-between;
@@ -837,6 +843,15 @@ ul {
   color: var(--steel);
   font-size: clamp(0.82rem, 0.9vw, 0.96rem);
   line-height: 1.45;
+}
+
+.division-card-copy > *,
+.division-card-copy h3,
+.division-card-copy p,
+.division-card-link {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .division-card-link {
@@ -910,6 +925,7 @@ ul {
     top: 59%;
     left: 50%;
     min-height: 0;
+    grid-template-rows: 56% 44%;
     will-change: transform, opacity, width, height;
   }
 
