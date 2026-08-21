@@ -4,6 +4,7 @@ import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { divisionContacts } from "@/app/content-data";
 import { displayHeading } from "@/app/display-text";
 import type { DivisionTemplateData } from "@/app/templates/template-data";
+import { ResponsiveVideo } from "@/components/ResponsiveVideo";
 import { DivisionHeader } from "@/components/SiteNavigation";
 import { BreadcrumbStructuredData, ServiceStructuredData } from "@/components/StructuredData";
 
@@ -25,10 +26,12 @@ function HeroMedia({ data }: { data: DivisionTemplateData }) {
   }
 
   return (
-    <video autoPlay muted loop playsInline preload="auto" poster={data.hero.poster} aria-label={`${data.name} field operations`}>
-      {data.hero.mobileMedia ? <source src={data.hero.mobileMedia} type="video/mp4" media="(max-width: 760px)" /> : null}
-      <source src={data.hero.media} type="video/mp4" />
-    </video>
+    <ResponsiveVideo
+      src={data.hero.media!}
+      mobileSrc={data.hero.mobileMedia}
+      poster={data.hero.poster}
+      ariaLabel={`${data.name} field operations`}
+    />
   );
 }
 
@@ -74,7 +77,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
           <div>
             <p>{data.introduction}</p>
             <div>
-              <Link className="metric-button" href={`/${data.slug}/contact`}>Send a scope <ArrowUpRight aria-hidden="true" size={17} /></Link>
+              <Link className="metric-button" href={`/contact?for=${data.slug}`}>Send a scope <ArrowUpRight aria-hidden="true" size={17} /></Link>
               <a className="metric-hero-link" href={`mailto:${data.email}`}>{data.email}</a>
             </div>
           </div>
@@ -139,7 +142,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
       <section className="metric-division-contact" id="contact">
         <h2>{displayHeading(data.close)}</h2>
         <div>
-          <Link href={`/${data.slug}/contact`}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
+          <Link href={`/contact?for=${data.slug}`}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
           <a href="tel:+13057932984">{contact.phone}</a>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>
         </div>
@@ -148,7 +151,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
       <footer className="metric-subpage-footer">
         <div><strong>{data.name}</strong><span>{contact.officeLabel}: {contact.address}</span></div>
         <div><span>South Florida</span><a href="tel:+13057932984">{contact.phone}</a></div>
-        <div><Link href="/">JZ Group</Link><Link href={`/${data.slug}/contact`}>Contact</Link></div>
+        <div><Link href="/">JZ Group</Link><Link href={`/contact?for=${data.slug}`}>Contact</Link></div>
       </footer>
     </main>
   );

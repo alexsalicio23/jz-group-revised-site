@@ -47,7 +47,7 @@ function LinkedCard({ card, index }: { card: ContentCard; index: number }) {
 
 export function ContentPage({ data }: { data: ContentPageData }) {
   const contact = data.division ? divisionContacts[data.division] : null;
-  const contactHref = data.division ? `/${data.division}/contact` : "/contact";
+  const contactHref = data.division ? `/contact?for=${data.division}` : "/contact";
   const breadcrumb = data.division ? divisionLabels[data.division] : "JZ Group";
   const currentPath = data.division ? `/${data.division}/${data.path}` : `/${data.path}`;
   const breadcrumbItems = [

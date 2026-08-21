@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: DivisionPageProps): Promise<M
   const socialImage = divisionSocialImages[division];
 
   return buildPageMetadata({
-    title: `${data.name} | JZ Group`,
-    description: data.introduction,
+    title: data.seoTitle ?? `${data.name} | JZ Group`,
+    description: data.seoDescription ?? data.introduction,
     path: `/${division}`,
     image: socialImage.src,
     imageAlt: socialImage.alt,

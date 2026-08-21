@@ -26,6 +26,23 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    return [
+      // Five contact pages ran the identical 14-field form against the same
+      // /api/contact endpoint. /contact?for=<lane> preselects the service lane.
+      { source: "/demolition/contact", destination: "/contact?for=demolition", permanent: true },
+      { source: "/construction/contact", destination: "/contact?for=construction", permanent: true },
+      { source: "/waste-management/contact", destination: "/contact?for=waste-management", permanent: true },
+      { source: "/development/contact", destination: "/contact?for=development", permanent: true },
+
+      // One leadership group presented as three team pages, two of which
+      // listed the same four people while the third listed nobody.
+      { source: "/demolition/team", destination: "/about#leadership", permanent: true },
+      { source: "/construction/team", destination: "/about#leadership", permanent: true },
+      { source: "/waste-management/team", destination: "/waste-management/about", permanent: true },
+    ];
+  },
+
   async headers() {
     return [
       {

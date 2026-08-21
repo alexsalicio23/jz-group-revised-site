@@ -16,6 +16,16 @@ type HeroChapter = {
 const START_TIME = 2;
 const END_TIME = 13;
 
+// The `media` attribute on <source> is ignored inside <video> by Chromium and
+// WebKit: the browser walks the list, discards what it already fetched, and
+// lands on the last entry. Shipping three sources meant every visit downloaded
+// two full files (13.6 MB desktop / 9.5 MB mobile) and always played the
+// desktop cut. Selecting one src at runtime is the only reliable way.
+const HERO_VIDEO = {
+  mobile: "/media/jz-drone-walkthrough-mobile-v2.mp4",
+  desktop: "/media/jz-drone-walkthrough-scrub-v2.mp4",
+} as const;
+
 const chapters = [
   {
     title: "Controlled demolition",
@@ -56,6 +66,14 @@ function getChapterIndex(time: number) {
 export function CinematicHero() {
   const root = useRef<HTMLElement>(null);
   const video = useRef<HTMLVideoElement>(null);
+
+  useLayoutEffect(() => {
+    const walkthrough = video.current;
+    if (!walkthrough || walkthrough.src) return;
+    walkthrough.src = window.matchMedia("(max-width: 900px)").matches
+      ? HERO_VIDEO.mobile
+      : HERO_VIDEO.desktop;
+  }, []);
 
   const setActiveChapter = (index: number) => {
     const element = root.current;
@@ -247,7 +265,7 @@ export function CinematicHero() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           poster="/media/jz-drone-walkthrough-poster.jpg"
           aria-label="A continuous walkthrough of a commercial interior moving from demolition to completion"
           onTimeUpdate={(event) => {
@@ -262,19 +280,7 @@ export function CinematicHero() {
             }
             setActiveChapter(getChapterIndex(currentTime));
           }}
-        >
-          <source
-            src="/media/jz-drone-walkthrough-mobile.mp4"
-            type="video/mp4"
-            media="(max-width: 900px)"
-          />
-          <source
-            src="/media/jz-drone-walkthrough-scrub.mp4"
-            type="video/mp4"
-            media="(min-width: 901px)"
-          />
-          <source src="/media/jz-drone-walkthrough.mp4" type="video/mp4" />
-        </video>
+        />
 
         <div className="compact-hero-shade" aria-hidden="true" />
 

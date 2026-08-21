@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useSyncExternalStore } from "react";
 
 type SubmitState =
   | { type: "idle" | "submitting" }
@@ -23,6 +23,16 @@ function getInitialDivision(defaultDivision: string) {
     : serviceLanes[0].value;
 }
 
+function getDivisionFromLocation(defaultDivision: string) {
+  const requested = new URLSearchParams(window.location.search).get("for");
+  return getInitialDivision(requested ?? defaultDivision);
+}
+
+function subscribeToLocation(callback: () => void) {
+  window.addEventListener("popstate", callback);
+  return () => window.removeEventListener("popstate", callback);
+}
+
 function FieldLabel({ children, required = false }: { children: string; required?: boolean }) {
   return (
     <span>
@@ -33,8 +43,16 @@ function FieldLabel({ children, required = false }: { children: string; required
 
 export function BidForm({ defaultDivision = "demolition" }: { defaultDivision?: string }) {
   const initialDivision = getInitialDivision(defaultDivision);
-  const [selectedDivision, setSelectedDivision] = useState(initialDivision);
+  // Keep ?for= client-side so /contact remains statically rendered.
+  const routeDivision = useSyncExternalStore(
+    subscribeToLocation,
+    () => getDivisionFromLocation(initialDivision),
+    () => initialDivision,
+  );
+  const [selectedDivisionOverride, setSelectedDivisionOverride] = useState<string | null>(null);
+  const selectedDivision = selectedDivisionOverride ?? routeDivision;
   const [status, setStatus] = useState<SubmitState>({ type: "idle" });
+
   const selectedLane = serviceLanes.find((lane) => lane.value === selectedDivision) ?? serviceLanes[0];
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -62,7 +80,7 @@ export function BidForm({ defaultDivision = "demolition" }: { defaultDivision?: 
       if (!response.ok || !result.ok) throw new Error(result.message || "We could not send this request.");
       setStatus({ type: "success", reference: result.reference || "RECEIVED" });
       form.reset();
-      setSelectedDivision(initialDivision);
+      setSelectedDivisionOverride(null);
     } catch (error) {
       setStatus({ type: "error", message: error instanceof Error ? error.message : "We could not send this request." });
     }
@@ -92,7 +110,7 @@ export function BidForm({ defaultDivision = "demolition" }: { defaultDivision?: 
             name="division"
             required
             value={selectedDivision}
-            onChange={(event) => setSelectedDivision(event.target.value)}
+            onChange={(event) => setSelectedDivisionOverride(event.target.value)}
           >
             {serviceLanes.map((lane) => <option value={lane.value} key={lane.value}>{lane.label}</option>)}
           </select>

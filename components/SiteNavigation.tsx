@@ -68,7 +68,8 @@ function divisionLinks(division: TemplateSlug) {
 
   if (division !== "waste-management") links.push({ label: "Projects", href: `${base}/projects` });
   links.push({ label: "About", href: `${base}/about` });
-  if (division !== "development") links.push({ label: "Team", href: `${base}/team` });
+  // One leadership group, presented once, on /about.
+  links.push({ label: "Leadership", href: "/about#leadership" });
   return links;
 }
 
@@ -85,12 +86,12 @@ export function DivisionHeader({ division }: { division: TemplateSlug }) {
       <nav aria-label={`${divisionLabels[division]} navigation`}>
         {links.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
       </nav>
-      <Link className="template-header-cta" href={`/${division}/contact`}>Send a scope <ArrowUpRight aria-hidden="true" size={15} /></Link>
+      <Link className="template-header-cta" href={`/contact?for=${division}`}>Send a scope <ArrowUpRight aria-hidden="true" size={15} /></Link>
       <details className="template-mobile-menu">
         <summary>Menu</summary>
         <nav aria-label={`${divisionLabels[division]} mobile navigation`}>
           {links.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
-          <Link href={`/${division}/contact`}>Contact</Link>
+          <Link href={`/contact?for=${division}`}>Contact</Link>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>
         </nav>
       </details>

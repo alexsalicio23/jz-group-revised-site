@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: ContentRouteProps): Promise<M
   const socialImage = data.division ? divisionSocialImages[data.division] : undefined;
 
   return buildPageMetadata({
-    title: `${data.title} | ${data.eyebrow.split(" / ")[0]}`,
-    description: data.introduction,
+    title: data.seoTitle ?? `${data.title} | ${data.eyebrow.split(" / ")[0]}`,
+    description: data.seoDescription ?? data.introduction,
     path: `/${division}/${path.join("/")}`,
     image: socialImage?.src,
     imageAlt: socialImage?.alt,

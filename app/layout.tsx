@@ -33,8 +33,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   applicationName: "JZ Group",
   ...buildPageMetadata({
-    title: "JZ Group | Specialty Demolition in Active Environments",
-    description: "JZ Group delivers specialty demolition, construction, waste management, and development services across South Florida.",
+    title: "Specialty Demolition and Construction in Miami | JZ Group",
+    description:
+      "Specialty demolition, construction, waste management and development for active hospitals, occupied facilities and commercial sites across South Florida.",
     path: "/",
     image: "/media/og-image.jpg",
     imageAlt: "JZ Group field operations in South Florida",

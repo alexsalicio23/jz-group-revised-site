@@ -45,6 +45,13 @@ export function buildPageMetadata({
   image = defaultSocialImage.src,
   imageAlt = defaultSocialImage.alt,
 }: PageMetadataInput): Metadata {
+  if (process.env.NODE_ENV !== "production") {
+    // Titles over ~60 chars and descriptions over ~160 get truncated in results.
+    if (title.length > 60) console.warn(`[seo] title ${title.length} chars (max 60): ${path}`);
+    if (description.length > 160) console.warn(`[seo] description ${description.length} chars (max 160): ${path}`);
+    if (description.length < 110) console.warn(`[seo] description thin (${description.length} chars): ${path}`);
+  }
+
   return {
     title,
     description,

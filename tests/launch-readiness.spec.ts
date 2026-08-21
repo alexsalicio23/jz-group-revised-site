@@ -1,4 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { getSiteUrl } from "../app/site-url";
+
+// Read the canonical host from the app instead of hard-coding it. These
+// assertions still named jzdemo.com after the site moved to
+// www.jzgroupmiami.com, so they failed on every run.
+const SITE = getSiteUrl();
 
 const divisions = ["demolition", "construction", "waste-management", "development"] as const;
 
@@ -8,7 +14,7 @@ test("public company pages expose production canonicals and unique social cards"
   for (const division of divisions) {
     await page.goto(`/${division}`);
     await expect(page.locator('meta[name="robots"]')).not.toHaveAttribute("content", /noindex|nofollow/i);
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://jzdemo.com/${division}`);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `${SITE}/${division}`);
 
     socialCards.push({
       title: await page.locator('meta[property="og:title"]').getAttribute("content"),
@@ -26,8 +32,8 @@ test("sitemap, structured data, caching, and security headers are launch ready",
   const sitemapResponse = await request.get("/sitemap.xml");
   expect(sitemapResponse.status()).toBe(200);
   const sitemap = await sitemapResponse.text();
-  for (const division of divisions) expect(sitemap).toContain(`https://jzdemo.com/${division}`);
-  expect(sitemap).toContain("https://jzdemo.com/demolition/services/interior-demolition");
+  for (const division of divisions) expect(sitemap).toContain(`${SITE}/${division}`);
+  expect(sitemap).toContain(`${SITE}/demolition/services/interior-demolition`);
 
   await page.goto("/demolition/services/interior-demolition");
   const schemas = await page.locator('script[type="application/ld+json"]').evaluateAll((elements) =>

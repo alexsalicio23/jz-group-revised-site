@@ -5,7 +5,17 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Built around");
-  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-scrub.mp4"]')).toHaveCount(1);
+  // Exactly one encode loads, and it is the right one for the viewport.
+  const narrow = (page.viewportSize()?.width ?? 1440) <= 900;
+  await expect(page.locator(".compact-hero-media")).toHaveJSProperty(
+    "currentSrc",
+    new URL(
+      narrow
+        ? "/media/jz-drone-walkthrough-mobile-v2.mp4"
+        : "/media/jz-drone-walkthrough-scrub-v2.mp4",
+      page.url(),
+    ).toString(),
+  );
   await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
   await expect(page.locator(".compact-hero-resolution img")).toHaveCount(1);
   await expect(page.locator(".compact-hero-resolution p, .compact-hero-resolution i")).toHaveCount(0);
@@ -19,7 +29,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.locator(".metric-market-row li")).toHaveCount(4);
   await expect(page.locator('img[src*="client-"]')).toHaveCount(0);
   await expect(page.locator("video")).toHaveCount(1);
-  await expect(page.locator(".compact-hero-media")).toHaveAttribute("preload", "auto");
+  await expect(page.locator(".compact-hero-media")).toHaveAttribute("preload", "metadata");
   await expect(page.locator('.metric-field-story img[src*="field-bascom-action.webp"]')).toHaveCount(1);
   await expect(page.locator('.metric-delivery img[src*="group-field-team.webp"]')).toHaveCount(1);
   await expect(page.locator('.metric-safety img[src*="safety-containment.webp"]')).toHaveCount(1);
@@ -73,7 +83,10 @@ test("mobile presentation copy is centered while form fields stay scannable", as
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("link", { name: "Send a scope" }).first()).toBeVisible();
   await expect(page.locator(".compact-hero-summary > p")).toBeHidden();
-  await expect(page.locator('video source[src="/media/jz-drone-walkthrough-mobile.mp4"]')).toHaveCount(1);
+  await expect(page.locator(".compact-hero-media")).toHaveJSProperty(
+    "currentSrc",
+    new URL("/media/jz-drone-walkthrough-mobile-v2.mp4", page.url()).toString(),
+  );
 
   for (const selector of [
     ".compact-hero-intro",

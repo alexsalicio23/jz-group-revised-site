@@ -6,8 +6,8 @@ import { ContentPage } from "@/components/ContentPage";
 const data = groupPages.projects;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Projects & Markets | JZ Group",
-  description: data.introduction,
+  title: data.seoTitle ?? "Projects & Markets | JZ Group",
+  description: data.seoDescription ?? data.introduction,
   path: "/projects",
   image: "/media/website-photos/construction-framed-interior.webp",
   imageAlt: "Commercial interior build-out in progress",

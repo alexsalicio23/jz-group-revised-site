@@ -13,6 +13,10 @@ export type DivisionTemplateData = {
   discipline: string;
   headline: string;
   introduction: string;
+  /** Search-result title. Falls back to "<name> | JZ Group" when absent. */
+  seoTitle?: string;
+  /** Search-result description. Falls back to `introduction` when absent. */
+  seoDescription?: string;
   email: string;
   hero: {
     type: "video" | "triptych" | "image";
@@ -48,6 +52,9 @@ export const templateOrder: TemplateSlug[] = [
 export const templates: Record<TemplateSlug, DivisionTemplateData> = {
   demolition: {
     slug: "demolition",
+    seoTitle: "Commercial Demolition Contractor in Miami | JZ",
+    seoDescription:
+      "Selective interior, structural and concrete demolition for active hospitals, occupied facilities and complex commercial scopes in Miami-Dade and Broward.",
     index: "01",
     name: "JZ Demolition",
     shortName: "Demolition",
@@ -101,6 +108,9 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
   },
   "waste-management": {
     slug: "waste-management",
+    seoTitle: "Dumpster Rental and Debris Hauling in Miami | JZ",
+    seoDescription:
+      "Roll-off dumpsters, debris hauling, temporary fencing and cleanup labor for contractors across Miami, Fort Lauderdale and West Palm Beach.",
     index: "02",
     name: "JZ Waste Management",
     shortName: "Waste Management",
@@ -153,6 +163,9 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
   },
   construction: {
     slug: "construction",
+    seoTitle: "Commercial General Contractor in Miami | JZ",
+    seoDescription:
+      "Framing, drywall, finishes, concrete support and remodeling for healthcare and commercial projects across Miami-Dade, Broward and Palm Beach.",
     index: "03",
     name: "JZ Construction",
     shortName: "Construction",
@@ -205,6 +218,9 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
   },
   development: {
     slug: "development",
+    seoTitle: "South Florida Real Estate Development | JZ",
+    seoDescription:
+      "Land acquisition, project planning, construction oversight and property management for South Florida residential development, under one accountable team.",
     index: "04",
     name: "JZ Development",
     shortName: "Development",

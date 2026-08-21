@@ -67,6 +67,10 @@ export type ContentPageData = {
   faqs?: Array<{ question: string; answer: string }>;
   related?: ContentCard[];
   sourceUrl: string;
+  /** Search-result title. Falls back to the page H1 when absent. */
+  seoTitle?: string;
+  /** Search-result description. Falls back to `introduction` when absent. */
+  seoDescription?: string;
 };
 
 export const divisionContacts: Record<TemplateSlug, { email: string; address: string; officeLabel: string; phone: string }> = {
@@ -148,6 +152,9 @@ const fieldTeam: TeamMember[] = [
 export const groupPages: Record<string, ContentPageData> = {
   about: {
     key: "about",
+    seoTitle: "About JZ Group | Four Coordinated Companies",
+    seoDescription:
+      "How a family drywall business became four coordinated companies, the leadership behind them, and the operating standard that applies across all of them.",
     path: "about",
     category: "company",
     eyebrow: "JZ Group / Company",
@@ -213,6 +220,9 @@ export const groupPages: Record<string, ContentPageData> = {
   },
   values: {
     key: "values",
+    seoTitle: "JZ Group Values: Safety, Integrity, Excellence",
+    seoDescription:
+      "One operating standard across four companies: safety protocols, honest communication, dependable follow-through, and respect for the surrounding community.",
     path: "values",
     category: "values",
     eyebrow: "JZ Group / Standards",
@@ -272,6 +282,9 @@ export const groupPages: Record<string, ContentPageData> = {
   },
   safety: {
     key: "safety",
+    seoTitle: "Safety Program for Occupied Facilities | JZ Group",
+    seoDescription:
+      "Site assessment, hazard review, containment, access control and turnover for work inside active hospitals and occupied buildings in South Florida.",
     path: "safety",
     category: "safety",
     eyebrow: "JZ Group / Safety",
@@ -291,7 +304,7 @@ export const groupPages: Record<string, ContentPageData> = {
         title: "Plan around the building that remains active.",
         paragraphs: [
           "JZ's public operating approach begins with site assessment, hazard review, logistics planning, and clear definition of the work zone. Access, sequencing, material movement, occupied areas, and turnover requirements are considered before production begins.",
-          "For construction work, the team describes a site-specific program supported by training, accountability, safety meetings, job hazard analyses, and regular inspections.",
+          "For construction work, the team runs a site-specific program supported by training, accountability, safety meetings, job hazard analyses, and regular inspections.",
         ],
         bullets: [
           "Site and hazard assessment",
@@ -334,6 +347,9 @@ export const groupPages: Record<string, ContentPageData> = {
   },
   projects: {
     key: "projects",
+    seoTitle: "Healthcare, Education & Commercial Projects | JZ Group",
+    seoDescription:
+      "Demolition and construction experience across healthcare, education, commercial and retail environments in Miami-Dade, Broward and Palm Beach counties.",
     path: "projects",
     category: "projects",
     eyebrow: "JZ Group / Work",
@@ -375,6 +391,9 @@ export const groupPages: Record<string, ContentPageData> = {
   },
   contact: {
     key: "contact",
+    seoTitle: "Request an Estimate | JZ Group Miami",
+    seoDescription:
+      "Send the project type, location, facility status, timeline and documents once. We route demolition, construction, waste and development inquiries.",
     path: "contact",
     category: "contact",
     eyebrow: "JZ Group / Estimating",
@@ -418,6 +437,9 @@ const demolitionRelated: ContentCard[] = [
 const demolitionPages: ContentPageData[] = [
   {
     key: "demolition/about",
+    seoTitle: "About JZ Demolition | Miami Demolition Contractor",
+    seoDescription:
+      "A South Florida demolition contractor built around clear communication, controlled execution, dependable scheduling and respect for the property around it.",
     division: "demolition",
     path: "about",
     category: "company",
@@ -489,67 +511,10 @@ const demolitionPages: ContentPageData[] = [
     sourceUrl: "https://www.jzdemolition.com/about-us",
   },
   {
-    key: "demolition/team",
-    division: "demolition",
-    path: "team",
-    category: "team",
-    eyebrow: "JZ Demolition / Team",
-    title: "The people behind the planning, field control, and turnover.",
-    introduction:
-      "JZ Demolition's office and field teams coordinate permitting, documentation, estimating, scheduling, client communication, production, safety, and closeout across South Florida.",
-    mediaLabel: "JZ DEMOLITION TEAM PHOTO",
-    sections: [
-      {
-        id: "office",
-        eyebrow: "Office staff",
-        title: "Structure behind the field operation.",
-        paragraphs: [
-          "The office team supports scheduling, permitting, documentation, estimating, project management, and client communication. That work keeps field operations organized, compliant, and aligned with the project schedule.",
-        ],
-        cards: [
-          {
-            title: "Alexander DeArmas",
-            subtitle: "President",
-            description: "President and co-founder of JZ Demolition, responsible for company strategy, growth, operations, client relationships, and the family legacy established with Jorge Balseiro.",
-          },
-          {
-            title: "Zenaida Balseiro",
-            subtitle: "Secretary",
-            description: "Supports company administration, documentation, and organization across JZ Demolition and the wider JZ Group.",
-          },
-          {
-            title: "Christopher Carter",
-            subtitle: "Vice President / Lead Estimator",
-            description: "Oversees operations and estimating while developing client relationships, company culture, process improvement, and innovation.",
-          },
-        ],
-        mediaLabel: "DEMOLITION OFFICE TEAM",
-      },
-      {
-        id: "field",
-        eyebrow: "Field staff",
-        title: "Experience at the point of execution.",
-        paragraphs: [
-          "JZ Demolition's field staff combines hands-on experience with a focus on safety, efficiency, quality, and respect for the client's schedule. Experienced project managers and superintendents lead structural and selective interior work in the field.",
-        ],
-        cards: [
-          { title: "Juan Machado", subtitle: "Project Manager" },
-          { title: "Yacel Frontela", subtitle: "Superintendent" },
-          { title: "Yeser Martinez", subtitle: "Superintendent" },
-          { title: "Alejandro Osorio", subtitle: "Superintendent" },
-          { title: "Miguel Muniz", subtitle: "Superintendent" },
-        ],
-        mediaLabel: "DEMOLITION FIELD TEAM",
-      },
-    ],
-    related: [
-      { title: "Our company story", href: "/demolition/about" },
-      { title: "Send a demolition scope", href: "/demolition/contact" },
-    ],
-    sourceUrl: "https://www.jzdemolition.com/our",
-  },
-  {
     key: "demolition/services/interior-demolition",
+    seoTitle: "Interior Demolition in Occupied Buildings | Miami",
+    seoDescription:
+      "Interior demolition planned around what stays: structure, adjacent finishes, building systems, occupied areas and the schedule for the next trade.",
     division: "demolition",
     path: "services/interior-demolition",
     category: "service",
@@ -570,7 +535,7 @@ const demolitionPages: ContentPageData[] = [
         title: "Job-site preparation",
         paragraphs: [
           "Every interior selective-demolition project begins with planning, hazard assessment, and coordinated safety measures, especially in occupied or sensitive buildings. The team plans the removal of walls, ceilings, flooring, and mechanical systems while preserving structural integrity and limiting disruption to surrounding areas.",
-          "JZ describes protecting adjacent finishes, controlling dust and noise, and using containment methods to establish a clean and compliant work zone. Hospital wings, office renovations, and retail remodels are prepared for the next construction phase with the same focus on safety and readiness.",
+          "JZ protects adjacent finishes, controls dust and noise, and uses containment methods to establish a clean and compliant work zone. Hospital wings, office renovations, and retail remodels are prepared for the next construction phase with the same focus on safety and readiness.",
         ],
         mediaLabel: "SITE PROTECTION / CONTAINMENT SETUP",
       },
@@ -606,6 +571,9 @@ const demolitionPages: ContentPageData[] = [
   },
   {
     key: "demolition/services/total-demolition",
+    seoTitle: "Structural and Total Demolition Services | Miami",
+    seoDescription:
+      "Structural demolition from assessment, utility coordination and permitting through a sequence that protects surrounding property and clears the site.",
     division: "demolition",
     path: "services/total-demolition",
     category: "service",
@@ -620,7 +588,7 @@ const demolitionPages: ContentPageData[] = [
         eyebrow: "01 / Prepare",
         title: "Job-site preparation",
         paragraphs: [
-          "Before equipment moves on site, JZ describes completing hazard assessments, utility verification, environmental evaluation, access planning, and logistics review. The team coordinates utility disconnections, barricades, fencing, and the removal of initial obstructions to establish a controlled work area.",
+          "Before equipment moves on site, JZ completes hazard assessments, utility verification, environmental evaluation, access planning, and logistics review. The team coordinates utility disconnections, barricades, fencing, and the removal of initial obstructions to establish a controlled work area.",
           "The project plan addresses applicable OSHA, EPA, and local requirements along with dust, noise, runoff, and environmental controls tailored to the site.",
         ],
         mediaLabel: "SITE PREPARATION / PERIMETER CONTROL",
@@ -656,6 +624,9 @@ const demolitionPages: ContentPageData[] = [
   },
   {
     key: "demolition/services/concrete-work",
+    seoTitle: "Concrete Cutting, Scanning and Removal | Miami",
+    seoDescription:
+      "Concrete scanning, cutting, selective removal, pour-backs and repairs coordinated around structural integrity, hidden systems and dust control.",
     division: "demolition",
     path: "services/concrete-work",
     category: "service",
@@ -706,6 +677,9 @@ const demolitionPages: ContentPageData[] = [
   },
   {
     key: "demolition/services/waste-hauling",
+    seoTitle: "Demolition Debris Hauling and Site Cleanup | Miami",
+    seoDescription:
+      "In-house dumpsters, trucks and crews move demolition debris on the demolition schedule instead of waiting on an unrelated third-party hauler.",
     division: "demolition",
     path: "services/waste-hauling",
     category: "service",
@@ -759,6 +733,9 @@ const demolitionPages: ContentPageData[] = [
   },
   {
     key: "demolition/projects",
+    seoTitle: "Demolition Projects: Healthcare, Education, Retail",
+    seoDescription:
+      "Demolition work across healthcare, education, commercial and retail environments in South Florida, organized by the kind of facility it happened in.",
     division: "demolition",
     path: "projects",
     category: "projects",
@@ -794,6 +771,9 @@ const demolitionPages: ContentPageData[] = [
   },
   {
     key: "demolition/projects/healthcare",
+    seoTitle: "Hospital and Healthcare Demolition in Miami | JZ",
+    seoDescription:
+      "Demolition inside active hospitals and clinics across South Florida, planned around patient care, staff movement and services that keep running.",
     division: "demolition",
     path: "projects/healthcare",
     category: "sector",
@@ -831,12 +811,15 @@ const demolitionPages: ContentPageData[] = [
     related: [
       { title: "Interior demolition", href: "/demolition/services/interior-demolition" },
       { title: "Education work", href: "/demolition/projects/education" },
-      { title: "Request comparable references", href: "/demolition/contact" },
+      { title: "Request comparable references", href: "/contact?for=demolition" },
     ],
     sourceUrl: "https://www.jzdemolition.com/health-care",
   },
   {
     key: "demolition/projects/education",
+    seoTitle: "School and Campus Demolition in South Florida",
+    seoDescription:
+      "Classroom and campus demolition sequenced around students, staff, campus operations and the renovation schedule, from single rooms to full interiors.",
     division: "demolition",
     path: "projects/education",
     category: "sector",
@@ -871,12 +854,15 @@ const demolitionPages: ContentPageData[] = [
     related: [
       { title: "Healthcare work", href: "/demolition/projects/healthcare" },
       { title: "Business / Community", href: "/demolition/projects/business-community" },
-      { title: "Send an education scope", href: "/demolition/contact" },
+      { title: "Send an education scope", href: "/contact?for=demolition" },
     ],
     sourceUrl: "https://www.jzdemolition.com/education",
   },
   {
     key: "demolition/projects/business-community",
+    seoTitle: "Office and Restaurant Demolition in Miami | JZ",
+    seoDescription:
+      "Interior demolition for offices, restaurants, housing, mixed-use and community property, coordinated with property managers around neighbouring occupants.",
     division: "demolition",
     path: "projects/business-community",
     category: "sector",
@@ -912,12 +898,15 @@ const demolitionPages: ContentPageData[] = [
     related: [
       { title: "Retail / Entertainment", href: "/demolition/projects/retail-entertainment" },
       { title: "Total demolition", href: "/demolition/services/total-demolition" },
-      { title: "Send a commercial scope", href: "/demolition/contact" },
+      { title: "Send a commercial scope", href: "/contact?for=demolition" },
     ],
     sourceUrl: "https://www.jzdemolition.com/business",
   },
   {
     key: "demolition/projects/retail-entertainment",
+    seoTitle: "Retail and Entertainment Demolition in Miami",
+    seoDescription:
+      "Store, mall and entertainment demolition planned around patrons, neighbouring tenants, property operations and the deadlines that shape an opening.",
     division: "demolition",
     path: "projects/retail-entertainment",
     category: "sector",
@@ -951,33 +940,9 @@ const demolitionPages: ContentPageData[] = [
     related: [
       { title: "Business / Community", href: "/demolition/projects/business-community" },
       { title: "Interior demolition", href: "/demolition/services/interior-demolition" },
-      { title: "Send a retail scope", href: "/demolition/contact" },
+      { title: "Send a retail scope", href: "/contact?for=demolition" },
     ],
     sourceUrl: "https://www.jzdemolition.com/retail",
-  },
-  {
-    key: "demolition/contact",
-    division: "demolition",
-    path: "contact",
-    category: "contact",
-    eyebrow: "JZ Demolition / Estimating",
-    title: "Have a demolition question? Bring the team into the scope early.",
-    introduction:
-      "Send plans, project conditions, bid dates, access constraints, and the demolition limits. Estimating can help route interior, total, concrete, and hauling inquiries.",
-    mediaLabel: "JZ DEMOLITION ESTIMATING TEAM",
-    sections: [
-      {
-        id: "direct",
-        eyebrow: "Direct contact",
-        title: "JZ Demolition",
-        paragraphs: [
-          "Email: estimating@jzdemo.com",
-          "Phone: (305) 793-2984",
-          "JZ Demolition office: 8015 NW 37th Ave, Miami, Florida 33147",
-        ],
-      },
-    ],
-    sourceUrl: "https://www.jzdemolition.com/contact-us",
   },
 ];
 
@@ -991,6 +956,9 @@ const wasteRelated: ContentCard[] = [
 const wastePages: ContentPageData[] = [
   {
     key: "waste-management/about",
+    seoTitle: "About JZ Waste Management | South Florida",
+    seoDescription:
+      "Dumpsters, debris hauling, temporary fencing, recycling and site labor for contractors, businesses and property owners across South Florida.",
     division: "waste-management",
     path: "about",
     category: "company",
@@ -1038,35 +1006,10 @@ const wastePages: ContentPageData[] = [
     sourceUrl: "https://www.jzwastemanagement.com/about-us",
   },
   {
-    key: "waste-management/team",
-    division: "waste-management",
-    path: "team",
-    category: "team",
-    eyebrow: "JZ Waste Management / Team",
-    title: "The people who keep containers, material, and site support moving.",
-    introduction:
-      "The current public team page does not list individual profiles. This structure is ready for approved dispatch, driver, field-support, and leadership photography and bios without inventing names or credentials.",
-    mediaLabel: "JZ WASTE MANAGEMENT TEAM PHOTO",
-    sections: [
-      {
-        id: "operations",
-        eyebrow: "Operations",
-        title: "One service team, coordinated around the site.",
-        paragraphs: [
-          "JZ Waste Management describes itself as a hands-on operation supporting container delivery, debris hauling, temporary fencing, material sorting, and jobsite cleanup. The team works across South Florida with contractors, businesses, and property owners.",
-          "Approved individual team profiles can be added here once JZ confirms names, roles, and photography for public use.",
-        ],
-        mediaLabel: "DISPATCH / DRIVERS / FIELD SUPPORT",
-      },
-    ],
-    related: [
-      { title: "Our company story", href: "/waste-management/about" },
-      { title: "Schedule site service", href: "/waste-management/contact" },
-    ],
-    sourceUrl: "https://www.jzwastemanagement.com/our-team",
-  },
-  {
     key: "waste-management/services/dumpster-rentals",
+    seoTitle: "Roll-Off Dumpster Rental in Miami and Fort Lauderdale",
+    seoDescription:
+      "Roll-off dumpsters for construction, demolition, roofing, renovation and property cleanouts across Miami, Fort Lauderdale and West Palm Beach.",
     division: "waste-management",
     path: "services/dumpster-rentals",
     category: "service",
@@ -1130,6 +1073,9 @@ const wastePages: ContentPageData[] = [
   },
   {
     key: "waste-management/services/temporary-fencing",
+    seoTitle: "Temporary Construction Fence Rental | South Florida",
+    seoDescription:
+      "Temporary fence rental for active construction and demolition sites in South Florida, including delivery, setup, removal and privacy screening.",
     division: "waste-management",
     path: "services/temporary-fencing",
     category: "service",
@@ -1178,6 +1124,9 @@ const wastePages: ContentPageData[] = [
   },
   {
     key: "waste-management/services/general-labor",
+    seoTitle: "Construction Site Cleanup Labor | South Florida",
+    seoDescription:
+      "Semi-skilled crews for cleanup, debris movement, material handling, egress maintenance and day-to-day site organization across South Florida.",
     division: "waste-management",
     path: "services/general-labor",
     category: "service",
@@ -1219,6 +1168,9 @@ const wastePages: ContentPageData[] = [
   },
   {
     key: "waste-management/services/recycling",
+    seoTitle: "Construction Scrap Metal Recycling | South Florida",
+    seoDescription:
+      "Construction scrap-metal recycling focused on steel, aluminum and copper generated by demolition and construction projects across South Florida.",
     division: "waste-management",
     path: "services/recycling",
     category: "service",
@@ -1257,30 +1209,6 @@ const wastePages: ContentPageData[] = [
     related: wasteRelated.filter((item) => item.href !== "/waste-management/services/recycling"),
     sourceUrl: "https://www.jzwastemanagement.com/recycling-service",
   },
-  {
-    key: "waste-management/contact",
-    division: "waste-management",
-    path: "contact",
-    category: "contact",
-    eyebrow: "JZ Waste Management / Dispatch",
-    title: "Tell us the site, material, access, and schedule.",
-    introduction:
-      "Request container service, a swap, hauling, temporary fencing, recycling, or site-support labor through one project intake.",
-    mediaLabel: "WASTE MANAGEMENT DISPATCH TEAM",
-    sections: [
-      {
-        id: "direct",
-        eyebrow: "Direct contact",
-        title: "JZ Waste Management",
-        paragraphs: [
-          "Email: estimating@jzwastemanagement.com",
-          "Phone: (305) 793-2984",
-          "JZ Waste Management office: 8015 NW 37th Ave, Miami, Florida 33147",
-        ],
-      },
-    ],
-    sourceUrl: "https://www.jzwastemanagement.com/contact",
-  },
 ];
 
 const constructionRelated: ContentCard[] = [
@@ -1293,6 +1221,9 @@ const constructionRelated: ContentCard[] = [
 const constructionPages: ContentPageData[] = [
   {
     key: "construction/about",
+    seoTitle: "About JZ Construction | Miami General Contractor",
+    seoDescription:
+      "From trade contractor to an integrated general-contracting and subcontracting platform serving healthcare, commercial and mixed-use work in South Florida.",
     division: "construction",
     path: "about",
     category: "company",
@@ -1355,53 +1286,10 @@ const constructionPages: ContentPageData[] = [
     sourceUrl: "https://chris16166.wixsite.com/website/about-us",
   },
   {
-    key: "construction/team",
-    division: "construction",
-    path: "team",
-    category: "team",
-    eyebrow: "JZ Construction / Team",
-    title: "Technology, field knowledge, and clear leadership in one team.",
-    introduction:
-      "JZ Construction's office and field professionals support preconstruction modeling, estimating, scheduling, digital project management, procurement, permitting, trade coordination, field supervision, and project delivery.",
-    mediaLabel: "JZ CONSTRUCTION TEAM PHOTO",
-    sections: [
-      {
-        id: "office",
-        eyebrow: "Office staff",
-        title: "The planning structure behind the jobsite.",
-        paragraphs: [
-          "The office team coordinates scheduling, permitting, documentation, procurement, estimating, project management, and client communication. Modern construction platforms and real-time information support clearer decisions and more predictable delivery.",
-        ],
-        cards: [
-          { title: "Alexander DeArmas", subtitle: "President", description: "Oversees company operations, strategy, growth, project direction, and client relationships while carrying forward the JZ family legacy." },
-          { title: "Zenaida Balseiro", subtitle: "Secretary", description: "Provides administrative support, documentation control, scheduling assistance, and office coordination." },
-          { title: "Christopher Carter", subtitle: "Vice President / Lead Estimator", description: "Manages operations and evaluates scope, budget, and schedule while supporting client relationships and process improvement." },
-          { title: "Alberto DeArmas", subtitle: "Head of Development", description: "Supports development, general-contracting oversight, consulting, strategic planning, and project delivery from concept through completion." },
-        ],
-        mediaLabel: "CONSTRUCTION OFFICE TEAM",
-      },
-      {
-        id: "field",
-        eyebrow: "Field staff",
-        title: "Experienced leadership at the point of work.",
-        paragraphs: [
-          "The field team manages ground-up construction, interior build-outs, and specialty trade work around safety, efficiency, craftsmanship, the project plan, and the client's vision.",
-        ],
-        cards: [
-          { title: "Alfredo Valdez", subtitle: "Project Manager" },
-          { title: "Alejandro Osorio", subtitle: "Superintendent" },
-        ],
-        mediaLabel: "CONSTRUCTION FIELD TEAM",
-      },
-    ],
-    related: [
-      { title: "Our company story", href: "/construction/about" },
-      { title: "Discuss a construction scope", href: "/construction/contact" },
-    ],
-    sourceUrl: "https://chris16166.wixsite.com/website/our",
-  },
-  {
     key: "construction/services/general-contracting",
+    seoTitle: "General Contracting and Preconstruction | Miami",
+    seoDescription:
+      "Preconstruction, project management, owner representation and safety oversight coordinated as one general-contracting lane in Miami-Dade and Broward.",
     division: "construction",
     path: "services/general-contracting",
     category: "service",
@@ -1444,7 +1332,7 @@ const constructionPages: ContentPageData[] = [
         eyebrow: "04 / Safety",
         title: "A site-specific program supported by accountability.",
         paragraphs: [
-          "JZ Construction describes a safety program built around training, accountability, applicable OSHA requirements, safety meetings, job-hazard analysis, site inspection, corrective action, and active participation from management and field personnel.",
+          "JZ Construction runs a safety program built around training, accountability, applicable OSHA requirements, safety meetings, job-hazard analysis, site inspection, corrective action, and active participation from management and field personnel.",
         ],
       },
     ],
@@ -1453,6 +1341,9 @@ const constructionPages: ContentPageData[] = [
   },
   {
     key: "construction/services/subcontracting",
+    seoTitle: "Drywall, Framing and Ceiling Subcontractor | Miami",
+    seoDescription:
+      "Drywall and framing, acoustical ceilings, wall protection, Division 10 specialties and concrete, self-performed inside one subcontracting platform.",
     division: "construction",
     path: "services/subcontracting",
     category: "service",
@@ -1520,13 +1411,16 @@ const constructionPages: ContentPageData[] = [
   },
   {
     key: "construction/projects",
+    seoTitle: "Construction Projects: Healthcare and Commercial",
+    seoDescription:
+      "Healthcare and commercial construction across South Florida: interior build-outs, clinic renovations and work inside occupied, high-traffic properties.",
     division: "construction",
     path: "projects",
     category: "projects",
     eyebrow: "JZ Construction / Portfolio",
     title: "Construction work organized for rapid project review.",
     introduction:
-      "The current public portfolio centers on healthcare and commercial work. This page is ready for approved project photography, detailed case records, and client-authorized scope information.",
+      "Healthcare and commercial construction across South Florida: interior build-outs, clinic renovations, and work inside occupied, high-traffic properties.",
     mediaLabel: "JZ CONSTRUCTION PROJECT GALLERY",
     sections: [
       {
@@ -1553,6 +1447,9 @@ const constructionPages: ContentPageData[] = [
   },
   {
     key: "construction/projects/healthcare",
+    seoTitle: "Healthcare Construction in Miami | JZ Construction",
+    seoDescription:
+      "Medical build-outs and clinic renovations coordinated around patients, staff, sensitive equipment and the essential services that continue around the work.",
     division: "construction",
     path: "projects/healthcare",
     category: "sector",
@@ -1586,12 +1483,15 @@ const constructionPages: ContentPageData[] = [
     related: [
       { title: "General contracting", href: "/construction/services/general-contracting" },
       { title: "Subcontracting", href: "/construction/services/subcontracting" },
-      { title: "Request healthcare references", href: "/construction/contact" },
+      { title: "Request healthcare references", href: "/contact?for=construction" },
     ],
     sourceUrl: "https://chris16166.wixsite.com/website/health-care",
   },
   {
     key: "construction/projects/commercial",
+    seoTitle: "Commercial Construction in Miami | JZ Construction",
+    seoDescription:
+      "Retail, entertainment and office construction in active commercial property, coordinated around customers, neighbouring tenants and the finished experience.",
     division: "construction",
     path: "projects/commercial",
     category: "sector",
@@ -1625,39 +1525,18 @@ const constructionPages: ContentPageData[] = [
     related: [
       { title: "Healthcare construction", href: "/construction/projects/healthcare" },
       { title: "General contracting", href: "/construction/services/general-contracting" },
-      { title: "Send a commercial scope", href: "/construction/contact" },
+      { title: "Send a commercial scope", href: "/contact?for=construction" },
     ],
     sourceUrl: "https://chris16166.wixsite.com/website/retail",
-  },
-  {
-    key: "construction/contact",
-    division: "construction",
-    path: "contact",
-    category: "contact",
-    eyebrow: "JZ Construction / Preconstruction",
-    title: "Bring us into the scope before the field decisions become expensive.",
-    introduction:
-      "Send plans, project conditions, delivery expectations, bid dates, and the services under consideration. JZ can route general-contracting and subcontracting inquiries from one intake.",
-    mediaLabel: "CONSTRUCTION PRECONSTRUCTION TEAM",
-    sections: [
-      {
-        id: "direct",
-        eyebrow: "Direct contact",
-        title: "JZ Construction",
-        paragraphs: [
-          "Email: estimating@jzconstruction.com",
-          "Phone: (305) 793-2984",
-          "JZ Construction office: 8015 NW 37th Ave, Miami, Florida 33147",
-        ],
-      },
-    ],
-    sourceUrl: "https://chris16166.wixsite.com/website/contact-us",
   },
 ];
 
 const developmentPages: ContentPageData[] = [
   {
     key: "development/about",
+    seoTitle: "About JZ Development | South Florida Developer",
+    seoDescription:
+      "A Miami-based developer working on residential, mixed-use, workforce-housing and entertainment opportunities across South Florida communities.",
     division: "development",
     path: "about",
     category: "company",
@@ -1716,19 +1595,22 @@ const developmentPages: ContentPageData[] = [
     ],
     related: [
       { title: "View development projects", href: "/development/projects" },
-      { title: "Schedule a meeting", href: "/development/contact" },
+      { title: "Schedule a meeting", href: "/contact?for=development" },
     ],
     sourceUrl: "https://jz-developments.com/about-us",
   },
   {
     key: "development/projects",
+    seoTitle: "Development Projects: Coral Gables and Las Olas",
+    seoDescription:
+      "Boutique and waterfront condominium development in Coral Gables and Fort Lauderdale, from acquisition and planning through construction oversight.",
     division: "development",
     path: "projects",
     category: "projects",
     eyebrow: "JZ Development / Portfolio",
     title: "South Florida residential development in the public record.",
     introduction:
-      "The current public portfolio lists boutique and waterfront condominium developments in Coral Gables and Fort Lauderdale. Final project attribution, status, and image rights should be confirmed before launch.",
+      "Boutique and waterfront condominium development in Coral Gables and Fort Lauderdale, from acquisition and planning through construction oversight.",
     mediaLabel: "JZ DEVELOPMENT PORTFOLIO COVER",
     sections: [
       {
@@ -1785,34 +1667,9 @@ const developmentPages: ContentPageData[] = [
     ],
     related: [
       { title: "About JZ Development", href: "/development/about" },
-      { title: "Discuss a partnership", href: "/development/contact" },
+      { title: "Discuss a partnership", href: "/contact?for=development" },
     ],
     sourceUrl: "https://jz-developments.com/our-projects",
-  },
-  {
-    key: "development/contact",
-    division: "development",
-    path: "contact",
-    category: "contact",
-    eyebrow: "JZ Development / Partnerships",
-    title: "Start with the opportunity and the people behind it.",
-    introduction:
-      "Schedule a consultation to discuss development opportunities, partnerships, investment, planning, construction oversight, and the long-term direction of a property.",
-    mediaLabel: "DEVELOPMENT PARTNERSHIP MEETING",
-    sections: [
-      {
-        id: "meeting",
-        eyebrow: "Schedule a meeting",
-        title: "Discuss a potential partnership.",
-        paragraphs: [
-          "JZ Development invites owners, partners, and investors to meet the team and discuss opportunities that can contribute to the continued growth of Miami and South Florida.",
-          "Email: estimating@jzdevelopment.com",
-          "Phone: (305) 793-2984",
-          "Business hours: 9:00 AM - 5:00 PM",
-        ],
-      },
-    ],
-    sourceUrl: "https://jz-developments.com/contact-us",
   },
 ];
 
