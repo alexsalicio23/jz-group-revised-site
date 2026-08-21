@@ -88,6 +88,11 @@ test("mobile presentation copy is centered while form fields stay scannable", as
     new URL("/media/jz-drone-walkthrough-mobile-v2.mp4", page.url()).toString(),
   );
 
+  const chapterDescriptionSize = await page.locator(".compact-hero-chapter p").first().evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).fontSize),
+  );
+  expect(chapterDescriptionSize).toBeGreaterThanOrEqual(16);
+
   for (const selector of [
     ".compact-hero-intro",
     ".compact-hero-chapter-content",

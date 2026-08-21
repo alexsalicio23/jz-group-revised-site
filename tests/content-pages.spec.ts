@@ -154,6 +154,11 @@ test("mobile form and menu controls remain readable and touch friendly", async (
   test.skip(testInfo.project.name !== "mobile", "Mobile layout only");
   await page.goto("/contact");
 
+  const bodyFontSize = await page.locator("body").evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).fontSize),
+  );
+  expect(bodyFontSize).toBeGreaterThanOrEqual(16);
+
   const controlSizes = await page.locator('.bid-form input:not([type="checkbox"]), .bid-form select, .bid-form textarea').evaluateAll(
     (controls) => controls.map((control) => ({
       fontSize: Number.parseFloat(getComputedStyle(control).fontSize),
@@ -169,6 +174,18 @@ test("mobile form and menu controls remain readable and touch friendly", async (
   });
   expect(menuBounds.width).toBeGreaterThanOrEqual(44);
   expect(menuBounds.height).toBeGreaterThanOrEqual(44);
+
+  const compactType = await page.locator(".metric-breadcrumb, .bid-form label, .metric-subpage-footer").evaluateAll(
+    (elements) => elements.map((element) => Number.parseFloat(getComputedStyle(element).fontSize)),
+  );
+  expect(compactType.every((fontSize) => fontSize >= 12.4)).toBe(true);
+
+  const consentBounds = await page.locator('.form-consent input[type="checkbox"]').evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    return { width: bounds.width, height: bounds.height };
+  });
+  expect(consentBounds.width).toBeGreaterThanOrEqual(24);
+  expect(consentBounds.height).toBeGreaterThanOrEqual(24);
 
   const contactCardsFit = await page.locator(".metric-content-card-grid").first().evaluate((grid) => {
     const bounds = grid.getBoundingClientRect();

@@ -4,6 +4,10 @@
     scroll-padding-top: calc(var(--header-height) + env(safe-area-inset-top));
   }
 
+  body {
+    font-size: 16px;
+  }
+
   .site-header,
   .template-header {
     height: calc(var(--header-height) + env(safe-area-inset-top));
@@ -33,7 +37,14 @@
     display: flex;
     min-height: 48px;
     align-items: center;
+    justify-content: center;
     padding-block: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .mobile-menu > summary,
+  .template-mobile-menu > summary {
+    font-size: 0.88rem;
   }
 
   .metric-text-link,
@@ -47,6 +58,7 @@
     align-items: center;
     padding-top: 0.55rem;
     padding-bottom: 0.45rem;
+    font-size: 0.9rem;
   }
 
   .compact-hero-chapters {
@@ -68,6 +80,11 @@
   .compact-hero-intro h1 {
     max-width: 330px;
     font-size: clamp(2.9rem, 13vw, 3.6rem);
+  }
+
+  .compact-hero-chapter p {
+    font-size: 1rem;
+    line-height: 1.45;
   }
 
   .metric-statement,
@@ -226,7 +243,8 @@
   }
 
   .project-tile-meta {
-    font-size: 0.7rem;
+    font-size: 0.82rem;
+    line-height: 1.4;
   }
 
   .team-grid,
@@ -250,8 +268,8 @@
 
   .team-card-copy p {
     margin-top: 0.3rem;
-    font-size: 0.68rem;
-    line-height: 1.25;
+    font-size: 0.78rem;
+    line-height: 1.3;
   }
 
   .team-grid[data-count="3"] .team-card:last-child {
@@ -312,7 +330,7 @@
 
   .metric-content-card p {
     min-width: 0;
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     overflow-wrap: anywhere;
   }
 
@@ -344,6 +362,7 @@
 
   .bid-form label {
     gap: 0.25rem;
+    font-size: 0.9rem;
   }
 
   .bid-form input,
@@ -363,9 +382,19 @@
   }
 
   .form-consent input {
-    width: 20px;
-    min-width: 20px;
-    min-height: 20px;
+    width: 24px;
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  .file-field small,
+  .form-routing {
+    font-size: 0.88rem;
+  }
+
+  .bid-form > button {
+    min-height: 56px;
+    font-size: 0.95rem;
   }
 
   .metric-footer {
@@ -378,6 +407,48 @@
     display: inline-flex;
     min-height: 44px;
     align-items: center;
+  }
+
+  .metric-footer nav,
+  .metric-footer-meta,
+  .metric-subpage-footer {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .metric-footer-brand p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .metric-breadcrumb,
+  .section-index,
+  .metric-content-stats span,
+  .metric-division-proof dt,
+  .metric-content-card > span,
+  .metric-spec-grid article > span,
+  .metric-spec-grid h4 {
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  .metric-record-note,
+  .metric-spec-grid p,
+  .metric-spec-grid li {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .metric-qualification-list summary span,
+  .metric-faq summary span {
+    font-size: 0.8rem;
+  }
+
+  .metric-spec-grid a,
+  .project-dialog-link {
+    min-height: 44px;
+    align-items: center;
+    font-size: 0.88rem;
   }
 }
 
