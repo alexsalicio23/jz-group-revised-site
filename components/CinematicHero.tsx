@@ -28,29 +28,29 @@ const HERO_VIDEO = {
 
 const chapters = [
   {
-    title: "Demolition",
-    detail: "Selective removal planned around an active environment.",
+    title: "Pre-Development",
+    detail: "Planning, logistics, and coordination establish the path forward.",
     start: 2,
     end: 4.8,
     placement: "lower-left",
   },
   {
-    title: "Framing",
-    detail: "The new floor plan begins taking shape.",
+    title: "Demolition",
+    detail: "Controlled removal clears the way for what comes next.",
     start: 4.8,
     end: 7.5,
     placement: "upper-right",
   },
   {
-    title: "Interiors",
-    detail: "Interiors are rebuilt around the next phase of work.",
+    title: "Construction",
+    detail: "New spaces and systems take shape through coordinated execution.",
     start: 7.5,
     end: 10.1,
     placement: "upper-left",
   },
   {
-    title: "Complete",
-    detail: "A clean turnover for the people coming next.",
+    title: "Waste Hauling",
+    detail: "Material moves off site efficiently so the project keeps moving.",
     start: 10.1,
     end: 13,
     placement: "lower-right",
