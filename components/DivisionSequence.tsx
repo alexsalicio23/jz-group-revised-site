@@ -162,6 +162,112 @@ export function DivisionSequence() {
         };
       });
 
+      media.add("(max-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
+        const element = root.current;
+        if (!element) return;
+
+        const cards = gsap.utils.toArray<HTMLElement>(".division-stack-card", element);
+        const stage = element.querySelector<HTMLElement>(".division-card-deck");
+        const heading = element.querySelector<HTMLElement>(".division-stack-heading");
+        const progressTrack = element.querySelector<HTMLElement>(".division-stack-progress");
+        const progress = element.querySelector<HTMLElement>(".division-stack-progress-fill");
+        if (!cards.length || !stage || !heading) return;
+
+        element.dataset.enhanced = "mobile";
+
+        const getCardWidth = () => Math.min(360, window.innerWidth - 40);
+        const getCardHeight = () => Math.min(440, Math.max(390, window.innerHeight * 0.58));
+
+        gsap.set(stage, { perspective: 1200, transformStyle: "preserve-3d" });
+        gsap.set(heading, { y: 24, opacity: 0.58 });
+        if (progressTrack) gsap.set(progressTrack, { opacity: 0 });
+        if (progress) gsap.set(progress, { scaleY: 0, transformOrigin: "top" });
+
+        cards.forEach((card, index) => {
+          gsap.set(card, {
+            xPercent: -50,
+            yPercent: -50,
+            x: 0,
+            y: () => Math.max(360, window.innerHeight * 0.58),
+            z: 90,
+            width: getCardWidth,
+            height: getCardHeight,
+            rotationX: 5,
+            rotationY: index % 2 ? 2 : -2,
+            rotationZ: index % 2 ? 0.8 : -0.8,
+            scale: 0.95,
+            opacity: 0,
+            zIndex: index + 2,
+            transformOrigin: "center center",
+          });
+        });
+
+        const mobileArrivals = [0.16, 0.35, 0.54, 0.73] as const;
+        const timeline = gsap.timeline({
+          defaults: { ease: "power3.inOut" },
+          scrollTrigger: {
+            trigger: element,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.28,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        timeline.to(heading, { y: 0, opacity: 1, duration: 0.12, ease: "power3.out" }, 0.02);
+        if (progressTrack) timeline.to(progressTrack, { opacity: 1, duration: 0.1 }, 0.02);
+        if (progress) timeline.to(progress, { scaleY: 1, duration: 0.86, ease: "none" }, 0.08);
+
+        cards.forEach((card, index) => {
+          const arrival = mobileArrivals[index];
+
+          cards.slice(0, index).forEach((previous, previousIndex) => {
+            const depth = index - previousIndex;
+            timeline.to(
+              previous,
+              {
+                x: (previousIndex % 2 ? 1 : -1) * depth * 7,
+                y: -depth * 13,
+                z: -depth * 52,
+                rotationY: (previousIndex % 2 ? 1 : -1) * depth * 1.1,
+                rotationZ: (previousIndex % 2 ? 1 : -1) * depth * 0.35,
+                scale: 1 - depth * 0.025,
+                filter: `brightness(${Math.max(0.72, 1 - depth * 0.08)})`,
+                duration: 0.11,
+              },
+              arrival,
+            );
+          });
+
+          timeline.to(
+            card,
+            {
+              x: 0,
+              y: 0,
+              z: 0,
+              rotationX: 0,
+              rotationY: 0,
+              rotationZ: 0,
+              scale: 1,
+              opacity: 1,
+              filter: "brightness(1)",
+              duration: 0.13,
+              ease: "power4.out",
+            },
+            arrival,
+          );
+        });
+
+        timeline.to({}, { duration: 0.12 }, 0.86);
+        ScrollTrigger.refresh();
+
+        return () => {
+          delete element.dataset.enhanced;
+          timeline.scrollTrigger?.kill();
+          timeline.kill();
+        };
+      });
+
       return () => media.revert();
     },
     { scope: root },

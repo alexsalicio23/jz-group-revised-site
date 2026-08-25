@@ -188,6 +188,78 @@
     scroll-margin-top: var(--header-height);
   }
 
+  .division-stack[data-enhanced="mobile"] {
+    height: 235svh;
+    min-height: 1500px;
+    padding: 0;
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-stack-pin {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    max-width: none;
+    height: 100svh;
+    min-height: 620px;
+    overflow: hidden;
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-stack-heading {
+    position: absolute;
+    z-index: 12;
+    top: calc(var(--header-height) + 1.25rem);
+    right: 1.25rem;
+    left: 1.25rem;
+    max-width: none;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-stack-heading h2 {
+    font-size: clamp(2.7rem, 12.2vw, 3.3rem);
+    line-height: 0.86;
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-card-deck {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    transform-style: preserve-3d;
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-stack-card {
+    position: absolute;
+    top: 64%;
+    left: 50%;
+    min-width: 0;
+    min-height: 0;
+    grid-template-rows: 55% 45%;
+    scroll-snap-align: none;
+    will-change: transform, opacity, width, height;
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-stack-progress {
+    position: absolute;
+    z-index: 15;
+    top: 31%;
+    right: 0.65rem;
+    bottom: 6%;
+    display: block;
+    width: 1px;
+    background: rgb(18 21 22 / 0.16);
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-stack-progress-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--ink);
+  }
+
   .company-overview-route {
     gap: 2rem;
   }
