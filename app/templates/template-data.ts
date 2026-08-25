@@ -40,6 +40,7 @@ export type DivisionTemplateData = {
   };
   process: Array<{ number: string; title: string; description: string }>;
   close: string;
+  ctaLabel?: string;
 };
 
 export const templateOrder: TemplateSlug[] = [
@@ -54,15 +55,15 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     slug: "demolition",
     seoTitle: "Commercial Demolition Contractor in Miami | JZ",
     seoDescription:
-      "Selective interior, structural and concrete demolition for active hospitals, occupied facilities and complex commercial scopes in Miami-Dade and Broward.",
+      "Full-service demolition including specialty, selective, total, structural, robotic and concrete demolition across Florida.",
     index: "01",
     name: "JZ Demolition",
     shortName: "Demolition",
     legalName: "A JZ Group company",
-    discipline: "Selective / Structural / Concrete",
-    headline: "Specialty demolition where the building cannot stop.",
+    discipline: "Specialty / Selective / Total / Concrete",
+    headline: "Demolition built around the scope.",
     introduction:
-      "Built for active hospitals, occupied facilities, and complex commercial scopes where precision, safety, and continuity matter as much as removal.",
+      "Full-service demolition capability spanning specialty and selective interiors, total and structural removal, robotic demolition, concrete services, site preparation, and controlled material removal.",
     email: "estimating@jzdemo.com",
     hero: {
       type: "video",
@@ -71,19 +72,19 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       poster: "/media/website-photos/demolition-active-interior.webp",
     },
     proof: [
-      { label: "Featured scope", value: "16,300 SF" },
-      { label: "Operating condition", value: "Active hospital" },
-      { label: "Execution window", value: "Overnight" },
+      { label: "Capability", value: "Full service" },
+      { label: "Specialty", value: "Active facilities" },
+      { label: "Coverage", value: "Florida" },
     ],
     servicesLead:
-      "JZ Demolition removes exactly what the next phase requires while protecting what stays in service around it.",
+      "One demolition contractor for scopes ranging from occupied interiors to total removal, site preparation, robotic work, and concrete services.",
     services: [
-      { name: "Selective interior demolition", detail: "Precise removal planned around retained systems and occupied areas.", href: "/demolition/services/interior-demolition" },
-      { name: "Structural demolition", detail: "Full structural takedowns with deliberate sequencing and field control.", href: "/demolition/services/total-demolition" },
-      { name: "Concrete demolition", detail: "Scanning, cutting, and removal coordinated within the demolition scope.", href: "/demolition/services/concrete-work" },
-      { name: "Active-facility work", detail: "Healthcare and commercial work planned around continuing operations.", href: "/demolition/projects/healthcare" },
-      { name: "Waste hauling", detail: "Material movement coordinated with the pace and access constraints of the site.", href: "/demolition/services/waste-hauling" },
-      { name: "Final turnover", detail: "A cleared work area left ready for the trade that follows.", href: "/demolition/projects" },
+      { name: "Specialty and selective demolition", detail: "Precise interior removal planned around retained systems, occupied areas, and complex operating conditions.", href: "/demolition/services/interior-demolition" },
+      { name: "Total and structural demolition", detail: "Full-building and structural removal with deliberate sequencing, equipment planning, and field control.", href: "/demolition/services/total-demolition" },
+      { name: "Site preparation", detail: "Clearing, early removal, and field preparation that give the next project phase a controlled start.", href: "/demolition/services/total-demolition" },
+      { name: "Robotic demolition", detail: "Remote demolition capability for demanding access, concrete, and production conditions.", href: "/demolition/services/concrete-work" },
+      { name: "Concrete services", detail: "Concrete scanning, cutting, breaking, and removal coordinated within the wider scope.", href: "/demolition/services/concrete-work" },
+      { name: "Preconstruction and site logistics", detail: "Early scope review, sequencing, access, equipment, hauling, and turnover planning before field execution.", href: "/demolition#process" },
     ],
     feature: {
       eyebrow: "Comparable healthcare work",
@@ -101,16 +102,18 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     process: [
       { number: "01", title: "Define", description: "Walk the site, document the conditions, and isolate the exact scope." },
       { number: "02", title: "Protect", description: "Plan around the people, systems, and operations that remain active." },
-      { number: "03", title: "Remove", description: "Execute with experienced crews, clear supervision, and the right equipment." },
-      { number: "04", title: "Turn over", description: "Clear the area and leave the next trade with a work-ready site." },
+      { number: "03", title: "Plan", description: "Sequence labor, equipment, access, hauling, and protection around the project." },
+      { number: "04", title: "Execute", description: "Perform the work with experienced crews, clear supervision, and the right equipment." },
+      { number: "05", title: "Turn over", description: "Clear the area and leave the next trade with a work-ready site." },
     ],
-    close: "Send the plans. We will define the demolition approach.",
+    close: "Send us the demolition scope.",
+    ctaLabel: "Send us the demolition scope",
   },
   "waste-management": {
     slug: "waste-management",
     seoTitle: "Dumpster Rental and Debris Hauling in Miami | JZ",
     seoDescription:
-      "Roll-off dumpsters, debris hauling, temporary fencing and cleanup labor for contractors across Miami, Fort Lauderdale and West Palm Beach.",
+      "Roll-off dumpsters, debris hauling, temporary fencing, cleanup labor and site logistics for contractors across Florida.",
     index: "02",
     name: "JZ Waste Management",
     shortName: "Waste Management",
@@ -118,7 +121,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     discipline: "Dumpsters / Hauling / Site support",
     headline: "Keep the site moving.",
     introduction:
-      "Dumpsters, debris hauling, temporary fencing, and cleanup support for contractors who need material to keep moving without slowing the work.",
+      "Dumpsters, hauling, temporary fencing, cleanup labor, recycling, and site logistics coordinated around the pace of contractor-led work.",
     email: "estimating@jzwastemanagement.com",
     hero: {
       type: "video",
@@ -126,9 +129,9 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       poster: "/media/video/workflow-waste-poster.jpg",
     },
     proof: [
-      { label: "Service", value: "Deliver" },
-      { label: "Response", value: "Swap" },
-      { label: "Closeout", value: "Haul" },
+      { label: "Coverage", value: "Statewide" },
+      { label: "Service", value: "Contractor led" },
+      { label: "Support", value: "Site logistics" },
     ],
     servicesLead:
       "One accountable service lane for the equipment, labor, and hauling that keep a commercial site clear and productive.",
@@ -138,7 +141,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { name: "Temporary fencing", detail: "Perimeter support for active construction and demolition environments.", href: "/waste-management/services/temporary-fencing" },
       { name: "Site cleanup labor", detail: "Crews available to maintain clean, workable conditions across the site.", href: "/waste-management/services/general-labor" },
       { name: "Construction cleanup", detail: "Ongoing and final cleanup support for contractor-led projects.", href: "/waste-management/services/general-labor" },
-      { name: "Residential cleanouts", detail: "Direct removal and hauling for full-property cleanout scopes.", href: "/waste-management/services/dumpster-rentals" },
+      { name: "Recycling coordination", detail: "Material streams coordinated with project requirements and available receiving facilities.", href: "/waste-management/services/dumpster-rentals" },
     ],
     feature: {
       eyebrow: "Contractor support",
@@ -148,7 +151,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       media: "/media/field-story/waste-truck.webp",
       mediaType: "image",
       facts: [
-        { label: "Coverage", value: "South Florida" },
+        { label: "Coverage", value: "Statewide Florida" },
         { label: "Support", value: "Commercial sites" },
         { label: "Program", value: "Ongoing GC service" },
       ],
@@ -159,21 +162,22 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { number: "03", title: "Move", description: "Swap and haul around production so debris does not become a bottleneck." },
       { number: "04", title: "Leave clean", description: "Support ongoing cleanup and a deliberate final closeout." },
     ],
-    close: "Tell us the site, the material, and the schedule.",
+    close: "Plan site service around the work.",
+    ctaLabel: "Plan site service",
   },
   construction: {
     slug: "construction",
     seoTitle: "Commercial General Contractor in Miami | JZ",
     seoDescription:
-      "Framing, drywall, finishes, concrete support and remodeling for healthcare and commercial projects across Miami-Dade, Broward and Palm Beach.",
+      "General contracting, preconstruction, project management and subcontracting for commercial, residential, healthcare and renovation projects across Florida.",
     index: "03",
     name: "JZ Construction",
     shortName: "Construction",
     legalName: "A JZ Group company",
-    discipline: "Commercial / Interiors / Field execution",
-    headline: "Field execution, made visible.",
+    discipline: "General Contracting / Subcontracting / Preconstruction",
+    headline: "General contracting backed by field experience.",
     introduction:
-      "Field-ready construction for framing, drywall, finishes, concrete support, remodeling, and site preparation across South Florida.",
+      "General contracting, subcontracting, preconstruction, and field execution for commercial, multifamily, healthcare, education, and renovation projects across Florida.",
     email: "estimating@jzconstruction.com",
     hero: {
       type: "video",
@@ -181,19 +185,19 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       poster: "/media/website-photos/construction-framed-interior.webp",
     },
     proof: [
-      { label: "Field start", value: "Site preparation" },
-      { label: "Build", value: "Framing + drywall" },
-      { label: "Handover", value: "Finished space" },
+      { label: "Delivery lane", value: "General contracting" },
+      { label: "Trade lane", value: "Subcontracting" },
+      { label: "Coverage", value: "Florida" },
     ],
     servicesLead:
-      "JZ Construction brings field execution and accountable supervision to commercial interiors, renovations, and supporting concrete scopes.",
+      "Two clear delivery lanes give owners and contractors access to general contracting leadership or focused subcontracting capability.",
     services: [
-      { name: "Commercial construction", detail: "Coordinated field delivery for new and renovated commercial environments.", href: "/construction/services/general-contracting" },
-      { name: "Remodeling", detail: "Interior renovation work sequenced around the existing building and project team.", href: "/construction/services/general-contracting" },
-      { name: "Site preparation", detail: "Early field work that gives the construction phase a clean, organized start.", href: "/construction/services/general-contracting" },
-      { name: "Framing", detail: "Metal framing installed to plans with close coordination across adjacent trades.", href: "/construction/services/subcontracting" },
-      { name: "Drywall and finishing", detail: "Board, finish, and closeout work delivered as a complete interior scope.", href: "/construction/services/subcontracting" },
-      { name: "Concrete work", detail: "Concrete support coordinated with the demands of the wider project.", href: "/construction/services/subcontracting" },
+      { name: "General contracting", detail: "Project leadership from preconstruction through closeout for new construction, renovations, and commercial delivery.", href: "/construction/services/general-contracting" },
+      { name: "Preconstruction", detail: "Scope development, logistics, scheduling, procurement planning, and early coordination before mobilization.", href: "/construction/services/general-contracting" },
+      { name: "Project management and supervision", detail: "Visible leadership across schedule, trade coordination, field production, documentation, and closeout.", href: "/construction/services/general-contracting" },
+      { name: "Framing and drywall", detail: "Metal framing, board, finishing, and interior assemblies installed as a coordinated trade scope.", href: "/construction/services/subcontracting" },
+      { name: "Ceilings and Division 10", detail: "Ceiling systems, wall protection, specialties, and supporting interior scopes delivered for the project team.", href: "/construction/services/subcontracting" },
+      { name: "Concrete and supporting trades", detail: "Concrete support and complementary field scopes coordinated with the wider construction schedule.", href: "/construction/services/subcontracting" },
     ],
     feature: {
       eyebrow: "Field execution",
@@ -203,9 +207,9 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       media: "/media/website-photos/construction-project-coordination.webp",
       mediaType: "image",
       facts: [
-        { label: "Capability", value: "Commercial interiors" },
-        { label: "Delivery", value: "Field-led" },
-        { label: "Region", value: "South Florida" },
+        { label: "Lead project", value: "100 Biscayne" },
+        { label: "Delivery", value: "GC + subcontracting" },
+        { label: "Region", value: "Florida" },
       ],
     },
     process: [
@@ -214,21 +218,22 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { number: "03", title: "Build", description: "Execute with experienced supervision and visible field coordination." },
       { number: "04", title: "Handover", description: "Close the details and turn over a clean, finished environment." },
     ],
-    close: "Bring us the scope. We will bring the field plan.",
+    close: "Put the project in front of JZ Construction.",
+    ctaLabel: "Send the construction scope",
   },
   development: {
     slug: "development",
     seoTitle: "South Florida Real Estate Development | JZ",
     seoDescription:
-      "Land acquisition, project planning, construction oversight and property management for South Florida residential development, under one accountable team.",
+      "Acquisition, planning, construction oversight, property operations and long-term ownership strategy for Florida development opportunities.",
     index: "04",
     name: "JZ Development",
     shortName: "Development",
     legalName: "A JZ Group company",
     discipline: "Acquire / Plan / Build / Manage",
-    headline: "Think beyond completion.",
+    headline: "From opportunity to long-term value.",
     introduction:
-      "Land acquisition, project planning, construction oversight, and property management under one accountable team.",
+      "Development capability spanning acquisition, planning, construction oversight, property operations, and long-term ownership.",
     email: "estimating@jzdevelopment.com",
     hero: {
       type: "image",
@@ -236,9 +241,9 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       alt: "Completed workforce housing unit interior delivered by JZ Development",
     },
     proof: [
-      { label: "Start", value: "Land acquisition" },
-      { label: "Delivery", value: "Project oversight" },
-      { label: "Long term", value: "Property management" },
+      { label: "Opportunity", value: "Acquisition" },
+      { label: "Delivery", value: "Oversight" },
+      { label: "Long term", value: "Operations" },
     ],
     servicesLead:
       "JZ Development connects opportunity, delivery, and long-term ownership through one clear development lifecycle.",
@@ -261,7 +266,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       facts: [
         { label: "Asset type", value: "Workforce housing" },
         { label: "Model", value: "Full lifecycle" },
-        { label: "Status", value: "Public draft story" },
+        { label: "Portfolio", value: "JZ to confirm" },
       ],
     },
     process: [
@@ -270,7 +275,8 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { number: "03", title: "Build", description: "Oversee execution with owner-level visibility from start to completion." },
       { number: "04", title: "Manage", description: "Operate the finished asset with long-term performance in view." },
     ],
-    close: "Start with the opportunity. Build toward the long term.",
+    close: "Discuss the opportunity and the long term.",
+    ctaLabel: "Discuss an opportunity",
   },
 };
 

@@ -3,10 +3,10 @@ import { expect, test } from "@playwright/test";
 import { displayHeading } from "../app/display-text";
 
 const templates = [
-  { slug: "demolition", heading: "Specialty demolition where the building cannot stop." },
+  { slug: "demolition", heading: "Demolition built around the scope." },
   { slug: "waste-management", heading: "Keep the site moving." },
-  { slug: "construction", heading: "Field execution, made visible." },
-  { slug: "development", heading: "Think beyond completion." },
+  { slug: "construction", heading: "General contracting backed by field experience." },
+  { slug: "development", heading: "From opportunity to long-term value." },
 ];
 
 test("client review hub presents all four company directions", async ({ page }) => {
@@ -38,7 +38,7 @@ for (const item of templates) {
 
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(displayHeading(item.heading));
     await expect(page.getByRole("heading", { name: "One clear sequence" })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Send project details/ })).toBeVisible();
+    await expect(page.locator(".metric-division-contact").getByRole("link").first()).toBeVisible();
 
     const hasHorizontalOverflow = await page.evaluate(
       () => document.documentElement.scrollWidth > window.innerWidth,

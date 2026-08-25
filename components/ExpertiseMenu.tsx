@@ -54,7 +54,7 @@ export function ExpertiseMenu() {
         onClick={() => setOpen((value) => !value)}
         type="button"
       >
-        Expertise <ChevronDown aria-hidden="true" size={14} />
+        Companies <ChevronDown aria-hidden="true" size={14} />
       </button>
       <div className="expertise-menu-panel" aria-hidden={!open}>
         {expertiseLinks.map((item, index) => (

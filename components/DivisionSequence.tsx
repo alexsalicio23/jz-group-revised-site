@@ -178,13 +178,11 @@ export function DivisionSequence() {
       <span className="anchor-target" id="group" aria-hidden="true" />
       <div className="division-stack-pin">
         <header className="division-stack-heading">
-          <h2 id="division-stack-title">Four companies one operating group</h2>
+          <h2 id="division-stack-title">Built To Work As One</h2>
         </header>
 
         <div className="division-card-deck">
           {divisions.map((division) => {
-            const media = division.type === "video" ? division.poster : division.media;
-
             return (
               <Link className="division-stack-card" href={`/${division.slug}`} key={division.name}>
                 <div className="division-card-visual">
@@ -192,12 +190,12 @@ export function DivisionSequence() {
                     alt={`${division.name} field operations`}
                     fill
                     sizes="(max-width: 900px) 82vw, (max-width: 1550px) 24vw, 430px"
-                    src={media}
+                    src={division.media}
                   />
                   <span className="division-card-number">{division.number}</span>
                 </div>
                 <div className="division-card-copy">
-                  <h3>{division.short}</h3>
+                  <h3>{division.name}</h3>
                   <p>{division.description}</p>
                   <span className="division-card-link">
                     Explore company <ArrowUpRight aria-hidden="true" size={17} />

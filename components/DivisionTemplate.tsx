@@ -142,7 +142,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
       <section className="metric-division-contact" id="contact">
         <h2>{displayHeading(data.close)}</h2>
         <div>
-          <Link href={`/contact?for=${data.slug}`}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
+          <Link href={`/contact?for=${data.slug}`}>{data.ctaLabel ?? "Send project details"} <ArrowUpRight aria-hidden="true" size={22} /></Link>
           <a href="tel:+13057932984">{contact.phone}</a>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>
         </div>

@@ -19,20 +19,17 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
   await expect(page.locator(".compact-hero-resolution img")).toHaveCount(1);
   await expect(page.locator(".compact-hero-resolution p, .compact-hero-resolution i")).toHaveCount(0);
-  await expect(page.locator("#division-stack-title")).toHaveText("Four companies one operating group");
-  await expect(page.locator("#field-title")).toHaveText("The building keeps moving so do we");
-  await expect(page.locator("#projects-title")).toHaveText("Comparable work clear project records");
-  await expect(page.getByRole("heading", { name: "Safety is part of the deliverable" })).toBeAttached();
-  await expect(page.locator(".metric-proof-grid").getByText("Healthcare", { exact: true })).toBeAttached();
+  await expect(page.locator("#division-stack-title")).toHaveText("Built To Work As One");
+  await expect(page.locator("#projects-title")).toHaveText("Selected JZ Projects");
+  await expect(page.getByRole("heading", { name: "SAFETY BUILT INTO EVERY SCOPE" })).toBeAttached();
+  await expect(page.getByRole("heading", { name: "ONE GROUP ACROSS THE PROJECT LIFECYCLE" })).toBeAttached();
+  await expect(page.locator(".qualification-band dl > div")).toHaveCount(6);
   await expect(page.locator(".division-stack-card")).toHaveCount(4);
-  await expect(page.locator(".metric-contact .bid-form")).toHaveCount(1);
-  await expect(page.locator(".metric-market-row li")).toHaveCount(4);
+  await expect(page.locator(".metric-contact .bid-form")).toHaveCount(0);
   await expect(page.locator('img[src*="client-"]')).toHaveCount(0);
   await expect(page.locator("video")).toHaveCount(1);
   await expect(page.locator(".compact-hero-media")).toHaveAttribute("preload", "metadata");
-  await expect(page.locator('.metric-field-story img[src*="field-bascom-action.webp"]')).toHaveCount(1);
-  await expect(page.locator('.metric-delivery img[src*="group-field-team.webp"]')).toHaveCount(1);
-  await expect(page.locator('.metric-safety img[src*="safety-containment.webp"]')).toHaveCount(1);
+  await expect(page.locator('.metric-safety img[src*="construction-plan-review.webp"]')).toHaveCount(1);
 
   await expect(page.getByText(/ASSETS? PENDING/i)).toHaveCount(0);
   await expect(page.getByText(/PROJECT PHOTO/i)).toHaveCount(0);
@@ -60,7 +57,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   const sectionOrder = await page.locator("main > section").evaluateAll((sections) =>
     sections.map((section) => section.id || section.className),
   );
-  expect(sectionOrder.slice(0, 5)).toEqual(["top", "standard", "metric-trust", "metric-field-story", "companies"]);
+  expect(sectionOrder.slice(0, 5)).toEqual(["top", "projects", "companies", "group-lifecycle", "qualification-band"]);
 
   const hasHorizontalOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth,
@@ -100,18 +97,14 @@ test("mobile presentation copy is centered while form fields stay scannable", as
   for (const selector of [
     ".compact-hero-intro",
     ".compact-hero-chapter-content",
-    ".metric-statement",
-    ".metric-field-copy",
     ".division-stack-heading",
     ".metric-projects .metric-section-header",
-    ".metric-contact-intro",
+    ".group-lifecycle > header",
+    ".qualification-band > header",
   ]) {
     const alignment = await page.locator(selector).first().evaluate((element) => getComputedStyle(element).textAlign);
     expect(alignment, `${selector} should use the centered mobile hierarchy`).toBe("center");
   }
-
-  const formAlignment = await page.locator(".bid-form label").first().evaluate((element) => getComputedStyle(element).textAlign);
-  expect(["left", "start"]).toContain(formAlignment);
 
   const projectLayout = await page.locator(".project-grid").evaluate((grid) => ({
     display: getComputedStyle(grid).display,
@@ -146,11 +139,9 @@ test("mobile presentation copy is centered while form fields stay scannable", as
 
   for (const selector of [
     ".compact-hero-summary",
-    ".metric-statement-grid > div",
-    ".metric-statement-grid .metric-text-link",
-    ".metric-proof > header h2",
     ".metric-section-header h2",
     ".metric-section-header .metric-text-link",
+    ".group-home-cta h2",
   ]) {
     const center = await page.locator(selector).first().evaluate((element) => {
       const bounds = element.getBoundingClientRect();
@@ -172,7 +163,7 @@ test("expertise navigation exposes every JZ company", async ({ page }, testInfo)
     return;
   }
 
-  const trigger = page.getByRole("button", { name: /Expertise/ });
+  const trigger = page.getByRole("button", { name: /Companies/ });
   await trigger.hover();
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
   const expertiseMenu = page.locator(".expertise-menu-panel");
@@ -250,7 +241,7 @@ test("jump scrolling and anchor navigation never produce an empty viewport", asy
     expect(visibleContent).toBeGreaterThan(0);
   }
 
-  for (const target of ["standard", "companies", "projects", "contact"]) {
+  for (const target of ["companies", "projects", "contact"]) {
     await page.goto(`/#${target}`);
     await page.waitForTimeout(120);
     await expect(page.locator(`#${target}`)).toBeInViewport();
@@ -270,8 +261,8 @@ test("homepage content remains visible without JavaScript", async ({ browser }) 
   await expect(page.locator(".compact-hero-chapter").first()).toBeVisible();
   await expect(page.locator(".division-stack-card")).toHaveCount(4);
   await expect(page.locator(".division-stack-card").first()).toBeVisible();
-  await expect(page.getByRole("heading", { name: /One standard.*across every handoff/ })).toBeVisible();
-  await expect(page.locator(".metric-market-row li")).toHaveCount(4);
+  await expect(page.getByRole("heading", { name: /One Group Across The Project Lifecycle/i })).toBeVisible();
+  await expect(page.locator(".qualification-band dl > div")).toHaveCount(6);
 
   for (const width of [1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
@@ -299,10 +290,10 @@ test("homepage content remains visible without JavaScript", async ({ browser }) 
   await context.close();
 });
 
-test("homepage inquiry visibly routes to the selected JZ company", async ({ page }) => {
-  await page.goto("/#contact");
+test("contact inquiry visibly routes to the selected JZ company", async ({ page }) => {
+  await page.goto("/contact");
 
-  const form = page.locator(".metric-contact .bid-form");
+  const form = page.locator(".bid-form");
   await expect(form.locator('input[name="name"]')).toBeVisible();
   await expect(form.locator('input[name="company"]')).toBeVisible();
   await expect(form.locator('input[name="email"]')).toBeVisible();
@@ -341,7 +332,7 @@ test("project proof and safety details expand in place", async ({ page }, testIn
   await expect(project).toBeFocused();
 
   const safetyRecord = page.locator(".qualification-item").nth(1);
-  const safetyTrigger = safetyRecord.getByRole("button", { name: /Site-specific planning/ });
+  const safetyTrigger = safetyRecord.getByRole("button", { name: /Experienced Field Leadership/ });
   if (testInfo.project.name === "desktop") await safetyRecord.hover();
   else {
     await safetyTrigger.focus();
@@ -349,7 +340,7 @@ test("project proof and safety details expand in place", async ({ page }, testIn
   }
   await expect(safetyRecord).toHaveAttribute("data-open", "true");
   await expect(safetyTrigger).toHaveAttribute("aria-expanded", "true");
-  await expect(safetyRecord.getByText(/Access, work zones, material movement/)).toBeVisible();
+  await expect(safetyRecord.getByText(/Clear supervision keeps the work controlled/)).toBeVisible();
 });
 
 test("company sequence keeps links discoverable and opens into four columns", async ({ page }, testInfo) => {

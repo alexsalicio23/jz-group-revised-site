@@ -12,9 +12,9 @@ export const divisions = [
     slug: "demolition",
     name: "JZ Demolition",
     short: "Demolition",
-    kicker: "Define the cut.",
+    kicker: "Control the scope.",
     description:
-      "Selective interior, structural, and concrete demolition planned around active and occupied environments.",
+      "Specialty, selective, total, robotic, and concrete demolition delivered with precise planning and field control.",
     media: "/media/jzg/mob-pompano-demolition.webp",
     type: "image" as const,
   },
@@ -23,24 +23,22 @@ export const divisions = [
     slug: "construction",
     name: "JZ Construction",
     short: "Construction",
-    kicker: "Move the site forward.",
+    kicker: "Lead the build.",
     description:
-      "Framing, drywall, finishing, concrete support, and commercial construction delivered by the same group.",
-    media: "/media/video/workflow-build.mp4",
-    poster: "/media/jzg/division-construction.webp",
-    type: "video" as const,
+      "General contracting, subcontracting, preconstruction, and field execution for commercial and residential projects.",
+    media: "/media/jzg/division-construction.webp",
+    type: "image" as const,
   },
   {
     number: "03",
     slug: "waste-management",
     name: "JZ Waste Management",
     short: "Waste Management",
-    kicker: "Keep material moving.",
+    kicker: "Keep the site moving.",
     description:
-      "Dumpsters, hauling, temporary fencing, and site cleanup coordinated around the pace of the work.",
-    media: "/media/video/workflow-waste.mp4",
-    poster: "/media/jzg/division-waste.webp",
-    type: "video" as const,
+      "Dumpsters, hauling, temporary fencing, cleanup labor, and site logistics coordinated around the pace of the project.",
+    media: "/media/jzg/division-waste.webp",
+    type: "image" as const,
   },
   {
     number: "04",
@@ -49,7 +47,7 @@ export const divisions = [
     short: "Development",
     kicker: "Extend the lifecycle.",
     description:
-      "Development capability spanning acquisition, planning, construction oversight, and property management.",
+      "Development capability spanning acquisition, planning, construction oversight, property operations, and long-term value.",
     media: "/media/development/workforce-housing-kitchen.webp",
     type: "image" as const,
   },
@@ -92,42 +90,10 @@ export const activeProcess = [
 export const featuredProjects = [
   {
     index: "01",
-    title: "MOB Pompano",
-    market: "Medical office",
-    location: "Pompano Beach, Florida",
-    scope: "Demolition and framing field record",
-    summary:
-      "A field-photography record showing demolition, containment, air-control equipment, and framing work inside a medical-office environment.",
-    facts: [
-      ["Company", "JZ Demolition"],
-      ["Work shown", "Demolition + framing"],
-      ["Record", "Field photography"],
-    ],
-    images: [
-      {
-        src: "/media/jzg/mob-pompano-demolition.webp",
-        alt: "Controlled demolition underway at the MOB Pompano project",
-        position: "center 45%",
-      },
-      {
-        src: "/media/jzg/safety-containment.webp",
-        alt: "Temporary containment inside the MOB Pompano medical-office project",
-        position: "center",
-      },
-      {
-        src: "/media/jzg/safety-air-control.webp",
-        alt: "Air-control equipment used during MOB Pompano interior work",
-        position: "center",
-      },
-    ],
-    href: "/demolition/projects/healthcare",
-  },
-  {
-    index: "02",
     title: "100 Biscayne",
-    market: "Commercial construction",
-    location: "South Florida",
-    scope: "Interior planning and framing field record",
+    market: "JZ Construction",
+    location: "Miami, Florida",
+    scope: "Commercial construction field record",
     summary:
       "Field photography documenting plan review, interior framing, and project coordination during commercial construction.",
     facts: [
@@ -155,54 +121,82 @@ export const featuredProjects = [
     href: "/construction/projects",
   },
   {
-    index: "03",
-    title: "Bascom Palmer",
-    market: "Healthcare construction",
-    location: "South Florida",
-    scope: "Interior framing and buildout field record",
+    index: "02",
+    title: "MOB Pompano",
+    market: "JZ Demolition",
+    location: "Pompano Beach, Florida",
+    scope: "Medical-office demolition and framing field record",
     summary:
-      "Field photography showing interior framing, active coordination, and construction progress within a healthcare project.",
+      "A field-photography record showing demolition, containment, air-control equipment, and framing work inside a medical-office environment.",
     facts: [
-      ["Company", "JZ Construction"],
-      ["Work shown", "Interior framing"],
+      ["Company", "JZ Demolition"],
+      ["Work shown", "Demolition + framing"],
       ["Record", "Field photography"],
     ],
     images: [
       {
-        src: "/media/jzg/project-bascom-palmer.webp",
-        alt: "Interior framing progress at the Bascom Palmer project",
+        src: "/media/jzg/mob-pompano-demolition.webp",
+        alt: "Controlled demolition underway at the MOB Pompano project",
+        position: "center 45%",
+      },
+      {
+        src: "/media/jzg/safety-containment.webp",
+        alt: "Temporary containment inside the MOB Pompano medical-office project",
         position: "center",
       },
       {
-        src: "/media/jzg/field-bascom-action.webp",
-        alt: "JZ field work underway at the Bascom Palmer project",
-        position: "center",
-      },
-      {
-        src: "/media/jzg/project-bascom-palmer-team.webp",
-        alt: "JZ team coordination inside the Bascom Palmer project",
+        src: "/media/jzg/safety-air-control.webp",
+        alt: "Air-control equipment used during MOB Pompano interior work",
         position: "center",
       },
     ],
-    href: "/construction/projects/healthcare",
+    href: "/demolition/projects/healthcare",
+  },
+  {
+    index: "03",
+    title: "Development Portfolio",
+    market: "JZ Development",
+    location: "Florida",
+    scope: "Acquisition through long-term operations",
+    summary:
+      "A reserved project record for the approved JZ Development opportunity selected for the public portfolio.",
+    facts: [
+      ["Company", "JZ Development"],
+      ["Focus", "Full development lifecycle"],
+      ["Record", "Pending client approval"],
+    ],
+    images: [
+      {
+        src: "/media/development/workforce-housing-kitchen.webp",
+        alt: "Completed interior representing JZ Development capability",
+        position: "center 45%",
+      },
+      {
+        src: "/media/video/development-kitchen-poster.jpg",
+        alt: "Completed workforce-housing kitchen interior",
+        position: "center",
+      },
+      {
+        src: "/media/video/development-interior-poster.jpg",
+        alt: "Completed residential interior representing development operations",
+        position: "center",
+      },
+    ],
+    href: "/development/projects",
   },
 ] as const;
 
 export const qualificationRecords = [
   {
-    title: "Active-facility experience",
-    description: "Work planned around facilities, people, and systems that remain operational beside the scope.",
+    title: "Site-Specific Planning",
+    description: "Access, work zones, material movement, sequencing, and turnover are defined around each site and scope.",
   },
   {
-    title: "Site-specific planning",
-    description: "Access, work zones, material movement, sequencing, and turnover are defined around each site.",
+    title: "Experienced Field Leadership",
+    description: "Clear supervision keeps the work controlled, documented, and coordinated with the project team and the trades that follow.",
   },
   {
-    title: "Experienced field supervision",
-    description: "Clear field leadership keeps the work controlled, documented, and coordinated with the next trade.",
-  },
-  {
-    title: "Clean turnover",
-    description: "The work area is cleared and prepared for the next phase instead of becoming someone else's problem.",
+    title: "Visible Accountability",
+    description: "Responsibility remains clear from planning through execution, closeout, and the handoff to the next phase.",
   },
 ] as const;

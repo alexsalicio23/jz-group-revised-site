@@ -10,6 +10,7 @@ import "./sitewide-update.css";
 import "./hero-d77.css";
 import "./process-d77.css";
 import "./mobile-optimization.css";
+import "./group-positioning.css";
 
 const neue = localFont({
   src: [
@@ -33,9 +34,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   applicationName: "JZ Group",
   ...buildPageMetadata({
-    title: "Specialty Demolition and Construction in Miami | JZ Group",
+    title: "Demolition, Construction, Waste and Development | JZ Group",
     description:
-      "Specialty demolition, construction, waste management and development for active hospitals, occupied facilities and commercial sites across South Florida.",
+      "Four coordinated companies providing demolition, general contracting, subcontracting, waste management and development services across Florida.",
     path: "/",
     image: "/media/og-image.jpg",
     imageAlt: "JZ Group field operations in South Florida",

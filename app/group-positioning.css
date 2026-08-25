@@ -1,0 +1,480 @@
+/* Broader group positioning pass. Loaded last so the approved system stays intact. */
+
+.group-positioning-home {
+  --group-gutter: clamp(1.25rem, 4vw, 4.75rem);
+}
+
+.group-projects {
+  padding: clamp(5rem, 8vw, 8rem) var(--group-gutter);
+  background: #f1f2f2;
+}
+
+.group-projects .metric-section-header {
+  max-width: 1540px;
+  margin-bottom: clamp(2.5rem, 4vw, 4rem);
+}
+
+.group-projects .metric-section-header h2,
+.group-lifecycle h2,
+.qualification-band h2,
+.group-safety h2,
+.group-home-cta h2 {
+  font-size: clamp(3rem, 5.4vw, 6.8rem);
+  line-height: 0.9;
+}
+
+.group-projects .project-grid {
+  width: 100%;
+  max-width: 1540px;
+  min-height: min(720px, 72vw);
+}
+
+.group-projects .project-tile {
+  border-radius: 2px;
+}
+
+.group-projects .project-tile-title,
+.group-projects .project-tile-meta {
+  text-align: left;
+}
+
+.group-projects .project-tile-meta {
+  font-size: clamp(0.72rem, 0.8vw, 0.84rem);
+}
+
+/* Four company sequence */
+
+.group-positioning-home .division-stack {
+  background: #e4e6e6;
+}
+
+.group-positioning-home .division-stack-heading h2 {
+  font-size: clamp(3.8rem, 6.4vw, 7.4rem);
+}
+
+.group-positioning-home .division-stack-card {
+  color: #fff;
+  background: #111314;
+  border-color: rgb(255 255 255 / 0.12);
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.18);
+}
+
+.group-positioning-home .division-card-copy {
+  justify-content: center;
+  padding: clamp(1.25rem, 1.8vw, 1.9rem);
+  background: #111314;
+}
+
+.group-positioning-home .division-card-copy h3 {
+  color: #fff;
+  font-size: clamp(1.65rem, 1.85vw, 2.35rem);
+  line-height: 0.95;
+}
+
+.group-positioning-home .division-card-copy p {
+  max-width: 390px;
+  color: rgb(255 255 255 / 0.74);
+  font-size: clamp(0.98rem, 1.02vw, 1.12rem);
+  line-height: 1.45;
+}
+
+.group-positioning-home .division-card-link {
+  color: #fff;
+}
+
+/* One group project lifecycle */
+
+.group-lifecycle {
+  padding: clamp(5.5rem, 9vw, 9rem) var(--group-gutter);
+  color: #fff;
+  background: #0e1011;
+}
+
+.group-lifecycle > header,
+.group-lifecycle > ol {
+  width: min(1540px, 100%);
+  margin-inline: auto;
+}
+
+.group-lifecycle > header {
+  margin-bottom: clamp(3rem, 6vw, 6rem);
+  text-align: center;
+}
+
+.group-lifecycle > ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 0;
+  padding: 0;
+  border-top: 1px solid rgb(255 255 255 / 0.28);
+  list-style: none;
+}
+
+.group-lifecycle li {
+  position: relative;
+  min-width: 0;
+  min-height: 390px;
+  padding: 1.25rem clamp(1rem, 1.4vw, 1.5rem) 1.75rem;
+  color: #fff !important;
+  border-right: 1px solid rgb(255 255 255 / 0.18);
+  transition: color 300ms ease, background-color 300ms ease, transform 620ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 500ms ease;
+}
+
+.group-lifecycle li:last-child {
+  border-right: 0;
+}
+
+.group-lifecycle[data-enhanced="true"]:not([data-revealed="true"]) li {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+.group-lifecycle[data-revealed="true"] li {
+  visibility: visible;
+  transition-delay: calc(var(--stage-index) * 90ms);
+}
+
+.group-lifecycle li:hover,
+.group-lifecycle li:focus-within {
+  color: #fff !important;
+  background: rgb(255 255 255 / 0.08);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.42);
+}
+
+.group-lifecycle li > span {
+  display: block;
+  margin-bottom: clamp(4.5rem, 8vh, 7rem);
+  color: currentColor !important;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.group-lifecycle li h3 {
+  min-height: 3.2em;
+  font-size: clamp(1.35rem, 1.5vw, 1.85rem);
+  line-height: 1.02;
+  color: currentColor !important;
+  text-align: center;
+}
+
+.group-lifecycle li strong {
+  display: block;
+  margin-top: 1.2rem;
+  color: currentColor !important;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.group-lifecycle li p {
+  margin-top: 1rem;
+  color: rgb(255 255 255 / 0.76) !important;
+  font-size: clamp(0.9rem, 0.92vw, 1.02rem);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.group-lifecycle li:hover p,
+.group-lifecycle li:focus-within p {
+  color: #fff !important;
+}
+
+/* Compact qualification record */
+
+.qualification-band {
+  padding: clamp(5rem, 8vw, 8rem) var(--group-gutter);
+  color: #111314;
+  background: #fff;
+}
+
+.qualification-band > header,
+.qualification-band > dl {
+  width: min(1540px, 100%);
+  margin-inline: auto;
+}
+
+.qualification-band > header {
+  display: grid;
+  justify-items: center;
+  gap: 1.5rem;
+  margin-bottom: clamp(3rem, 5vw, 5rem);
+  text-align: center;
+}
+
+.qualification-band > header a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid;
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.qualification-band dl {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid #c8cbcc;
+  border-bottom: 1px solid #c8cbcc;
+}
+
+.qualification-band dl > div {
+  min-width: 0;
+  min-height: 150px;
+  padding: 1.2rem;
+  border-right: 1px solid #c8cbcc;
+}
+
+.qualification-band dl > div:last-child {
+  border-right: 0;
+}
+
+.qualification-band dt {
+  color: #6e7377;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.qualification-band dd {
+  margin: 3rem 0 0;
+  overflow-wrap: anywhere;
+  font-family: var(--font-frama), sans-serif;
+  font-size: clamp(1.35rem, 1.7vw, 2.15rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+/* Safety and close */
+
+.group-safety {
+  min-height: 0;
+  grid-template-columns: 0.46fr 0.54fr;
+}
+
+.group-safety .metric-safety-media {
+  min-height: 680px;
+}
+
+.group-safety .metric-safety-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(4rem, 7vw, 7rem) var(--group-gutter);
+}
+
+.group-safety .metric-safety-copy h2 {
+  text-align: center;
+}
+
+.group-safety .qualification-item button {
+  font-size: clamp(1.05rem, 1.25vw, 1.4rem);
+}
+
+.group-home-cta {
+  display: grid;
+  min-height: 560px;
+  place-content: center;
+  justify-items: center;
+  gap: 2.25rem;
+  padding: clamp(5rem, 8vw, 8rem) var(--group-gutter);
+  color: #111314;
+  background: #e4e6e6;
+  text-align: center;
+}
+
+.group-home-cta h2 {
+  max-width: 1200px;
+}
+
+.group-home-cta-actions,
+.group-home-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.group-home-cta-link {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 1.25rem;
+  border: 1px solid #111314;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.group-home-contact {
+  color: #5d6264;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.group-home-contact a + a::before {
+  margin-right: 1rem;
+  content: "/";
+}
+
+@media (max-width: 1100px) {
+  .group-lifecycle > ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .group-lifecycle li {
+    min-height: 300px;
+    border-bottom: 1px solid rgb(255 255 255 / 0.18);
+  }
+
+  .group-lifecycle li:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .group-lifecycle li:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .group-lifecycle li > span {
+    margin-bottom: 3rem;
+  }
+
+  .qualification-band dl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .qualification-band dl > div:nth-child(3) {
+    border-right: 0;
+  }
+
+  .qualification-band dl > div:nth-child(-n + 3) {
+    border-bottom: 1px solid #c8cbcc;
+  }
+}
+
+@media (max-width: 760px) {
+  .group-projects,
+  .group-lifecycle,
+  .qualification-band,
+  .group-home-cta {
+    padding: 4rem 1.15rem;
+  }
+
+  .group-projects .metric-section-header h2,
+  .group-lifecycle h2,
+  .qualification-band h2,
+  .group-safety h2,
+  .group-home-cta h2 {
+    font-size: clamp(2.55rem, 12vw, 4rem);
+  }
+
+  .group-projects .project-grid {
+    min-height: 0;
+  }
+
+  .group-positioning-home .division-card-copy h3 {
+    font-size: 1.75rem;
+  }
+
+  .group-positioning-home .division-card-copy p {
+    font-size: 1.02rem;
+  }
+
+  .group-lifecycle > header {
+    margin-bottom: 2.5rem;
+  }
+
+  .group-lifecycle > ol {
+    grid-template-columns: 1fr;
+  }
+
+  .group-lifecycle li,
+  .group-lifecycle li:last-child {
+    min-height: 0;
+    grid-column: auto;
+    padding: 1.25rem 0 1.75rem;
+    border-right: 0;
+  }
+
+  .group-lifecycle li > span {
+    margin-bottom: 2rem;
+  }
+
+  .group-lifecycle li h3,
+  .group-lifecycle li strong,
+  .group-lifecycle li p {
+    text-align: center;
+  }
+
+  .qualification-band dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .qualification-band dl > div,
+  .qualification-band dl > div:nth-child(3) {
+    min-height: 130px;
+    border-right: 1px solid #c8cbcc;
+    border-bottom: 1px solid #c8cbcc;
+  }
+
+  .qualification-band dl > div:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .qualification-band dl > div:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  .qualification-band dd {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+  }
+
+  .group-safety {
+    grid-template-columns: 1fr;
+  }
+
+  .group-safety .metric-safety-media {
+    min-height: 330px;
+  }
+
+  .group-safety .metric-safety-copy {
+    padding: 4rem 1.15rem;
+  }
+
+  .group-safety .metric-safety-copy h2 {
+    text-align: center;
+  }
+
+  .group-home-cta {
+    min-height: 480px;
+  }
+
+  .group-home-cta-actions,
+  .group-home-contact {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .group-home-cta-actions > *,
+  .group-home-contact > * {
+    justify-content: center;
+  }
+
+  .group-home-contact a + a::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group-lifecycle li {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

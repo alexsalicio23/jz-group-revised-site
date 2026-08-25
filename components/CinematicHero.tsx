@@ -288,8 +288,8 @@ export function CinematicHero() {
           <h1 id="home-title">Built around what can&apos;t stop</h1>
           <div className="compact-hero-summary">
             <p>
-              Four coordinated companies built for specialty demolition, construction,
-              waste management, and development.
+              Four coordinated companies built for demolition, general contracting,
+              subcontracting, waste management, and development.
             </p>
             <div>
               <Link href="#companies">Explore the group <ArrowUpRight aria-hidden="true" size={17} /></Link>

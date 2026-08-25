@@ -158,9 +158,9 @@ export const groupPages: Record<string, ContentPageData> = {
     path: "about",
     category: "company",
     eyebrow: "JZ Group / Company",
-    title: "A family legacy built into one operating group.",
+    title: "A family legacy built for a broader future.",
     introduction:
-      "JZ Group brings demolition, construction, waste management, and development together so clients can move through complex work with fewer handoffs and one shared standard.",
+      "JZ Group is the umbrella for four coordinated companies spanning demolition, general contracting, subcontracting, waste management, and development.",
     mediaLabel: "JZ GROUP TEAM PHOTO",
     heroMedia: {
       src: "/media/jzg/group-field-team.webp",
@@ -183,10 +183,20 @@ export const groupPages: Record<string, ContentPageData> = {
       {
         id: "mission",
         eyebrow: "Our mission",
-        title: "High-quality work, coordinated from one group.",
+        title: "Four companies built to pursue work at every scale.",
         paragraphs: [
-          "JZ Group provides high-quality services in demolition, construction, property development, and waste removal. Its professionals are committed to quality and efficiency on every project.",
-          "The group coordinates the machinery, tools, supplies, planning, and field support needed to complete the work. The goal is a clear process, dependable execution, and a result the client can stand behind.",
+          "JZ Demolition delivers specialty, selective, total, structural, robotic, and concrete demolition. JZ Construction operates as both a general contractor and a subcontractor. JZ Waste Management supports contractors with hauling and site logistics. JZ Development carries opportunities from planning into long-term operations.",
+          "The shared group structure creates clearer ownership across planning, field execution, material movement, closeout, and the next phase of the project.",
+        ],
+      },
+      {
+        id: "standards",
+        title: "The standards that travel across every company.",
+        cards: [
+          { title: "Safety", description: "Plan the work around the site, the people, and the conditions that remain active around it." },
+          { title: "Integrity", description: "Communicate clearly, own the responsibility, and make project decisions visible." },
+          { title: "Execution", description: "Put experienced leadership, field capability, and disciplined follow-through behind the scope." },
+          { title: "Long-term thinking", description: "Treat every handoff, relationship, and completed project as part of a larger future." },
         ],
       },
       {
@@ -288,15 +298,20 @@ export const groupPages: Record<string, ContentPageData> = {
     path: "safety",
     category: "safety",
     eyebrow: "JZ Group / Safety",
-    title: "Safety is part of the deliverable.",
+    title: "Safety built into every scope.",
     introduction:
-      "In active hospitals, occupied facilities, and complex commercial environments, safe work depends on planning, communication, controlled access, experienced supervision, and disciplined execution.",
+      "Across demolition, construction, waste operations, and development oversight, safe work begins with site-specific planning, experienced field leadership, and visible accountability.",
     mediaLabel: "APPROVED SAFETY / PROTECTION SETUP",
     heroMedia: {
       src: "/media/jzg/safety-containment.webp",
       alt: "Temporary containment protecting an occupied medical-office corridor",
       position: "center",
     },
+    stats: [
+      { value: "1998", label: "Legacy begins" },
+      { value: "Florida", label: "Licensed" },
+      { value: "Statewide", label: "Project coverage" },
+    ],
     sections: [
       {
         id: "planning",
@@ -304,7 +319,7 @@ export const groupPages: Record<string, ContentPageData> = {
         title: "Plan around the building that remains active.",
         paragraphs: [
           "JZ's public operating approach begins with site assessment, hazard review, logistics planning, and clear definition of the work zone. Access, sequencing, material movement, occupied areas, and turnover requirements are considered before production begins.",
-          "For construction work, the team runs a site-specific program supported by training, accountability, safety meetings, job hazard analyses, and regular inspections.",
+          "The operating approach is tailored to the company, project, facility, and scope. Current licenses, insurance, bonding, training records, references, and project-specific requirements are available through a qualification request.",
         ],
         bullets: [
           "Site and hazard assessment",
@@ -319,8 +334,8 @@ export const groupPages: Record<string, ContentPageData> = {
         eyebrow: "Active environments",
         title: "Control dust, noise, debris, and disruption.",
         paragraphs: [
-          "JZ Demolition's current public service information describes barriers, containment methods, negative-air equipment, HEPA filtration, dust control, noise mitigation, and coordination with hospital staff and facility management for sensitive interior work.",
-          "These measures support the larger goal: protect people and property while allowing critical operations beside the scope to continue.",
+          "Active hospitals and occupied facilities require an operating plan shaped around access, people, retained systems, material movement, noise, dust, debris, and turnover.",
+          "Specific controls are selected and verified for the project rather than presented as one generic procedure for every environment.",
         ],
         mediaLabel: "ACTIVE FACILITY CONTROL DETAIL",
         media: {
@@ -334,8 +349,8 @@ export const groupPages: Record<string, ContentPageData> = {
         eyebrow: "Field readiness",
         title: "Training and accountability at the point of work.",
         paragraphs: [
-          "JZ Construction's public safety program states that field personnel use appropriate PPE and follow site-specific safety protocols. The workforce is described as maintaining CPR and first-aid credentials, OSHA 30-hour training, and equipment certifications for aerial lifts, forklifts, and telehandlers.",
-          "Specific credentials, procedures, and current records should be confirmed with JZ before final launch or inclusion in a qualification package.",
+          "Field leadership is responsible for making the plan visible at the point of work, coordinating with the project team, and keeping accountability clear as conditions change.",
+          "Request the current qualification package for verified credentials, insurance, bonding, training records, safety information, and references relevant to the proposed scope.",
         ],
       },
     ],
@@ -347,15 +362,15 @@ export const groupPages: Record<string, ContentPageData> = {
   },
   projects: {
     key: "projects",
-    seoTitle: "Healthcare, Education & Commercial Projects | JZ Group",
+    seoTitle: "Demolition, Construction and Development Projects | JZ Group",
     seoDescription:
-      "Demolition and construction experience across healthcare, education, commercial and retail environments in Miami-Dade, Broward and Palm Beach counties.",
+      "Selected JZ Group demolition, construction and development work across healthcare, commercial, multifamily and complex project environments in Florida.",
     path: "projects",
     category: "projects",
     eyebrow: "JZ Group / Work",
-    title: "Browse the work by company and operating environment.",
+    title: "Selected work across the JZ companies.",
     introduction:
-      "The project library brings demolition sectors, construction markets, and development records into one clear path. Each record connects the visible work to the JZ company responsible for delivering it.",
+      "Open a project for a quick record, then continue to the responsible JZ company for deeper capabilities and comparable work.",
     mediaLabel: "FEATURED ACROSS JZ PROJECTS",
     heroMedia: {
       src: "/media/jzg/project-100-biscayne.webp",
@@ -365,20 +380,18 @@ export const groupPages: Record<string, ContentPageData> = {
     sections: [
       {
         id: "featured",
-        title: "The right proof, one click away.",
+        title: "Selected JZ projects.",
         layout: "project-grid",
       },
       {
         id: "markets",
-        eyebrow: "Explore by market",
-        title: "Find the most comparable experience quickly.",
+        eyebrow: "Explore by company",
+        title: "Go directly to the company responsible for the scope.",
         cards: [
-          { title: "Healthcare", subtitle: "Selected public experience", href: "/demolition/projects/healthcare" },
-          { title: "Education", subtitle: "Selected public experience", href: "/demolition/projects/education" },
-          { title: "Business / Community", subtitle: "Selected public experience", href: "/demolition/projects/business-community" },
-          { title: "Retail / Entertainment", subtitle: "Selected public experience", href: "/demolition/projects/retail-entertainment" },
-          { title: "Construction portfolio", subtitle: "Healthcare and commercial", href: "/construction/projects" },
-          { title: "Development portfolio", subtitle: "South Florida residential", href: "/development/projects" },
+          { title: "JZ Demolition", subtitle: "Specialty, selective, total and concrete demolition", href: "/demolition/projects" },
+          { title: "JZ Construction", subtitle: "General contracting and subcontracting", href: "/construction/projects" },
+          { title: "JZ Waste Management", subtitle: "Contractor hauling and site logistics", href: "/waste-management" },
+          { title: "JZ Development", subtitle: "Development and long-term operations", href: "/development/projects" },
         ],
       },
     ],
