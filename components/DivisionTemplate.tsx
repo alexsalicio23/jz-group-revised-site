@@ -126,7 +126,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
 
       <section className="metric-division-process" id="process">
         <header>
-          <h2>One clear sequence</h2>
+          <h2>Our Process</h2>
         </header>
         <ol>
           {data.process.map((step) => (

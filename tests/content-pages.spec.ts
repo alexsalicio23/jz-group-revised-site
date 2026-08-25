@@ -31,6 +31,8 @@ for (const route of representativePages) {
 
     const headingCopy = await page.locator("main h1, main h2, main h3, main h4").allTextContents();
     expect(headingCopy.every((heading) => !heading.includes("."))).toBe(true);
+    const primaryHeadingCopy = await page.locator("main h1, main h2").allTextContents();
+    expect(primaryHeadingCopy.every((heading) => heading.trim().split(/\s+/).length <= 5)).toBe(true);
     const headingStyles = await page.locator("main h1, main h2, main h3, main h4").evaluateAll((headings) =>
       headings.map((heading) => ({
         letterSpacing: getComputedStyle(heading).letterSpacing,

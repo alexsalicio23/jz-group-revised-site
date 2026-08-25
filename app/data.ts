@@ -188,15 +188,15 @@ export const featuredProjects = [
 
 export const qualificationRecords = [
   {
-    title: "Site-Specific Planning",
+    title: "Planning",
     description: "Access, work zones, material movement, sequencing, and turnover are defined around each site and scope.",
   },
   {
-    title: "Experienced Field Leadership",
+    title: "Field Leadership",
     description: "Clear supervision keeps the work controlled, documented, and coordinated with the project team and the trades that follow.",
   },
   {
-    title: "Visible Accountability",
+    title: "Accountability",
     description: "Responsibility remains clear from planning through execution, closeout, and the handoff to the next phase.",
   },
 ] as const;

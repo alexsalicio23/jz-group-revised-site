@@ -158,7 +158,7 @@ export const groupPages: Record<string, ContentPageData> = {
     path: "about",
     category: "company",
     eyebrow: "JZ Group / Company",
-    title: "A family legacy built for a broader future.",
+    title: "Built on Family",
     introduction:
       "JZ Group is the umbrella for four coordinated companies spanning demolition, general contracting, subcontracting, waste management, and development.",
     mediaLabel: "JZ GROUP TEAM PHOTO",
@@ -183,7 +183,7 @@ export const groupPages: Record<string, ContentPageData> = {
       {
         id: "mission",
         eyebrow: "Our mission",
-        title: "Four companies built to pursue work at every scale.",
+        title: "Four Companies",
         paragraphs: [
           "JZ Demolition delivers specialty, selective, total, structural, robotic, and concrete demolition. JZ Construction operates as both a general contractor and a subcontractor. JZ Waste Management supports contractors with hauling and site logistics. JZ Development carries opportunities from planning into long-term operations.",
           "The shared group structure creates clearer ownership across planning, field execution, material movement, closeout, and the next phase of the project.",
@@ -191,7 +191,7 @@ export const groupPages: Record<string, ContentPageData> = {
       },
       {
         id: "standards",
-        title: "The standards that travel across every company.",
+        title: "One Standard",
         cards: [
           { title: "Safety", description: "Plan the work around the site, the people, and the conditions that remain active around it." },
           { title: "Integrity", description: "Communicate clearly, own the responsibility, and make project decisions visible." },
@@ -236,7 +236,7 @@ export const groupPages: Record<string, ContentPageData> = {
     path: "values",
     category: "values",
     eyebrow: "JZ Group / Standards",
-    title: "Four companies. One standard for how the work gets done.",
+    title: "One Operating Standard",
     introduction:
       "The divisions have different responsibilities, but they operate around the same expectations: safety, integrity, excellence, and a positive impact on the communities around the work.",
     mediaLabel: "FOUR COMPANIES / ONE GROUP PHOTO",
@@ -249,7 +249,7 @@ export const groupPages: Record<string, ContentPageData> = {
       {
         id: "standards",
         eyebrow: "Core values",
-        title: "The commitments that travel across every division.",
+        title: "Our Commitments",
         cards: [
           {
             title: "Safety first",
@@ -276,7 +276,7 @@ export const groupPages: Record<string, ContentPageData> = {
       {
         id: "one-group",
         eyebrow: "The operating model",
-        title: "Specialists by trade, aligned by one standard.",
+        title: "Aligned by One Standard",
         paragraphs: [
           "JZ Demolition defines and clears the scope. JZ Waste Management keeps material and site logistics moving. JZ Construction carries the project into the build. JZ Development extends the view through planning, delivery, and long-term value.",
           "Bringing these services under one organization reduces unnecessary vendor handoffs and creates clearer accountability across cost, schedule, execution, and closeout.",
@@ -298,7 +298,7 @@ export const groupPages: Record<string, ContentPageData> = {
     path: "safety",
     category: "safety",
     eyebrow: "JZ Group / Safety",
-    title: "Safety built into every scope.",
+    title: "Safety at Every Step",
     introduction:
       "Across demolition, construction, waste operations, and development oversight, safe work begins with site-specific planning, experienced field leadership, and visible accountability.",
     mediaLabel: "APPROVED SAFETY / PROTECTION SETUP",
@@ -316,7 +316,7 @@ export const groupPages: Record<string, ContentPageData> = {
       {
         id: "planning",
         eyebrow: "Before work begins",
-        title: "Plan around the building that remains active.",
+        title: "Active Facilities",
         paragraphs: [
           "JZ's public operating approach begins with site assessment, hazard review, logistics planning, and clear definition of the work zone. Access, sequencing, material movement, occupied areas, and turnover requirements are considered before production begins.",
           "The operating approach is tailored to the company, project, facility, and scope. Current licenses, insurance, bonding, training records, references, and project-specific requirements are available through a qualification request.",
@@ -332,7 +332,7 @@ export const groupPages: Record<string, ContentPageData> = {
       {
         id: "active-facilities",
         eyebrow: "Active environments",
-        title: "Control dust, noise, debris, and disruption.",
+        title: "Site Controls",
         paragraphs: [
           "Active hospitals and occupied facilities require an operating plan shaped around access, people, retained systems, material movement, noise, dust, debris, and turnover.",
           "Specific controls are selected and verified for the project rather than presented as one generic procedure for every environment.",
@@ -347,7 +347,7 @@ export const groupPages: Record<string, ContentPageData> = {
       {
         id: "field-readiness",
         eyebrow: "Field readiness",
-        title: "Training and accountability at the point of work.",
+        title: "Field Accountability",
         paragraphs: [
           "Field leadership is responsible for making the plan visible at the point of work, coordinating with the project team, and keeping accountability clear as conditions change.",
           "Request the current qualification package for verified credentials, insurance, bonding, training records, safety information, and references relevant to the proposed scope.",
@@ -368,7 +368,7 @@ export const groupPages: Record<string, ContentPageData> = {
     path: "projects",
     category: "projects",
     eyebrow: "JZ Group / Work",
-    title: "Selected work across the JZ companies.",
+    title: "Selected Work",
     introduction:
       "Open a project for a quick record, then continue to the responsible JZ company for deeper capabilities and comparable work.",
     mediaLabel: "FEATURED ACROSS JZ PROJECTS",
@@ -380,13 +380,13 @@ export const groupPages: Record<string, ContentPageData> = {
     sections: [
       {
         id: "featured",
-        title: "Selected JZ projects.",
+        title: "Project Gallery",
         layout: "project-grid",
       },
       {
         id: "markets",
         eyebrow: "Explore by company",
-        title: "Go directly to the company responsible for the scope.",
+        title: "Browse by Company",
         cards: [
           { title: "JZ Demolition", subtitle: "Specialty, selective, total and concrete demolition", href: "/demolition/projects" },
           { title: "JZ Construction", subtitle: "General contracting and subcontracting", href: "/construction/projects" },
@@ -410,7 +410,7 @@ export const groupPages: Record<string, ContentPageData> = {
     path: "contact",
     category: "contact",
     eyebrow: "JZ Group / Estimating",
-    title: "Send the scope once. We will route it to the right company.",
+    title: "Send Your Scope",
     introduction:
       "Share the project type, location, facility status, timeline, and available documents. The group can route demolition, construction, waste management, and development inquiries from one intake.",
     mediaLabel: "ESTIMATING / PRECONSTRUCTION TEAM PHOTO",
@@ -423,7 +423,7 @@ export const groupPages: Record<string, ContentPageData> = {
       {
         id: "contacts",
         eyebrow: "Direct contacts",
-        title: "Four service lanes. One phone number.",
+        title: "Contact JZ",
         cards: [
           { title: "JZ Demolition", subtitle: "estimating@jzdemo.com", href: "mailto:estimating@jzdemo.com" },
           { title: "JZ Construction", subtitle: "estimating@jzconstruction.com", href: "mailto:estimating@jzconstruction.com" },
@@ -457,7 +457,7 @@ const demolitionPages: ContentPageData[] = [
     path: "about",
     category: "company",
     eyebrow: "JZ Demolition / Our story",
-    title: "Demolition should clear the way forward, not become a roadblock.",
+    title: "Built to Clear the Way",
     introduction:
       "JZ Demolition is a South Florida demolition contractor built around clear communication, controlled execution, dependable scheduling, and respect for the people and property around the work.",
     mediaLabel: "JZ DEMOLITION COMPANY PHOTO",
@@ -483,7 +483,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "mission",
         eyebrow: "Our mission",
-        title: "Safe, efficient, reliable demolition without unnecessary stress.",
+        title: "Demolition You Can Trust",
         paragraphs: [
           "JZ Demolition's mission is to simplify every phase of demolition through clear communication, transparent pricing, and professional execution from start to finish. The company is focused on dependable solutions that align with each client's schedule, budget, and project goals.",
           "The team views demolition as the foundation of progress. Selective interior demolition, structural teardown, and site clearing are planned around precision, integrity, industry experience, and respect for the surrounding community.",
@@ -492,7 +492,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "who-we-are",
         eyebrow: "Who we are",
-        title: "A hands-on partner for difficult scopes.",
+        title: "Hands-On Leadership",
         paragraphs: [
           "JZ Demolition works with contractors, developers, and property owners across South Florida. The team brings hands-on experience in structural demolition, selective interior demolition, site clearing, complete building removals, interior gut-outs, and debris hauling.",
           "Modern equipment, efficient methods, and close communication allow the company to tailor its approach to both smaller renovations and large commercial scopes while keeping the site safe, organized, and ready for what follows.",
@@ -501,7 +501,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "values",
         eyebrow: "Core values",
-        title: "The demolition difference is how the work is managed.",
+        title: "How We Work",
         cards: [
           { title: "Integrity", description: "Honest communication, transparent pricing, clear proposals, realistic timelines, and straightforward updates." },
           { title: "Efficiency", description: "Modern techniques, skilled operators, and coordinated workflows designed to reduce downtime and keep projects moving." },
@@ -514,7 +514,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "relationships",
         eyebrow: "How we work",
-        title: "We tear down structures. We build relationships.",
+        title: "Built on Relationships",
         paragraphs: [
           "JZ Demolition believes a successful project begins with open communication, precise planning, and commitment to safety and client satisfaction. The goal is a professional, environmentally responsible service that makes the next phase easier for the project team.",
         ],
@@ -532,7 +532,7 @@ const demolitionPages: ContentPageData[] = [
     path: "services/interior-demolition",
     category: "service",
     eyebrow: "JZ Demolition / Interior demolition",
-    title: "Precision removal inside active and sensitive buildings.",
+    title: "Interior Demolition",
     introduction:
       "Interior demolition is planned around what must stay: structure, adjacent finishes, building systems, facility operations, people, access, and the schedule for the next trade.",
     mediaLabel: "INTERIOR DEMOLITION / ACTIVE FACILITY",
@@ -591,7 +591,7 @@ const demolitionPages: ContentPageData[] = [
     path: "services/total-demolition",
     category: "service",
     eyebrow: "JZ Demolition / Total demolition",
-    title: "Controlled structural removal from first survey to final cleanup.",
+    title: "Structural Demolition",
     introduction:
       "Total-demolition work begins with assessment, utility coordination, environmental review, permitting, logistics, and a sequence that protects surrounding property and prepares the site for its next use.",
     mediaLabel: "TOTAL DEMOLITION / STRUCTURAL REMOVAL",
@@ -644,7 +644,7 @@ const demolitionPages: ContentPageData[] = [
     path: "services/concrete-work",
     category: "service",
     eyebrow: "JZ Demolition / Concrete work",
-    title: "Scan first. Cut precisely. Restore with confidence.",
+    title: "Concrete Services",
     introduction:
       "Concrete scanning, cutting, selective removal, pour-backs, and repairs are coordinated around structural integrity, hidden building systems, dust and vibration control, and the needs of active facilities.",
     mediaLabel: "CONCRETE SCANNING / CUTTING / REPAIR",
@@ -697,7 +697,7 @@ const demolitionPages: ContentPageData[] = [
     path: "services/waste-hauling",
     category: "service",
     eyebrow: "JZ Demolition / In-house hauling",
-    title: "Demolition and debris movement under one coordinated plan.",
+    title: "Debris Hauling",
     introduction:
       "JZ Demolition uses in-house dumpsters, hauling trucks, and waste-management support to move debris with the demolition sequence instead of waiting on an unrelated third party.",
     mediaLabel: "JZ HAULING FLEET / ACTIVE JOBSITE",
@@ -753,7 +753,7 @@ const demolitionPages: ContentPageData[] = [
     path: "projects",
     category: "projects",
     eyebrow: "JZ Demolition / Portfolio",
-    title: "Demolition experience organized around the environment.",
+    title: "Demolition Projects",
     introduction:
       "JZ Demolition's public portfolio spans healthcare, education, business and community, retail and entertainment, along with commercial, industrial, and residential work across South Florida.",
     mediaLabel: "DEMOLITION PROJECT GALLERY COVER",
@@ -761,7 +761,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "sectors",
         eyebrow: "View by sector",
-        title: "Go directly to the work that is most comparable.",
+        title: "Browse by Market",
         cards: [
           { title: "Healthcare", subtitle: "Selected public experience", description: "Sensitive medical environments, active hospitals, clinic clear-outs, and occupied interior renovation work.", href: "/demolition/projects/healthcare" },
           { title: "Education", subtitle: "Selected public experience", description: "Active campuses, classroom renovations, and full-building interior gut work.", href: "/demolition/projects/education" },
@@ -772,7 +772,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "approach",
         eyebrow: "Across the portfolio",
-        title: "The same standard at every scale.",
+        title: "Every Scale",
         paragraphs: [
           "From selective interior tear-outs to complete structural removals, JZ approaches each project around safety, quality, environmental responsibility, modern equipment, and a clean site prepared for the next construction phase.",
         ],
@@ -791,7 +791,7 @@ const demolitionPages: ContentPageData[] = [
     path: "projects/healthcare",
     category: "sector",
     eyebrow: "JZ Demolition / Healthcare",
-    title: "Precision in progress.",
+    title: "Healthcare Demolition",
     introduction:
       "Healthcare demolition is performed in environments where patient care, staff movement, building systems, and essential services may continue directly beside the work.",
     mediaLabel: "ACTIVE HEALTHCARE DEMOLITION",
@@ -804,7 +804,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "experience",
         eyebrow: "Healthcare experience",
-        title: "Work planned around spaces of healing.",
+        title: "Built Around Care",
         paragraphs: [
           "JZ Demolition specializes in sensitive medical environments, from interior-floor renovations to clinic clear-outs. Crews coordinate closely with facility stakeholders and contractors to reduce disruption to patients, staff, access, and essential services.",
           "Each project creates the controlled foundation for new healthcare space through safety, efficiency, reliability, and respect for the operating environment.",
@@ -837,7 +837,7 @@ const demolitionPages: ContentPageData[] = [
     path: "projects/education",
     category: "sector",
     eyebrow: "JZ Demolition / Education",
-    title: "Building tomorrow starts with a controlled first phase.",
+    title: "Education Demolition",
     introduction:
       "Educational demolition requires clean work zones, deliberate sequencing, and communication that protects students, staff, campus operations, and the schedule for renovation.",
     mediaLabel: "EDUCATION DEMOLITION PROJECT",
@@ -850,7 +850,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "experience",
         eyebrow: "Education experience",
-        title: "Modern learning environments begin with precise removal.",
+        title: "Active Campuses",
         paragraphs: [
           "JZ's education work ranges from classroom renovation to full-building interior gut scopes. The team coordinates with school administrators, contractors, and project stakeholders to limit disruption while maintaining safety and cleanliness.",
           "Every completed scope helps prepare the way for learning environments built on accountability, precision, and trust.",
@@ -880,7 +880,7 @@ const demolitionPages: ContentPageData[] = [
     path: "projects/business-community",
     category: "sector",
     eyebrow: "JZ Demolition / Business and community",
-    title: "Built for business continuity.",
+    title: "Commercial Demolition",
     introduction:
       "Office, restaurant, residential, mixed-use, and community demolition scopes are coordinated around productivity, neighboring occupants, property operations, access, and the project schedule.",
     mediaLabel: "BUSINESS / COMMUNITY PROJECT",
@@ -893,7 +893,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "experience",
         eyebrow: "Commercial experience",
-        title: "Transform the space without losing control of the building.",
+        title: "Business Continuity",
         paragraphs: [
           "JZ performs interior demolition for offices, corporate spaces, restaurants, housing, mixed-use property, and community environments. Work ranges from reconfiguration to full interior renovation and is coordinated with property managers and contractors.",
           "The objective is a clean, on-schedule scope that limits interruption and prepares a functional foundation for the next use.",
@@ -924,7 +924,7 @@ const demolitionPages: ContentPageData[] = [
     path: "projects/retail-entertainment",
     category: "sector",
     eyebrow: "JZ Demolition / Retail and entertainment",
-    title: "Transforming customer environments with controlled execution.",
+    title: "Retail Demolition",
     introduction:
       "Retail and entertainment work is planned around patrons, neighboring tenants, access, property operations, cleanliness, and the deadlines that shape openings and renovations.",
     mediaLabel: "RETAIL / ENTERTAINMENT PROJECT",
@@ -937,7 +937,7 @@ const demolitionPages: ContentPageData[] = [
       {
         id: "experience",
         eyebrow: "Retail experience",
-        title: "Clear the path for the next customer experience.",
+        title: "Customer Environments",
         paragraphs: [
           "JZ supports store renovations, shopping environments, fitness facilities, entertainment spaces, and complex clear-outs. The team coordinates with property managers, developers, contractors, and adjacent businesses to maintain safe, clean conditions and limit interruption.",
           "Each scope is approached around efficiency, reliability, and a controlled transition into the next build phase.",
@@ -976,7 +976,7 @@ const wastePages: ContentPageData[] = [
     path: "about",
     category: "company",
     eyebrow: "JZ Waste Management / Our story",
-    title: "Reliable site support when the project needs it most.",
+    title: "Reliable Site Support",
     introduction:
       "JZ Waste Management supports contractors, businesses, property owners, and homeowners with dumpsters, debris hauling, temporary fencing, recycling, and labor across South Florida.",
     mediaLabel: "JZ WASTE MANAGEMENT FLEET / TEAM",
@@ -984,7 +984,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "who-we-are",
         eyebrow: "Who we are",
-        title: "More than a dumpster rental company.",
+        title: "Beyond the Dumpster",
         paragraphs: [
           "Every jobsite and cleanup comes with its own access, timing, and material challenges. JZ Waste Management has built its service around being available when the project needs support, from container delivery and debris hauling to temporary fencing and hands-on cleanup.",
           "The company works with contractors and businesses across South Florida and tailors service around the job rather than forcing every project into the same schedule or package.",
@@ -994,7 +994,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "mission",
         eyebrow: "Our mission",
-        title: "Make cleanup simple and dependable.",
+        title: "Simple Site Cleanup",
         paragraphs: [
           "JZ Waste Management's mission is to deliver waste removal and site services with clear pricing, reliable response, and professional support. The company emphasizes no hidden fees, no unnecessary delays, and solutions aligned with the project's timeline and budget.",
           "From residential renovation to full commercial debris hauling, the goal is to remove the cleanup burden so the project team can remain focused on production.",
@@ -1003,7 +1003,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "reliability",
         eyebrow: "Driven by reliability",
-        title: "A hands-on team built for difficult site work.",
+        title: "Hands-On Support",
         paragraphs: [
           "The team delivers dumpsters, clears debris, secures job sites, and provides labor support with an emphasis on consistency, safety, and on-time service. Dependable equipment and a direct operating model help make cleanup more predictable.",
         ],
@@ -1027,7 +1027,7 @@ const wastePages: ContentPageData[] = [
     path: "services/dumpster-rentals",
     category: "service",
     eyebrow: "JZ Waste Management / Dumpster rentals",
-    title: "No hidden fees. Clean bins. Reliable service.",
+    title: "Dumpster Rentals",
     introduction:
       "Roll-off dumpsters for construction, demolition, roofing, renovation, concrete disposal, and large property cleanouts across Miami, Fort Lauderdale, West Palm Beach, and surrounding South Florida communities.",
     mediaLabel: "ROLL-OFF CONTAINER / DELIVERY PHOTO",
@@ -1040,7 +1040,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "service",
         eyebrow: "Reliable dumpster service",
-        title: "Sized, placed, and serviced around the project.",
+        title: "Built Around the Site",
         paragraphs: [
           "JZ offers multiple dumpster sizes and flexible rental options for residential and commercial work. Fast delivery, clear pickup schedules, and upfront pricing are intended to make waste removal predictable.",
           "Containers can handle wood, drywall, concrete, metal, asphalt, roofing material, and other construction debris subject to the confirmed rental terms. Delivery, placement, swaps, and pickup are coordinated to keep the site safe and productive.",
@@ -1050,7 +1050,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "sizes",
         eyebrow: "Container guide",
-        title: "Choose the right capacity and footprint.",
+        title: "Container Sizes",
         specifications: [
           {
             title: "15-yard pull trailer",
@@ -1093,7 +1093,7 @@ const wastePages: ContentPageData[] = [
     path: "services/temporary-fencing",
     category: "service",
     eyebrow: "JZ Waste Management / Temporary fencing",
-    title: "Durable fencing. Fair pricing. On-time site protection.",
+    title: "Temporary Fencing",
     introduction:
       "Temporary fence rentals for active construction and demolition sites across South Florida, including delivery, setup, removal, flexible rental periods, and optional privacy screening.",
     mediaLabel: "TEMPORARY FENCE / ACTIVE JOBSITE",
@@ -1106,7 +1106,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "service",
         eyebrow: "Site security",
-        title: "Control access, protect material, and define the work zone.",
+        title: "Site Protection",
         paragraphs: [
           "JZ provides 6-foot and 8-foot temporary fence panels for construction sites in Miami, Fort Lauderdale, West Palm Beach, and surrounding South Florida areas. Applications include equipment protection, material security, controlled access, dust control, privacy, and separation from hazardous zones.",
           "The team coordinates delivery, installation, rental duration, privacy screens, and removal. Green and orange screening options are listed on the current public service page.",
@@ -1116,7 +1116,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "panel-options",
         eyebrow: "Panel guide",
-        title: "Four panel formats for different site conditions.",
+        title: "Fence Options",
         specifications: [
           { title: "6 ft high x 5 ft wide", dimensions: ["6 ft height", "5 ft width"], bestFor: ["Compact construction spaces", "Controlled walkways and entry points", "Smaller work areas and material protection", "Restricted-access zones"] },
           { title: "8 ft high x 5 ft wide", dimensions: ["8 ft height", "5 ft width"], bestFor: ["Compact sites requiring a taller barrier", "Controlled access", "Added privacy and security", "Hazardous-zone separation"] },
@@ -1144,7 +1144,7 @@ const wastePages: ContentPageData[] = [
     path: "services/general-labor",
     category: "service",
     eyebrow: "JZ Waste Management / General labor",
-    title: "Clean work. Fast results. Trusted site support.",
+    title: "Site Cleanup Labor",
     introduction:
       "Semi-skilled labor for cleanup, debris movement, material handling, egress maintenance, dust-control support, and day-to-day site organization across South Florida.",
     mediaLabel: "GENERAL LABOR / SITE CLEANUP CREW",
@@ -1152,7 +1152,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "support",
         eyebrow: "Reliable labor support",
-        title: "Extra hands for the work that keeps a site productive.",
+        title: "Field Support",
         paragraphs: [
           "JZ laborers support construction and demolition projects with sweeping, mopping, debris pickup, material movement, common-area maintenance, sticky-mat service, and clear egress routes.",
           "Crews can unload deliveries, move material into or around the site, organize debris into containers, and separate recyclable from non-recyclable material. Flexible scheduling and hourly labor rates allow the service to scale with project demand.",
@@ -1162,7 +1162,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "services",
         eyebrow: "Services offered",
-        title: "Three practical ways to support the field team.",
+        title: "Support Services",
         cards: [
           { title: "General cleaning", description: "Sweeping, mopping, egress maintenance, sticky-mat service, and upkeep of common areas." },
           { title: "Jobsite clearing", description: "Debris organization, loading containers, hauling material, and separating recyclable and non-recyclable waste." },
@@ -1188,7 +1188,7 @@ const wastePages: ContentPageData[] = [
     path: "services/recycling",
     category: "service",
     eyebrow: "JZ Waste Management / Recycling",
-    title: "Responsible recycling. Reliable service. Real material recovery.",
+    title: "Material Recycling",
     introduction:
       "Construction scrap-metal recycling focused on steel, aluminum, and copper generated by demolition and construction projects across South Florida.",
     mediaLabel: "SCRAP METAL SORTING / RECYCLING",
@@ -1196,7 +1196,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "recycling",
         eyebrow: "Material recovery",
-        title: "Keep valuable metal in the supply chain.",
+        title: "Metal Recovery",
         paragraphs: [
           "JZ collects, separates, and hauls construction-specific metal from project sites so steel, aluminum, and copper can be processed and returned to the supply chain when possible.",
           "The service supports cleaner jobsites, environmental compliance, reduced landfill use, resource conservation, and more organized debris management for contractors.",
@@ -1206,7 +1206,7 @@ const wastePages: ContentPageData[] = [
       {
         id: "leed",
         eyebrow: "Sustainability",
-        title: "Recycling aligned with project documentation goals.",
+        title: "Project Documentation",
         paragraphs: [
           "JZ's public recycling program describes landfill diversion and material tracking intended to support LEED Construction Waste Management and Materials and Resources goals.",
           "The same separation and recycling practices are applied to JZ's own construction and demolition work as well as client jobsites.",
@@ -1241,7 +1241,7 @@ const constructionPages: ContentPageData[] = [
     path: "about",
     category: "company",
     eyebrow: "JZ Construction / Our story",
-    title: "A construction company grown from disciplined field execution.",
+    title: "Built in the Field",
     introduction:
       "JZ Construction developed from a trade-contractor foundation into an integrated general-contracting and subcontracting platform serving healthcare, commercial, mixed-use, and specialty work across South Florida.",
     mediaLabel: "JZ CONSTRUCTION COMPANY PHOTO",
@@ -1256,7 +1256,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "story",
         eyebrow: "Company story",
-        title: "Built from accountability, responsiveness, and control.",
+        title: "Built on Accountability",
         paragraphs: [
           "JZ Construction grew from the disciplined management, clear communication, and dependable field performance established through JZ's demolition work. Clients increasingly relied on the team to manage complex scopes and coordinate beyond a single trade.",
           "That demand led JZ to expand into additional trades, consulting, owner representation, and full-service construction. The integrated model gives project teams more continuity across planning, field coordination, schedule, safety, and execution.",
@@ -1267,7 +1267,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "mission",
         eyebrow: "Our mission",
-        title: "Make the building process clear, reliable, and well managed.",
+        title: "A Clearer Build",
         paragraphs: [
           "JZ Construction guides clients from consulting and preconstruction through ground-up work, renovation, specialty trades, and final delivery. Clear communication, transparent expectations, and professional execution are intended to reduce confusion and delay.",
           "Precision, integrity, and expertise shape preconstruction, owner representation, project management, subcontracting, and in-house field services. The goal is a smooth, safe project aligned with budget, schedule, and the owner's priorities.",
@@ -1276,7 +1276,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "values",
         eyebrow: "Core values",
-        title: "Confidence is built before the finished space.",
+        title: "How We Work",
         cards: [
           { title: "Integrity", description: "Clear proposals, realistic schedules, honest communication, and dependable follow-through." },
           { title: "Efficiency", description: "Planning, trade coordination, skilled field execution, and workflows designed to reduce downtime." },
@@ -1289,7 +1289,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "relationships",
         eyebrow: "How we work",
-        title: "Construction is a partnership, not a handoff.",
+        title: "Built as Partners",
         paragraphs: [
           "JZ Construction focuses on long-term relationships with owners, contractors, consultants, and communities. Planning, coordination, consulting, and field management are used to keep the client's goals visible from the first conversation through final completion.",
         ],
@@ -1307,7 +1307,7 @@ const constructionPages: ContentPageData[] = [
     path: "services/general-contracting",
     category: "service",
     eyebrow: "JZ Construction / General contracting",
-    title: "Clarity before construction. Control through delivery.",
+    title: "General Contracting",
     introduction:
       "Preconstruction, project management, owner representation, consulting, and safety oversight coordinated as one general-contracting service lane.",
     mediaLabel: "GENERAL CONTRACTING / PROJECT TEAM",
@@ -1315,7 +1315,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "preconstruction",
         eyebrow: "01 / Preconstruction",
-        title: "Align scope, cost, schedule, and logistics before work begins.",
+        title: "Preconstruction",
         paragraphs: [
           "JZ works with owners, architects, and engineers on cost estimating, budgeting, constructability review, design-document evaluation, value analysis, risk identification, and procurement planning.",
           "Logistics, site access, phasing, lead times, material selection, and sequencing are addressed early so the delivery plan begins with fewer unknowns and a stronger path to execution.",
@@ -1325,7 +1325,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "project-management",
         eyebrow: "02 / Project management",
-        title: "Hands-on leadership through every phase.",
+        title: "Project Leadership",
         paragraphs: [
           "Project managers coordinate trades, schedules, resources, subcontractors, quality control, owners, designers, and field teams. Cost tracking, change management, documentation, and detailed scheduling keep responsibilities and decisions visible.",
           "The structured approach is intended to identify challenges before they affect progress and give clients clear communication while JZ manages the day-to-day complexity of construction.",
@@ -1334,7 +1334,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "owners-rep",
         eyebrow: "03 / Owner representation",
-        title: "An extension of the owner's team.",
+        title: "Owner Representation",
         paragraphs: [
           "Owner's Representative and consulting services protect the client's interests across planning, budgeting, scheduling, contractor coordination, contractual requirements, and financial expectations.",
           "Independent analysis, constructability input, risk assessment, stakeholder communication, and progress monitoring help owners maintain control and make informed decisions throughout the project lifecycle.",
@@ -1343,7 +1343,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "safety",
         eyebrow: "04 / Safety",
-        title: "A site-specific program supported by accountability.",
+        title: "Site Safety",
         paragraphs: [
           "JZ Construction runs a safety program built around training, accountability, applicable OSHA requirements, safety meetings, job-hazard analysis, site inspection, corrective action, and active participation from management and field personnel.",
         ],
@@ -1361,7 +1361,7 @@ const constructionPages: ContentPageData[] = [
     path: "services/subcontracting",
     category: "service",
     eyebrow: "JZ Construction / Subcontracting",
-    title: "In-house trade capability with one standard of field control.",
+    title: "Subcontracting",
     introduction:
       "Drywall and framing, acoustical ceilings, wall protection, Division 10 specialties, concrete work, and waste support coordinated inside one subcontracting platform.",
     mediaLabel: "SUBCONTRACTING / INTERIOR BUILD-OUT",
@@ -1388,7 +1388,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "specialties",
         eyebrow: "03 / Wall protection and Division 10",
-        title: "Durability for healthcare and high-traffic interiors.",
+        title: "Wall Protection",
         paragraphs: [
           "JZ installs wall panels, corner guards, handrails, and impact-resistant wall-protection systems for healthcare and hospital environments where durability, safety, hygiene, and patient support are critical.",
           "Products are installed to manufacturer and facility requirements with attention to alignment, attachment, trade coordination, appearance, and long-term performance.",
@@ -1397,7 +1397,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "concrete",
         eyebrow: "04 / Concrete",
-        title: "Scanning, selective removal, pour-backs, and repair.",
+        title: "Concrete Support",
         paragraphs: [
           "Concrete services begin with scanning for embedded utilities, reinforcement, and post-tension systems. Controlled removal, slab penetrations, trenches, pour-backs, reinforcement, preparation, and finishing are coordinated around the engineer's requirements and surrounding construction.",
         ],
@@ -1431,7 +1431,7 @@ const constructionPages: ContentPageData[] = [
     path: "projects",
     category: "projects",
     eyebrow: "JZ Construction / Portfolio",
-    title: "Construction work organized for rapid project review.",
+    title: "Construction Projects",
     introduction:
       "Healthcare and commercial construction across South Florida: interior build-outs, clinic renovations, and work inside occupied, high-traffic properties.",
     mediaLabel: "JZ CONSTRUCTION PROJECT GALLERY",
@@ -1439,7 +1439,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "sectors",
         eyebrow: "View by sector",
-        title: "Two clear paths into the current public record.",
+        title: "Browse by Market",
         cards: [
           { title: "Healthcare", subtitle: "Selected public experience", description: "Medical build-outs and clinic renovations in sensitive, active environments.", href: "/construction/projects/healthcare" },
           { title: "Commercial", subtitle: "Selected public experience", description: "Retail, entertainment, office, and active commercial construction.", href: "/construction/projects/commercial" },
@@ -1448,7 +1448,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "delivery",
         eyebrow: "Integrated delivery",
-        title: "General contracting and self-performed scopes in one view.",
+        title: "One Project Record",
         paragraphs: [
           "JZ Construction combines planning and project management with in-house drywall, framing, ceilings, specialties, concrete, and waste support. That operating model gives reviewers one place to understand both management capability and field execution.",
         ],
@@ -1467,7 +1467,7 @@ const constructionPages: ContentPageData[] = [
     path: "projects/healthcare",
     category: "sector",
     eyebrow: "JZ Construction / Healthcare",
-    title: "Precision construction in environments built around care.",
+    title: "Healthcare Construction",
     introduction:
       "Healthcare construction is coordinated around patients, staff, essential services, facility requirements, sensitive equipment, cleanliness, and the operations that continue around the work.",
     mediaLabel: "HEALTHCARE CONSTRUCTION PROJECT",
@@ -1480,7 +1480,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "experience",
         eyebrow: "Healthcare experience",
-        title: "Build-outs and renovations planned around essential operations.",
+        title: "Active Healthcare",
         paragraphs: [
           "JZ Construction works in sensitive medical environments, including interior floor build-outs and complete clinic renovations. Crews coordinate with the project and facility teams to limit disruption to patients, staff, access, and essential services.",
           "The public portfolio identifies experience associated with Joe DiMaggio Children's Hospital, UHealth, and Memorial Healthcare.",
@@ -1509,7 +1509,7 @@ const constructionPages: ContentPageData[] = [
     path: "projects/commercial",
     category: "sector",
     eyebrow: "JZ Construction / Commercial",
-    title: "Construction for the places where business keeps moving.",
+    title: "Commercial Construction",
     introduction:
       "Retail, entertainment, office, and active commercial projects are coordinated around property operations, customers, neighboring tenants, schedule, safety, and the finished experience.",
     mediaLabel: "COMMERCIAL CONSTRUCTION PROJECT",
@@ -1522,7 +1522,7 @@ const constructionPages: ContentPageData[] = [
       {
         id: "experience",
         eyebrow: "Commercial experience",
-        title: "Build and transform high-traffic spaces with control.",
+        title: "High-Traffic Spaces",
         paragraphs: [
           "JZ's commercial construction work includes interior store build-outs, retail and entertainment environments, office support, and active commercial facilities. The team coordinates with owners, property managers, developers, contractors, and surrounding businesses.",
           "Current public project references include Integrated Cooling Solutions in West Palm Beach, the Clerk of County Commissioners ninth-floor vault expansion, and Coral Gables Minorca Garage temporary offices.",
@@ -1554,7 +1554,7 @@ const developmentPages: ContentPageData[] = [
     path: "about",
     category: "company",
     eyebrow: "JZ Development / About",
-    title: "Development built around long-term value and community.",
+    title: "Long-Term Development",
     introduction:
       "JZ Development is a Miami-based development company focused on residential, commercial, mixed-use, workforce-housing, luxury, and entertainment opportunities across South Florida.",
     mediaLabel: "JZ DEVELOPMENT TEAM / PROJECT PHOTO",
@@ -1567,7 +1567,7 @@ const developmentPages: ContentPageData[] = [
       {
         id: "mission",
         eyebrow: "Our mission",
-        title: "Create safe, welcoming, and sustainable places.",
+        title: "Places That Last",
         paragraphs: [
           "JZ Development's public mission is to deliver high-quality affordable and luxury development across mixed-use, workforce-housing, and entertainment spaces.",
           "The company aims to create communities that are functional, innovative, safe, welcoming, and sustainable while supporting the needs of residents, investors, and the wider community.",
@@ -1577,7 +1577,7 @@ const developmentPages: ContentPageData[] = [
       {
         id: "experience",
         eyebrow: "Experience",
-        title: "From opportunity through completion.",
+        title: "The Development Lifecycle",
         paragraphs: [
           "The public site describes more than 20 years of combined real-estate-development experience and a team capable of guiding land acquisition, project planning, design, construction oversight, partnerships, and property management.",
           "The development approach combines design, project management, strategic planning, and collaboration in pursuit of quality and long-term performance.",
@@ -1586,7 +1586,7 @@ const developmentPages: ContentPageData[] = [
       {
         id: "values",
         eyebrow: "Values",
-        title: "Integrity, innovation, and collaboration.",
+        title: "How We Work",
         cards: [
           { title: "Integrity", description: "Transparent, honest communication across partnerships, planning, and project delivery." },
           { title: "Innovation", description: "A continued search for better design, process, service, and project outcomes." },
@@ -1596,7 +1596,7 @@ const developmentPages: ContentPageData[] = [
       {
         id: "team",
         eyebrow: "Office staff",
-        title: "Leadership across the development lifecycle.",
+        title: "Development Leadership",
         cards: [
           { title: "Alexander DeArmas", subtitle: "President", description: "Leads JZ strategy, growth, operations, innovation, and the entrepreneurial family legacy established with Jorge Balseiro." },
           { title: "Zenaida Balseiro", subtitle: "Secretary", description: "Supports administration, documentation, and organization across JZ Development and the wider JZ Group." },
@@ -1621,7 +1621,7 @@ const developmentPages: ContentPageData[] = [
     path: "projects",
     category: "projects",
     eyebrow: "JZ Development / Portfolio",
-    title: "South Florida residential development in the public record.",
+    title: "Development Portfolio",
     introduction:
       "Boutique and waterfront condominium development in Coral Gables and Fort Lauderdale, from acquisition and planning through construction oversight.",
     mediaLabel: "JZ DEVELOPMENT PORTFOLIO COVER",
@@ -1629,7 +1629,7 @@ const developmentPages: ContentPageData[] = [
       {
         id: "portfolio",
         eyebrow: "Current public portfolio",
-        title: "Projects listed across Coral Gables and Las Olas.",
+        title: "South Florida Projects",
         cards: [
           {
             title: "Villa Valencia",
@@ -1672,7 +1672,7 @@ const developmentPages: ContentPageData[] = [
       {
         id: "lifecycle",
         eyebrow: "Development platform",
-        title: "Acquire, plan, oversee, and manage.",
+        title: "Full-Lifecycle Development",
         paragraphs: [
           "JZ Development's broader public positioning covers land acquisition, project planning, construction oversight, property management, partnership, and investment conversations.",
         ],

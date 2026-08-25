@@ -14,7 +14,7 @@ export function QualificationBand() {
   return (
     <section className="qualification-band" aria-labelledby="qualification-band-title">
       <header>
-        <h2 id="qualification-band-title">A Group You Can Qualify</h2>
+        <h2 id="qualification-band-title">Qualifications</h2>
         <Link href="/safety">
           Review qualifications <ArrowUpRight aria-hidden="true" size={18} />
         </Link>

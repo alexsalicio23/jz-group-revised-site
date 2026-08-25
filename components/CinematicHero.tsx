@@ -28,7 +28,7 @@ const HERO_VIDEO = {
 
 const chapters = [
   {
-    title: "Controlled demolition",
+    title: "Demolition",
     detail: "Selective removal planned around an active environment.",
     start: 2,
     end: 4.8,
@@ -42,14 +42,14 @@ const chapters = [
     placement: "upper-right",
   },
   {
-    title: "Drywall and ceiling systems",
+    title: "Interiors",
     detail: "Interiors are rebuilt around the next phase of work.",
     start: 7.5,
     end: 10.1,
     placement: "upper-left",
   },
   {
-    title: "Ready for work",
+    title: "Complete",
     detail: "A clean turnover for the people coming next.",
     start: 10.1,
     end: 13,
@@ -285,7 +285,7 @@ export function CinematicHero() {
         <div className="compact-hero-shade" aria-hidden="true" />
 
         <div className="compact-hero-intro">
-          <h1 id="home-title">Built around what can&apos;t stop</h1>
+          <h1 id="home-title">Built to deliver</h1>
           <div className="compact-hero-summary">
             <p>
               Four coordinated companies built for demolition, general contracting,

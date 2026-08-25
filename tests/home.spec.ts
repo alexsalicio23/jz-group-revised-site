@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 test("homepage presents the JZ operating group with real field proof", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Built around");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Built to deliver");
   // Exactly one encode loads, and it is the right one for the viewport.
   const narrow = (page.viewportSize()?.width ?? 1440) <= 900;
   await expect(page.locator(".compact-hero-media")).toHaveJSProperty(
@@ -19,10 +19,10 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
   await expect(page.locator(".compact-hero-resolution img")).toHaveCount(1);
   await expect(page.locator(".compact-hero-resolution p, .compact-hero-resolution i")).toHaveCount(0);
-  await expect(page.locator("#division-stack-title")).toHaveText("Built To Work As One");
-  await expect(page.locator("#projects-title")).toHaveText("Selected JZ Projects");
-  await expect(page.getByRole("heading", { name: "SAFETY BUILT INTO EVERY SCOPE" })).toBeAttached();
-  await expect(page.getByRole("heading", { name: "ONE GROUP ACROSS THE PROJECT LIFECYCLE" })).toBeAttached();
+  await expect(page.locator("#division-stack-title")).toHaveText("Four Companies One Group");
+  await expect(page.locator("#projects-title")).toHaveText("Selected Work");
+  await expect(page.getByRole("heading", { name: "SAFETY AT EVERY STEP" })).toBeAttached();
+  await expect(page.getByRole("heading", { name: "EVERY PHASE ONE GROUP" })).toBeAttached();
   await expect(page.locator(".qualification-band dl > div")).toHaveCount(6);
   await expect(page.locator(".division-stack-card")).toHaveCount(4);
   await expect(page.locator(".metric-contact .bid-form")).toHaveCount(0);
@@ -38,6 +38,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
 
   const headingCopy = await page.locator("main h1, main h2").allTextContents();
   expect(headingCopy.every((heading) => !heading.includes("."))).toBe(true);
+  expect(headingCopy.every((heading) => heading.trim().split(/\s+/).length <= 5)).toBe(true);
   const headingStyles = await page.locator("main section:not(.compact-hero) h1, main section:not(.compact-hero) h2, main section:not(.compact-hero) h3, main section:not(.compact-hero) h4").evaluateAll((headings) =>
     headings.map((heading) => ({
       letterSpacing: getComputedStyle(heading).letterSpacing,
@@ -261,7 +262,7 @@ test("homepage content remains visible without JavaScript", async ({ browser }) 
   await expect(page.locator(".compact-hero-chapter").first()).toBeVisible();
   await expect(page.locator(".division-stack-card")).toHaveCount(4);
   await expect(page.locator(".division-stack-card").first()).toBeVisible();
-  await expect(page.getByRole("heading", { name: /One Group Across The Project Lifecycle/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Every Phase One Group/i })).toBeVisible();
   await expect(page.locator(".qualification-band dl > div")).toHaveCount(6);
 
   for (const width of [1024, 1440, 1920]) {
@@ -332,7 +333,7 @@ test("project proof and safety details expand in place", async ({ page }, testIn
   await expect(project).toBeFocused();
 
   const safetyRecord = page.locator(".qualification-item").nth(1);
-  const safetyTrigger = safetyRecord.getByRole("button", { name: /Experienced Field Leadership/ });
+  const safetyTrigger = safetyRecord.getByRole("button", { name: /Field Leadership/ });
   if (testInfo.project.name === "desktop") await safetyRecord.hover();
   else {
     await safetyTrigger.focus();

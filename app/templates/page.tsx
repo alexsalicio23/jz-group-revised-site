@@ -36,7 +36,7 @@ export default function TemplatesPage() {
       </header>
 
       <section className="review-intro">
-        <h1>Four companies four distinct reasons to believe</h1>
+        <h1>Four Company Directions</h1>
         <p>
           These are homepage templates for visual and strategic approval. They share one JZ standard,
           but each site leads with the audience, work, and proof that matter to that company.

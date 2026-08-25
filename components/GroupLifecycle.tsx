@@ -5,31 +5,31 @@ import { useEffect, useRef, type CSSProperties } from "react";
 const stages = [
   {
     number: "01",
-    title: "Opportunity And Preconstruction",
+    title: "Preconstruction",
     companies: "JZ Development + JZ Construction",
     description: "Evaluate the opportunity, define the delivery path, and align the project before fieldwork begins.",
   },
   {
     number: "02",
-    title: "Site Preparation And Demolition",
+    title: "Demolition",
     companies: "JZ Demolition",
     description: "Prepare the site and execute selective, structural, specialty, concrete, or total demolition scopes.",
   },
   {
     number: "03",
-    title: "Hauling And Site Logistics",
+    title: "Site Logistics",
     companies: "JZ Waste Management",
     description: "Coordinate containers, hauling, fencing, cleanup labor, and material movement around production.",
   },
   {
     number: "04",
-    title: "General Contracting And Construction",
+    title: "Construction",
     companies: "JZ Construction",
     description: "Lead the project or execute subcontracted trades with visible field coordination and accountability.",
   },
   {
     number: "05",
-    title: "Completion And Long-Term Operations",
+    title: "Operations",
     companies: "JZ Development",
     description: "Carry the work through closeout, ownership, property operations, and long-term value.",
   },
@@ -59,7 +59,7 @@ export function GroupLifecycle() {
 
   return (
     <section className="group-lifecycle" ref={root} aria-labelledby="lifecycle-title">
-      <header><h2 id="lifecycle-title">One Group Across The Project Lifecycle</h2></header>
+      <header><h2 id="lifecycle-title">Every Phase One Group</h2></header>
       <ol>
         {stages.map((stage, index) => (
           <li key={stage.number} style={{ "--stage-index": index } as CSSProperties}>

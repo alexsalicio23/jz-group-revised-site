@@ -27,7 +27,7 @@ export default function WalkthroughPage() {
           </video>
         </div>
         <div className="walkthrough-copy">
-          <h1>Interior transformation motion study</h1>
+          <h1>Walkthrough Study</h1>
           <a href="/media/jz-drone-walkthrough.mp4" download>Download video</a>
         </div>
       </section>

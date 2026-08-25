@@ -178,7 +178,7 @@ export function DivisionSequence() {
       <span className="anchor-target" id="group" aria-hidden="true" />
       <div className="division-stack-pin">
         <header className="division-stack-heading">
-          <h2 id="division-stack-title">Built To Work As One</h2>
+          <h2 id="division-stack-title">Four Companies One Group</h2>
         </header>
 
         <div className="division-card-deck">

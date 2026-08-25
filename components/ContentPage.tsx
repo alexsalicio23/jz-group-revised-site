@@ -162,7 +162,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       {data.faqs?.length ? (
         <section className="metric-faq" id="questions">
           <header>
-            <h2>What reviewers usually need to know</h2>
+            <h2>Common Questions</h2>
           </header>
           <div>
             {data.faqs.map((faq, index) => (
@@ -178,7 +178,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       {data.category === "contact" ? (
         <section className="metric-content-form" aria-labelledby="content-form-title">
           <div>
-            <h2 id="content-form-title">Put the project in front of estimating</h2>
+            <h2 id="content-form-title">Contact Estimating</h2>
             <p>Include the service lane, location, facility status, bid date, and the scope information currently available.</p>
             <div className="metric-direct-contact">
               <a href="tel:+13057932984"><Phone aria-hidden="true" size={18} />(305) 793-2984</a>
@@ -192,7 +192,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       {data.related?.length ? (
         <section className="metric-related" aria-labelledby="related-title">
           <header>
-            <h2 id="related-title">Related JZ capabilities</h2>
+            <h2 id="related-title">Related Services</h2>
           </header>
           <div>
             {data.related.map((item, index) => <LinkedCard card={item} index={index} key={`${item.title}-${index}`} />)}
@@ -201,7 +201,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       ) : null}
 
       <section className="metric-page-cta">
-        <h2>Let&apos;s put the right JZ company behind it</h2>
+        <h2>Start a Project</h2>
         <Link href={contactHref}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
       </section>
 

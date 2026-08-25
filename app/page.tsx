@@ -18,7 +18,7 @@ export default function Home() {
 
       <section className="metric-projects group-projects" id="projects" aria-labelledby="projects-title">
         <header className="metric-section-header">
-          <h2 id="projects-title">Selected JZ Projects</h2>
+          <h2 id="projects-title">Selected Work</h2>
           <Link className="metric-text-link" href="/projects">
             View all projects <ArrowUpRight aria-hidden="true" size={17} />
           </Link>
@@ -41,7 +41,7 @@ export default function Home() {
           />
         </div>
         <div className="metric-safety-copy">
-          <h2 id="safety-title">Safety Built Into Every Scope</h2>
+          <h2 id="safety-title">Safety at Every Step</h2>
           <QualificationAccordion />
           <Link className="metric-text-link is-light" href="/safety">
             Review safety and qualifications <ArrowUpRight aria-hidden="true" size={17} />
@@ -50,7 +50,7 @@ export default function Home() {
       </section>
 
       <section className="group-home-cta" id="contact" aria-labelledby="contact-title">
-        <h2 id="contact-title">Put Your Project In Front Of JZ</h2>
+        <h2 id="contact-title">Start a Project</h2>
         <div className="group-home-cta-actions">
           <Link className="metric-button" href="/contact">
             Send a scope <ArrowUpRight aria-hidden="true" size={18} />

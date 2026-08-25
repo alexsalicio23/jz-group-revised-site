@@ -61,7 +61,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     shortName: "Demolition",
     legalName: "A JZ Group company",
     discipline: "Specialty / Selective / Total / Concrete",
-    headline: "Demolition built around the scope.",
+    headline: "Demolition for Every Scope",
     introduction:
       "Full-service demolition capability spanning specialty and selective interiors, total and structural removal, robotic demolition, concrete services, site preparation, and controlled material removal.",
     email: "estimating@jzdemo.com",
@@ -76,8 +76,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { label: "Specialty", value: "Active facilities" },
       { label: "Coverage", value: "Florida" },
     ],
-    servicesLead:
-      "One demolition contractor for scopes ranging from occupied interiors to total removal, site preparation, robotic work, and concrete services.",
+    servicesLead: "Full-Service Demolition",
     services: [
       { name: "Specialty and selective demolition", detail: "Precise interior removal planned around retained systems, occupied areas, and complex operating conditions.", href: "/demolition/services/interior-demolition" },
       { name: "Total and structural demolition", detail: "Full-building and structural removal with deliberate sequencing, equipment planning, and field control.", href: "/demolition/services/total-demolition" },
@@ -133,8 +132,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { label: "Service", value: "Contractor led" },
       { label: "Support", value: "Site logistics" },
     ],
-    servicesLead:
-      "One accountable service lane for the equipment, labor, and hauling that keep a commercial site clear and productive.",
+    servicesLead: "Complete Site Support",
     services: [
       { name: "Dumpster rentals", detail: "Containers coordinated to the scale, access, and timing of the project.", href: "/waste-management/services/dumpster-rentals" },
       { name: "Debris hauling", detail: "Scheduled material removal that follows the actual pace of field production.", href: "/waste-management/services/dumpster-rentals" },
@@ -145,7 +143,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     ],
     feature: {
       eyebrow: "Contractor support",
-      title: "The site stays productive when material keeps moving.",
+      title: "Site Logistics",
       description:
         "JZ Waste Management coordinates containers, hauling, fencing, and labor around the contractor's schedule rather than treating each request as an isolated delivery.",
       media: "/media/field-story/waste-truck.webp",
@@ -162,7 +160,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { number: "03", title: "Move", description: "Swap and haul around production so debris does not become a bottleneck." },
       { number: "04", title: "Leave clean", description: "Support ongoing cleanup and a deliberate final closeout." },
     ],
-    close: "Plan site service around the work.",
+    close: "Plan Site Service",
     ctaLabel: "Plan site service",
   },
   construction: {
@@ -175,7 +173,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     shortName: "Construction",
     legalName: "A JZ Group company",
     discipline: "General Contracting / Subcontracting / Preconstruction",
-    headline: "General contracting backed by field experience.",
+    headline: "General Contracting",
     introduction:
       "General contracting, subcontracting, preconstruction, and field execution for commercial, multifamily, healthcare, education, and renovation projects across Florida.",
     email: "estimating@jzconstruction.com",
@@ -189,8 +187,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { label: "Trade lane", value: "Subcontracting" },
       { label: "Coverage", value: "Florida" },
     ],
-    servicesLead:
-      "Two clear delivery lanes give owners and contractors access to general contracting leadership or focused subcontracting capability.",
+    servicesLead: "Two Ways to Build",
     services: [
       { name: "General contracting", detail: "Project leadership from preconstruction through closeout for new construction, renovations, and commercial delivery.", href: "/construction/services/general-contracting" },
       { name: "Preconstruction", detail: "Scope development, logistics, scheduling, procurement planning, and early coordination before mobilization.", href: "/construction/services/general-contracting" },
@@ -201,7 +198,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     ],
     feature: {
       eyebrow: "Field execution",
-      title: "Built by people who understand the full site.",
+      title: "Field Experience",
       description:
         "The construction team works within the same operating system as JZ's demolition and waste companies, giving overlapping scopes a clearer handoff and a single standard of accountability.",
       media: "/media/website-photos/construction-project-coordination.webp",
@@ -218,7 +215,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { number: "03", title: "Build", description: "Execute with experienced supervision and visible field coordination." },
       { number: "04", title: "Handover", description: "Close the details and turn over a clean, finished environment." },
     ],
-    close: "Put the project in front of JZ Construction.",
+    close: "Start Construction",
     ctaLabel: "Send the construction scope",
   },
   development: {
@@ -231,7 +228,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     shortName: "Development",
     legalName: "A JZ Group company",
     discipline: "Acquire / Plan / Build / Manage",
-    headline: "From opportunity to long-term value.",
+    headline: "Long-Term Development",
     introduction:
       "Development capability spanning acquisition, planning, construction oversight, property operations, and long-term ownership.",
     email: "estimating@jzdevelopment.com",
@@ -245,8 +242,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { label: "Delivery", value: "Oversight" },
       { label: "Long term", value: "Operations" },
     ],
-    servicesLead:
-      "JZ Development connects opportunity, delivery, and long-term ownership through one clear development lifecycle.",
+    servicesLead: "The Development Lifecycle",
     services: [
       { name: "Land acquisition", detail: "Identify and evaluate opportunities that align with the development strategy.", href: "/development/about" },
       { name: "Project planning", detail: "Shape the program, team, schedule, and delivery path before work begins.", href: "/development/about" },
@@ -275,7 +271,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { number: "03", title: "Build", description: "Oversee execution with owner-level visibility from start to completion." },
       { number: "04", title: "Manage", description: "Operate the finished asset with long-term performance in view." },
     ],
-    close: "Discuss the opportunity and the long term.",
+    close: "Discuss an Opportunity",
     ctaLabel: "Discuss an opportunity",
   },
 };
