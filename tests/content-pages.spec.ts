@@ -2,8 +2,10 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { publicContentRoutes } from "../app/content-data";
 
-test("every public company, service, and project page is reachable", async ({ request }) => {
-  for (const route of publicContentRoutes) {
+const groupContentRoutes = publicContentRoutes.filter((route) => !/^\/(demolition|construction|waste-management|development)\//.test(route));
+
+test("every public JZ Group content page is reachable", async ({ request }) => {
+  for (const route of groupContentRoutes) {
     const response = await request.get(route);
     expect(response.status(), `${route} should return 200`).toBe(200);
     const html = await response.text();
@@ -14,10 +16,8 @@ test("every public company, service, and project page is reachable", async ({ re
 const representativePages = [
   "/about",
   "/services",
-  "/demolition/services/interior-demolition",
-  "/waste-management/services/dumpster-rentals",
-  "/construction/projects/healthcare",
-  "/development/projects",
+  "/projects",
+  "/safety",
 ];
 
 for (const route of representativePages) {
@@ -80,22 +80,25 @@ test("about page presents the approved team roster in order", async ({ page }) =
 
   await expect(page.locator(".team-card")).toHaveCount(expectedNames.length);
   expect(await page.locator(".team-card h3").allTextContents()).toEqual(expectedNames);
-  await expect(page.locator(".team-card img")).toHaveCount(4);
-  await expect(page.locator(".team-card-initials")).toHaveCount(9);
+  await expect(page.locator(".team-card img")).toHaveCount(8);
+  await expect(page.locator(".team-card-initials")).toHaveCount(5);
 });
 
-test("division service links lead into the detailed route system", async ({ page }) => {
-  await page.goto("/demolition");
-  expect(await page.locator('a[href="/demolition/services/interior-demolition"]').count()).toBeGreaterThan(0);
+test("division overview pages hand off to dedicated company sites", async ({ page }) => {
+  const companies = [
+    ["demolition", "https://jz-demolition-miami.vercel.app"],
+    ["construction", "https://jz-construction-miami.vercel.app"],
+    ["waste-management", "https://jz-waste-management-miami.vercel.app"],
+    ["development", "https://jz-development-miami.vercel.app"],
+  ] as const;
 
-  await page.goto("/waste-management");
-  expect(await page.locator('a[href="/waste-management/services/dumpster-rentals"]').count()).toBeGreaterThan(0);
-
-  await page.goto("/construction");
-  expect(await page.locator('a[href="/construction/services/general-contracting"]').count()).toBeGreaterThan(0);
-
-  await page.goto("/development");
-  expect(await page.locator('a[href="/development/projects"]').count()).toBeGreaterThan(0);
+  for (const [division, site] of companies) {
+    await page.goto(`/${division}`);
+    await expect(page.locator(".company-overview")).toBeVisible();
+    await expect(page.locator(`a[href="${site}"]`).first()).toBeVisible();
+    await expect(page.locator(".company-overview-capabilities article")).toHaveCount(6);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
+  }
 });
 
 test("supplied field photography follows the service context", async ({ page }) => {
@@ -103,23 +106,16 @@ test("supplied field photography follows the service context", async ({ page }) 
   await expect(page.locator('.metric-content-hero-media img[src*="safety-containment.webp"]')).toBeVisible();
   await expect(page.locator('.metric-content-media img[src*="safety-air-control.webp"]')).toBeVisible();
 
-  await page.goto("/demolition/services/interior-demolition");
-  await expect(page.locator('.metric-content-media img[src*="mob-pompano-demolition.webp"]')).toBeVisible();
-
-  await page.goto("/construction/services/general-contracting");
-  await expect(page.locator('.metric-content-media img[src*="division-construction.webp"]')).toBeVisible();
-
-  await page.goto("/construction/services/subcontracting");
-  await expect(page.locator('.metric-content-media img[src*="division-construction.webp"]')).toBeVisible();
+  await page.goto("/projects");
+  await expect(page.locator('.project-tile img[src*="mob-pompano-demolition.webp"]')).toBeVisible();
 });
 
 test("mobile division and service pages preserve the centered hierarchy", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile", "Mobile layout only");
 
   await page.goto("/demolition");
-  await expect(page.locator(".metric-division-hero-copy")).toHaveCSS("text-align", "center");
-  await expect(page.locator(".metric-division-intro")).toHaveCSS("text-align", "center");
-  const serviceIndexContainment = await page.locator(".metric-service-index > a, .metric-service-index > article").evaluateAll(
+  await expect(page.locator(".company-overview-copy")).toBeVisible();
+  const serviceIndexContainment = await page.locator(".company-overview-capabilities article").evaluateAll(
     (rows) => rows.map((row) => row.scrollWidth <= row.clientWidth + 1),
   );
   expect(serviceIndexContainment.every(Boolean)).toBe(true);
@@ -128,10 +124,6 @@ test("mobile division and service pages preserve the centered hierarchy", async 
     return bounds.left + bounds.width / 2;
   });
   expect(Math.abs(cueCenter - page.viewportSize()!.width / 2)).toBeLessThan(2);
-
-  await page.goto("/demolition/services/interior-demolition");
-  await expect(page.locator(".metric-content-hero-copy")).toHaveCSS("text-align", "center");
-  await expect(page.locator(".metric-content-section > header").first()).toHaveCSS("text-align", "center");
 
   const hasHorizontalOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth,

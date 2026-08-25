@@ -130,13 +130,33 @@ const operationsTeam: TeamMember[] = [
     image: "/media/jzg/team-juan-machado.webp",
     imageAlt: "Juan Machado, Project Manager at JZ Group",
   },
-  { name: "Robert Rey", role: "Project Manager" },
-  { name: "Franja DeArmas", role: "Accountant" },
-  { name: "Henry Monterrey", role: "Estimator" },
+  {
+    name: "Robert Rey",
+    role: "Project Manager",
+    image: "/media/jzg/team-robert-rey.webp",
+    imageAlt: "Robert Rey, Project Manager at JZ Group",
+  },
+  {
+    name: "Franja DeArmas",
+    role: "Accountant",
+    image: "/media/jzg/team-franja-dearmas.webp",
+    imageAlt: "Franja DeArmas, Accountant at JZ Group",
+  },
+  {
+    name: "Henry Monterrey",
+    role: "Estimator",
+    image: "/media/jzg/team-henry-monterrey.webp",
+    imageAlt: "Henry Monterrey, Estimator at JZ Group",
+  },
 ];
 
 const fieldTeam: TeamMember[] = [
-  { name: "Yacel Frontela", role: "Superintendent" },
+  {
+    name: "Yacel Frontela",
+    role: "Superintendent",
+    image: "/media/jzg/team-yacel-frontela.webp",
+    imageAlt: "Yacel Frontela, Superintendent at JZ Group",
+  },
   {
     name: "Miguel Munoz",
     role: "Superintendent",

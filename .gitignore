@@ -22,3 +22,4 @@ artifacts/
 Thumbs.db
 *.tsbuildinfo
 .vercel
+.env*.local

@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { displayHeading } from "../app/display-text";
+import { companySiteUrls } from "../app/company-sites";
 
 const templates = [
   { slug: "demolition", heading: "Demolition for Every Scope" },
@@ -26,9 +27,9 @@ test("client review hub presents all four company directions", async ({ page }) 
 test("public division URLs avoid client-review route names", async ({ page }) => {
   for (const item of templates) {
     await page.goto(`/${item.slug}`);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(displayHeading(item.heading));
-    await expect(page.locator(".metric-service-index > a").first()).toBeVisible();
-    await expect(page.locator(".metric-subpage-footer").getByRole("link", { name: "JZ Group" })).toHaveAttribute("href", "/");
+    await expect(page.locator(".company-overview")).toBeVisible();
+    await expect(page.locator(`a[href="${companySiteUrls[item.slug as keyof typeof companySiteUrls]}"]`).first()).toBeVisible();
+    await expect(page.locator(".company-overview-capabilities article")).toHaveCount(6);
   }
 });
 

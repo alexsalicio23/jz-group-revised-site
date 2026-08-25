@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 const isPreviewDeployment = process.env.VERCEL_ENV === "preview";
+const companySite = process.env.NEXT_PUBLIC_COMPANY_SITE;
 const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""} https://vercel.live https://va.vercel-scripts.com`,
@@ -25,6 +26,19 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1440, 1600, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ["image/avif", "image/webp"],
+  },
+  async rewrites() {
+    if (!companySite) return [];
+    return {
+      beforeFiles: [
+        { source: "/", destination: `/${companySite}` },
+        { source: "/about", destination: `/${companySite}/about` },
+        { source: "/projects", destination: `/${companySite}/projects` },
+        { source: "/services/:path*", destination: `/${companySite}/services/:path*` },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
   },
   async redirects() {
     return [
@@ -61,7 +75,7 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "X-DNS-Prefetch-Control", value: "off" },
-          ...(isPreviewDeployment
+          ...(isPreviewDeployment || process.env.NEXT_PUBLIC_NO_INDEX === "1"
             ? [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }]
             : []),
         ],

@@ -6,6 +6,7 @@ import { ArrowUpRight, ChevronDown, Phone } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { divisionContacts, divisionLabels } from "@/app/content-data";
+import { companyNavigationHref, getActiveCompanySite, groupSiteUrl, localizeCompanyHref } from "@/app/company-sites";
 import type { TemplateSlug } from "@/app/templates/template-data";
 import { ExpertiseMenu } from "@/components/ExpertiseMenu";
 import { NavigationMenu, type NavigationMenuItem } from "@/components/NavigationMenu";
@@ -16,11 +17,11 @@ const groupLinks = [
   { label: "About", href: "/about" },
 ] as const;
 
-const companyLinks = [
-  { label: "JZ Demolition", href: "/demolition" },
-  { label: "JZ Construction", href: "/construction" },
-  { label: "JZ Waste Management", href: "/waste-management" },
-  { label: "JZ Development", href: "/development" },
+const companyLinks: ReadonlyArray<{ label: string; slug: TemplateSlug }> = [
+  { label: "JZ Demolition", slug: "demolition" },
+  { label: "JZ Construction", slug: "construction" },
+  { label: "JZ Waste Management", slug: "waste-management" },
+  { label: "JZ Development", slug: "development" },
 ] as const;
 
 const serviceLinks: readonly NavigationMenuItem[] = [
@@ -66,7 +67,7 @@ function MobileGroupNavigation() {
         <Link className="mobile-menu-featured" href="/services">Services <ArrowUpRight aria-hidden="true" size={17} /></Link>
         <details className="mobile-expertise-menu">
           <summary>Companies</summary>
-          <div>{companyLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}</div>
+          <div>{companyLinks.map((item) => <Link href={`/${item.slug}`} key={item.slug}>{item.label}</Link>)}</div>
         </details>
         {groupLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
         <div className="mobile-menu-contact">
@@ -107,17 +108,19 @@ function divisionLinks(division: TemplateSlug) {
 
   if (division !== "waste-management") links.push({ label: "Projects", href: `${base}/projects` });
   links.push({ label: "About", href: `${base}/about` });
-  return links;
+  return links.map((item) => ({ ...item, href: localizeCompanyHref(division, item.href) }));
 }
 
 export function DivisionHeader({ division }: { division: TemplateSlug }) {
   const links = divisionLinks(division);
   const contact = divisionContacts[division];
   const scrolled = useScrolledHeader();
+  const activeCompany = getActiveCompanySite();
+  const groupHref = activeCompany ? groupSiteUrl : "/";
 
   return (
     <header className="template-header" data-scrolled={scrolled ? "true" : "false"}>
-      <Link className="template-brand" href="/" aria-label="Return to JZ Group">
+      <Link className="template-brand" href={groupHref} aria-label="Return to JZ Group">
         <Image src="/media/brand-logo.webp" alt="JZ Group" width={88} height={56} priority />
         <span><strong>{divisionLabels[division]}</strong><small>A JZ Group Company</small></span>
       </Link>
@@ -125,18 +128,18 @@ export function DivisionHeader({ division }: { division: TemplateSlug }) {
         {links.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
         <details className="division-switcher">
           <summary>Other companies <ChevronDown aria-hidden="true" size={14} /></summary>
-          <div>{companyLinks.filter((item) => item.href !== `/${division}`).map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}</div>
+          <div>{companyLinks.filter((item) => item.slug !== division).map((item) => <Link href={companyNavigationHref(item.slug)} key={item.slug}>{item.label}</Link>)}</div>
         </details>
       </nav>
       <Link className="template-header-cta" href={`/contact?for=${division}`}>Contact <ArrowUpRight aria-hidden="true" size={15} /></Link>
       <details className="template-mobile-menu">
         <summary>Menu</summary>
         <nav aria-label={`${divisionLabels[division]} mobile navigation`}>
-          <Link href="/">JZ Group</Link>
+          <Link href={groupHref}>JZ Group</Link>
           {links.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
           <details className="mobile-expertise-menu">
             <summary>Other companies</summary>
-            <div>{companyLinks.filter((item) => item.href !== `/${division}`).map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}</div>
+            <div>{companyLinks.filter((item) => item.slug !== division).map((item) => <Link href={companyNavigationHref(item.slug)} key={item.slug}>{item.label}</Link>)}</div>
           </details>
           <Link href={`/contact?for=${division}`}>Contact</Link>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>

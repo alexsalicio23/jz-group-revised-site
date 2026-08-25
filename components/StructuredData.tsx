@@ -1,5 +1,7 @@
 import { getSiteUrl } from "@/app/site-url";
 import type { TemplateSlug } from "@/app/templates/template-data";
+import { getActiveCompanySite, groupSiteUrl } from "@/app/company-sites";
+import { templates } from "@/app/templates/template-data";
 
 type BreadcrumbItem = {
   name: string;
@@ -33,6 +35,52 @@ export function OrganizationStructuredData() {
   const base = getSiteUrl();
   const organizationId = `${base}/#organization`;
   const websiteId = `${base}/#website`;
+  const activeCompany = getActiveCompanySite();
+
+  if (activeCompany) {
+    const company = templates[activeCompany];
+    return (
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "LocalBusiness",
+              "@id": organizationId,
+              name: company.name,
+              url: base,
+              logo: `${base}/media/brand-logo.webp`,
+              email: company.email,
+              telephone: "+1-305-793-2984",
+              description: company.introduction,
+              parentOrganization: {
+                "@type": "Organization",
+                name: "JZ Group",
+                url: groupSiteUrl,
+              },
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "15219 NW 60th Ave",
+                addressLocality: "Miami Lakes",
+                addressRegion: "FL",
+                postalCode: "33014",
+                addressCountry: "US",
+              },
+              areaServed: serviceAreas,
+            },
+            {
+              "@type": "WebSite",
+              "@id": websiteId,
+              name: company.name,
+              url: base,
+              publisher: { "@id": organizationId },
+              inLanguage: "en-US",
+            },
+          ],
+        }}
+      />
+    );
+  }
 
   return (
     <JsonLd

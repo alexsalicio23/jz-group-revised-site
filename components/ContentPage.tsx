@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowDownToLine, ArrowUpRight, ChevronRight, Phone } from "lucide-react";
 import type { ContentAction, ContentCard, ContentPageData } from "@/app/content-data";
 import { divisionContacts, divisionLabels } from "@/app/content-data";
+import { localizeCompanyHref } from "@/app/company-sites";
+import type { TemplateSlug } from "@/app/templates/template-data";
 import { displayHeading } from "@/app/display-text";
 import { BidForm } from "@/components/BidForm";
 import { JZMedia } from "@/components/JZMedia";
@@ -11,14 +13,15 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { BreadcrumbStructuredData, ServiceStructuredData } from "@/components/StructuredData";
 import { TeamGrid } from "@/components/TeamGrid";
 
-function ActionLink({ action }: { action: ContentAction }) {
+function ActionLink({ action, division }: { action: ContentAction; division?: TemplateSlug }) {
   const icon = action.label.toLowerCase().includes("download")
     ? <ArrowDownToLine aria-hidden="true" size={17} />
     : <ArrowUpRight aria-hidden="true" size={17} />;
   const content = <>{action.label}{icon}</>;
 
-  if (action.external) return <a className="metric-button" href={action.href} target="_blank" rel="noreferrer">{content}</a>;
-  return <Link className="metric-button" href={action.href}>{content}</Link>;
+  const href = division ? localizeCompanyHref(division, action.href) : action.href;
+  if (action.external) return <a className="metric-button" href={href} target="_blank" rel="noreferrer">{content}</a>;
+  return <Link className="metric-button" href={href}>{content}</Link>;
 }
 
 function BreakableLabel({ text }: { text: string }) {
@@ -28,7 +31,7 @@ function BreakableLabel({ text }: { text: string }) {
   return <>{text.slice(0, atIndex + 1)}<wbr />{text.slice(atIndex + 1)}</>;
 }
 
-function LinkedCard({ card, index }: { card: ContentCard; index: number }) {
+function LinkedCard({ card, index, division }: { card: ContentCard; index: number; division?: TemplateSlug }) {
   const body = (
     <>
       <span>{String(index + 1).padStart(2, "0")}</span>
@@ -42,18 +45,19 @@ function LinkedCard({ card, index }: { card: ContentCard; index: number }) {
   );
 
   if (!card.href) return <article className="metric-content-card">{body}</article>;
-  if (card.href.startsWith("mailto:")) return <a className="metric-content-card is-linked" href={card.href}>{body}</a>;
-  return <Link className="metric-content-card is-linked" href={card.href}>{body}</Link>;
+  const href = division ? localizeCompanyHref(division, card.href) : card.href;
+  if (href.startsWith("mailto:")) return <a className="metric-content-card is-linked" href={href}>{body}</a>;
+  return <Link className="metric-content-card is-linked" href={href}>{body}</Link>;
 }
 
 export function ContentPage({ data }: { data: ContentPageData }) {
   const contact = data.division ? divisionContacts[data.division] : null;
   const contactHref = data.division ? `/contact?for=${data.division}` : "/contact";
   const breadcrumb = data.division ? divisionLabels[data.division] : "JZ Group";
-  const currentPath = data.division ? `/${data.division}/${data.path}` : `/${data.path}`;
+  const currentPath = data.division ? localizeCompanyHref(data.division, `/${data.division}/${data.path}`) : `/${data.path}`;
   const breadcrumbItems = [
     { name: "JZ Group", path: "/" },
-    ...(data.division ? [{ name: breadcrumb, path: `/${data.division}` }] : []),
+    ...(data.division ? [{ name: breadcrumb, path: localizeCompanyHref(data.division, `/${data.division}`) }] : []),
     { name: data.title, path: currentPath },
   ];
   const serviceName = data.eyebrow.split(" / ").at(-1) ?? data.title;
@@ -81,7 +85,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
         <div className="metric-content-hero-shade" />
         <div className="metric-content-hero-copy">
           <nav className="metric-breadcrumb" aria-label="Breadcrumb">
-            <Link href={data.division ? `/${data.division}` : "/"}>{breadcrumb}</Link>
+            <Link href={data.division ? localizeCompanyHref(data.division, `/${data.division}`) : "/"}>{breadcrumb}</Link>
             <ChevronRight aria-hidden="true" size={13} />
             <span>{data.category}</span>
           </nav>
@@ -89,7 +93,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
           <div className="metric-content-hero-bottom">
             <p>{data.introduction}</p>
             <div>
-              {data.actions?.map((action) => <ActionLink action={action} key={action.href} />)}
+              {data.actions?.map((action) => <ActionLink action={action} division={data.division} key={action.href} />)}
               <Link className="metric-hero-link" href={contactHref}>Discuss a project <ArrowUpRight aria-hidden="true" size={17} /></Link>
             </div>
           </div>
@@ -138,7 +142,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
 
             {section.cards?.length && section.layout !== "project-grid" ? (
               <div className="metric-content-card-grid">
-                {section.cards.map((card, index) => <LinkedCard card={card} index={index} key={`${card.title}-${index}`} />)}
+                {section.cards.map((card, index) => <LinkedCard card={card} division={data.division} index={index} key={`${card.title}-${index}`} />)}
               </div>
             ) : null}
 
@@ -196,7 +200,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
             <h2 id="related-title">Related Services</h2>
           </header>
           <div>
-            {data.related.map((item, index) => <LinkedCard card={item} index={index} key={`${item.title}-${index}`} />)}
+            {data.related.map((item, index) => <LinkedCard card={item} division={data.division} index={index} key={`${item.title}-${index}`} />)}
           </div>
         </section>
       ) : null}
@@ -206,7 +210,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
         <Link href={contactHref}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
       </section>
 
-      <SiteFooter companyName={breadcrumb} contactHref={contactHref} email={contact?.email} subpage />
+      <SiteFooter companyName={breadcrumb} contactHref={contactHref} division={data.division} email={contact?.email} subpage />
     </main>
   );
 }

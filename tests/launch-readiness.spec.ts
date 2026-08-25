@@ -33,9 +33,9 @@ test("sitemap, structured data, caching, and security headers are launch ready",
   expect(sitemapResponse.status()).toBe(200);
   const sitemap = await sitemapResponse.text();
   for (const division of divisions) expect(sitemap).toContain(`${SITE}/${division}`);
-  expect(sitemap).toContain(`${SITE}/demolition/services/interior-demolition`);
+  expect(sitemap).not.toContain(`${SITE}/demolition/services/interior-demolition`);
 
-  await page.goto("/demolition/services/interior-demolition");
+  await page.goto("/demolition");
   const schemas = await page.locator('script[type="application/ld+json"]').evaluateAll((elements) =>
     elements.map((element) => JSON.parse(element.textContent || "{}")),
   );

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { divisionContacts } from "@/app/content-data";
+import { localizeCompanyHref } from "@/app/company-sites";
 import { displayHeading } from "@/app/display-text";
 import type { DivisionTemplateData } from "@/app/templates/template-data";
 import { ResponsiveVideo } from "@/components/ResponsiveVideo";
@@ -50,22 +51,23 @@ function FeatureMedia({ data }: { data: DivisionTemplateData }) {
 
 export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
   const contact = divisionContacts[data.slug];
+  const homePath = localizeCompanyHref(data.slug, `/${data.slug}`);
 
   return (
     <main className={`metric-division metric-division-${data.slug}`}>
       <BreadcrumbStructuredData items={[
         { name: "JZ Group", path: "/" },
-        { name: data.name, path: `/${data.slug}` },
+        { name: data.name, path: homePath },
       ]} />
       <ServiceStructuredData
         name={`${data.name} services`}
         description={data.introduction}
-        path={`/${data.slug}`}
+        path={homePath}
         division={data.slug}
         catalog={data.services.map((service) => ({
           name: service.name,
           description: service.detail,
-          path: service.href,
+          path: service.href ? localizeCompanyHref(data.slug, service.href) : undefined,
         }))}
       />
       <DivisionHeader division={data.slug} />
@@ -108,7 +110,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
             </>
           );
           return service.href
-            ? <Link href={service.href} key={service.name}>{content}</Link>
+            ? <Link href={localizeCompanyHref(data.slug, service.href)} key={service.name}>{content}</Link>
             : <article key={service.name}>{content}</article>;
         })}
       </section>
@@ -149,7 +151,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
         </div>
       </section>
 
-      <SiteFooter companyName={data.name} contactHref={`/contact?for=${data.slug}`} email={contact.email} subpage />
+      <SiteFooter companyName={data.name} contactHref={`/contact?for=${data.slug}`} division={data.slug} email={contact.email} subpage />
     </main>
   );
 }

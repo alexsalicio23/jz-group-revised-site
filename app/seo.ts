@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import type { TemplateSlug } from "@/app/templates/template-data";
+import { getActiveCompanySite } from "@/app/company-sites";
+import { templates } from "@/app/templates/template-data";
 
 type PageMetadataInput = {
   title: string;
@@ -45,6 +47,8 @@ export function buildPageMetadata({
   image = defaultSocialImage.src,
   imageAlt = defaultSocialImage.alt,
 }: PageMetadataInput): Metadata {
+  const activeCompany = getActiveCompanySite();
+  const siteName = activeCompany ? templates[activeCompany].name : "JZ Group";
   if (process.env.NODE_ENV !== "production") {
     // Titles over ~60 chars and descriptions over ~160 get truncated in results.
     if (title.length > 60) console.warn(`[seo] title ${title.length} chars (max 60): ${path}`);
@@ -59,7 +63,7 @@ export function buildPageMetadata({
     openGraph: {
       type: "website",
       locale: "en_US",
-      siteName: "JZ Group",
+      siteName,
       url: path,
       title,
       description,
