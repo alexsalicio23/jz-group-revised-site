@@ -6,6 +6,7 @@ import { displayHeading } from "@/app/display-text";
 import type { DivisionTemplateData } from "@/app/templates/template-data";
 import { ResponsiveVideo } from "@/components/ResponsiveVideo";
 import { DivisionHeader } from "@/components/SiteNavigation";
+import { SiteFooter } from "@/components/SiteFooter";
 import { BreadcrumbStructuredData, ServiceStructuredData } from "@/components/StructuredData";
 
 function HeroMedia({ data }: { data: DivisionTemplateData }) {
@@ -148,11 +149,7 @@ export function DivisionTemplate({ data }: { data: DivisionTemplateData }) {
         </div>
       </section>
 
-      <footer className="metric-subpage-footer">
-        <div><strong>{data.name}</strong><span>{contact.officeLabel}: {contact.address}</span></div>
-        <div><span>South Florida</span><a href="tel:+13057932984">{contact.phone}</a></div>
-        <div><Link href="/">JZ Group</Link><Link href={`/contact?for=${data.slug}`}>Contact</Link></div>
-      </footer>
+      <SiteFooter companyName={data.name} contactHref={`/contact?for=${data.slug}`} email={contact.email} subpage />
     </main>
   );
 }

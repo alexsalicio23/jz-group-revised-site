@@ -25,6 +25,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.getByRole("heading", { name: "EVERY PHASE ONE GROUP" })).toBeAttached();
   await expect(page.locator(".qualification-band dl > div")).toHaveCount(6);
   await expect(page.locator(".division-stack-card")).toHaveCount(4);
+  await expect(page.locator(".group-quick-access > a")).toHaveCount(4);
   await expect(page.locator(".metric-contact .bid-form")).toHaveCount(0);
   await expect(page.locator('img[src*="client-"]')).toHaveCount(0);
   await expect(page.locator("video")).toHaveCount(1);
@@ -167,11 +168,37 @@ test("expertise navigation exposes every JZ company", async ({ page }, testInfo)
   const trigger = page.getByRole("button", { name: /Companies/ });
   await trigger.hover();
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
-  const expertiseMenu = page.locator(".expertise-menu-panel");
+  const expertiseMenu = page.locator(".expertise-menu .navigation-menu-panel");
   await expect(expertiseMenu.getByRole("link")).toHaveCount(4);
   await expect(expertiseMenu.getByRole("link", { name: /JZ Waste Management/ })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
+});
+
+test("navigation keeps services, projects, qualifications, and contact within one decision", async ({ page }, testInfo) => {
+  await page.goto("/");
+
+  if (testInfo.project.name === "mobile") {
+    await page.locator(".mobile-menu > summary").click();
+    await expect(page.locator(".mobile-menu nav").getByRole("link", { name: "Services" })).toBeVisible();
+    await expect(page.locator(".mobile-menu nav").getByRole("link", { name: "Projects" })).toBeVisible();
+    await expect(page.locator(".mobile-menu nav").getByRole("link", { name: "Qualifications" })).toBeVisible();
+    await expect(page.locator(".mobile-menu nav").getByRole("link", { name: /Send a scope/ })).toBeVisible();
+    return;
+  }
+
+  const servicesTrigger = page.getByRole("button", { name: /Services/ });
+  await servicesTrigger.hover();
+  await expect(servicesTrigger).toHaveAttribute("aria-expanded", "true");
+  const servicesMenu = page.locator(".services-menu .navigation-menu-panel");
+  await expect(servicesMenu.getByRole("link")).toHaveCount(6);
+  await expect(servicesMenu.getByRole("link", { name: /General Contracting/ })).toBeVisible();
+  await expect(servicesMenu.getByRole("link", { name: /All Services/ })).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await page.evaluate(() => window.scrollTo(0, 900));
+  await expect(page.locator(".site-header")).toHaveAttribute("data-scrolled", "true");
+  await expect(page.locator(".site-header")).toHaveCSS("position", "fixed");
 });
 
 test("hero tells four phases without an oversized scroll gap", async ({ page }, testInfo) => {

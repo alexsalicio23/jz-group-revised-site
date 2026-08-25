@@ -13,6 +13,7 @@ test("every public company, service, and project page is reachable", async ({ re
 
 const representativePages = [
   "/about",
+  "/services",
   "/demolition/services/interior-demolition",
   "/waste-management/services/dumpster-rentals",
   "/construction/projects/healthcare",

@@ -7,7 +7,9 @@ import { GroupLifecycle } from "@/components/GroupLifecycle";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { QualificationAccordion } from "@/components/QualificationAccordion";
 import { QualificationBand } from "@/components/QualificationBand";
+import { QuickAccess } from "@/components/QuickAccess";
 import { GroupHeader } from "@/components/SiteNavigation";
+import { SiteFooter } from "@/components/SiteFooter";
 import { contact } from "./data";
 
 export default function Home() {
@@ -15,6 +17,7 @@ export default function Home() {
     <main className="metric-home group-positioning-home">
       <GroupHeader />
       <CinematicHero />
+      <QuickAccess />
 
       <section className="metric-projects group-projects" id="projects" aria-labelledby="projects-title">
         <header className="metric-section-header">
@@ -65,23 +68,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="metric-footer">
-        <div className="metric-footer-brand">
-          <Image src="/media/brand-logo.webp" alt="JZ Group" width={220} height={110} />
-          <p>Four coordinated companies serving projects across Florida.</p>
-        </div>
-        <nav aria-label="Footer navigation">
-          <Link href="/demolition">Demolition</Link>
-          <Link href="/construction">Construction</Link>
-          <Link href="/waste-management">Waste Management</Link>
-          <Link href="/development">Development</Link>
-        </nav>
-        <div className="metric-footer-meta">
-          <span>{contact.officeLabel}: {contact.address}</span>
-          <span>Statewide Florida</span>
-          <a href="#top">Back to top</a>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

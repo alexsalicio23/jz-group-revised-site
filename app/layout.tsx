@@ -11,6 +11,7 @@ import "./hero-d77.css";
 import "./process-d77.css";
 import "./mobile-optimization.css";
 import "./group-positioning.css";
+import "./navigation-improvements.css";
 
 const neue = localFont({
   src: [

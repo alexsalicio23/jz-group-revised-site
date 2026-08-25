@@ -402,6 +402,81 @@ export const groupPages: Record<string, ContentPageData> = {
     ],
     sourceUrl: "https://www.jzdemolition.com/portfolio",
   },
+  services: {
+    key: "services",
+    seoTitle: "Construction, Demolition and Site Services | JZ Group",
+    seoDescription:
+      "Compare JZ Group general contracting, demolition, interior trade, waste management, site logistics and development capabilities across Florida.",
+    path: "services",
+    category: "service",
+    eyebrow: "JZ Group / Services",
+    title: "Group Services",
+    introduction:
+      "Start with the work you need. JZ Group routes general contracting, demolition, interior trades, site logistics, and development opportunities to the right company.",
+    mediaLabel: "JZ GROUP FIELD OPERATIONS",
+    heroMedia: {
+      src: "/media/website-photos/jz-group-field-operations.webp",
+      alt: "JZ Group field operations on a commercial project",
+      position: "center 48%",
+    },
+    actions: [{ label: "Send a scope", href: "/contact" }],
+    sections: [
+      {
+        id: "construction",
+        title: "General Contracting",
+        paragraphs: [
+          "JZ Construction leads new construction, renovation, preconstruction, project management, and closeout while also supporting projects through in-house interior trade capability.",
+        ],
+        cards: [
+          { title: "General contracting", description: "Project leadership from preconstruction through closeout.", href: "/construction/services/general-contracting" },
+          { title: "Interior trades", description: "Framing, drywall, ceilings, Division 10, and supporting scopes.", href: "/construction/services/subcontracting" },
+          { title: "Construction projects", description: "Review healthcare, commercial, and developing project records.", href: "/construction/projects" },
+        ],
+      },
+      {
+        id: "demolition",
+        title: "Demolition",
+        paragraphs: [
+          "JZ Demolition handles specialty and selective interiors, total and structural removal, site preparation, robotic demolition, and concrete work.",
+        ],
+        cards: [
+          { title: "Interior demolition", description: "Controlled removal in occupied and sensitive environments.", href: "/demolition/services/interior-demolition" },
+          { title: "Total demolition", description: "Complete and structural removal with deliberate sequencing.", href: "/demolition/services/total-demolition" },
+          { title: "Concrete services", description: "Scanning, cutting, breaking, and coordinated removal.", href: "/demolition/services/concrete-work" },
+        ],
+      },
+      {
+        id: "logistics",
+        title: "Site Logistics",
+        paragraphs: [
+          "JZ Waste Management provides dumpsters, hauling, temporary fencing, cleanup labor, recycling coordination, and contractor-led site support.",
+        ],
+        cards: [
+          { title: "Dumpsters and hauling", description: "Container service and material movement paced to production.", href: "/waste-management/services/dumpster-rentals" },
+          { title: "Temporary fencing", description: "Perimeter support for active construction environments.", href: "/waste-management/services/temporary-fencing" },
+          { title: "Cleanup labor", description: "Ongoing and final cleanup support for contractor-led work.", href: "/waste-management/services/general-labor" },
+        ],
+      },
+      {
+        id: "development",
+        title: "Development",
+        paragraphs: [
+          "JZ Development carries opportunities through acquisition, planning, construction oversight, property operations, and long-term ownership.",
+        ],
+        cards: [
+          { title: "Development platform", description: "Review the full lifecycle and current company positioning.", href: "/development" },
+          { title: "Development portfolio", description: "Explore publicly available South Florida project records.", href: "/development/projects" },
+          { title: "Discuss an opportunity", description: "Route a partnership or development conversation directly to JZ.", href: "/contact?for=development" },
+        ],
+      },
+    ],
+    related: [
+      { title: "Selected work", subtitle: "Review projects across the group", href: "/projects" },
+      { title: "Qualifications", subtitle: "Review the standards behind delivery", href: "/safety" },
+      { title: "Contact JZ", subtitle: "Send one scope for routing", href: "/contact" },
+    ],
+    sourceUrl: "https://www.jzgroupmiami.com/",
+  },
   contact: {
     key: "contact",
     seoTitle: "Request an Estimate | JZ Group Miami",

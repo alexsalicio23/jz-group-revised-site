@@ -7,6 +7,7 @@ import { BidForm } from "@/components/BidForm";
 import { JZMedia } from "@/components/JZMedia";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { DivisionHeader, GroupHeader } from "@/components/SiteNavigation";
+import { SiteFooter } from "@/components/SiteFooter";
 import { BreadcrumbStructuredData, ServiceStructuredData } from "@/components/StructuredData";
 import { TeamGrid } from "@/components/TeamGrid";
 
@@ -205,14 +206,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
         <Link href={contactHref}>Send project details <ArrowUpRight aria-hidden="true" size={22} /></Link>
       </section>
 
-      <footer className="metric-subpage-footer">
-        <div>
-          <strong>{breadcrumb}</strong>
-          <span>{contact ? `${contact.officeLabel}: ${contact.address}` : "JZ Group office: 15219 NW 60th Ave, Miami Lakes, Florida 33014"}</span>
-        </div>
-        <div><span>South Florida</span><a href="tel:+13057932984">(305) 793-2984</a></div>
-        <div><Link href="/">JZ Group</Link><Link href={contactHref}>Contact</Link></div>
-      </footer>
+      <SiteFooter companyName={breadcrumb} contactHref={contactHref} email={contact?.email} subpage />
     </main>
   );
 }
