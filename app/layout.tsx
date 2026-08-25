@@ -15,6 +15,7 @@ import "./mobile-optimization.css";
 import "./group-positioning.css";
 import "./navigation-improvements.css";
 import "./company-sites.css";
+import "./portrait-mobile.css";
 
 const neue = localFont({
   src: [
