@@ -182,7 +182,7 @@ test("navigation keeps services, projects, qualifications, and contact within on
     await page.locator(".mobile-menu > summary").click();
     await expect(page.locator(".mobile-menu nav").getByRole("link", { name: "Services" })).toBeVisible();
     await expect(page.locator(".mobile-menu nav").getByRole("link", { name: "Projects" })).toBeVisible();
-    await expect(page.locator(".mobile-menu nav").getByRole("link", { name: "Qualifications" })).toBeVisible();
+    await expect(page.locator(".mobile-menu nav").getByRole("link", { name: "Prequalification" })).toBeVisible();
     await expect(page.locator(".mobile-menu nav").getByRole("link", { name: /Send a scope/ })).toBeVisible();
     return;
   }

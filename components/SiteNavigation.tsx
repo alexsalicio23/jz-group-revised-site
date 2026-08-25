@@ -13,7 +13,7 @@ import { NavigationMenu, type NavigationMenuItem } from "@/components/Navigation
 
 const groupLinks = [
   { label: "Projects", href: "/projects" },
-  { label: "Qualifications", href: "/safety" },
+  { label: "Prequalification", href: "/safety" },
   { label: "About", href: "/about" },
 ] as const;
 

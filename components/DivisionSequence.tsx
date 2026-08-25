@@ -176,7 +176,7 @@ export function DivisionSequence() {
         element.dataset.enhanced = "mobile";
 
         const getCardWidth = () => Math.min(360, window.innerWidth - 40);
-        const getCardHeight = () => Math.min(440, Math.max(390, window.innerHeight * 0.58));
+        const getCardHeight = () => Math.min(440, Math.max(420, window.innerHeight * 0.58));
 
         gsap.set(stage, { perspective: 1200, transformStyle: "preserve-3d" });
         gsap.set(heading, { y: 24, opacity: 0.58 });

@@ -233,13 +233,32 @@
 
   .division-stack[data-enhanced="mobile"] .division-stack-card {
     position: absolute;
-    top: 64%;
+    top: 66%;
     left: 50%;
     min-width: 0;
     min-height: 0;
-    grid-template-rows: 55% 45%;
+    grid-template-rows: 44% 56%;
     scroll-snap-align: none;
     will-change: transform, opacity, width, height;
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-card-copy {
+    gap: 0.65rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-card-copy h3 {
+    font-size: clamp(1.55rem, 7vw, 1.75rem);
+    line-height: 0.94;
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-stack-card:nth-child(3) .division-card-copy h3 {
+    font-size: clamp(1.45rem, 6.5vw, 1.62rem);
+  }
+
+  .division-stack[data-enhanced="mobile"] .division-card-copy p {
+    font-size: clamp(0.92rem, 3.9vw, 1rem);
+    line-height: 1.4;
   }
 
   .division-stack[data-enhanced="mobile"] .division-stack-progress {
