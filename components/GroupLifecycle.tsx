@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
+import { PhotoPlaceholder } from "@/components/PhotoPlaceholder";
 
 const stages = [
   {
@@ -60,6 +61,11 @@ export function GroupLifecycle() {
   return (
     <section className="group-lifecycle" ref={root} aria-labelledby="lifecycle-title">
       <header><h2 id="lifecycle-title">Every Phase One Group</h2></header>
+      <PhotoPlaceholder
+        className="group-lifecycle-photo"
+        label="Project Phase Photography"
+        note="Wide landscape image that changes with the active stage"
+      />
       <ol>
         {stages.map((stage, index) => (
           <li key={stage.number} style={{ "--stage-index": index } as CSSProperties}>

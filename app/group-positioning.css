@@ -4,6 +4,86 @@
   --group-gutter: clamp(1.25rem, 4vw, 4.75rem);
 }
 
+/* Photo positions awaiting approved JZ photography */
+
+.jz-photo-placeholder {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  place-items: center;
+  padding: clamp(1.5rem, 3vw, 3rem);
+  color: #fff;
+  background:
+    linear-gradient(135deg, transparent 49.8%, rgb(255 255 255 / 0.12) 50%, transparent 50.2%),
+    #25282a;
+  border: 1px solid rgb(255 255 255 / 0.2);
+  text-align: center;
+}
+
+.jz-photo-placeholder::before,
+.jz-photo-placeholder::after {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border-color: rgb(255 255 255 / 0.5);
+  content: "";
+}
+
+.jz-photo-placeholder::before {
+  top: 1rem;
+  left: 1rem;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.jz-photo-placeholder::after {
+  right: 1rem;
+  bottom: 1rem;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.jz-photo-placeholder > div {
+  position: relative;
+  display: grid;
+  max-width: 620px;
+  gap: 0.65rem;
+  z-index: 1;
+}
+
+.jz-photo-placeholder strong {
+  font-family: var(--font-frama), sans-serif;
+  font-size: clamp(1.65rem, 3vw, 3.8rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.jz-photo-placeholder span:not(.jz-photo-placeholder-mark) {
+  color: rgb(255 255 255 / 0.7);
+  font-size: clamp(0.8rem, 0.9vw, 0.95rem);
+  line-height: 1.45;
+}
+
+.jz-photo-placeholder-mark {
+  position: absolute;
+  color: rgb(255 255 255 / 0.055);
+  font-family: var(--font-frama), sans-serif;
+  font-size: clamp(8rem, 21vw, 24rem);
+  line-height: 0.7;
+}
+
+.group-proof-photo {
+  padding: 0 var(--group-gutter) clamp(5rem, 8vw, 8rem);
+  background: #fff;
+}
+
+.group-proof-photo > .jz-photo-placeholder {
+  width: min(1540px, 100%);
+  min-height: clamp(300px, 38vw, 560px);
+  margin-inline: auto;
+}
+
 .group-projects {
   padding: clamp(5rem, 8vw, 8rem) var(--group-gutter);
   background: #f1f2f2;
@@ -91,6 +171,7 @@
 }
 
 .group-lifecycle > header,
+.group-lifecycle > .group-lifecycle-photo,
 .group-lifecycle > ol {
   width: min(1540px, 100%);
   margin-inline: auto;
@@ -99,6 +180,11 @@
 .group-lifecycle > header {
   margin-bottom: clamp(3rem, 6vw, 6rem);
   text-align: center;
+}
+
+.group-lifecycle > .group-lifecycle-photo {
+  min-height: clamp(280px, 30vw, 460px);
+  margin-bottom: clamp(2.5rem, 4vw, 4rem);
 }
 
 .group-lifecycle > ol {
@@ -277,13 +363,25 @@
 .group-home-cta {
   display: grid;
   min-height: 560px;
-  place-content: center;
-  justify-items: center;
-  gap: 2.25rem;
+  grid-template-columns: minmax(0, 1.1fr) minmax(380px, 0.9fr);
+  align-items: stretch;
+  gap: clamp(2rem, 4vw, 5rem);
   padding: clamp(5rem, 8vw, 8rem) var(--group-gutter);
   color: #111314;
   background: #e4e6e6;
   text-align: center;
+}
+
+.group-home-cta-media {
+  min-height: 440px;
+}
+
+.group-home-cta-copy {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  justify-items: center;
+  gap: 2.25rem;
 }
 
 .group-home-cta h2 {
@@ -358,10 +456,20 @@
 
 @media (max-width: 760px) {
   .group-projects,
+  .group-proof-photo,
   .group-lifecycle,
   .qualification-band,
   .group-home-cta {
     padding: 4rem 1.15rem;
+  }
+
+  .group-proof-photo {
+    padding-top: 0;
+  }
+
+  .group-proof-photo > .jz-photo-placeholder,
+  .group-lifecycle > .group-lifecycle-photo {
+    min-height: 300px;
   }
 
   .group-projects .metric-section-header h2,
@@ -451,7 +559,12 @@
   }
 
   .group-home-cta {
+    grid-template-columns: 1fr;
     min-height: 480px;
+  }
+
+  .group-home-cta-media {
+    min-height: 320px;
   }
 
   .group-home-cta-actions,
