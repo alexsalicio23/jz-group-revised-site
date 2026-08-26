@@ -70,9 +70,10 @@ export function CinematicHero() {
   useLayoutEffect(() => {
     const walkthrough = video.current;
     if (!walkthrough || walkthrough.src) return;
-    walkthrough.src = window.matchMedia("(max-width: 900px)").matches
-      ? HERO_VIDEO.mobile
-      : HERO_VIDEO.desktop;
+    const mobile = window.matchMedia("(max-width: 900px)").matches;
+    walkthrough.preload = mobile ? "metadata" : "auto";
+    walkthrough.src = mobile ? HERO_VIDEO.mobile : HERO_VIDEO.desktop;
+    walkthrough.load();
   }, []);
 
   const setActiveChapter = (index: number) => {

@@ -29,7 +29,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.locator(".metric-contact .bid-form")).toHaveCount(0);
   await expect(page.locator('img[src*="client-"]')).toHaveCount(0);
   await expect(page.locator("video")).toHaveCount(1);
-  await expect(page.locator(".compact-hero-media")).toHaveAttribute("preload", "metadata");
+  await expect(page.locator(".compact-hero-media")).toHaveAttribute("preload", narrow ? "metadata" : "auto");
   await expect(page.locator('.metric-safety img[src*="construction-plan-review.webp"]')).toHaveCount(1);
 
   await expect(page.getByText(/ASSETS? PENDING/i)).toHaveCount(0);
@@ -407,11 +407,17 @@ test("company sequence keeps links discoverable and opens into four columns", as
   const positions = await cards.evaluateAll((elements) =>
     elements.map((element) => {
       const bounds = element.getBoundingClientRect();
-      return { left: Math.round(bounds.left), opacity: Number(getComputedStyle(element).opacity) };
+      const copy = element.querySelector<HTMLElement>(".division-card-copy");
+      return {
+        left: Math.round(bounds.left),
+        opacity: Number(getComputedStyle(element).opacity),
+        copyOverflow: copy ? copy.scrollHeight - copy.clientHeight : 0,
+      };
     }),
   );
 
   expect(positions.every((position) => position.opacity > 0.95)).toBe(true);
+  expect(positions.every((position) => position.copyOverflow <= 1)).toBe(true);
   expect(new Set(positions.map((position) => position.left)).size).toBe(4);
 });
 
