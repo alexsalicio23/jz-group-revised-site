@@ -25,12 +25,12 @@ const companyLinks: ReadonlyArray<{ label: string; slug: TemplateSlug }> = [
 ] as const;
 
 const serviceLinks: readonly NavigationMenuItem[] = [
-  { index: "01", label: "General Contracting", href: "/construction/services/general-contracting", description: "Preconstruction, project leadership and closeout" },
-  { index: "02", label: "Demolition", href: "/demolition", description: "Specialty, selective, total and concrete scopes" },
-  { index: "03", label: "Interior Trades", href: "/construction/services/subcontracting", description: "Framing, drywall, ceilings and supporting scopes" },
-  { index: "04", label: "Site Logistics", href: "/waste-management", description: "Dumpsters, hauling, cleanup and temporary fencing" },
-  { index: "05", label: "Development", href: "/development", description: "Acquisition, planning, oversight and operations" },
-  { index: "06", label: "All Services", href: "/services", description: "Compare every JZ service lane in one place" },
+  { index: "01", label: "General Contracting", href: "/construction/services/general-contracting" },
+  { index: "02", label: "Demolition", href: "/demolition" },
+  { index: "03", label: "Interior Trades", href: "/construction/services/subcontracting" },
+  { index: "04", label: "Site Logistics", href: "/waste-management" },
+  { index: "05", label: "Development", href: "/development" },
+  { index: "06", label: "All Services", href: "/services" },
 ] as const;
 
 function useScrolledHeader() {

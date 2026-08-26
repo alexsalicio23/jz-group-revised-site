@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 export type NavigationMenuItem = {
   label: string;
   href: string;
-  description: string;
   index: string;
 };
 
@@ -21,8 +20,19 @@ type NavigationMenuProps = {
 export function NavigationMenu({ label, items, className = "" }: NavigationMenuProps) {
   const pathname = usePathname();
   const root = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [open, setOpen] = useState(false);
   const current = items.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`));
+
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = null;
+  };
+
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setOpen(false), 240);
+  };
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -35,6 +45,7 @@ export function NavigationMenu({ label, items, className = "" }: NavigationMenuP
     document.addEventListener("pointerdown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown);
     return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -46,10 +57,13 @@ export function NavigationMenu({ label, items, className = "" }: NavigationMenuP
       data-current={current ? "true" : "false"}
       data-open={open ? "true" : "false"}
       onPointerEnter={(event) => {
-        if (event.pointerType === "mouse") setOpen(true);
+        if (event.pointerType === "mouse") {
+          cancelClose();
+          setOpen(true);
+        }
       }}
       onPointerLeave={(event) => {
-        if (event.pointerType === "mouse") setOpen(false);
+        if (event.pointerType === "mouse") scheduleClose();
       }}
       onFocusCapture={() => setOpen(true)}
       onBlurCapture={(event) => {
@@ -67,10 +81,6 @@ export function NavigationMenu({ label, items, className = "" }: NavigationMenuP
         {label} <ChevronDown aria-hidden="true" size={14} />
       </button>
       <div className="navigation-menu-panel" aria-hidden={!open} inert={!open ? true : undefined}>
-        <div className="navigation-menu-heading">
-          <span>Explore</span>
-          <strong>{label}</strong>
-        </div>
         <div className="navigation-menu-grid">
           {items.map((item) => (
             <Link
@@ -80,10 +90,7 @@ export function NavigationMenu({ label, items, className = "" }: NavigationMenuP
               onClick={() => setOpen(false)}
             >
               <span>{item.index}</span>
-              <div>
-                <strong>{item.label}</strong>
-                <small>{item.description}</small>
-              </div>
+              <strong>{item.label}</strong>
             </Link>
           ))}
         </div>

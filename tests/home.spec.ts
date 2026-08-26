@@ -173,6 +173,10 @@ test("expertise navigation exposes every JZ company", async ({ page }, testInfo)
   const expertiseMenu = page.locator(".expertise-menu .navigation-menu-panel");
   await expect(expertiseMenu.getByRole("link")).toHaveCount(4);
   await expect(expertiseMenu.getByRole("link", { name: /JZ Waste Management/ })).toBeVisible();
+  await expertiseMenu.getByRole("link", { name: /JZ Waste Management/ }).hover();
+  await page.waitForTimeout(300);
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(expertiseMenu.locator("small")).toHaveCount(0);
   await page.keyboard.press("Escape");
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
 });
@@ -196,6 +200,10 @@ test("navigation keeps services, projects, qualifications, and contact within on
   await expect(servicesMenu.getByRole("link")).toHaveCount(6);
   await expect(servicesMenu.getByRole("link", { name: /General Contracting/ })).toBeVisible();
   await expect(servicesMenu.getByRole("link", { name: /All Services/ })).toBeVisible();
+  await servicesMenu.getByRole("link", { name: /All Services/ }).hover();
+  await page.waitForTimeout(300);
+  await expect(servicesTrigger).toHaveAttribute("aria-expanded", "true");
+  await expect(servicesMenu.locator("small")).toHaveCount(0);
 
   await page.keyboard.press("Escape");
   await page.evaluate(() => window.scrollTo(0, 900));
