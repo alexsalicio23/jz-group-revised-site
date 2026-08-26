@@ -23,7 +23,9 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   await expect(page.locator("#projects-title")).toHaveText("Selected Work");
   await expect(page.getByRole("heading", { name: "SAFETY AT EVERY STEP" })).toBeAttached();
   await expect(page.getByRole("heading", { name: "EVERY PHASE ONE GROUP" })).toBeAttached();
-  await expect(page.locator(".qualification-band dl > div")).toHaveCount(6);
+  await expect(page.locator(".qualification-band dl > div")).toHaveCount(4);
+  await expect(page.getByText(/JZ TO CONFIRM/i)).toHaveCount(0);
+  await expect(page.locator(".group-lifecycle button")).toHaveCount(5);
   await expect(page.locator(".division-stack-card")).toHaveCount(4);
   await expect(page.locator(".group-quick-access > a")).toHaveCount(4);
   await expect(page.locator(".metric-contact .bid-form")).toHaveCount(0);
@@ -290,7 +292,7 @@ test("homepage content remains visible without JavaScript", async ({ browser }) 
   await expect(page.locator(".division-stack-card")).toHaveCount(4);
   await expect(page.locator(".division-stack-card").first()).toBeVisible();
   await expect(page.getByRole("heading", { name: /Every Phase One Group/i })).toBeVisible();
-  await expect(page.locator(".qualification-band dl > div")).toHaveCount(6);
+  await expect(page.locator(".qualification-band dl > div")).toHaveCount(4);
 
   for (const width of [1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });

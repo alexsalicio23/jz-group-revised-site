@@ -22,6 +22,7 @@ export type ContentCard = {
   subtitle?: string;
   description?: string;
   href?: string;
+  media?: MediaAsset;
 };
 
 export type Specification = {
@@ -37,7 +38,7 @@ export type ContentSection = {
   paragraphs?: string[];
   bullets?: string[];
   cards?: ContentCard[];
-  layout?: "default" | "project-grid" | "team-grid";
+  layout?: "default" | "project-grid" | "team-grid" | "company-grid";
   media?: MediaAsset;
   team?: TeamMember[];
   specifications?: Specification[];
@@ -407,18 +408,19 @@ export const groupPages: Record<string, ContentPageData> = {
         id: "markets",
         eyebrow: "Explore by company",
         title: "Browse by Company",
+        layout: "company-grid",
         cards: [
-          { title: "JZ Demolition", subtitle: "Specialty, selective, total and concrete demolition", href: "/demolition/projects" },
-          { title: "JZ Construction", subtitle: "General contracting and subcontracting", href: "/construction/projects" },
-          { title: "JZ Waste Management", subtitle: "Contractor hauling and site logistics", href: "/waste-management" },
-          { title: "JZ Development", subtitle: "Development and long-term operations", href: "/development/projects" },
+          { title: "JZ Demolition", subtitle: "Specialty, selective, total and concrete demolition", href: "/demolition/projects", media: { src: "/media/jzg/mob-pompano-demolition.webp", alt: "Controlled demolition underway at MOB Pompano", position: "center 45%" } },
+          { title: "JZ Construction", subtitle: "General contracting and subcontracting", href: "/construction/projects", media: { src: "/media/jzg/project-100-biscayne.webp", alt: "JZ Construction reviewing plans at 100 Biscayne", position: "center 46%" } },
+          { title: "JZ Waste Management", subtitle: "Contractor hauling and site logistics", href: "/waste-management", media: { src: "/media/jzg/division-waste.webp", alt: "JZ Waste Management truck serving a South Florida jobsite" } },
+          { title: "JZ Development", subtitle: "Development and long-term operations", href: "/development/projects", media: { src: "/media/development/workforce-housing-kitchen.webp", alt: "Completed interior from a JZ Development property" } },
         ],
       },
     ],
     related: [
-      { title: "JZ Demolition projects", subtitle: "Healthcare, education, commercial, and retail", href: "/demolition/projects" },
-      { title: "JZ Construction projects", subtitle: "Healthcare and commercial work", href: "/construction/projects" },
-      { title: "JZ Development projects", subtitle: "South Florida development portfolio", href: "/development/projects" },
+      { title: "JZ Demolition projects", subtitle: "Healthcare, education, commercial, and retail", href: "/demolition/projects", media: { src: "/media/jzg/mob-pompano-demolition.webp", alt: "Controlled demolition underway at MOB Pompano", position: "center 45%" } },
+      { title: "JZ Construction projects", subtitle: "Healthcare and commercial work", href: "/construction/projects", media: { src: "/media/jzg/project-100-biscayne.webp", alt: "JZ Construction reviewing plans at 100 Biscayne", position: "center 46%" } },
+      { title: "JZ Development projects", subtitle: "South Florida development portfolio", href: "/development/projects", media: { src: "/media/development/workforce-housing-kitchen.webp", alt: "Completed interior from a JZ Development property" } },
     ],
     sourceUrl: "https://www.jzdemolition.com/portfolio",
   },
@@ -491,9 +493,9 @@ export const groupPages: Record<string, ContentPageData> = {
       },
     ],
     related: [
-      { title: "Selected work", subtitle: "Review projects across the group", href: "/projects" },
-      { title: "Qualifications", subtitle: "Review the standards behind delivery", href: "/safety" },
-      { title: "Contact JZ", subtitle: "Send one scope for routing", href: "/contact" },
+      { title: "Selected work", subtitle: "Review projects across the group", href: "/projects", media: { src: "/media/jzg/project-100-biscayne.webp", alt: "JZ team member reviewing project plans at 100 Biscayne", position: "center 46%" } },
+      { title: "Qualifications", subtitle: "Review the standards behind delivery", href: "/safety", media: { src: "/media/jzg/safety-containment.webp", alt: "Temporary containment protecting an occupied medical-office corridor" } },
+      { title: "Contact JZ", subtitle: "Send one scope for routing", href: "/contact", media: { src: "/media/jzg/group-field-team.webp", alt: "JZ Group field team inside a commercial project", position: "center 42%" } },
     ],
     sourceUrl: "https://www.jzgroupmiami.com/",
   },

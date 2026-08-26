@@ -15,7 +15,7 @@ export function QuickAccess() {
         <Link href={route.href} key={route.href}>
           <span>{route.index}</span>
           <div><strong>{route.label}</strong><small>{route.detail}</small></div>
-          <ArrowUpRight aria-hidden="true" size={19} />
+          <i className="group-quick-access-arrow" aria-hidden="true"><ArrowUpRight size={19} /></i>
         </Link>
       ))}
     </nav>

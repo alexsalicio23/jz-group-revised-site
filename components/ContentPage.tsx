@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowDownToLine, ArrowUpRight, ChevronRight, Phone } from "lucide-react";
 import type { ContentAction, ContentCard, ContentPageData } from "@/app/content-data";
@@ -32,7 +33,27 @@ function BreakableLabel({ text }: { text: string }) {
 }
 
 function LinkedCard({ card, index, division }: { card: ContentCard; index: number; division?: TemplateSlug }) {
-  const body = (
+  const body = card.media ? (
+    <>
+      <span className="metric-content-card-media">
+        <Image
+          src={card.media.src}
+          alt={card.media.alt}
+          fill
+          sizes="(max-width: 760px) 92vw, 44vw"
+          style={{ objectPosition: card.media.position ?? "center" }}
+        />
+      </span>
+      <span className="metric-content-card-scrim" aria-hidden="true" />
+      <span className="metric-content-card-index">{String(index + 1).padStart(2, "0")}</span>
+      <span className="metric-content-card-copy">
+        <h3>{displayHeading(card.title)}</h3>
+        {card.subtitle ? <span className="metric-card-subtitle"><BreakableLabel text={card.subtitle} /></span> : null}
+        {card.description ? <span>{card.description}</span> : null}
+      </span>
+      <span className="metric-content-card-arrow" aria-hidden="true"><ArrowUpRight size={21} /></span>
+    </>
+  ) : (
     <>
       <span>{String(index + 1).padStart(2, "0")}</span>
       <div>
@@ -46,8 +67,9 @@ function LinkedCard({ card, index, division }: { card: ContentCard; index: numbe
 
   if (!card.href) return <article className="metric-content-card">{body}</article>;
   const href = division ? localizeCompanyHref(division, card.href) : card.href;
-  if (href.startsWith("mailto:")) return <a className="metric-content-card is-linked" href={href}>{body}</a>;
-  return <Link className="metric-content-card is-linked" href={href}>{body}</Link>;
+  const className = `metric-content-card is-linked${card.media ? " has-media" : ""}`;
+  if (href.startsWith("mailto:")) return <a className={className} href={href}>{body}</a>;
+  return <Link className={className} href={href}>{body}</Link>;
 }
 
 export function ContentPage({ data }: { data: ContentPageData }) {
@@ -115,7 +137,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       <div className="metric-content-sections">
         {data.sections.map((section, sectionIndex) => (
           <section
-            className={`metric-content-section tone-${section.tone ?? (sectionIndex % 2 ? "concrete" : "paper")}`}
+            className={`metric-content-section layout-${section.layout ?? "default"} tone-${section.tone ?? (sectionIndex % 2 ? "concrete" : "paper")}`}
             id={section.id}
             key={section.id}
           >
@@ -195,7 +217,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
       ) : null}
 
       {data.related?.length ? (
-        <section className="metric-related" aria-labelledby="related-title">
+        <section className={`metric-related${data.related.some((item) => item.media) ? " has-media-cards" : ""}`} aria-labelledby="related-title">
           <header>
             <h2 id="related-title">Related Services</h2>
           </header>
