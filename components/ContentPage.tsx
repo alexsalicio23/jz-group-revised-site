@@ -9,6 +9,7 @@ import { displayHeading } from "@/app/display-text";
 import { BidForm } from "@/components/BidForm";
 import { JZMedia } from "@/components/JZMedia";
 import { ProjectGallery } from "@/components/ProjectGallery";
+import { PortfolioGrid } from "@/components/PortfolioGrid";
 import { DivisionHeader, GroupHeader } from "@/components/SiteNavigation";
 import { SiteFooter } from "@/components/SiteFooter";
 import { BreadcrumbStructuredData, ServiceStructuredData } from "@/components/StructuredData";
@@ -159,6 +160,8 @@ export function ContentPage({ data }: { data: ContentPageData }) {
             ) : null}
 
             {section.layout === "project-grid" ? <ProjectGallery /> : null}
+
+            {section.layout === "portfolio-grid" ? <PortfolioGrid /> : null}
 
             {section.team?.length ? <TeamGrid members={section.team} /> : null}
 

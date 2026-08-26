@@ -1,0 +1,123 @@
+/* Project portfolio media slots. Each placeholder can accept approved photography later. */
+
+.layout-portfolio-grid {
+  padding-top: clamp(4.5rem, 8vw, 7.5rem);
+  padding-bottom: clamp(5rem, 9vw, 8.5rem);
+}
+
+.layout-portfolio-grid > header {
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.portfolio-grid {
+  display: grid;
+  width: 100%;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 1.6vw, 1.5rem);
+}
+
+.portfolio-card {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid rgb(8 9 10 / 0.18);
+}
+
+.portfolio-card-media {
+  position: relative;
+  display: grid;
+  aspect-ratio: 16 / 10;
+  min-height: 230px;
+  overflow: hidden;
+  place-items: center;
+  color: var(--paper);
+  background: #25282a;
+}
+
+.portfolio-card-watermark {
+  position: absolute;
+  right: 1.25rem;
+  bottom: -0.08em;
+  color: rgb(255 255 255 / 0.34);
+  font-family: var(--font-frama), sans-serif;
+  font-size: clamp(7rem, 12vw, 12rem);
+  font-weight: 600;
+  line-height: 0.8;
+  pointer-events: none;
+}
+
+.portfolio-card-placeholder {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  color: rgb(255 255 255 / 0.82);
+  border: 1px solid rgb(255 255 255 / 0.28);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.portfolio-card-placeholder svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 1.5;
+}
+
+.portfolio-card-copy {
+  display: grid;
+  min-height: 150px;
+  align-content: space-between;
+  gap: 2rem;
+  padding: 1.25rem;
+}
+
+.portfolio-card-copy > span {
+  color: rgb(8 9 10 / 0.64);
+  font-size: 0.67rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.portfolio-card-copy h3 {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  font-size: clamp(1.55rem, 2.2vw, 2.4rem);
+  line-height: 0.96;
+  text-align: center;
+  text-wrap: balance;
+}
+
+@media (max-width: 1040px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .layout-portfolio-grid {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-card-media {
+    min-height: 0;
+  }
+
+  .portfolio-card-copy {
+    min-height: 128px;
+  }
+
+  .portfolio-card-copy h3 {
+    font-size: clamp(1.8rem, 9vw, 2.35rem);
+  }
+}

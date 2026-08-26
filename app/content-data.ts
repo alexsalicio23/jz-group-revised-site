@@ -20,6 +20,10 @@ export type TeamMember = {
   imagePosition?: string;
 };
 
+export type PortfolioProject = {
+  name: string;
+};
+
 export type ContentCard = {
   title: string;
   subtitle?: string;
@@ -41,7 +45,7 @@ export type ContentSection = {
   paragraphs?: string[];
   bullets?: string[];
   cards?: ContentCard[];
-  layout?: "default" | "project-grid" | "team-grid" | "company-grid";
+  layout?: "default" | "project-grid" | "portfolio-grid" | "team-grid" | "company-grid";
   media?: MediaAsset;
   team?: TeamMember[];
   specifications?: Specification[];
@@ -110,6 +114,30 @@ export const divisionLabels: Record<TemplateSlug, string> = {
   "waste-management": "JZ Waste Management",
   development: "JZ Development",
 };
+
+export const groupPortfolioProjects: readonly PortfolioProject[] = [
+  { name: "8030" },
+  { name: "MHW CT1 & CT2" },
+  { name: "JP Morgan Chase" },
+  { name: "BHF MAP" },
+  { name: "Rutledge Facade Demo" },
+  { name: "Drew's Kitchen" },
+  { name: "Luis Quintana House" },
+  { name: "UMHT PY-B L4" },
+  { name: "North Bay Village" },
+  { name: "BHTP X-Ray RM 1 & 3" },
+  { name: "MOB Pompano" },
+  { name: "MCI Hallandale" },
+  { name: "100 Biscayne" },
+  { name: "JDCH CT Scan" },
+  { name: "CCOC Vault Expansion" },
+  { name: "MHW Cath Lab" },
+  { name: "UMHT Penthouse" },
+  { name: "UMHT OR Reno" },
+  { name: "CSPD Phase 2" },
+  { name: "UMHT Cath Lab" },
+  { name: "UMHT PAC-U" },
+];
 
 const leadershipTeam: TeamMember[] = [
   {
@@ -403,9 +431,9 @@ export const groupPages: Record<string, ContentPageData> = {
     },
     sections: [
       {
-        id: "featured",
-        title: "Project Gallery",
-        layout: "project-grid",
+        id: "portfolio",
+        title: "Project Portfolio",
+        layout: "portfolio-grid",
       },
       {
         id: "markets",

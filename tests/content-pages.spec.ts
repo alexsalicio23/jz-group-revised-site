@@ -118,9 +118,39 @@ test("supplied field photography follows the service context", async ({ page }) 
   await page.goto("/safety");
   await expect(page.locator('.metric-content-hero-media img[src*="safety-containment.webp"]')).toBeVisible();
   await expect(page.locator('.metric-content-media img[src*="safety-air-control.webp"]')).toBeVisible();
+});
 
+test("group projects page presents the whiteboard portfolio with photo placeholders", async ({ page }) => {
   await page.goto("/projects");
-  await expect(page.locator('.project-tile img[src*="mob-pompano-demolition.webp"]')).toBeVisible();
+
+  const expectedProjects = [
+    "8030",
+    "MHW CT1 & CT2",
+    "JP Morgan Chase",
+    "BHF MAP",
+    "Rutledge Facade Demo",
+    "Drew's Kitchen",
+    "Luis Quintana House",
+    "UMHT PY-B L4",
+    "North Bay Village",
+    "BHTP X-Ray RM 1 & 3",
+    "MOB Pompano",
+    "MCI Hallandale",
+    "100 Biscayne",
+    "JDCH CT Scan",
+    "CCOC Vault Expansion",
+    "MHW Cath Lab",
+    "UMHT Penthouse",
+    "UMHT OR Reno",
+    "CSPD Phase 2",
+    "UMHT Cath Lab",
+    "UMHT PAC-U",
+  ];
+
+  await expect(page.locator(".portfolio-card")).toHaveCount(expectedProjects.length);
+  expect(await page.locator(".portfolio-card h3").allTextContents()).toEqual(expectedProjects);
+  await expect(page.locator(".portfolio-card-placeholder")).toHaveCount(expectedProjects.length);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
 });
 
 test("mobile division and service pages preserve the centered hierarchy", async ({ page }, testInfo) => {
