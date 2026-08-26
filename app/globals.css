@@ -884,7 +884,7 @@ ul {
 
 @media (min-width: 901px) {
   .division-stack[data-enhanced="true"] {
-    height: 180svh;
+    height: 250svh;
     min-height: 1200px;
     padding: 0;
   }
@@ -4266,7 +4266,7 @@ main :is(.metric-process p, .division-card-copy p, .metric-service-index p, .met
 
 @media (min-width: 901px) {
   .division-stack[data-enhanced="true"] {
-    height: 150svh;
+    height: 250svh;
     min-height: 1000px;
   }
 }

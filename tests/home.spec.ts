@@ -381,7 +381,8 @@ test("company sequence keeps links discoverable and opens into four columns", as
   const cards = page.locator(".division-stack-card");
   const progressTrack = page.locator(".division-stack-progress");
   const sectionHeight = await section.evaluate((element) => element.getBoundingClientRect().height);
-  expect(sectionHeight).toBeLessThanOrEqual(viewportHeight * 1.8 + 2);
+  expect(sectionHeight).toBeGreaterThanOrEqual(viewportHeight * 2.48);
+  expect(sectionHeight).toBeLessThanOrEqual(viewportHeight * 2.5 + 2);
 
   await expect(heading).toHaveCSS("opacity", "1");
   expect(Number(await cards.first().evaluate((element) => getComputedStyle(element).opacity))).toBeGreaterThan(0);

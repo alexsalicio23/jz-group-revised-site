@@ -2,7 +2,7 @@
 
 @media (min-width: 901px) {
   .division-stack[data-enhanced="true"] {
-    height: 180svh;
+    height: 250svh;
     min-height: 1200px;
   }
 
