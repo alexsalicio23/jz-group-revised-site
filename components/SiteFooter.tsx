@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Phone } from "lucide-react";
+import { ArrowUpRight, Facebook, Instagram, Linkedin, MapPin, Phone } from "lucide-react";
 import { contact } from "@/app/data";
 import { companyNavigationHref, getActiveCompanySite, groupSiteUrl } from "@/app/company-sites";
 import type { TemplateSlug } from "@/app/templates/template-data";
@@ -56,6 +56,17 @@ export function SiteFooter({
         </Link>
         <p>{companyName === "JZ Group" ? "Four coordinated companies serving projects across Florida." : `${companyName} is a JZ Group company.`}</p>
         <Link href={contactHref}>Start a project <ArrowUpRight aria-hidden="true" size={16} /></Link>
+        <div className="jz-site-footer-social" aria-label="Social profiles coming soon" role="group">
+          <span aria-label="Instagram profile coming soon" role="img" title="Instagram profile coming soon">
+            <Instagram aria-hidden="true" />
+          </span>
+          <span aria-label="Facebook profile coming soon" role="img" title="Facebook profile coming soon">
+            <Facebook aria-hidden="true" />
+          </span>
+          <span aria-label="LinkedIn profile coming soon" role="img" title="LinkedIn profile coming soon">
+            <Linkedin aria-hidden="true" />
+          </span>
+        </div>
       </div>
       <nav aria-label="Explore JZ Group">
         <strong>Explore</strong>
@@ -69,8 +80,15 @@ export function SiteFooter({
         <strong>Contact</strong>
         <a href={contact.phoneHref}><Phone aria-hidden="true" size={15} />{contact.phoneDisplay}</a>
         <a href={`mailto:${email}`}>{email}</a>
-        <span>{contact.address}</span>
+        <a className="jz-site-footer-location" href={contact.mapsHref} rel="noreferrer" target="_blank">
+          <MapPin aria-hidden="true" size={16} />
+          <span>{contact.address}</span>
+        </a>
         <span>Statewide Florida</span>
+      </div>
+      <div className="jz-site-footer-meta">
+        <span>© 2026 JZ Group</span>
+        <span>Demolition / Construction / Waste Management / Development</span>
       </div>
     </footer>
   );

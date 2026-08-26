@@ -1,0 +1,387 @@
+/* Shared footer and team profile interactions. Loaded last to keep these systems consistent. */
+
+.jz-site-footer.metric-footer,
+.jz-site-footer.metric-subpage-footer {
+  position: relative;
+  grid-template-columns: minmax(260px, 1.25fr) minmax(120px, 0.55fr) minmax(190px, 0.85fr) minmax(240px, 1fr);
+  column-gap: clamp(2rem, 5vw, 5.5rem);
+  row-gap: 3.5rem;
+  padding-top: clamp(4rem, 6vw, 6rem);
+  padding-bottom: 1.75rem;
+}
+
+.jz-site-footer-brand > p {
+  font-size: clamp(0.9rem, 1vw, 1.02rem);
+  line-height: 1.55;
+}
+
+.jz-site-footer-social {
+  display: flex !important;
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: 0.55rem !important;
+  margin-top: 0.6rem;
+}
+
+.jz-site-footer-social > span {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  color: rgb(255 255 255 / 0.82);
+  border: 1px solid rgb(255 255 255 / 0.24);
+  border-radius: 50%;
+  cursor: default;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.jz-site-footer-social > span:hover {
+  color: var(--ink);
+  background: var(--paper);
+  border-color: var(--paper);
+}
+
+.jz-site-footer-social svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.6;
+}
+
+.jz-site-footer-location {
+  display: inline-flex;
+  max-width: 290px;
+  align-items: flex-start;
+  gap: 0.55rem;
+  line-height: 1.45;
+}
+
+.jz-site-footer-location svg {
+  flex: 0 0 auto;
+  margin-top: 0.12rem;
+}
+
+.jz-site-footer-location span {
+  color: inherit;
+}
+
+.jz-site-footer-meta {
+  display: flex !important;
+  grid-column: 1 / -1;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem !important;
+  color: rgb(255 255 255 / 0.46);
+  border-top: 1px solid rgb(255 255 255 / 0.18) !important;
+  font-size: 0.68rem !important;
+  text-transform: uppercase;
+}
+
+.team-card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  appearance: none;
+  border-radius: 0;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.team-card-portrait {
+  display: block;
+  width: 100%;
+}
+
+.team-card:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 5px;
+}
+
+.team-card-copy {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: center;
+}
+
+.team-card-name {
+  color: var(--paper);
+  font-family: var(--font-frama), sans-serif;
+  font-size: clamp(1.45rem, 1.7vw, 2rem);
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.team-card-role {
+  color: rgb(255 255 255 / 0.72);
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.team-card-action {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  color: var(--ink);
+  background: var(--paper);
+  border-radius: 50%;
+  font-size: 1.45rem;
+  line-height: 1;
+  transition: color 250ms ease, background-color 250ms ease, transform 350ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.team-card:hover .team-card-action,
+.team-card:focus-visible .team-card-action {
+  color: var(--paper);
+  background: var(--ink);
+  transform: rotate(90deg);
+}
+
+.team-profile-dialog {
+  width: min(1180px, calc(100vw - 4rem));
+  max-width: none;
+  max-height: min(860px, calc(100dvh - 4rem));
+  padding: 0;
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--paper);
+  border: 0;
+}
+
+.team-profile-dialog::backdrop {
+  background: rgb(0 0 0 / 0.82);
+  backdrop-filter: blur(5px);
+}
+
+.team-profile-dialog[open] {
+  animation: team-dialog-in 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.team-profile-dialog-shell {
+  position: relative;
+  display: grid;
+  min-height: min(760px, calc(100dvh - 4rem));
+  grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr);
+}
+
+.team-profile-dialog-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 3;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  place-items: center;
+  color: var(--paper);
+  background: var(--ink);
+  border: 1px solid rgb(255 255 255 / 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.team-profile-dialog-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.team-profile-dialog-portrait {
+  position: relative;
+  min-height: 600px;
+  overflow: hidden;
+  background: var(--graphite);
+}
+
+.team-profile-dialog-portrait img {
+  object-fit: cover;
+}
+
+.team-profile-dialog-initials {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgb(255 255 255 / 0.7);
+  font-family: var(--font-frama), sans-serif;
+  font-size: clamp(6rem, 12vw, 11rem);
+}
+
+.team-profile-dialog-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(4.5rem, 7vw, 7rem) clamp(2.25rem, 5vw, 5.5rem);
+}
+
+.team-profile-dialog-label,
+.team-profile-dialog-role,
+.team-profile-dialog-note,
+.team-profile-dialog dt {
+  text-transform: uppercase;
+}
+
+.team-profile-dialog-label {
+  margin-bottom: 1.5rem;
+  color: rgb(8 9 10 / 0.56);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.team-profile-dialog-copy h2 {
+  max-width: 560px;
+  font-size: clamp(3.2rem, 6vw, 6.5rem);
+  line-height: 0.9;
+  text-align: left;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+
+.team-profile-dialog-role {
+  margin-top: 1rem;
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  font-weight: 600;
+}
+
+.team-profile-dialog dl {
+  display: grid;
+  margin-top: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid rgb(8 9 10 / 0.24);
+}
+
+.team-profile-dialog dl > div {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.7fr) minmax(0, 1.3fr);
+  gap: 1rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid rgb(8 9 10 / 0.18);
+}
+
+.team-profile-dialog dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(8 9 10 / 0.58);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.team-profile-dialog dt svg {
+  width: 15px;
+  height: 15px;
+}
+
+.team-profile-dialog dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 1rem;
+}
+
+.team-profile-dialog-note {
+  max-width: 450px;
+  margin-top: 1.5rem;
+  color: rgb(8 9 10 / 0.5);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+@keyframes team-dialog-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 900px) {
+  .jz-site-footer.metric-footer,
+  .jz-site-footer.metric-subpage-footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .team-profile-dialog-shell {
+    grid-template-columns: minmax(0, 0.92fr) minmax(340px, 1.08fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .jz-site-footer.metric-footer,
+  .jz-site-footer.metric-subpage-footer {
+    grid-template-columns: 1fr;
+    gap: 2.75rem;
+    padding: 3.5rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
+  }
+
+  .jz-site-footer-social {
+    justify-content: center;
+  }
+
+  .jz-site-footer-location {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .jz-site-footer-meta {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .team-card-action {
+    width: 46px;
+    height: 46px;
+  }
+
+  .team-profile-dialog {
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+  }
+
+  .team-profile-dialog-shell {
+    min-height: 100dvh;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(320px, 46dvh) auto;
+    overflow-y: auto;
+  }
+
+  .team-profile-dialog-portrait {
+    min-height: 0;
+  }
+
+  .team-profile-dialog-copy {
+    justify-content: start;
+    padding: 2.5rem 1.25rem calc(2.5rem + env(safe-area-inset-bottom));
+  }
+
+  .team-profile-dialog-copy h2 {
+    font-size: clamp(2.7rem, 13vw, 4.2rem);
+    text-align: left;
+  }
+
+  .team-profile-dialog dl {
+    margin-top: 2rem;
+  }
+
+  .team-profile-dialog dl > div {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-card-action,
+  .team-card-portrait img,
+  .team-profile-dialog[open] {
+    animation: none;
+    transition: none;
+  }
+}

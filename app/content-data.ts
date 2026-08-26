@@ -1,4 +1,5 @@
 import type { TemplateSlug } from "@/app/templates/template-data";
+import { contact } from "@/app/data";
 
 export type Stat = { value: string; label: string };
 export type MediaAsset = {
@@ -12,6 +13,8 @@ export type MediaAsset = {
 export type TeamMember = {
   name: string;
   role: string;
+  phone?: string;
+  email?: string;
   image?: string;
   imageAlt?: string;
   imagePosition?: string;
@@ -77,25 +80,25 @@ export type ContentPageData = {
 export const divisionContacts: Record<TemplateSlug, { email: string; address: string; officeLabel: string; phone: string }> = {
   demolition: {
     email: "estimating@jzdemo.com",
-    address: "8015 NW 37th Ave, Miami, Florida 33147",
+    address: contact.address,
     officeLabel: "JZ Demolition office",
     phone: "(305) 793-2984",
   },
   construction: {
     email: "estimating@jzconstruction.com",
-    address: "8015 NW 37th Ave, Miami, Florida 33147",
+    address: contact.address,
     officeLabel: "JZ Construction office",
     phone: "(305) 793-2984",
   },
   "waste-management": {
     email: "estimating@jzwastemanagement.com",
-    address: "8015 NW 37th Ave, Miami, Florida 33147",
+    address: contact.address,
     officeLabel: "JZ Waste Management office",
     phone: "(305) 793-2984",
   },
   development: {
     email: "estimating@jzdevelopment.com",
-    address: "15219 NW 60th Ave, Miami Lakes, Florida 33014",
+    address: contact.address,
     officeLabel: "JZ Development office",
     phone: "(305) 793-2984",
   },
@@ -529,7 +532,7 @@ export const groupPages: Record<string, ContentPageData> = {
         ],
         paragraphs: [
           "Phone: (305) 793-2984",
-          "Group office: 15219 NW 60th Ave, Miami Lakes, Florida 33014",
+          `Group office: ${contact.address}`,
         ],
       },
     ],

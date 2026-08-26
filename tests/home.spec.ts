@@ -76,6 +76,23 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
   expect(results.violations).toEqual([]);
 });
 
+test("footer exposes the current office and reserved social profiles", async ({ page }) => {
+  await page.goto("/");
+
+  const footer = page.locator(".jz-site-footer");
+  const location = footer.getByRole("link", { name: /14605 Harris Pl/ });
+  await expect(location).toHaveAttribute(
+    "href",
+    "https://www.google.com/maps/search/?api=1&query=14605+Harris+Pl+Miami+Lakes+FL+33014",
+  );
+  await expect(location).toHaveAttribute("target", "_blank");
+
+  const socialProfiles = footer.locator(".jz-site-footer-social [role='img']");
+  await expect(socialProfiles).toHaveCount(3);
+  await expect(footer.locator(".jz-site-footer-social a")).toHaveCount(0);
+  await expect(footer.locator(".jz-site-footer-meta")).toContainText("JZ Group");
+});
+
 test("mobile presentation copy is centered while form fields stay scannable", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile", "Mobile layout only");
   await page.goto("/");

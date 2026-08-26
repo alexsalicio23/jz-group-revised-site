@@ -2,7 +2,13 @@ export const contact = {
   phoneDisplay: "(305) 793-2984",
   phoneHref: "tel:+13057932984",
   email: "estimating@jzdemo.com",
-  address: "15219 NW 60th Ave, Miami Lakes, Florida 33014",
+  address: "14605 Harris Pl, Miami Lakes, FL 33014",
+  streetAddress: "14605 Harris Pl",
+  addressLocality: "Miami Lakes",
+  addressRegion: "FL",
+  postalCode: "33014",
+  mapsHref:
+    "https://www.google.com/maps/search/?api=1&query=14605+Harris+Pl+Miami+Lakes+FL+33014",
   officeLabel: "JZ Group office",
 };
 

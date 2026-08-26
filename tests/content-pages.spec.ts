@@ -79,9 +79,22 @@ test("about page presents the approved team roster in order", async ({ page }) =
   ];
 
   await expect(page.locator(".team-card")).toHaveCount(expectedNames.length);
-  expect(await page.locator(".team-card h3").allTextContents()).toEqual(expectedNames);
+  await expect(page.locator(".team-card").first()).toBeVisible();
+  expect((await page.locator(".team-card").first().boundingBox())?.height ?? 0).toBeGreaterThan(150);
+  expect(await page.locator(".team-card-name").allTextContents()).toEqual(expectedNames);
   await expect(page.locator(".team-card img")).toHaveCount(8);
   await expect(page.locator(".team-card-initials")).toHaveCount(5);
+
+  const firstProfile = page.getByRole("button", { name: "View contact details for Alex DeArmas" });
+  await firstProfile.click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("heading", { name: "ALEX DEARMAS" })).toBeVisible();
+  await expect(dialog.getByText("President", { exact: true })).toBeVisible();
+  await expect(dialog.getByText("To be confirmed")).toHaveCount(2);
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(firstProfile).toBeFocused();
 });
 
 test("division overview pages hand off to dedicated company sites", async ({ page }) => {

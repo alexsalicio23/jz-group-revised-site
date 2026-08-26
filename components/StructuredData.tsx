@@ -2,6 +2,7 @@ import { getSiteUrl } from "@/app/site-url";
 import type { TemplateSlug } from "@/app/templates/template-data";
 import { getActiveCompanySite, groupSiteUrl } from "@/app/company-sites";
 import { templates } from "@/app/templates/template-data";
+import { contact } from "@/app/data";
 
 type BreadcrumbItem = {
   name: string;
@@ -60,10 +61,10 @@ export function OrganizationStructuredData() {
               },
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "15219 NW 60th Ave",
-                addressLocality: "Miami Lakes",
-                addressRegion: "FL",
-                postalCode: "33014",
+                streetAddress: contact.streetAddress,
+                addressLocality: contact.addressLocality,
+                addressRegion: contact.addressRegion,
+                postalCode: contact.postalCode,
                 addressCountry: "US",
               },
               areaServed: serviceAreas,
@@ -99,10 +100,10 @@ export function OrganizationStructuredData() {
             description: "Specialty demolition, construction, waste management, and development services for active and complex environments across South Florida.",
             address: {
               "@type": "PostalAddress",
-              streetAddress: "15219 NW 60th Ave",
-              addressLocality: "Miami Lakes",
-              addressRegion: "FL",
-              postalCode: "33014",
+              streetAddress: contact.streetAddress,
+              addressLocality: contact.addressLocality,
+              addressRegion: contact.addressRegion,
+              postalCode: contact.postalCode,
               addressCountry: "US",
             },
             areaServed: serviceAreas,
