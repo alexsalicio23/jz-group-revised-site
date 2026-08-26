@@ -31,6 +31,14 @@ export function isCompanySite(division?: TemplateSlug) {
 export function localizeCompanyHref(division: TemplateSlug, href: string) {
   if (!isCompanySite(division)) return href;
 
+  if (href.startsWith("/")) {
+    const target = new URL(href, groupSiteUrl);
+    const [targetDivision, ...targetPath] = target.pathname.split("/").filter(Boolean);
+    if (validCompanies.has(targetDivision as TemplateSlug) && targetDivision !== division) {
+      return `${companySiteHref(targetDivision as TemplateSlug, targetPath.join("/"))}${target.search}${target.hash}`;
+    }
+  }
+
   const prefix = `/${division}`;
   if (href === prefix) return "/";
   if (href.startsWith(`${prefix}#`)) {
