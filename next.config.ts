@@ -34,6 +34,7 @@ const nextConfig: NextConfig = {
         { source: "/", destination: `/${companySite}` },
         { source: "/about", destination: `/${companySite}/about` },
         { source: "/projects", destination: `/${companySite}/projects` },
+        { source: "/projects/:path*", destination: `/${companySite}/projects/:path*` },
         { source: "/services/:path*", destination: `/${companySite}/services/:path*` },
       ],
       afterFiles: [],

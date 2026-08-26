@@ -33,7 +33,10 @@ export function localizeCompanyHref(division: TemplateSlug, href: string) {
 
   const prefix = `/${division}`;
   if (href === prefix) return "/";
-  if (href.startsWith(`${prefix}/`) || href.startsWith(`${prefix}#`)) {
+  if (href.startsWith(`${prefix}#`)) {
+    return `/${href.slice(prefix.length)}`;
+  }
+  if (href.startsWith(`${prefix}/`)) {
     return href.slice(prefix.length) || "/";
   }
   return href;
