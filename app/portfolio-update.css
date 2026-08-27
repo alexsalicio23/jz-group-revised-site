@@ -36,6 +36,25 @@
   background: #25282a;
 }
 
+.portfolio-card-media.has-media::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgb(0 0 0 / 0.02) 45%, rgb(0 0 0 / 0.48) 100%);
+  content: "";
+  pointer-events: none;
+}
+
+.portfolio-card-media img {
+  object-fit: cover;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portfolio-card:hover .portfolio-card-media img,
+.portfolio-card:focus-within .portfolio-card-media img {
+  transform: scale(1.025);
+}
+
 .portfolio-card-watermark {
   position: absolute;
   right: 1.25rem;
@@ -46,6 +65,12 @@
   font-weight: 600;
   line-height: 0.8;
   pointer-events: none;
+  z-index: 2;
+}
+
+.portfolio-card-media.has-media .portfolio-card-watermark {
+  color: rgb(255 255 255 / 0.72);
+  font-size: clamp(4.5rem, 8vw, 7rem);
 }
 
 .portfolio-card-placeholder {

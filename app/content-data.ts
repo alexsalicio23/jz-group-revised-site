@@ -22,6 +22,7 @@ export type TeamMember = {
 
 export type PortfolioProject = {
   name: string;
+  media?: MediaAsset;
 };
 
 export type ContentCard = {
@@ -116,6 +117,14 @@ export const divisionLabels: Record<TemplateSlug, string> = {
 };
 
 export const groupPortfolioProjects: readonly PortfolioProject[] = [
+  {
+    name: "Pagani Residence",
+    media: {
+      src: "/media/jzg/projects/pagani-residence/pagani-residence-site-work.webp",
+      alt: "JZ field supervision and excavation equipment at the Pagani Residence project",
+      position: "center 52%",
+    },
+  },
   { name: "8030" },
   { name: "MHW CT1 & CT2" },
   { name: "JP Morgan Chase" },

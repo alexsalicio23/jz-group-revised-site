@@ -30,7 +30,7 @@ export const portalPhases: readonly PortalPhase[] = [
 
 export const portalPageStatuses: readonly PortalPageStatus[] = [
   { page: "Homepage", status: "In progress", detail: "Core experience is live; final field photography and copy review remain.", href: "/" },
-  { page: "Project portfolio", status: "Waiting on JZ", detail: "Twenty-one project records are loaded with photo placeholders.", href: "/projects#portfolio" },
+  { page: "Project portfolio", status: "In progress", detail: "Twenty-two project records are loaded; Pagani Residence now includes approved field photography.", href: "/projects#portfolio" },
   { page: "About and team", status: "Waiting on JZ", detail: "Roster and available portraits are loaded; remaining portraits and contacts are pending.", href: "/about" },
   { page: "Prequalification", status: "Waiting on JZ", detail: "Presentation is ready for verified licenses, insurance, bonding, and safety data.", href: "/values" },
   { page: "Contact and bid routing", status: "In progress", detail: "The routed project form is built; final delivery configuration requires launch verification.", href: "/contact" },
@@ -38,7 +38,7 @@ export const portalPageStatuses: readonly PortalPageStatus[] = [
 ] as const;
 
 export const portalActionItems = [
-  "Approved photography for the 21 project portfolio records",
+  "Approved photography for the remaining 21 project portfolio records",
   "Remaining team portraits, emails, and direct contact details",
   "Verified licenses, insurance, bonding, safety, and qualification figures",
   "Final Instagram, Facebook, and LinkedIn profile links",
@@ -46,6 +46,7 @@ export const portalActionItems = [
 ] as const;
 
 const fallbackUpdates: readonly PortalUpdate[] = [
+  { id: "pagani-gallery", title: "Added Pagani Residence photography to the project galleries", date: "Aug 27, 2026" },
   { id: "portfolio", title: "Added the updated 21-project portfolio", date: "Aug 26, 2026" },
   { id: "team", title: "Added footer socials and team contact profiles", date: "Aug 26, 2026" },
   { id: "navigation", title: "Simplified and repaired navigation dropdowns", date: "Aug 26, 2026" },

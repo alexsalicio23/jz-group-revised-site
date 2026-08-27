@@ -120,10 +120,11 @@ test("supplied field photography follows the service context", async ({ page }) 
   await expect(page.locator('.metric-content-media img[src*="safety-air-control.webp"]')).toBeVisible();
 });
 
-test("group projects page presents the whiteboard portfolio with photo placeholders", async ({ page }) => {
+test("group projects page presents the project portfolio and approved Pagani photography", async ({ page }) => {
   await page.goto("/projects");
 
   const expectedProjects = [
+    "Pagani Residence",
     "8030",
     "MHW CT1 & CT2",
     "JP Morgan Chase",
@@ -149,7 +150,8 @@ test("group projects page presents the whiteboard portfolio with photo placehold
 
   await expect(page.locator(".portfolio-card")).toHaveCount(expectedProjects.length);
   expect(await page.locator(".portfolio-card h3").allTextContents()).toEqual(expectedProjects);
-  await expect(page.locator(".portfolio-card-placeholder")).toHaveCount(expectedProjects.length);
+  await expect(page.locator(".portfolio-card-placeholder")).toHaveCount(expectedProjects.length - 1);
+  await expect(page.locator('.portfolio-card img[src*="pagani-residence-site-work.webp"]')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
 });
 

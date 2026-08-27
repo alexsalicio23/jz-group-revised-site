@@ -160,35 +160,35 @@ export const featuredProjects = [
   },
   {
     index: "03",
-    title: "Development Portfolio",
-    market: "JZ Development",
-    location: "Florida",
-    scope: "Acquisition through long-term operations",
+    title: "Pagani Residence",
+    market: "JZ Demolition",
+    location: "South Florida",
+    scope: "Site preparation and excavation field record",
     summary:
-      "A reserved project record for the approved JZ Development opportunity selected for the public portfolio.",
+      "Field photography documenting excavation, equipment operation, and JZ field supervision at the Pagani Residence project.",
     facts: [
-      ["Company", "JZ Development"],
-      ["Focus", "Full development lifecycle"],
-      ["Record", "Pending client approval"],
+      ["Company", "JZ Demolition"],
+      ["Work shown", "Excavation + site preparation"],
+      ["Record", "Field photography"],
     ],
     images: [
       {
-        src: "/media/development/workforce-housing-kitchen.webp",
-        alt: "Completed interior representing JZ Development capability",
-        position: "center 45%",
+        src: "/media/jzg/projects/pagani-residence/pagani-residence-site-work.webp",
+        alt: "JZ field supervision and excavation equipment at the Pagani Residence project",
+        position: "center 52%",
       },
       {
-        src: "/media/video/development-kitchen-poster.jpg",
-        alt: "Completed workforce-housing kitchen interior",
-        position: "center",
+        src: "/media/jzg/projects/pagani-residence/pagani-residence-excavation.webp",
+        alt: "Excavator bucket working beside the waterfront at the Pagani Residence project",
+        position: "center 48%",
       },
       {
-        src: "/media/video/development-interior-poster.jpg",
-        alt: "Completed residential interior representing development operations",
-        position: "center",
+        src: "/media/jzg/projects/pagani-residence/pagani-residence-field-team.webp",
+        alt: "JZ field team member crossing the Pagani Residence excavation area",
+        position: "center 50%",
       },
     ],
-    href: "/development/projects",
+    href: "/demolition/projects",
   },
 ] as const;
 
