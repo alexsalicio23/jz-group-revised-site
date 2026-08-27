@@ -16,6 +16,18 @@ This runbook supports the public privacy notice and the technical controls in th
 
 Public file uploads are disabled. Confidential files must remain in an access-controlled plan room. Credentials must be transmitted separately.
 
+## Launch control status
+
+Status recorded August 27, 2026:
+
+- Resend is provisioned through the Vercel Marketplace on the free plan for `jzgroupmiami.com`; SPF and DKIM records are present and the resource is completing provider onboarding.
+- DMARC is enabled in monitoring mode with strict SPF and DKIM alignment. Move from `p=none` to enforcement only after legitimate delivery has been reviewed.
+- All four service lanes deliver to the verified central mailbox `estimating@jzdemo.com`. Do not publish division-specific addresses until each mailbox is confirmed operational.
+- Vercel WAF logging rules are active for `POST /api/contact` and `POST /api/client-portal/login`. Review traffic before replacing either rule with rate-limit enforcement.
+- Vercel reports one owner account and MFA is not enabled. Enabling MFA is a launch blocker.
+- GitHub `main` has no branch-protection rule, Dependabot alerts are disabled, and the local GitHub session belongs to a collaborator with push access rather than the repository owner. The owner must review and correct these controls.
+- `jzgroupmiami.com` does not yet have inbound MX service for `privacy@` or `security@`; the public policies therefore use the monitored estimating mailbox as an interim contact.
+
 ## Access and account controls
 
 1. Require MFA on Vercel, GitHub, Resend, Namecheap, and every delivery mailbox.

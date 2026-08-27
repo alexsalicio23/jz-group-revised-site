@@ -357,7 +357,7 @@ test("contact inquiry visibly routes to the selected JZ company", async ({ page 
 
   await form.locator('select[name="division"]').selectOption("construction");
   await expect(form.locator(".form-routing")).toContainText("JZ Construction");
-  await expect(form.locator(".form-routing")).toContainText("estimating@jzconstruction.com");
+  await expect(form.locator(".form-routing")).toContainText("estimating@jzdemo.com");
   await expect(form.locator('input[name="planRoomUrl"]')).toHaveAttribute("type", "url");
 });
 

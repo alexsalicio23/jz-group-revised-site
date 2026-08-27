@@ -89,19 +89,19 @@ export const divisionContacts: Record<TemplateSlug, { email: string; address: st
     phone: "(305) 793-2984",
   },
   construction: {
-    email: "estimating@jzconstruction.com",
+    email: "estimating@jzdemo.com",
     address: contact.address,
     officeLabel: "JZ Construction office",
     phone: "(305) 793-2984",
   },
   "waste-management": {
-    email: "estimating@jzwastemanagement.com",
+    email: "estimating@jzdemo.com",
     address: contact.address,
     officeLabel: "JZ Waste Management office",
     phone: "(305) 793-2984",
   },
   development: {
-    email: "estimating@jzdevelopment.com",
+    email: "estimating@jzdemo.com",
     address: contact.address,
     officeLabel: "JZ Development office",
     phone: "(305) 793-2984",
@@ -554,9 +554,9 @@ export const groupPages: Record<string, ContentPageData> = {
         title: "Contact JZ",
         cards: [
           { title: "JZ Demolition", subtitle: "estimating@jzdemo.com", href: "mailto:estimating@jzdemo.com" },
-          { title: "JZ Construction", subtitle: "estimating@jzconstruction.com", href: "mailto:estimating@jzconstruction.com" },
-          { title: "JZ Waste Management", subtitle: "estimating@jzwastemanagement.com", href: "mailto:estimating@jzwastemanagement.com" },
-          { title: "JZ Development", subtitle: "estimating@jzdevelopment.com", href: "mailto:estimating@jzdevelopment.com" },
+          { title: "JZ Construction", subtitle: "estimating@jzdemo.com", href: "mailto:estimating@jzdemo.com" },
+          { title: "JZ Waste Management", subtitle: "estimating@jzdemo.com", href: "mailto:estimating@jzdemo.com" },
+          { title: "JZ Development", subtitle: "estimating@jzdemo.com", href: "mailto:estimating@jzdemo.com" },
         ],
         paragraphs: [
           "Phone: (305) 793-2984",

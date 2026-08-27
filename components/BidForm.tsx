@@ -10,9 +10,9 @@ type SubmitState =
 
 const serviceLanes = [
   { value: "demolition", label: "JZ Demolition", email: "estimating@jzdemo.com" },
-  { value: "construction", label: "JZ Construction", email: "estimating@jzconstruction.com" },
-  { value: "waste-management", label: "JZ Waste Management", email: "estimating@jzwastemanagement.com" },
-  { value: "development", label: "JZ Development", email: "estimating@jzdevelopment.com" },
+  { value: "construction", label: "JZ Construction", email: "estimating@jzdemo.com" },
+  { value: "waste-management", label: "JZ Waste Management", email: "estimating@jzdemo.com" },
+  { value: "development", label: "JZ Development", email: "estimating@jzdemo.com" },
 ] as const;
 
 function getInitialDivision(defaultDivision: string) {

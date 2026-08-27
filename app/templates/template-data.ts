@@ -121,7 +121,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     headline: "Keep the site moving.",
     introduction:
       "Dumpsters, hauling, temporary fencing, cleanup labor, recycling, and site logistics coordinated around the pace of contractor-led work.",
-    email: "estimating@jzwastemanagement.com",
+    email: "estimating@jzdemo.com",
     hero: {
       type: "video",
       media: "/media/video/workflow-waste.mp4",
@@ -176,7 +176,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     headline: "General Contracting",
     introduction:
       "General contracting, subcontracting, preconstruction, and field execution for commercial, multifamily, healthcare, education, and renovation projects across Florida.",
-    email: "estimating@jzconstruction.com",
+    email: "estimating@jzdemo.com",
     hero: {
       type: "video",
       media: "/media/video/workflow-build.mp4",
@@ -231,7 +231,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     headline: "Long-Term Development",
     introduction:
       "Development capability spanning acquisition, planning, construction oversight, property operations, and long-term ownership.",
-    email: "estimating@jzdevelopment.com",
+    email: "estimating@jzdemo.com",
     hero: {
       type: "image",
       media: "/media/development/workforce-housing-kitchen.webp",

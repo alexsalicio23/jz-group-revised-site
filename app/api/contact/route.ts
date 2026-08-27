@@ -13,17 +13,17 @@ const contacts = {
   },
   construction: {
     division: "JZ Construction",
-    publicEmail: "estimating@jzconstruction.com",
+    publicEmail: "estimating@jzdemo.com",
     deliveryEmail: process.env.CONSTRUCTION_ESTIMATING_EMAIL,
   },
   "waste-management": {
     division: "JZ Waste Management",
-    publicEmail: "estimating@jzwastemanagement.com",
+    publicEmail: "estimating@jzdemo.com",
     deliveryEmail: process.env.WASTE_ESTIMATING_EMAIL,
   },
   development: {
     division: "JZ Development",
-    publicEmail: "estimating@jzdevelopment.com",
+    publicEmail: "estimating@jzdemo.com",
     deliveryEmail: process.env.DEVELOPMENT_ESTIMATING_EMAIL,
   },
 } as const;
