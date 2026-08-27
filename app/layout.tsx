@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getSiteUrl } from "@/app/site-url";
 import { buildPageMetadata } from "@/app/seo";
 import { OrganizationStructuredData } from "@/components/StructuredData";
+import { PrivacyAwareTelemetry } from "@/components/PrivacyAwareTelemetry";
 import { getActiveCompanySite } from "@/app/company-sites";
 import { templates } from "@/app/templates/template-data";
 import "./globals.css";
@@ -21,6 +20,7 @@ import "./industrial-panels.css";
 import "./footer-team-update.css";
 import "./portfolio-update.css";
 import "./client-portal.css";
+import "./legal.css";
 
 const neue = localFont({
   src: [
@@ -72,7 +72,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <a className="skip-link" href="#top">Skip to content</a>
         <OrganizationStructuredData />
         {children}
-        {isVercelDeployment ? <><Analytics /><SpeedInsights /></> : null}
+        {isVercelDeployment ? <PrivacyAwareTelemetry /> : null}
       </body>
     </html>
   );

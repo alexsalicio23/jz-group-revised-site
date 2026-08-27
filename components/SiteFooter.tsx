@@ -88,7 +88,11 @@ export function SiteFooter({
       </div>
       <div className="jz-site-footer-meta">
         <span>© 2026 JZ Group</span>
-        <span>Demolition / Construction / Waste Management / Development</span>
+        <nav aria-label="Website policies">
+          <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms</Link>
+          <Link href="/accessibility">Accessibility</Link>
+        </nav>
       </div>
     </footer>
   );

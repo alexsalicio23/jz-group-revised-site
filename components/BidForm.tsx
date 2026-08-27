@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState, useSyncExternalStore } from "react";
 
 type SubmitState =
@@ -13,9 +14,6 @@ const serviceLanes = [
   { value: "waste-management", label: "JZ Waste Management", email: "estimating@jzwastemanagement.com" },
   { value: "development", label: "JZ Development", email: "estimating@jzdevelopment.com" },
 ] as const;
-
-const maxAttachmentCount = 5;
-const maxAttachmentBytes = 3 * 1024 * 1024;
 
 function getInitialDivision(defaultDivision: string) {
   return serviceLanes.some((lane) => lane.value === defaultDivision)
@@ -59,18 +57,6 @@ export function BidForm({ defaultDivision = "demolition" }: { defaultDivision?: 
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const files = formData
-      .getAll("attachments")
-      .filter((entry): entry is File => entry instanceof File && entry.size > 0);
-    const totalAttachmentBytes = files.reduce((total, file) => total + file.size, 0);
-
-    if (files.length > maxAttachmentCount || totalAttachmentBytes > maxAttachmentBytes) {
-      setStatus({
-        type: "error",
-        message: "Attach up to five files under 3 MB total, or add a plan-room link.",
-      });
-      return;
-    }
 
     setStatus({ type: "submitting" });
 
@@ -123,17 +109,20 @@ export function BidForm({ defaultDivision = "demolition" }: { defaultDivision?: 
       </div>
       <div className="form-row">
         <label><FieldLabel>Timeline</FieldLabel><input name="timeline" placeholder="Bid due date or target start" /></label>
-        <label><FieldLabel>Plan-room or document link</FieldLabel><input name="planRoomUrl" type="url" inputMode="url" placeholder="https://..." /></label>
+        <label>
+          <FieldLabel>Secure plan-room link</FieldLabel>
+          <input name="planRoomUrl" type="url" inputMode="url" placeholder="https://..." aria-describedby="plan-room-help" />
+          <small id="plan-room-help">Use an access-controlled project link for plans and scope documents. Send credentials separately.</small>
+        </label>
       </div>
       <label><FieldLabel required>Project details</FieldLabel><textarea name="message" rows={4} required placeholder="Scope, square footage, access constraints, and anything estimating should know." /></label>
-      <label className="file-field">
-        <FieldLabel>Small plan or scope excerpts</FieldLabel>
-        <input name="attachments" type="file" multiple accept="application/pdf,image/png,image/jpeg,image/webp" aria-describedby="attachment-help" />
-        <small id="attachment-help">Optional: attach up to five PDF or image excerpts under 3 MB total. Share full plan sets, CAD, Office, ZIP, or larger files with the plan-room link above.</small>
-      </label>
       <label className="form-consent">
         <input name="consent" type="checkbox" value="yes" required />
-        <span>JZ Group may use this information to evaluate and respond to this request.<em className="required-mark" aria-hidden="true">*</em><span className="sr-only"> required</span></span>
+        <span>JZ Group may use this information to evaluate and respond to this request as described in the <Link href="/privacy">Privacy Notice</Link>.<em className="required-mark" aria-hidden="true">*</em><span className="sr-only"> required</span></span>
+      </label>
+      <label className="form-consent form-sensitive-data">
+        <input name="dataPolicy" type="checkbox" value="yes" required />
+        <span>I will not submit patient or medical information, Social Security numbers, financial account details, passwords, or other sensitive personal data through this form.<em className="required-mark" aria-hidden="true">*</em><span className="sr-only"> required</span></span>
       </label>
       <label className="form-honeypot" aria-hidden="true"><span>Company website</span><input name="companyWebsite" tabIndex={-1} autoComplete="off" /></label>
       <p className="form-routing" aria-live="polite">

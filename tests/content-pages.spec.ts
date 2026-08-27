@@ -182,14 +182,16 @@ test("contact intake marks required fields and keeps a direct fallback visible",
     await expect(fieldLabel).toContainText("required");
   }
 
-  await expect(page.locator(".form-consent")).toContainText("required");
+  await expect(page.locator(".form-consent")).toHaveCount(2);
+  await expect(page.locator(".form-sensitive-data")).toContainText("patient or medical information");
+  await expect(page.getByRole("link", { name: "Privacy Notice" })).toHaveAttribute("href", "/privacy");
 
   await expect(page.getByRole("link", { name: "(305) 793-2984" }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: "estimating@jzdemo.com" }).first()).toBeVisible();
   await expect(page.locator(".bid-form")).toHaveAttribute("method", "post");
   await expect(page.locator(".bid-form")).toHaveAttribute("action", "/api/contact");
-  await expect(page.locator('input[name="attachments"]')).toHaveAttribute("accept", "application/pdf,image/png,image/jpeg,image/webp");
-  await expect(page.locator("#attachment-help")).toContainText("plan-room link above");
+  await expect(page.locator('input[name="attachments"]')).toHaveCount(0);
+  await expect(page.locator("#plan-room-help")).toContainText("Send credentials separately");
 });
 
 test("mobile form and menu controls remain readable and touch friendly", async ({ page }, testInfo) => {
@@ -222,12 +224,14 @@ test("mobile form and menu controls remain readable and touch friendly", async (
   );
   expect(compactType.every((fontSize) => fontSize >= 12.4)).toBe(true);
 
-  const consentBounds = await page.locator('.form-consent input[type="checkbox"]').evaluate((element) => {
-    const bounds = element.getBoundingClientRect();
-    return { width: bounds.width, height: bounds.height };
-  });
-  expect(consentBounds.width).toBeGreaterThanOrEqual(24);
-  expect(consentBounds.height).toBeGreaterThanOrEqual(24);
+  const consentBounds = await page.locator('.form-consent input[type="checkbox"]').evaluateAll((elements) =>
+    elements.map((element) => {
+      const bounds = element.getBoundingClientRect();
+      return { width: bounds.width, height: bounds.height };
+    }),
+  );
+  expect(consentBounds).toHaveLength(2);
+  expect(consentBounds.every((bounds) => bounds.width >= 24 && bounds.height >= 24)).toBe(true);
 
   const contactCardsFit = await page.locator(".metric-content-card-grid").first().evaluate((grid) => {
     const bounds = grid.getBoundingClientRect();

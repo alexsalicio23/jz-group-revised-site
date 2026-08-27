@@ -3,16 +3,20 @@ import type { NextConfig } from "next";
 const isDevelopment = process.env.NODE_ENV === "development";
 const isPreviewDeployment = process.env.VERCEL_ENV === "preview";
 const companySite = process.env.NEXT_PUBLIC_COMPANY_SITE;
+const vercelPreviewSources = isPreviewDeployment
+  ? ["https://vercel.live", "https://va.vercel-scripts.com"]
+  : ["https://va.vercel-scripts.com"];
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""} https://vercel.live https://va.vercel-scripts.com`,
+  `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""} ${vercelPreviewSources.join(" ")}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://vercel.live",
+  `img-src 'self' data: blob:${isPreviewDeployment ? " https://vercel.live" : ""}`,
   "font-src 'self' data:",
   "media-src 'self' blob:",
-  "connect-src 'self' https://vercel.live https://*.vercel-insights.com wss: ws:",
-  "frame-src https://vercel.live",
+  `connect-src 'self' https://*.vercel-insights.com${isPreviewDeployment ? " https://vercel.live wss:" : ""}${isDevelopment ? " ws:" : ""}`,
+  `frame-src ${isPreviewDeployment ? "https://vercel.live" : "'none'"}`,
   "worker-src 'self' blob:",
+  "manifest-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self' mailto:",
@@ -75,10 +79,36 @@ const nextConfig: NextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
           { key: "X-DNS-Prefetch-Control", value: "off" },
+          { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
+          { key: "Origin-Agent-Cluster", value: "?1" },
           ...(isPreviewDeployment || process.env.NEXT_PUBLIC_NO_INDEX === "1"
             ? [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }]
             : []),
+        ],
+      },
+      {
+        source: "/client-login",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+          { key: "Pragma", value: "no-cache" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive, nosnippet" },
+        ],
+      },
+      {
+        source: "/client-portal/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+          { key: "Pragma", value: "no-cache" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive, nosnippet" },
+        ],
+      },
+      {
+        source: "/api/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive, nosnippet" },
         ],
       },
     ];

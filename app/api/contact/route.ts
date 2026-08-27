@@ -28,19 +28,7 @@ const contacts = {
   },
 } as const;
 
-type AllowedExtension = "pdf" | "png" | "jpg" | "jpeg" | "webp";
-
-const fileRules: Record<AllowedExtension, { mimeTypes: ReadonlySet<string> }> = {
-  pdf: { mimeTypes: new Set(["application/pdf"]) },
-  png: { mimeTypes: new Set(["image/png"]) },
-  jpg: { mimeTypes: new Set(["image/jpeg"]) },
-  jpeg: { mimeTypes: new Set(["image/jpeg"]) },
-  webp: { mimeTypes: new Set(["image/webp"]) },
-};
-
-const maxAttachmentCount = 5;
-const maxAttachmentBytes = 3 * 1024 * 1024;
-const maxRequestBytes = 4 * 1024 * 1024;
+const maxRequestBytes = 128 * 1024;
 const rateLimitWindowMs = 10 * 60 * 1000;
 const rateLimitMaximum = 6;
 const requestHistory = new Map<string, number[]>();
@@ -65,7 +53,7 @@ function json(body: Record<string, unknown>, status = 200, extraHeaders: Headers
   });
 }
 
-function readText(data: FormData, key: keyof typeof fieldLimits | "division" | "consent" | "companyWebsite") {
+function readText(data: FormData, key: keyof typeof fieldLimits | "division" | "consent" | "dataPolicy" | "companyWebsite") {
   const value = data.get(key);
   return typeof value === "string" ? value.trim() : "";
 }
@@ -87,7 +75,7 @@ function validOptionalUrl(value: string) {
   if (!value) return true;
   try {
     const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
+    return (url.protocol === "http:" || url.protocol === "https:") && !url.username && !url.password;
   } catch {
     return false;
   }
@@ -132,23 +120,6 @@ function isTrustedRequest(request: Request) {
   return allowedOrigins.has(origin);
 }
 
-function fileExtension(filename: string): AllowedExtension | null {
-  const extension = filename.split(".").pop()?.toLowerCase();
-  return extension && extension in fileRules ? extension as AllowedExtension : null;
-}
-
-function hasExpectedSignature(extension: AllowedExtension, content: Buffer) {
-  if (extension === "pdf") return content.subarray(0, 1024).includes(Buffer.from("%PDF-"));
-  if (extension === "png") return content.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
-  if (extension === "jpg" || extension === "jpeg") return content[0] === 0xff && content[1] === 0xd8 && content[2] === 0xff;
-  return content.subarray(0, 4).toString("ascii") === "RIFF" && content.subarray(8, 12).toString("ascii") === "WEBP";
-}
-
-function safeFilename(filename: string, extension: AllowedExtension) {
-  const base = filename.slice(0, -(extension.length + 1)).replace(/[^\w\-() ]/g, "_").slice(0, 120) || "attachment";
-  return `${base}.${extension}`;
-}
-
 export async function POST(request: Request) {
   if (!isTrustedRequest(request)) return json({ ok: false, message: "This submission origin is not allowed." }, 403);
   if (isRateLimited(request)) {
@@ -165,7 +136,7 @@ export async function POST(request: Request) {
   }
 
   if (Number(request.headers.get("content-length") || 0) > maxRequestBytes) {
-    return json({ ok: false, message: "Keep attachments under 3 MB total or include a plan-room link." }, 413);
+    return json({ ok: false, message: "This request is too large. Use a secure plan-room link for project documents." }, 413);
   }
 
   let data: FormData;
@@ -202,36 +173,10 @@ export async function POST(request: Request) {
     || !values.message
     || !validOptionalUrl(values.planRoomUrl)
     || readText(data, "consent") !== "yes"
+    || readText(data, "dataPolicy") !== "yes"
     || !fieldsFitLimits(values)
   ) {
     return json({ ok: false, message: "Complete the required fields and try again." }, 400);
-  }
-
-  const files = data.getAll("attachments").filter((entry): entry is File => entry instanceof File && entry.size > 0);
-  const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
-  if (files.length > maxAttachmentCount || totalBytes > maxAttachmentBytes) {
-    return json({ ok: false, message: "Attach up to five files under 3 MB total." }, 413);
-  }
-
-  const attachments: Array<{ filename: string; content: Buffer }> = [];
-  for (const file of files) {
-    const extension = fileExtension(file.name);
-    if (!extension) {
-      return json({ ok: false, message: "Attach PDF, PNG, JPEG, or WebP files. Use a plan-room link for other formats." }, 415);
-    }
-
-    const rule = fileRules[extension];
-    const suppliedMime = file.type.toLowerCase();
-    if (suppliedMime && suppliedMime !== "application/octet-stream" && !rule.mimeTypes.has(suppliedMime)) {
-      return json({ ok: false, message: "An attachment type did not match its filename." }, 415);
-    }
-
-    const content = Buffer.from(await file.arrayBuffer());
-    if (!hasExpectedSignature(extension, content)) {
-      return json({ ok: false, message: "An attachment could not be verified as a safe PDF or image." }, 415);
-    }
-
-    attachments.push({ filename: safeFilename(file.name, extension), content });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -270,7 +215,6 @@ export async function POST(request: Request) {
       replyTo: values.email,
       subject: `[${reference}] ${subjectCompany} - ${subjectProject}`,
       html: `<div style="font-family:Arial,sans-serif;color:#111;line-height:1.5"><h1>New JZ Group project inquiry</h1><table>${rows}</table><h2>Project details</h2><p style="white-space:pre-wrap">${escapeHtml(values.message)}</p></div>`,
-      attachments,
     });
     if (inquiry.error) throw new Error(inquiry.error.message);
   } catch (error) {

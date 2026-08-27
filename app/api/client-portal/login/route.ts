@@ -48,7 +48,18 @@ export async function POST(request: Request) {
   if (!isClientPortalConfigured()) return loginRedirect(request, "configuration");
   if (isRateLimited(request)) return loginRedirect(request, "limited");
 
-  const formData = await request.formData();
+  const contentType = request.headers.get("content-type")?.toLowerCase() ?? "";
+  if (!contentType.startsWith("application/x-www-form-urlencoded") && !contentType.startsWith("multipart/form-data")) {
+    return loginRedirect(request, "invalid");
+  }
+  if (Number(request.headers.get("content-length") || 0) > 8 * 1024) return loginRedirect(request, "invalid");
+
+  let formData: FormData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return loginRedirect(request, "invalid");
+  }
   const accessId = String(formData.get("accessId") ?? "").trim().slice(0, 120);
   const password = String(formData.get("password") ?? "").slice(0, 256);
   if (!validClientPortalCredentials(accessId, password)) {

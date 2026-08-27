@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { jwtVerify, SignJWT } from "jose";
 
 export const clientPortalCookie = "jz_client_session";
-export const clientPortalSessionSeconds = 60 * 60 * 24 * 7;
+export const clientPortalSessionSeconds = 60 * 60 * 12;
 
 function encodedSecret() {
   const secret = process.env.CLIENT_PORTAL_SECRET?.trim();
@@ -41,6 +41,8 @@ export async function createClientPortalToken(accessId: string) {
 
   return new SignJWT({ accessId })
     .setProtectedHeader({ alg: "HS256" })
+    .setSubject("jz-client")
+    .setJti(crypto.randomUUID())
     .setIssuedAt()
     .setExpirationTime(`${clientPortalSessionSeconds}s`)
     .setIssuer("jzgroupmiami.com")
@@ -56,6 +58,7 @@ export async function verifyClientPortalToken(token?: string) {
     await jwtVerify(token, secret, {
       issuer: "jzgroupmiami.com",
       audience: "jz-client-portal",
+      subject: "jz-client",
     });
     return true;
   } catch {

@@ -6,6 +6,7 @@ import { getActiveCompanySite } from "@/app/company-sites";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = getSiteUrl();
+  const policyRoutes = ["/privacy", "/terms", "/accessibility"] as const;
   const activeCompany = getActiveCompanySite();
   if (activeCompany) {
     const divisionRoutes = publicContentRoutes.filter((route) => route.startsWith(`/${activeCompany}/`));
@@ -17,6 +18,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
       })),
       { url: `${base}/contact`, changeFrequency: "monthly", priority: 0.8 },
+      ...policyRoutes.map((route) => ({
+        url: `${base}${route}`,
+        changeFrequency: "yearly" as const,
+        priority: 0.3,
+      })),
     ];
   }
   return [
@@ -30,6 +36,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${base}${route}`,
       changeFrequency: "monthly" as const,
       priority: route.split("/").length <= 2 ? 0.8 : 0.7,
+    })),
+    ...policyRoutes.map((route) => ({
+      url: `${base}${route}`,
+      changeFrequency: "yearly" as const,
+      priority: 0.3,
     })),
   ];
 }

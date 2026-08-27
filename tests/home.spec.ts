@@ -461,6 +461,7 @@ test("bid endpoint fails honestly until delivery credentials are configured", as
       facilityStatus: "Occupied commercial facility",
       message: "Test request for the website delivery path.",
       consent: "yes",
+      dataPolicy: "yes",
     },
   });
 
@@ -468,7 +469,7 @@ test("bid endpoint fails honestly until delivery credentials are configured", as
   await expect(response.json()).resolves.toMatchObject({ ok: false });
 });
 
-test("bid endpoint rejects cross-site submissions and unverified attachment formats", async ({ request }) => {
+test("bid endpoint rejects cross-site submissions and unsafe data handling", async ({ request }) => {
   const crossSite = await request.post("/api/contact", {
     headers: { Origin: "https://example.invalid", "Sec-Fetch-Site": "cross-site" },
     multipart: {
@@ -481,11 +482,12 @@ test("bid endpoint rejects cross-site submissions and unverified attachment form
       facilityStatus: "Occupied commercial facility",
       message: "Cross-site test request.",
       consent: "yes",
+      dataPolicy: "yes",
     },
   });
   expect(crossSite.status()).toBe(403);
 
-  const unsupportedFile = await request.post("/api/contact", {
+  const missingDataPolicy = await request.post("/api/contact", {
     multipart: {
       name: "Estimator Test",
       company: "General Contractor Test",
@@ -494,18 +496,13 @@ test("bid endpoint rejects cross-site submissions and unverified attachment form
       projectType: "Selective demolition",
       projectLocation: "Miami, Florida",
       facilityStatus: "Occupied commercial facility",
-      message: "Attachment validation test.",
+      message: "Sensitive-data acknowledgement test.",
       consent: "yes",
-      attachments: {
-        name: "plans.zip",
-        mimeType: "application/zip",
-        buffer: Buffer.from("PK-not-a-plan"),
-      },
     },
   });
-  expect(unsupportedFile.status()).toBe(415);
+  expect(missingDataPolicy.status()).toBe(400);
 
-  const spoofedPdf = await request.post("/api/contact", {
+  const credentialInUrl = await request.post("/api/contact", {
     multipart: {
       name: "Estimator Test",
       company: "General Contractor Test",
@@ -514,14 +511,11 @@ test("bid endpoint rejects cross-site submissions and unverified attachment form
       projectType: "Selective demolition",
       projectLocation: "Miami, Florida",
       facilityStatus: "Occupied commercial facility",
-      message: "File signature validation test.",
+      message: "Plan-room URL validation test.",
       consent: "yes",
-      attachments: {
-        name: "plans.pdf",
-        mimeType: "application/pdf",
-        buffer: Buffer.from("This is not a PDF."),
-      },
+      dataPolicy: "yes",
+      planRoomUrl: "https://username:password@example.com/plans",
     },
   });
-  expect(spoofedPdf.status()).toBe(415);
+  expect(credentialInUrl.status()).toBe(400);
 });

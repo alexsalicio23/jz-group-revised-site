@@ -49,8 +49,29 @@ test("sitemap, structured data, caching, and security headers are launch ready",
   expect(homeResponse.headers()["x-content-type-options"]).toBe("nosniff");
   expect(homeResponse.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   expect(homeResponse.headers()["permissions-policy"]).toContain("camera=()");
+  expect(homeResponse.headers()["cross-origin-opener-policy"]).toBe("same-origin");
+  expect(homeResponse.headers()["cross-origin-resource-policy"]).toBe("same-origin");
+  expect(homeResponse.headers()["x-permitted-cross-domain-policies"]).toBe("none");
 
   const mediaResponse = await request.get("/media/jz-drone-walkthrough.mp4");
   expect(mediaResponse.headers()["cache-control"]).toContain("max-age=31536000");
   expect(mediaResponse.headers()["cache-control"]).toContain("immutable");
+});
+
+test("privacy endpoints and private-route controls remain available", async ({ page, request }) => {
+  for (const route of ["/privacy", "/terms", "/accessibility"]) {
+    await page.goto(route);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.locator(".jz-site-footer-meta").getByRole("link", { name: "Privacy" })).toBeVisible();
+  }
+
+  const security = await request.get("/.well-known/security.txt");
+  expect(security.status()).toBe(200);
+  expect(await security.text()).toContain("Contact: mailto:");
+
+  for (const route of ["/client-login", "/client-portal"]) {
+    const response = await request.get(route, { maxRedirects: 0 });
+    expect(response.headers()["cache-control"]).toContain("no-store");
+    expect(response.headers()["x-robots-tag"]).toContain("noindex");
+  }
 });
