@@ -28,5 +28,11 @@ export default defineConfig({
     url: "http://localhost:3100",
     reuseExistingServer: true,
     timeout: 180_000,
+    env: {
+      ...process.env,
+      CLIENT_PORTAL_ACCESS_ID: "jz-client",
+      CLIENT_PORTAL_PASSWORD: "test-portal-password",
+      CLIENT_PORTAL_SECRET: "test-only-client-portal-secret-32-characters",
+    },
   },
 });

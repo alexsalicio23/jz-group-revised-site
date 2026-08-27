@@ -20,6 +20,7 @@ import "./desktop-optimization.css";
 import "./industrial-panels.css";
 import "./footer-team-update.css";
 import "./portfolio-update.css";
+import "./client-portal.css";
 
 const neue = localFont({
   src: [
