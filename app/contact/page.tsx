@@ -19,7 +19,9 @@ const pageData = activeCompany
 
 export const metadata: Metadata = buildPageMetadata({
   title: activeCompany ? `Contact ${divisionLabels[activeCompany]} Estimating` : data.seoTitle ?? "Contact Estimating | JZ Group",
-  description: pageData.introduction,
+  description: activeCompany
+    ? `Send project details, schedule, facility status, bid date, and scope documents to the ${divisionLabels[activeCompany]} estimating team in South Florida.`
+    : data.seoDescription ?? data.introduction,
   path: "/contact",
   image: "/media/website-photos/construction-plan-review.webp",
   imageAlt: "JZ construction professional reviewing project plans",

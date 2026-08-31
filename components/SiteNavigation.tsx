@@ -101,6 +101,7 @@ export function GroupHeader() {
 
 function divisionLinks(division: TemplateSlug) {
   const base = `/${division}`;
+  const activeCompany = getActiveCompanySite();
   const links = [
     { label: "Overview", href: base },
     { label: "Services", href: `${base}#capabilities` },
@@ -108,7 +109,12 @@ function divisionLinks(division: TemplateSlug) {
 
   if (division !== "waste-management") links.push({ label: "Projects", href: `${base}/projects` });
   links.push({ label: "About", href: `${base}/about` });
-  return links.map((item) => ({ ...item, href: localizeCompanyHref(division, item.href) }));
+  const localizedLinks = links.map((item) => ({ ...item, href: localizeCompanyHref(division, item.href) }));
+  localizedLinks.push({
+    label: "Leadership",
+    href: activeCompany ? `${groupSiteUrl}/about#leadership` : "/about#leadership",
+  });
+  return localizedLinks;
 }
 
 export function DivisionHeader({ division }: { division: TemplateSlug }) {

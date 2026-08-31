@@ -33,7 +33,16 @@ test("sitemap, structured data, caching, and security headers are launch ready",
   expect(sitemapResponse.status()).toBe(200);
   const sitemap = await sitemapResponse.text();
   for (const division of divisions) expect(sitemap).toContain(`${SITE}/${division}`);
-  expect(sitemap).not.toContain(`${SITE}/demolition/services/interior-demolition`);
+  expect(sitemap).toContain(`${SITE}/demolition/services/interior-demolition`);
+
+  const deepPageResponse = await request.get("/demolition/services/interior-demolition", { maxRedirects: 0 });
+  expect(deepPageResponse.status()).toBe(200);
+  await page.goto("/demolition/services/interior-demolition");
+  await expect(page.locator('meta[name="robots"]')).not.toHaveAttribute("content", /noindex|nofollow/i);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    `${SITE}/demolition/services/interior-demolition`,
+  );
 
   await page.goto("/demolition");
   const schemas = await page.locator('script[type="application/ld+json"]').evaluateAll((elements) =>
