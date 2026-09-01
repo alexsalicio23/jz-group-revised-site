@@ -13,8 +13,10 @@ type HeroChapter = {
   placement: "lower-left" | "upper-right" | "upper-left" | "lower-right";
 };
 
-const START_TIME = 2;
+const START_TIME = 0;
 const END_TIME = 13;
+const MOBILE_INTRO_END_TIME = 1.15;
+const MOBILE_RESOLUTION_TIME = 11.9;
 
 // The `media` attribute on <source> is ignored inside <video> by Chromium and
 // WebKit: the browser walks the list, discards what it already fetched, and
@@ -29,29 +31,29 @@ const HERO_VIDEO = {
 const chapters = [
   {
     title: "Pre-Development",
-    detail: "Planning, logistics, and coordination establish the path forward.",
-    start: 2,
-    end: 4.8,
+    detail: "Planning and logistics establish the path forward.",
+    start: 0,
+    end: 2.2,
     placement: "lower-left",
   },
   {
     title: "Demolition",
-    detail: "Controlled removal clears the way for what comes next.",
-    start: 4.8,
-    end: 7.5,
+    detail: "Controlled removal prepares the property for its next use.",
+    start: 2.2,
+    end: 6.1,
     placement: "upper-right",
   },
   {
-    title: "Construction",
-    detail: "New spaces and systems take shape through coordinated execution.",
-    start: 7.5,
-    end: 10.1,
+    title: "Waste Hauling",
+    detail: "Material is cleared efficiently so the project keeps moving.",
+    start: 6.1,
+    end: 8.4,
     placement: "upper-left",
   },
   {
-    title: "Waste Hauling",
-    detail: "Material moves off site efficiently so the project keeps moving.",
-    start: 10.1,
+    title: "Construction",
+    detail: "The new medical pavilion rises through coordinated execution.",
+    start: 8.4,
     end: 13,
     placement: "lower-right",
   },
@@ -215,7 +217,7 @@ export function CinematicHero() {
       element.style.setProperty("--hero-progress", progress.toFixed(4));
       element.dataset.state = progress >= 0.92
         ? "resolution"
-        : progress >= 0.1
+        : progress >= 0.08
           ? "chapters"
           : "intro";
       setActiveChapter(getChapterIndex(targetTime));
@@ -267,15 +269,15 @@ export function CinematicHero() {
           loop
           playsInline
           preload="metadata"
-          poster="/media/jz-drone-walkthrough-poster.jpg"
-          aria-label="A continuous walkthrough of a commercial interior moving from demolition to completion"
+          poster="/media/jz-drone-walkthrough-poster-v2.webp"
+          aria-label="A continuous aerial transformation of a medical office property from planning through construction"
           onTimeUpdate={(event) => {
             if (window.matchMedia("(min-width: 901px)").matches) return;
             const currentTime = event.currentTarget.currentTime;
             if (root.current) {
-              root.current.dataset.state = currentTime >= END_TIME
+              root.current.dataset.state = currentTime >= MOBILE_RESOLUTION_TIME
                 ? "resolution"
-                : currentTime >= START_TIME
+                : currentTime >= MOBILE_INTRO_END_TIME
                   ? "chapters"
                   : "intro";
             }
@@ -301,7 +303,7 @@ export function CinematicHero() {
 
         <ol
           className="compact-hero-chapters"
-          aria-label="Interior transformation phases"
+          aria-label="Property transformation phases"
           tabIndex={0}
         >
           {chapters.map((chapter, index) => (
