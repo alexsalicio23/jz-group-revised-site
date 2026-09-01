@@ -24,8 +24,8 @@ const MOBILE_RESOLUTION_TIME = 11.9;
 // two full files (13.6 MB desktop / 9.5 MB mobile) and always played the
 // desktop cut. Selecting one src at runtime is the only reliable way.
 const HERO_VIDEO = {
-  mobile: "/media/jz-drone-walkthrough-mobile-v2.mp4",
-  desktop: "/media/jz-drone-walkthrough-scrub-v2.mp4",
+  mobile: "/media/jz-medical-pavilion-hero-mobile.mp4",
+  desktop: "/media/jz-medical-pavilion-hero-desktop.mp4",
 } as const;
 
 const chapters = [
@@ -269,7 +269,7 @@ export function CinematicHero() {
           loop
           playsInline
           preload="metadata"
-          poster="/media/jz-drone-walkthrough-poster-v2.webp"
+          poster="/media/jz-medical-pavilion-hero-poster.webp"
           aria-label="A continuous aerial transformation of a medical office property from planning through construction"
           onTimeUpdate={(event) => {
             if (window.matchMedia("(min-width: 901px)").matches) return;

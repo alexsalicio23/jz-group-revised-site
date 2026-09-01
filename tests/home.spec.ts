@@ -11,8 +11,8 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
     "currentSrc",
     new URL(
       narrow
-        ? "/media/jz-drone-walkthrough-mobile-v2.mp4"
-        : "/media/jz-drone-walkthrough-scrub-v2.mp4",
+        ? "/media/jz-medical-pavilion-hero-mobile.mp4"
+        : "/media/jz-medical-pavilion-hero-desktop.mp4",
       page.url(),
     ).toString(),
   );
@@ -107,7 +107,7 @@ test("mobile presentation copy is centered while form fields stay scannable", as
   expect(heroSummarySize).toBeGreaterThanOrEqual(16);
   await expect(page.locator(".compact-hero-media")).toHaveJSProperty(
     "currentSrc",
-    new URL("/media/jz-drone-walkthrough-mobile-v2.mp4", page.url()).toString(),
+    new URL("/media/jz-medical-pavilion-hero-mobile.mp4", page.url()).toString(),
   );
 
   const chapterDescriptionSize = await page.locator(".compact-hero-chapter p").first().evaluate((element) =>
