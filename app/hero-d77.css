@@ -42,13 +42,7 @@ main :is(.compact-hero-summary > p, .compact-hero-chapter p) {
 
 .compact-hero-media {
   object-fit: cover;
-}
-
-@media (min-width: 901px) {
-  .compact-hero-media {
-    object-fit: contain;
-    background: var(--ink);
-  }
+  object-position: center center;
 }
 
 .compact-hero-shade {
