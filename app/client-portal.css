@@ -185,10 +185,6 @@
   gap: 0.8rem;
 }
 
-.portal-brand img {
-  filter: invert(1);
-}
-
 .portal-brand span {
   color: rgb(255 255 255 / 0.68);
   border-color: rgb(255 255 255 / 0.3);

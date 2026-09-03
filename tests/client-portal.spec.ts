@@ -10,6 +10,7 @@ test("client portal requires authentication and supports login and logout", asyn
   await page.getByRole("button", { name: "Open dashboard" }).click();
 
   await expect(page).toHaveURL(/\/client-portal$/);
+  await expect(page.locator(".portal-brand img")).toHaveCSS("filter", "none");
   await expect(page.getByRole("heading", { name: "Progress Dashboard" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Project Phases" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Needed From JZ" })).toBeVisible();

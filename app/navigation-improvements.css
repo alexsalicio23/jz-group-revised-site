@@ -24,11 +24,6 @@
   backdrop-filter: blur(14px);
 }
 
-.site-header[data-scrolled="true"] .brand img,
-.template-header[data-scrolled="true"] .template-brand img {
-  filter: grayscale(1) brightness(0);
-}
-
 .template-header[data-scrolled="true"] .template-brand small {
   color: rgb(8 9 10 / 0.55);
 }
@@ -392,7 +387,6 @@
   width: 150px;
   height: auto;
   margin-bottom: 0.5rem;
-  filter: grayscale(1) brightness(0) invert(1);
 }
 
 .jz-site-footer .jz-site-footer-logo {

@@ -228,7 +228,6 @@ ul {
   height: auto;
   max-height: 60px;
   object-fit: contain;
-  filter: grayscale(1) brightness(0) invert(1);
 }
 
 .desktop-nav,
@@ -1671,7 +1670,6 @@ ul {
 .metric-footer-brand img {
   width: 180px;
   height: auto;
-  filter: grayscale(1) brightness(0) invert(1);
 }
 
 .metric-footer-brand p {

@@ -298,7 +298,6 @@ main :is(.compact-hero-summary > p, .compact-hero-chapter p) {
 .compact-hero-resolution img {
   width: clamp(190px, 19vw, 300px);
   height: auto;
-  filter: grayscale(1) brightness(0) invert(1);
 }
 
 .compact-hero-progress {
