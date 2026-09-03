@@ -17,6 +17,7 @@ test("homepage presents the JZ operating group with real field proof", async ({ 
     ).toString(),
   );
   await expect(page.locator(".compact-hero-chapter")).toHaveCount(4);
+  await expect(page.locator(".compact-hero-media")).toHaveJSProperty("playbackRate", narrow ? 0.8 : 1);
   await expect(page.locator(".compact-hero-resolution img")).toHaveCount(1);
   await expect(page.locator(".compact-hero-resolution p, .compact-hero-resolution i")).toHaveCount(0);
   await expect(page.locator("#division-stack-title")).toHaveText("Four Companies One Group");
@@ -235,8 +236,8 @@ test("hero tells four phases without an oversized scroll gap", async ({ page }, 
   const viewportHeight = page.viewportSize()!.height;
   const hero = page.locator(".compact-hero");
   const heroHeight = await hero.evaluate((element) => element.getBoundingClientRect().height);
-  expect(heroHeight).toBeGreaterThanOrEqual(viewportHeight * 2.18);
-  expect(heroHeight).toBeLessThanOrEqual(viewportHeight * 2.22);
+  expect(heroHeight).toBeGreaterThanOrEqual(viewportHeight * 2.48);
+  expect(heroHeight).toBeLessThanOrEqual(viewportHeight * 2.52);
   const desktopSubheadingSize = await page.locator(".compact-hero-summary > p").evaluate(
     (element) => Number.parseFloat(getComputedStyle(element).fontSize),
   );

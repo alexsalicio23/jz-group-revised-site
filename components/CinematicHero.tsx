@@ -74,6 +74,8 @@ export function CinematicHero() {
     if (!walkthrough || walkthrough.src) return;
     const mobile = window.matchMedia("(max-width: 900px)").matches;
     walkthrough.preload = mobile ? "metadata" : "auto";
+    walkthrough.defaultPlaybackRate = mobile ? 0.8 : 1;
+    walkthrough.playbackRate = walkthrough.defaultPlaybackRate;
     walkthrough.src = mobile ? HERO_VIDEO.mobile : HERO_VIDEO.desktop;
     walkthrough.load();
   }, []);
