@@ -16,7 +16,7 @@ main :is(.compact-hero-summary > p, .compact-hero-chapter p) {
 }
 
 .compact-hero[data-enhanced="true"] {
-  height: 250svh;
+  height: 287.5svh;
 }
 
 .compact-hero-stage {
