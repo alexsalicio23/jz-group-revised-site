@@ -34,7 +34,7 @@ export const portalPageStatuses: readonly PortalPageStatus[] = [
   { page: "About and team", status: "Waiting on JZ", detail: "Roster and available portraits are loaded; remaining portraits and contacts are pending.", href: "/about" },
   { page: "Prequalification", status: "Waiting on JZ", detail: "Presentation is ready for verified licenses, insurance, bonding, and safety data.", href: "/values" },
   { page: "Contact and bid routing", status: "In progress", detail: "The routed project form is built; final delivery configuration requires launch verification.", href: "/contact" },
-  { page: "Company websites", status: "In progress", detail: "The four-company audit is complete. Mobile, navigation, contact, privacy, and content corrections are being verified in previews before launch approval.", href: "/services" },
+  { page: "Company websites", status: "In progress", detail: "The four-company audit repairs passed verification. Mobile, navigation, contact, privacy, and content updates are included in this release; final content and domain approvals remain.", href: "/services" },
 ] as const;
 
 export const portalActionItems = [
@@ -48,7 +48,7 @@ export const portalActionItems = [
 ] as const;
 
 const fallbackUpdates: readonly PortalUpdate[] = [
-  { id: "company-site-audit", title: "Audited all four company websites; corrections are in preview review", date: "Sep 4, 2026" },
+  { id: "company-site-audit", title: "Completed audit repairs across all four company websites and fixed mobile Qualifications text", date: "Sep 5, 2026" },
   { id: "portfolio", title: "Added the updated 21-project portfolio", date: "Aug 26, 2026" },
   { id: "team", title: "Added footer socials and team contact profiles", date: "Aug 26, 2026" },
   { id: "navigation", title: "Simplified and repaired navigation dropdowns", date: "Aug 26, 2026" },

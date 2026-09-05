@@ -15,7 +15,7 @@ test("client portal requires authentication and supports login and logout", asyn
   await expect(page.getByRole("heading", { name: "Project Phases" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Needed From JZ" })).toBeVisible();
   await expect(page.getByText("Confirmed JZ delivery roles for Development portfolio listings and Construction case studies")).toBeVisible();
-  await expect(page.getByText("The four-company audit is complete. Mobile, navigation, contact, privacy, and content corrections are being verified in previews before launch approval.")).toBeVisible();
+  await expect(page.getByText("The four-company audit repairs passed verification. Mobile, navigation, contact, privacy, and content updates are included in this release; final content and domain approvals remain.")).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
 
   const overflows = await page.locator("body *").evaluateAll((elements) =>

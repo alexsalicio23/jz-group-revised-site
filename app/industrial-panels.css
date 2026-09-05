@@ -216,7 +216,7 @@
 
 .qualification-band > header {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem;
   justify-items: center;
   margin-bottom: clamp(2.5rem, 4vw, 4rem);
@@ -225,18 +225,27 @@
 
 .qualification-band > header > div {
   display: grid;
+  width: 100%;
+  min-width: 0;
+  justify-items: center;
   gap: 1rem;
 }
 
 .qualification-band > header h2 {
-  max-width: 880px;
-  font-size: clamp(4.2rem, 7.4vw, 8.2rem);
-  line-height: 0.84;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  font-size: 6rem;
+  line-height: 1.1;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
   text-align: center;
 }
 
 .qualification-band > header p {
-  max-width: 640px;
+  width: min(640px, 100%);
+  max-width: 100%;
+  min-width: 0;
   margin-inline: auto;
   color: var(--steel);
   font-size: clamp(1rem, 1.15vw, 1.2rem);
@@ -244,6 +253,7 @@
 }
 
 .qualification-band > header a {
+  max-width: 100%;
   justify-self: center;
   margin: 0;
 }
@@ -453,6 +463,32 @@
   min-height: clamp(340px, 30vw, 440px);
 }
 
+@media (max-width: 1200px) {
+  .qualification-band .qualification-ledger {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .qualification-band .qualification-ledger > div {
+    min-height: 180px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .qualification-band .qualification-ledger > div:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .qualification-band .qualification-ledger > div:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 1100px) {
+  .qualification-band > header h2 {
+    font-size: 4.5rem;
+  }
+}
+
 @media (max-width: 900px) {
   .group-quick-access > a {
     min-height: 138px;
@@ -523,7 +559,7 @@
   }
 
   .qualification-band > header {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     justify-items: center;
     text-align: center;
   }
@@ -534,7 +570,7 @@
   }
 
   .qualification-band > header h2 {
-    font-size: clamp(3.3rem, 16vw, 5rem);
+    font-size: 4.5rem;
   }
 
   .qualification-band > header a {
@@ -579,6 +615,24 @@
   }
 }
 
+@media (max-width: 760px) {
+  .qualification-band > header h2 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .qualification-band > header h2 {
+    font-size: 2.25rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .qualification-band > header h2 {
+    font-size: 2rem;
+  }
+}
+
 @media (max-width: 560px) {
   .group-quick-access {
     grid-template-columns: 1fr;
@@ -600,15 +654,15 @@
     grid-template-columns: 1fr;
   }
 
-  .qualification-ledger > div,
-  .qualification-ledger > div:nth-child(2n),
-  .qualification-ledger > div:nth-last-child(-n + 2) {
+  .qualification-band .qualification-ledger > div,
+  .qualification-band .qualification-ledger > div:nth-child(2n),
+  .qualification-band .qualification-ledger > div:nth-last-child(-n + 2) {
     min-height: 150px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
 
-  .qualification-ledger > div:last-child {
+  .qualification-band .qualification-ledger > div:last-child {
     border-bottom: 0;
   }
 }
