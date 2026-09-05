@@ -1,10 +1,12 @@
 import type { TemplateSlug } from "@/app/templates/template-data";
 import { contact } from "@/app/data";
+import { buildContactIntentHref } from "@/app/contact/contact-intent";
 
 export type Stat = { value: string; label: string };
 export type MediaAsset = {
   src: string;
   alt: string;
+  caption?: string;
   position?: string;
   poster?: string;
   type?: "image" | "video";
@@ -36,6 +38,7 @@ export type Specification = {
   title: string;
   dimensions?: string[];
   bestFor: string[];
+  requestHref?: string;
 };
 
 export type ContentSection = {
@@ -69,6 +72,7 @@ export type ContentPageData = {
   introduction: string;
   mediaLabel: string;
   heroMedia?: MediaAsset;
+  projectNote?: string;
   stats?: Stat[];
   actions?: ContentAction[];
   sections: ContentSection[];
@@ -797,6 +801,15 @@ const demolitionPages: ContentPageData[] = [
         ],
       },
       {
+        id: "robotic-demolition",
+        eyebrow: "Robotic capability",
+        title: "Robotic Demolition",
+        paragraphs: [
+          "JZ Demolition's capabilities include remote demolition for demanding access, concrete, and production conditions.",
+          "Share the concrete scope, site access, and surrounding operations with the team to discuss whether robotic demolition is appropriate for the work. Method selection is reviewed alongside scanning, cutting, protection, and material-removal planning.",
+        ],
+      },
+      {
         id: "repairs",
         eyebrow: "03 / Restore",
         title: "Concrete repairs",
@@ -1182,21 +1195,25 @@ const wastePages: ContentPageData[] = [
         specifications: [
           {
             title: "15-yard pull trailer",
+            requestHref: buildContactIntentHref({ division: "waste-management", inquiry: "rental", container: "15-trailer" }),
             dimensions: ["15 ft length", "8 ft width", "6 ft height"],
             bestFor: ["Tight driveways and restricted access", "Neighborhood placement limits", "Smaller renovation or cleanup jobs", "Sites where a dumpster cannot remain overnight"],
           },
           {
             title: "15-yard roll-off bin",
+            requestHref: buildContactIntentHref({ division: "waste-management", inquiry: "rental", container: "15-rolloff" }),
             dimensions: ["15 ft length", "8 ft width", "4 ft height"],
             bestFor: ["Small to medium renovations", "Garage, attic, or property cleanouts", "Roofing projects", "Landscaping and yard debris"],
           },
           {
             title: "20-yard roll-off bin",
+            requestHref: buildContactIntentHref({ division: "waste-management", inquiry: "rental", container: "20-rolloff" }),
             dimensions: ["20 ft length", "8 ft width", "4 ft height"],
             bestFor: ["Medium construction and remodeling", "Roofing or flooring removal", "Multi-room renovation", "Sites where a container can remain for several days"],
           },
           {
             title: "30-yard roll-off bin",
+            requestHref: buildContactIntentHref({ division: "waste-management", inquiry: "rental", container: "30-rolloff" }),
             dimensions: ["20 ft length", "8 ft width", "6 ft height"],
             bestFor: ["Large construction and demolition", "Major cleanouts and commercial remodels", "Bulky or high-volume material", "Longer projects requiring hauling efficiency"],
           },
@@ -1598,7 +1615,12 @@ const constructionPages: ContentPageData[] = [
     title: "Healthcare Construction",
     introduction:
       "Healthcare construction is coordinated around patients, staff, essential services, facility requirements, sensitive equipment, cleanliness, and the operations that continue around the work.",
-    mediaLabel: "HEALTHCARE CONSTRUCTION PROJECT",
+    mediaLabel: "REPRESENTATIVE COMMERCIAL FRAMING",
+    heroMedia: {
+      src: "/media/jzg/division-construction.webp",
+      alt: "Representative commercial interior framing at the 100 Biscayne project",
+      caption: "Representative commercial framing at 100 Biscayne. This image does not document the healthcare projects listed on this page.",
+    },
     stats: [
       { value: "Selected", label: "Public healthcare experience" },
       { value: "Occupied", label: "Medical coordination" },
@@ -1618,7 +1640,11 @@ const constructionPages: ContentPageData[] = [
           { title: "UHealth" },
           { title: "Memorial Healthcare" },
         ],
-        mediaLabel: "HEALTHCARE CONSTRUCTION GALLERY",
+        media: {
+          src: "/media/jzg/division-construction.webp",
+          alt: "Representative commercial interior framing at the 100 Biscayne project",
+          caption: "Representative commercial framing at 100 Biscayne. This image does not document the healthcare projects listed on this page.",
+        },
       },
     ],
     related: [
@@ -1685,9 +1711,13 @@ const developmentPages: ContentPageData[] = [
     title: "Long-Term Development",
     introduction:
       "JZ Development is a Miami-based development company focused on residential, commercial, mixed-use, workforce-housing, luxury, and entertainment opportunities across South Florida.",
-    mediaLabel: "JZ DEVELOPMENT TEAM / PROJECT PHOTO",
+    mediaLabel: "REPRESENTATIVE RESIDENTIAL INTERIOR",
+    heroMedia: {
+      src: "/media/development/workforce-housing-kitchen.webp",
+      alt: "Representative residential kitchen interior",
+      caption: "Representative residential interior, not a project-specific portfolio image.",
+    },
     stats: [
-      { value: "20+", label: "Publicly stated team experience" },
       { value: "Miami", label: "Home market" },
       { value: "Full lifecycle", label: "Plan through management" },
     ],
@@ -1697,17 +1727,16 @@ const developmentPages: ContentPageData[] = [
         eyebrow: "Our mission",
         title: "Places That Last",
         paragraphs: [
-          "JZ Development's public mission is to deliver high-quality affordable and luxury development across mixed-use, workforce-housing, and entertainment spaces.",
+          "JZ Development's mission is to deliver high-quality affordable and luxury development across mixed-use, workforce-housing, and entertainment spaces.",
           "The company aims to create communities that are functional, innovative, safe, welcoming, and sustainable while supporting the needs of residents, investors, and the wider community.",
         ],
-        mediaLabel: "COMMUNITY / DEVELOPMENT PHOTO",
       },
       {
         id: "experience",
         eyebrow: "Experience",
         title: "The Development Lifecycle",
         paragraphs: [
-          "The public site describes more than 20 years of combined real-estate-development experience and a team capable of guiding land acquisition, project planning, design, construction oversight, partnerships, and property management.",
+          "The development process spans land acquisition, project planning, design, construction oversight, partnerships, and property management.",
           "The development approach combines design, project management, strategic planning, and collaboration in pursuit of quality and long-term performance.",
         ],
       },
@@ -1726,12 +1755,11 @@ const developmentPages: ContentPageData[] = [
         eyebrow: "Office staff",
         title: "Development Leadership",
         cards: [
-          { title: "Alexander DeArmas", subtitle: "President", description: "Leads JZ strategy, growth, operations, innovation, and the entrepreneurial family legacy established with Jorge Balseiro." },
-          { title: "Zenaida Balseiro", subtitle: "Secretary", description: "Supports administration, documentation, and organization across JZ Development and the wider JZ Group." },
-          { title: "Alberto DeArmas", subtitle: "Head of Development", description: "Oversees development work from concept through completion through experience in construction, project management, and strategic planning." },
-          { title: "Christopher Carter", subtitle: "Vice President", description: "Supports operations, estimating, project opportunities, relationships, company culture, and continued process improvement." },
+          { title: "Alexander DeArmas", subtitle: "President" },
+          { title: "Zenaida Balseiro", subtitle: "Secretary" },
+          { title: "Alberto DeArmas", subtitle: "Head of Development" },
+          { title: "Christopher Carter", subtitle: "Vice President" },
         ],
-        mediaLabel: "DEVELOPMENT LEADERSHIP PHOTO",
       },
     ],
     related: [
@@ -1742,67 +1770,72 @@ const developmentPages: ContentPageData[] = [
   },
   {
     key: "development/projects",
-    seoTitle: "Development Projects: Coral Gables and Las Olas",
+    seoTitle: "South Florida Property References | JZ Development",
     seoDescription:
-      "Boutique and waterfront condominium development in Coral Gables and Fort Lauderdale, from acquisition and planning through construction oversight.",
+      "Residential property references in Coral Gables and Fort Lauderdale. Contact JZ Development for project-specific role and scope information.",
     division: "development",
     path: "projects",
     category: "projects",
     eyebrow: "JZ Development / Portfolio",
-    title: "Development Portfolio",
+    title: "South Florida Properties",
     introduction:
-      "Boutique and waterfront condominium development in Coral Gables and Fort Lauderdale, from acquisition and planning through construction oversight.",
-    mediaLabel: "JZ DEVELOPMENT PORTFOLIO COVER",
+      "Residential property references in Coral Gables and Fort Lauderdale. Contact JZ Development for project-specific role and scope information.",
+    mediaLabel: "REPRESENTATIVE RESIDENTIAL INTERIOR",
+    heroMedia: {
+      src: "/media/development/workforce-housing-kitchen.webp",
+      alt: "Representative residential kitchen interior",
+      caption: "Representative residential interior. This image is not identified as any of the properties listed on this page.",
+    },
+    projectNote: "Property names are provided for reference. A listing does not establish JZ's role as developer, owner, general contractor, or construction manager. Please contact JZ for confirmed role, scope, and project references.",
     sections: [
       {
         id: "portfolio",
-        eyebrow: "Current public portfolio",
-        title: "South Florida Projects",
+        eyebrow: "Residential properties",
+        title: "Property References",
         cards: [
           {
             title: "Villa Valencia",
             subtitle: "515 Valencia Avenue / Coral Gables",
-            description: "A collection of 39 ultra-luxury condominium residences with estate-sized units listed up to 6,263 square feet, combining tropical-modern interiors with Mediterranean design.",
+            description: "Luxury condominium residences in Coral Gables.",
           },
           {
             title: "AquaVue Las Olas",
             subtitle: "133 Isle of Venice Drive / Fort Lauderdale",
-            description: "An eight-unit condominium development completed in 2018, with publicly listed unit sizes from 2,849 to 2,865 square feet.",
+            description: "Condominium residences on Isle of Venice Drive in Fort Lauderdale.",
           },
           {
             title: "AquaMar Las Olas",
             subtitle: "Fort Lauderdale",
-            description: "A publicly listed 24-unit waterfront condominium described as five stories with private boat-slip access.",
+            description: "Waterfront condominium residences in Fort Lauderdale.",
           },
           {
             title: "AquaBlu Fort Lauderdale",
             subtitle: "Fort Lauderdale",
-            description: "A publicly listed 45-unit, 24-story waterfront condominium near the Galleria Mall, described on the source site as being in the design phase.",
+            description: "Waterfront condominium residences in Fort Lauderdale.",
           },
           {
             title: "1800 Las Olas",
             subtitle: "East Las Olas Boulevard / Fort Lauderdale",
-            description: "A publicly listed eight-unit waterfront condominium described as five stories with private boat-slip access.",
+            description: "Waterfront condominium residences on East Las Olas Boulevard in Fort Lauderdale.",
           },
           {
             title: "AquaLuna Las Olas",
             subtitle: "Fort Lauderdale",
-            description: "A publicly listed 16-unit waterfront condominium described as five stories with private boat-slip access.",
+            description: "Waterfront condominium residences in Fort Lauderdale.",
           },
           {
             title: "AquaVita Las Olas",
             subtitle: "Fort Lauderdale",
-            description: "A publicly listed 22-unit waterfront condominium described as five stories with private boat-slip access.",
+            description: "Waterfront condominium residences in Fort Lauderdale.",
           },
         ],
-        mediaLabel: "APPROVED DEVELOPMENT PROJECT GALLERY",
       },
       {
         id: "lifecycle",
         eyebrow: "Development platform",
         title: "Full-Lifecycle Development",
         paragraphs: [
-          "JZ Development's broader public positioning covers land acquisition, project planning, construction oversight, property management, partnership, and investment conversations.",
+          "JZ Development's broader focus includes workforce housing as well as residential, commercial, and mixed-use opportunities. The development process connects land acquisition, project planning, construction oversight, property management, and partnerships.",
         ],
       },
     ],

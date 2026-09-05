@@ -21,6 +21,7 @@ import "./industrial-panels.css";
 import "./footer-team-update.css";
 import "./portfolio-update.css";
 import "./client-portal.css";
+import "./company-audit.css";
 
 const neue = localFont({
   src: [

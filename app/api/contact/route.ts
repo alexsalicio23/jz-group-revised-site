@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { getSiteUrl } from "@/app/site-url";
+import { getActiveCompanySite, groupContactHref } from "@/app/company-sites";
+import { isRentalContainerToken, rentalContainerOptions } from "@/app/contact/contact-intent";
 
 export const runtime = "nodejs";
 export const maxDuration = 15;
@@ -56,6 +58,10 @@ const fieldLimits = {
   timeline: 120,
   planRoomUrl: 2048,
   message: 8000,
+  materialType: 160,
+  container: 40,
+  deliveryDate: 10,
+  pickupDate: 10,
 } as const;
 
 function json(body: Record<string, unknown>, status = 200, extraHeaders: HeadersInit = {}) {
@@ -65,7 +71,7 @@ function json(body: Record<string, unknown>, status = 200, extraHeaders: Headers
   });
 }
 
-function readText(data: FormData, key: keyof typeof fieldLimits | "division" | "consent" | "companyWebsite") {
+function readText(data: FormData, key: keyof typeof fieldLimits | "division" | "inquiry" | "consent" | "companyWebsite") {
   const value = data.get(key);
   return typeof value === "string" ? value.trim() : "";
 }
@@ -91,6 +97,12 @@ function validOptionalUrl(value: string) {
   } catch {
     return false;
   }
+}
+
+function validDate(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00.000Z`);
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
 
 function fieldsFitLimits(values: Record<keyof typeof fieldLimits, string>) {
@@ -134,7 +146,7 @@ function isTrustedRequest(request: Request) {
 
 function fileExtension(filename: string): AllowedExtension | null {
   const extension = filename.split(".").pop()?.toLowerCase();
-  return extension && extension in fileRules ? extension as AllowedExtension : null;
+  return extension && Object.hasOwn(fileRules, extension) ? extension as AllowedExtension : null;
 }
 
 function hasExpectedSignature(extension: AllowedExtension, content: Buffer) {
@@ -150,6 +162,14 @@ function safeFilename(filename: string, extension: AllowedExtension) {
 }
 
 export async function POST(request: Request) {
+  const activeCompany = getActiveCompanySite();
+  if (activeCompany) {
+    return json({
+      ok: false,
+      message: "Please continue to JZ Group to send your inquiry. This company website does not accept contact submissions.",
+      contactUrl: groupContactHref({ division: activeCompany }),
+    }, 409);
+  }
   if (!isTrustedRequest(request)) return json({ ok: false, message: "This submission origin is not allowed." }, 403);
   if (isRateLimited(request)) {
     return json(
@@ -188,18 +208,30 @@ export async function POST(request: Request) {
     timeline: readText(data, "timeline"),
     planRoomUrl: readText(data, "planRoomUrl"),
     message: readText(data, "message"),
+    materialType: readText(data, "materialType"),
+    container: readText(data, "container"),
+    deliveryDate: readText(data, "deliveryDate"),
+    pickupDate: readText(data, "pickupDate"),
   };
-  const division = contacts[readText(data, "division") as keyof typeof contacts];
+  const divisionKey = readText(data, "division");
+  const division = Object.hasOwn(contacts, divisionKey) ? contacts[divisionKey as keyof typeof contacts] : undefined;
+  const inquiryType = readText(data, "inquiry");
+  const isRental = inquiryType === "rental";
+  const requiredDetailsPresent = isRental
+    ? divisionKey === "waste-management"
+      && Boolean(values.materialType)
+      && isRentalContainerToken(values.container)
+      && validDate(values.deliveryDate)
+      && (!values.pickupDate || (validDate(values.pickupDate) && values.pickupDate >= values.deliveryDate))
+    : Boolean(values.company && values.projectType && values.facilityStatus && values.message);
 
   if (
     !values.name
-    || !values.company
     || !validEmail(values.email)
     || !division
-    || !values.projectType
     || !values.projectLocation
-    || !values.facilityStatus
-    || !values.message
+    || !["", "bid", "rental"].includes(inquiryType)
+    || !requiredDetailsPresent
     || !validOptionalUrl(values.planRoomUrl)
     || readText(data, "consent") !== "yes"
     || !fieldsFitLimits(values)
@@ -243,14 +275,22 @@ export async function POST(request: Request) {
   }
 
   const reference = crypto.randomUUID().split("-")[0].toUpperCase();
+  const containerLabel = rentalContainerOptions.find((option) => option.value === values.container)?.label;
   const details = [
     ["Reference", reference],
-    ["Company", values.company],
+    ["Inquiry type", isRental ? "Dumpster rental inquiry" : "Project or bid request"],
+    ["Company", values.company || "Not provided"],
     ["Service lane", division.division],
-    ["Project type", values.projectType],
+    ["Project type", isRental ? "Dumpster rental" : values.projectType],
     ["Location", values.projectLocation],
-    ["Facility status", values.facilityStatus],
+    ["Facility status", values.facilityStatus || "Not provided"],
     ["Timeline", values.timeline || "Not provided"],
+    ...(isRental ? [
+      ["Requested container", containerLabel || values.container],
+      ["Material type", values.materialType],
+      ["Requested delivery date", values.deliveryDate],
+      ["Requested pickup date", values.pickupDate || "Not provided"],
+    ] : []),
     ["Plan-room link", values.planRoomUrl || "Not provided"],
     ["Name", values.name],
     ["Email", values.email],
@@ -259,8 +299,8 @@ export async function POST(request: Request) {
   const rows = details
     .map(([label, value]) => `<tr><th align="left" style="padding:6px 16px 6px 0;color:#666">${escapeHtml(label)}</th><td>${escapeHtml(value)}</td></tr>`)
     .join("");
-  const subjectCompany = values.company.replace(/[\r\n]+/g, " ");
-  const subjectProject = values.projectType.replace(/[\r\n]+/g, " ");
+  const subjectCompany = (values.company || values.name).replace(/[\r\n]+/g, " ");
+  const subjectProject = isRental ? `Dumpster rental: ${containerLabel}` : values.projectType.replace(/[\r\n]+/g, " ");
   const resend = new Resend(apiKey);
 
   try {
@@ -269,7 +309,7 @@ export async function POST(request: Request) {
       to: [deliveryEmail],
       replyTo: values.email,
       subject: `[${reference}] ${subjectCompany} - ${subjectProject}`,
-      html: `<div style="font-family:Arial,sans-serif;color:#111;line-height:1.5"><h1>New JZ Group project inquiry</h1><table>${rows}</table><h2>Project details</h2><p style="white-space:pre-wrap">${escapeHtml(values.message)}</p></div>`,
+      html: `<div style="font-family:Arial,sans-serif;color:#111;line-height:1.5"><h1>New JZ Group ${isRental ? "rental" : "project"} inquiry</h1><table>${rows}</table><h2>Additional details</h2><p style="white-space:pre-wrap">${escapeHtml(values.message || "Not provided")}</p></div>`,
       attachments,
     });
     if (inquiry.error) throw new Error(inquiry.error.message);
@@ -284,7 +324,7 @@ export async function POST(request: Request) {
       to: [values.email],
       replyTo: deliveryEmail,
       subject: `JZ Group received your request [${reference}]`,
-      html: `<div style="font-family:Arial,sans-serif;color:#111;line-height:1.5"><p>Hi ${escapeHtml(values.name)},</p><p>Your request has been routed to <strong>${escapeHtml(division.division)}</strong>.</p><table>${rows}</table><p>A member of the estimating team will follow up after review.</p></div>`,
+      html: `<div style="font-family:Arial,sans-serif;color:#111;line-height:1.5"><p>Hi ${escapeHtml(values.name)},</p><p>Your request has been routed to <strong>${escapeHtml(division.division)}</strong>.</p><table>${rows}</table><p>A member of the team will follow up after review. Requested dates and services are subject to confirmation; this is not a booking.</p></div>`,
     });
     if (confirmation.error) console.error("Contact confirmation delivery failed", { reference, error: confirmation.error });
   } catch (error) {

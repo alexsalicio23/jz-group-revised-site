@@ -1,8 +1,26 @@
 # JZ Group Flagship Website — Audit and Update Log
 
 **Project:** JZ Group flagship website and connected company pages
-**Updated:** August 14, 2026
-**Working copy:** `output/jz-group-redesign-v2`
+**Updated:** September 5, 2026
+**Working copy:** `output/jzgroupmiami-medical-hero`
+
+## September 2026 company-site audit release
+
+Source branch: `codex/jz-company-audit-fixes`, based on the verified group production source at `2dc4754`. The sections below this release entry are historical records, not a substitute for the current live-site audit.
+
+- Coordinated implementation through an Astra Ultra lead agent and four bounded implementation agents.
+- Repaired company mobile heading wrapping, menu closure/focus, desktop subtitle contrast, and oversized related-service layouts.
+- Carried the existing approved gradient logos, current office/Maps link, and footer social placeholders into the company release; added a shared privacy link.
+- Centralized company inquiries through a branded handoff to the group contact page. Company contact APIs reject local collection. No cross-origin form POST or duplicated mail-service credentials were introduced.
+- Added allowlisted rental/container intent and a shorter waste-rental form while preserving generic bid validation, attachment restrictions, consent, and origin checks.
+- Added reduced-motion posters and accessible pause/resume controls for continuous background media, without changing the cinematic drone hero or four-card choreography.
+- Corrected Recycling navigation and added a targeted robotic-demolition section. Removed unresolved public Development fields and clarified representative imagery and unverified property attribution.
+- Added a factual website privacy notice for client review. This is not legal approval or a compliance certification.
+- Corrected the client portal update feed to follow the deployed revision instead of an old hardcoded branch.
+
+Release verification and deployment records are maintained in `output/jz-company-release-2026-09-04`; the original evidence is in `output/jz-division-audit-2026-09-04`. A release is not live until its deployment and production alias are explicitly verified.
+
+Remaining approval items: final company domains/indexing, actual inbox receipt, privacy review, project-role attribution, and matched landscape/project photography. See `COMPANY-CONTENT-APPROVAL-ITEMS.md`. Contact remains statically rendered as previously agreed; rental prefill requires JavaScript, while the standard form remains the no-JavaScript fallback.
 
 ## Original intro concept
 

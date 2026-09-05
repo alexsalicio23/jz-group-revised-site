@@ -1,0 +1,38 @@
+.control {
+  position: absolute;
+  left: var(--gutter, 1.25rem);
+  bottom: 1.25rem;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.75);
+  border-radius: 4px;
+  background: #171a1c;
+  color: #fff;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.control:hover {
+  background: #303638;
+}
+
+.control:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px #171a1c;
+}
+
+.control svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .control {
+    display: none;
+  }
+}

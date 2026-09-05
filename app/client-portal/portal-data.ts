@@ -34,7 +34,7 @@ export const portalPageStatuses: readonly PortalPageStatus[] = [
   { page: "About and team", status: "Waiting on JZ", detail: "Roster and available portraits are loaded; remaining portraits and contacts are pending.", href: "/about" },
   { page: "Prequalification", status: "Waiting on JZ", detail: "Presentation is ready for verified licenses, insurance, bonding, and safety data.", href: "/values" },
   { page: "Contact and bid routing", status: "In progress", detail: "The routed project form is built; final delivery configuration requires launch verification.", href: "/contact" },
-  { page: "Company websites", status: "In progress", detail: "Demolition, Construction, Waste Management, and Development structures are linked and being populated.", href: "/services" },
+  { page: "Company websites", status: "In progress", detail: "The four-company audit is complete. Mobile, navigation, contact, privacy, and content corrections are being verified in previews before launch approval.", href: "/services" },
 ] as const;
 
 export const portalActionItems = [
@@ -43,9 +43,12 @@ export const portalActionItems = [
   "Verified licenses, insurance, bonding, safety, and qualification figures",
   "Final Instagram, Facebook, and LinkedIn profile links",
   "Approved project summaries, scope details, and performance metrics",
+  "Confirmed JZ delivery roles for Development portfolio listings and Construction case studies",
+  "Final company domains, privacy-notice review, and verified inquiry receipt before launch",
 ] as const;
 
 const fallbackUpdates: readonly PortalUpdate[] = [
+  { id: "company-site-audit", title: "Audited all four company websites; corrections are in preview review", date: "Sep 4, 2026" },
   { id: "portfolio", title: "Added the updated 21-project portfolio", date: "Aug 26, 2026" },
   { id: "team", title: "Added footer socials and team contact profiles", date: "Aug 26, 2026" },
   { id: "navigation", title: "Simplified and repaired navigation dropdowns", date: "Aug 26, 2026" },
@@ -64,8 +67,13 @@ function friendlyDate(value: string) {
 
 async function recentGitHubUpdates(): Promise<readonly PortalUpdate[]> {
   try {
+    const revision = process.env.JZ_RELEASE_COMMIT
+      || process.env.VERCEL_GIT_COMMIT_SHA
+      || process.env.VERCEL_GIT_COMMIT_REF
+      || "main";
+    const query = new URLSearchParams({ sha: revision, per_page: "8" });
     const response = await fetch(
-      "https://api.github.com/repos/alexsalicio23/jz-group-revised-site/commits?sha=codex%2Fjz-group-broader-positioning&per_page=8",
+      `https://api.github.com/repos/alexsalicio23/jz-group-revised-site/commits?${query}`,
       {
         headers: {
           Accept: "application/vnd.github+json",

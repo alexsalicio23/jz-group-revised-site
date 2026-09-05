@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ContentPageData, MediaAsset } from "@/app/content-data";
 import type { TemplateSlug } from "@/app/templates/template-data";
+import { ResponsiveVideo } from "@/components/ResponsiveVideo";
 
 const divisionAssets: Record<TemplateSlug, MediaAsset> = {
   demolition: {
@@ -126,18 +127,13 @@ export function JZMedia({
 
   if (selectedAsset.type === "video") {
     return (
-      <video
+      <ResponsiveVideo
         className={className}
-        autoPlay
-        muted
-        loop
-        playsInline
+        src={selectedAsset.src}
         preload={priority ? "auto" : "metadata"}
         poster={selectedAsset.poster}
-        aria-label={selectedAsset.alt}
-      >
-        <source src={selectedAsset.src} type="video/mp4" />
-      </video>
+        ariaLabel={selectedAsset.alt}
+      />
     );
   }
 

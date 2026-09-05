@@ -103,7 +103,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
 
       <section className="metric-content-hero" id="top">
         <div className="metric-content-hero-media">
-          <JZMedia data={data} motion={Boolean(data.division)} priority />
+          <JZMedia asset={data.heroMedia} data={data} motion={Boolean(data.division)} priority />
         </div>
         <div className="metric-content-hero-shade" />
         <div className="metric-content-hero-copy">
@@ -123,6 +123,8 @@ export function ContentPage({ data }: { data: ContentPageData }) {
         </div>
       </section>
 
+      {data.heroMedia?.caption ? <p className="metric-record-note metric-media-caption">{data.heroMedia.caption}</p> : null}
+
       {data.stats?.length ? (
         <section className="metric-content-stats" aria-label="Page facts">
           {data.stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
@@ -131,7 +133,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
 
       {data.category === "projects" || data.category === "sector" ? (
         <p className="metric-record-note">
-          Public examples are shown for qualification. Dates, references, and complete scope records are available through estimating, subject to client approval.
+          {data.projectNote ?? "Public examples are shown for qualification. Dates, references, and complete scope records are available through estimating, subject to client approval."}
         </p>
       ) : null}
 
@@ -154,10 +156,11 @@ export function ContentPage({ data }: { data: ContentPageData }) {
             ) : null}
 
             {section.mediaLabel || section.media ? (
-              <figure className="metric-content-media">
+              <figure className="metric-content-media" aria-describedby={section.media?.caption ? `${section.id}-media-caption` : undefined}>
                 <JZMedia asset={section.media} context="section" data={data} />
               </figure>
             ) : null}
+            {section.media?.caption ? <p className="metric-record-note metric-media-caption" id={`${section.id}-media-caption`}>{section.media.caption}</p> : null}
 
             {section.layout === "project-grid" ? <ProjectGallery /> : null}
 
@@ -180,7 +183,7 @@ export function ContentPage({ data }: { data: ContentPageData }) {
                     {spec.dimensions?.length ? <p>{spec.dimensions.join(" / ")}</p> : null}
                     <h4>Best used for</h4>
                     <ul>{spec.bestFor.map((item) => <li key={item}>{item}</li>)}</ul>
-                    <Link href={contactHref}>Request this service <ArrowUpRight aria-hidden="true" size={16} /></Link>
+                    <Link href={spec.requestHref ?? contactHref}>Request this service <ArrowUpRight aria-hidden="true" size={16} /></Link>
                   </article>
                 ))}
               </div>

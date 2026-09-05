@@ -1,6 +1,19 @@
 import type { TemplateSlug } from "@/app/templates/template-data";
+import { buildContactIntentHref, type ContactIntent } from "@/app/contact/contact-intent";
 
-export const groupSiteUrl = "https://www.jzgroupmiami.com";
+export function validateGroupSiteUrl(value: string | undefined) {
+  const url = new URL(value?.trim() || "https://www.jzgroupmiami.com");
+  if (url.protocol !== "https:" || url.username || url.password || url.pathname !== "/" || url.search || url.hash) {
+    throw new Error("NEXT_PUBLIC_GROUP_SITE_URL must be an HTTPS origin without credentials, a path, query, or fragment.");
+  }
+  return url.origin;
+}
+
+export const groupSiteUrl = validateGroupSiteUrl(process.env.NEXT_PUBLIC_GROUP_SITE_URL);
+
+export function groupContactHref(intent: ContactIntent) {
+  return `${groupSiteUrl}${buildContactIntentHref(intent)}`;
+}
 
 export const companySiteUrls: Record<TemplateSlug, string> = {
   demolition: "https://jz-demolition-miami.vercel.app",

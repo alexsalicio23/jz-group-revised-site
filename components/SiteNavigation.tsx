@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ChevronDown, Phone } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { divisionContacts, divisionLabels } from "@/app/content-data";
 import { companyNavigationHref, getActiveCompanySite, groupSiteUrl, localizeCompanyHref } from "@/app/company-sites";
 import type { TemplateSlug } from "@/app/templates/template-data";
@@ -111,28 +111,86 @@ function divisionLinks(division: TemplateSlug) {
   return links.map((item) => ({ ...item, href: localizeCompanyHref(division, item.href) }));
 }
 
+function closeDisclosure(disclosure: HTMLDetailsElement | null) {
+  if (!disclosure) return;
+
+  const restoreFocus = disclosure.contains(document.activeElement);
+  disclosure.querySelectorAll<HTMLDetailsElement>("details[open]").forEach((nested) => {
+    nested.open = false;
+  });
+  disclosure.open = false;
+
+  const summary = disclosure.querySelector<HTMLElement>(":scope > summary");
+  if (restoreFocus && summary?.getClientRects().length) {
+    summary.focus({ preventScroll: true });
+  }
+}
+
 export function DivisionHeader({ division }: { division: TemplateSlug }) {
   const links = divisionLinks(division);
   const contact = divisionContacts[division];
   const scrolled = useScrolledHeader();
   const activeCompany = getActiveCompanySite();
   const groupHref = activeCompany ? groupSiteUrl : "/";
+  const pathname = usePathname();
+  const mobileMenu = useRef<HTMLDetailsElement>(null);
+  const companySwitcher = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    const closeNavigation = () => {
+      closeDisclosure(mobileMenu.current);
+      closeDisclosure(companySwitcher.current);
+    };
+
+    closeNavigation();
+    window.addEventListener("hashchange", closeNavigation);
+    window.addEventListener("popstate", closeNavigation);
+    return () => {
+      window.removeEventListener("hashchange", closeNavigation);
+      window.removeEventListener("popstate", closeNavigation);
+    };
+  }, [pathname]);
 
   return (
-    <header className="template-header" data-scrolled={scrolled ? "true" : "false"}>
+    <header
+      className="template-header"
+      data-scrolled={scrolled ? "true" : "false"}
+      onClickCapture={(event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        if (!(event.target instanceof Element) || !event.target.closest("a[href]")) return;
+        closeDisclosure(mobileMenu.current);
+        closeDisclosure(companySwitcher.current);
+      }}
+      onKeyDown={(event) => {
+        if (event.key !== "Escape" || !(event.target instanceof Element)) return;
+        const disclosure = event.target.closest<HTMLDetailsElement>("details[open]");
+        if (!disclosure || !event.currentTarget.contains(disclosure)) return;
+        event.preventDefault();
+        event.stopPropagation();
+        closeDisclosure(disclosure);
+      }}
+    >
       <Link className="template-brand" href={groupHref} aria-label="Return to JZ Group">
         <Image src="/media/brand-logo.webp" alt="JZ Group" width={88} height={56} priority />
         <span><strong>{divisionLabels[division]}</strong><small>A JZ Group Company</small></span>
       </Link>
       <nav aria-label={`${divisionLabels[division]} navigation`}>
         {links.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
-        <details className="division-switcher">
+        <details className="division-switcher" ref={companySwitcher}>
           <summary>Other companies <ChevronDown aria-hidden="true" size={14} /></summary>
           <div>{companyLinks.filter((item) => item.slug !== division).map((item) => <Link href={companyNavigationHref(item.slug)} key={item.slug}>{item.label}</Link>)}</div>
         </details>
       </nav>
       <Link className="template-header-cta" href={`/contact?for=${division}`}>Contact <ArrowUpRight aria-hidden="true" size={15} /></Link>
-      <details className="template-mobile-menu">
+      <details
+        className="template-mobile-menu"
+        ref={mobileMenu}
+        onToggle={(event) => {
+          if (event.target === event.currentTarget && !event.currentTarget.open) {
+            closeDisclosure(event.currentTarget);
+          }
+        }}
+      >
         <summary>Menu</summary>
         <nav aria-label={`${divisionLabels[division]} mobile navigation`}>
           <Link href={groupHref}>JZ Group</Link>

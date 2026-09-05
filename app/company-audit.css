@@ -1,0 +1,230 @@
+/* Company audit repairs; the group cinematic hero and card sequence are excluded. */
+.template-brand small {
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.template-header[data-scrolled="true"] .template-brand small {
+  color: #45494b;
+}
+
+.metric-content-page:not(.content-group) :is(h1, h2, h3, h4),
+.metric-division :is(h1, h2, h3, h4) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  letter-spacing: 0;
+}
+
+.metric-content-page:not(.content-group) .metric-related:not(.has-media-cards) {
+  gap: 1.75rem;
+  padding-block: 3rem;
+}
+
+.metric-content-page:not(.content-group) .metric-related:not(.has-media-cards) > div {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0;
+}
+
+.metric-content-page:not(.content-group) .metric-related:not(.has-media-cards) .metric-content-card {
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: 1.5rem minmax(0, 1fr) 1.5rem;
+  align-items: center;
+  align-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
+.metric-content-page:not(.content-group) .metric-related:not(.has-media-cards) .metric-content-card h3 {
+  font-size: 1.35rem;
+  line-height: 1.15;
+}
+
+.metric-content-page:not(.content-group) .metric-related:not(.has-media-cards) .metric-content-card > div {
+  min-width: 0;
+}
+
+.contact-handoff {
+  display: grid;
+  width: min(100%, 760px);
+  min-width: 0;
+  gap: 1.25rem;
+  justify-items: center;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.metric-content-page .contact-handoff h2 {
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.contact-handoff-link {
+  min-height: 48px;
+  max-width: 100%;
+  white-space: normal;
+}
+
+.bid-form .rental-form-title {
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.rental-optional-fields {
+  min-width: 0;
+  border-block: 1px solid var(--line);
+}
+
+.rental-optional-fields > summary {
+  min-height: 48px;
+  padding-block: 0.85rem;
+  cursor: pointer;
+}
+
+.rental-optional-fields-body {
+  display: grid;
+  min-width: 0;
+  gap: 1.1rem;
+  padding-block: 1rem;
+}
+
+.rental-availability-note,
+.form-privacy {
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.form-privacy a,
+.contact-handoff > a:last-child {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.privacy-page {
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.privacy-page :is(.site-header, .template-header) {
+  color: var(--ink);
+  background: var(--paper);
+  border-bottom-color: var(--line);
+}
+
+.privacy-page .template-brand small {
+  color: #45494b;
+}
+
+.privacy-page :is(.header-contact, .template-header-cta, .mobile-menu > summary, .template-mobile-menu > summary) {
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.privacy-content {
+  width: min(100%, 928px);
+  margin-inline: auto;
+  padding: calc(var(--header-height) + 3rem) 24px 4rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.privacy-content h1 {
+  margin-bottom: 1.5rem;
+  font-size: 3rem;
+  line-height: 1.1;
+}
+
+.privacy-content h2 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  line-height: 1.15;
+}
+
+.privacy-section {
+  padding-top: 2rem;
+}
+
+.privacy-content p + p {
+  margin-top: 1rem;
+}
+
+.privacy-content a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.privacy-content :is(h1, h2) {
+  letter-spacing: 0;
+}
+
+@media (max-width: 760px) {
+  .metric-content-page:not(.content-group) :is(.metric-content-hero-copy, .metric-content-hero-bottom, .metric-content-hero-bottom > div, .metric-content-section > header),
+  .metric-division :is(.metric-division-hero-copy, .metric-division-hero-copy > div, .metric-division-feature-copy) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .metric-content-page:not(.content-group) .metric-content-hero {
+    height: auto;
+    min-height: max(720px, 90svh);
+  }
+
+  .metric-content-page:not(.content-group) .metric-content-hero-copy {
+    position: relative;
+    inset: auto;
+    display: flex;
+    min-height: inherit;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: calc(var(--header-height) + 3rem) var(--gutter) 5.25rem;
+  }
+
+  .metric-content-page:not(.content-group) .metric-content-hero-copy h1 {
+    width: 100%;
+    max-width: 100%;
+    font-size: 2rem;
+    line-height: 1.02;
+  }
+
+  .metric-division .metric-division-hero-copy h1 {
+    max-width: 100%;
+    font-size: 2.5rem;
+    line-height: 1.02;
+  }
+
+  .metric-division :is(.metric-division-hero-copy, .metric-division-feature-copy) {
+    bottom: 5.25rem;
+  }
+
+  .metric-content-page:not(.content-group) :is(.metric-content-section h2, .metric-faq h2, .metric-related h2, .metric-content-form h2, .metric-page-cta h2) {
+    font-size: 2.25rem;
+    line-height: 1.05;
+  }
+
+  .metric-content-page:not(.content-group) .metric-content-card:not(.has-media) {
+    min-width: 0;
+    grid-template-columns: 1.5rem minmax(0, 1fr) 1.5rem;
+  }
+
+  .metric-content-page:not(.content-group) .metric-related:not(.has-media-cards) > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .privacy-content h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .metric-division .metric-division-hero-copy h1 {
+    font-size: 2rem;
+  }
+
+  .metric-content-page:not(.content-group) :is(.metric-content-hero-copy h1, .metric-content-section h2) {
+    font-size: 1.8rem;
+  }
+}

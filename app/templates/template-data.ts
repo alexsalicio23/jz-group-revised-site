@@ -81,7 +81,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { name: "Specialty and selective demolition", detail: "Precise interior removal planned around retained systems, occupied areas, and complex operating conditions.", href: "/demolition/services/interior-demolition" },
       { name: "Total and structural demolition", detail: "Full-building and structural removal with deliberate sequencing, equipment planning, and field control.", href: "/demolition/services/total-demolition" },
       { name: "Site preparation", detail: "Clearing, early removal, and field preparation that give the next project phase a controlled start.", href: "/demolition/services/total-demolition" },
-      { name: "Robotic demolition", detail: "Remote demolition capability for demanding access, concrete, and production conditions.", href: "/demolition/services/concrete-work" },
+      { name: "Robotic demolition", detail: "Remote demolition capability for demanding access, concrete, and production conditions.", href: "/demolition/services/concrete-work#robotic-demolition" },
       { name: "Concrete services", detail: "Concrete scanning, cutting, breaking, and removal coordinated within the wider scope.", href: "/demolition/services/concrete-work" },
       { name: "Preconstruction and site logistics", detail: "Early scope review, sequencing, access, equipment, hauling, and turnover planning before field execution.", href: "/demolition#process" },
     ],
@@ -139,7 +139,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { name: "Temporary fencing", detail: "Perimeter support for active construction and demolition environments.", href: "/waste-management/services/temporary-fencing" },
       { name: "Site cleanup labor", detail: "Crews available to maintain clean, workable conditions across the site.", href: "/waste-management/services/general-labor" },
       { name: "Construction cleanup", detail: "Ongoing and final cleanup support for contractor-led projects.", href: "/waste-management/services/general-labor" },
-      { name: "Recycling coordination", detail: "Material streams coordinated with project requirements and available receiving facilities.", href: "/waste-management/services/dumpster-rentals" },
+      { name: "Recycling coordination", detail: "Material streams coordinated with project requirements and available receiving facilities.", href: "/waste-management/services/recycling" },
     ],
     feature: {
       eyebrow: "Contractor support",
@@ -204,8 +204,8 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       media: "/media/website-photos/construction-project-coordination.webp",
       mediaType: "image",
       facts: [
-        { label: "Lead project", value: "100 Biscayne" },
-        { label: "Delivery", value: "GC + subcontracting" },
+        { label: "Company capability", value: "General contracting" },
+        { label: "Trade services", value: "Subcontracting" },
         { label: "Region", value: "Florida" },
       ],
     },
@@ -235,7 +235,7 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
     hero: {
       type: "image",
       media: "/media/development/workforce-housing-kitchen.webp",
-      alt: "Completed workforce housing unit interior delivered by JZ Development",
+      alt: "Representative residential kitchen interior",
     },
     proof: [
       { label: "Opportunity", value: "Acquisition" },
@@ -252,17 +252,16 @@ export const templates: Record<TemplateSlug, DivisionTemplateData> = {
       { name: "Redevelopment", detail: "Reposition existing property through a coordinated plan and delivery strategy.", href: "/development/projects" },
     ],
     feature: {
-      eyebrow: "Current public project story",
+      eyebrow: "Development focus",
       title: "Workforce housing development",
       description:
-        "A development approach connecting acquisition, project planning, construction oversight, and property management around workforce housing and long-term community value.",
+        "A development approach connecting acquisition, project planning, construction oversight, and property management around workforce housing and long-term community value. The residential interior shown is representative, not a project-specific portfolio record.",
       media: "/media/video/development-kitchen.mp4",
       mediaType: "video",
       poster: "/media/video/development-kitchen-poster.jpg",
       facts: [
         { label: "Asset type", value: "Workforce housing" },
         { label: "Model", value: "Full lifecycle" },
-        { label: "Portfolio", value: "JZ to confirm" },
       ],
     },
     process: [

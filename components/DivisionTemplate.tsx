@@ -40,9 +40,11 @@ function HeroMedia({ data }: { data: DivisionTemplateData }) {
 function FeatureMedia({ data }: { data: DivisionTemplateData }) {
   if (data.feature.mediaType === "video") {
     return (
-      <video autoPlay muted loop playsInline preload="metadata" poster={data.feature.poster} aria-label={data.feature.title}>
-        <source src={data.feature.media} type="video/mp4" />
-      </video>
+      <ResponsiveVideo
+        src={data.feature.media}
+        poster={data.feature.poster}
+        ariaLabel={data.feature.title}
+      />
     );
   }
 
